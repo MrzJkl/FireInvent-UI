@@ -1,4 +1,6 @@
 {
   "welcome": "Willkommen bei FireInvent",
-  "login": "Anmelden"
+  "login": "Anmelden",
+  "account": "Konto",
+  "logout": "Abmelden"
 }

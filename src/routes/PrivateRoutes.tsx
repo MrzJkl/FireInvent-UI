@@ -1,9 +1,17 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useKeycloak } from '@react-keycloak/web';
 import Dashboard from '../pages/DashboardPage';
 
 export function PrivateRoutes() {
-  const { isAuthenticated } = useAuth();
+  const { keycloak, initialized } = useKeycloak();
 
-  return isAuthenticated ? <Dashboard /> : <Navigate to="/" replace />;
+  if (!initialized) {
+    return <div>Loading...</div>; // optional: Spinner
+  }
+
+  if (!keycloak?.authenticated) {
+    keycloak.login({ redirectUri: window.location.origin + '/app' });
+    return null; // während Login nichts rendern
+  }
+
+  return <Dashboard />;
 }
