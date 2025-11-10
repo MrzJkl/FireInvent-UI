@@ -1,5 +1,5 @@
 import { client } from './api/client.gen';
-import keycloak from './keycloak';
+import keycloak from './auth/keycloak';
 import { AppRouter } from './routes';
 
 client.setConfig({

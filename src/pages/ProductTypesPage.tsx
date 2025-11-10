@@ -13,7 +13,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,7 +24,6 @@ import {
   type CreateProductTypeModel,
   type ProductTypeModel,
 } from '@/api';
-import { useKeycloak } from '@react-keycloak/web';
 import { useTranslation } from 'react-i18next';
 
 export default function ProductTypesPage() {
@@ -71,7 +69,7 @@ export default function ProductTypesPage() {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Product Types</h1>
+        <h1 className="text-2xl font-bold">{t('productType')}</h1>
         <Button
           onClick={() => {
             setEditing(null);

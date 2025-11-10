@@ -4,19 +4,30 @@ import { ReactKeycloakProvider } from '@react-keycloak/web';
 import './index.css';
 import App from './App.tsx';
 import './i18n';
-import keycloak from './keycloak';
+import keycloak from './auth/keycloak.ts';
+import { AuthGate } from './auth/AuthGate.tsx';
+
+const keycloakEventLogger = (event: unknown, error: unknown) => {
+  console.log('Keycloak event:', event, error);
+};
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ReactKeycloakProvider
       authClient={keycloak}
+      onEvent={keycloakEventLogger}
       initOptions={{
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:
           window.location.origin + '/silent-check-sso.html',
+        checkLoginIframe: false,
+        pkceMethod: 'S256',
       }}
+      autoRefreshToken={true}
     >
-      <App />
+      <AuthGate>
+        <App />
+      </AuthGate>
     </ReactKeycloakProvider>
   </StrictMode>,
 );
