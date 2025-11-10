@@ -1,13 +1,14 @@
 import { useKeycloak } from '@react-keycloak/web';
-import Dashboard from '../pages/DashboardPage';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import ProductTypesPage from '@/pages/ProductTypesPage';
+import AppLayout from '@/layouts/AppLayout';
+import DashboardPage from '../pages/DashboardPage';
 
 export function PrivateRoutes() {
   const { keycloak, initialized } = useKeycloak();
 
   if (!initialized) {
-    return <div>Loading...</div>; // optional: Spinner
+    return <p>Loading</p>;
   }
 
   if (!keycloak?.authenticated) {
@@ -17,9 +18,9 @@ export function PrivateRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<Outlet />}>
-        <Route index element={<Dashboard />} />
-        <Route path="dashboard" element={<Dashboard />} />
+      <Route element={<AppLayout />}>
+        <Route index element={<DashboardPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         <Route path="productTypes" element={<ProductTypesPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/app" />} />
