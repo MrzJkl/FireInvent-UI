@@ -2,5 +2,17 @@
   "welcome": "Willkommen bei FireInvent",
   "login": "Anmelden",
   "account": "Konto",
-  "logout": "Abmelden"
+  "logout": "Abmelden",
+  "add": "Hinzufügen",
+  "name": "Name",
+  "description": "Beschreibung",
+  "cancel": "Abbrechen",
+  "actions": "Aktionen",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "productType": "Produkttyp",
+  "productTypes": {
+    "edit": "Produkttyp bearbeiten",
+    "add": "Neuen Produkttyp hinzufügen"
+  }
 }

@@ -1,14 +1,12 @@
 'use client';
 
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
   IconUserCircle,
 } from '@tabler/icons-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +24,6 @@ import {
 } from '@/components/ui/sidebar';
 import { useKeycloak } from '@react-keycloak/web';
 import { useTranslation } from 'react-i18next';
-import { redirect } from 'react-router-dom';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
