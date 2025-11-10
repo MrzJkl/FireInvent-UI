@@ -13,12 +13,8 @@ import {
   IconFileWord,
   IconFlame,
   IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
   IconListDetails,
   IconReport,
-  IconSearch,
-  IconSettings,
   IconUsers,
   IconWashMachine,
 } from '@tabler/icons-react';

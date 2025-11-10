@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { useApiRequest } from '@/hooks/useApiRequest';
 import {
   deleteProductTypesById,
   getProductTypes,
@@ -27,6 +29,8 @@ import {
 import { useTranslation } from 'react-i18next';
 
 export default function ProductTypesPage() {
+  const { t } = useTranslation();
+
   const [productTypes, setProductTypes] = useState<ProductTypeModel[]>([]);
   const [editing, setEditing] = useState<ProductTypeModel | null>(null);
   const [newProductType, setNewProductType] = useState<CreateProductTypeModel>({
@@ -34,11 +38,24 @@ export default function ProductTypesPage() {
     description: '',
   });
   const [openDialog, setOpenDialog] = useState(false);
-  const { t } = useTranslation();
+
+  const { callApi: fetchApi, loading: loadingList } = useApiRequest(
+    getProductTypes,
+    {
+      showSuccess: false,
+    },
+  );
+  const { callApi: createApi, loading: loadingCreate } =
+    useApiRequest(postProductTypes);
+  const { callApi: updateApi, loading: loadingUpdate } =
+    useApiRequest(putProductTypesById);
+  const { callApi: deleteApi, loading: loadingDelete } = useApiRequest(
+    deleteProductTypesById,
+  );
 
   const fetchProductTypes = async () => {
-    const { data } = await getProductTypes({});
-    if (data) setProductTypes(data);
+    const res = await fetchApi({});
+    if (res?.data) setProductTypes(res.data);
   };
 
   useEffect(() => {
@@ -47,11 +64,9 @@ export default function ProductTypesPage() {
 
   const handleSave = async () => {
     if (editing) {
-      await putProductTypesById({ path: { id: editing.id }, body: editing });
+      await updateApi({ path: { id: editing.id }, body: editing });
     } else {
-      const { data, error } = await postProductTypes({
-        body: newProductType,
-      });
+      await createApi({ body: newProductType });
     }
     setEditing(null);
     setNewProductType({ name: '', description: '' });
@@ -60,11 +75,16 @@ export default function ProductTypesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Möchten Sie diesen ProductType wirklich löschen?')) {
-      await deleteProductTypesById({ path: { id } });
+    if (confirm(t('confirmDelete') ?? 'Wirklich löschen?')) {
+      await deleteApi({ path: { id } });
       fetchProductTypes();
     }
   };
+
+  const loading =
+    loadingList || loadingCreate || loadingUpdate || loadingDelete;
+
+  if (loading) return <LoadingIndicator message={t('loadingData')} />;
 
   return (
     <div className="p-4">

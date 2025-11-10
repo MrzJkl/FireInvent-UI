@@ -6,6 +6,7 @@ import App from './App.tsx';
 import './i18n';
 import keycloak from './auth/keycloak.ts';
 import { AuthGate } from './auth/AuthGate.tsx';
+import { Toaster } from 'sonner';
 
 const keycloakEventLogger = (event: unknown, error: unknown) => {
   console.log('Keycloak event:', event, error);
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')!).render(
       <AuthGate>
         <App />
       </AuthGate>
+      <Toaster position="top-right" richColors closeButton />
     </ReactKeycloakProvider>
   </StrictMode>,
 );
