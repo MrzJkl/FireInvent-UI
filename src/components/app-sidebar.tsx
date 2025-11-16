@@ -128,7 +128,7 @@ const data = {
     },
     {
       title: 'StorageLocations',
-      url: '#',
+      url: '/app/storageLocations',
       icon: IconBuildingStore,
     },
   ],

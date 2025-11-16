@@ -21,6 +21,12 @@
     "edit": "Edit Maintenance-Type",
     "add": "Add new Maintenance-Type"
   },
+  "storageLocation": "Storage Location",
+  "storageLocations": {
+    "edit": "Edit Storage Location",
+    "add": "Add new Storage Location"
+  },
+  "remarks": "Remarks",
   "confirmDeleteTitle": "Confirm deletion",
   "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
 }
