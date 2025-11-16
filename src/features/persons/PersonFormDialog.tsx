@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useDepartments } from '@/features/departments/useDepartments';
 
 const schema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -20,6 +22,7 @@ const schema = z.object({
   remarks: z.string().optional(),
   contactInfo: z.string().optional(),
   externalId: z.string().optional(),
+  departmentIds: z.array(z.string()).optional(),
 });
 
 export type PersonFormValues = z.infer<typeof schema>;
@@ -55,11 +58,15 @@ export function PersonFormDialog({
   labels,
 }: PersonFormDialogProps) {
   const { t } = useTranslation();
+  const { items: departments, initialLoading: departmentsLoading } =
+    useDepartments();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
+    setValue,
   } = useForm<PersonFormValues>({
     resolver: zodResolver(schema),
     defaultValues: initialValues ?? {
@@ -68,8 +75,11 @@ export function PersonFormDialog({
       remarks: '',
       contactInfo: '',
       externalId: '',
+      departmentIds: [],
     },
   });
+
+  const selectedDepartmentIds = watch('departmentIds') || [];
 
   useEffect(() => {
     if (open) {
@@ -80,6 +90,7 @@ export function PersonFormDialog({
           remarks: '',
           contactInfo: '',
           externalId: '',
+          departmentIds: [],
         },
       );
     }
@@ -104,7 +115,7 @@ export function PersonFormDialog({
               : t('persons.descriptionAdd')}
           </DialogDescription>
         </DialogHeader>
-        <form className="space-y-4 mt-2" onSubmit={submit}>
+        <form className="space-y-6 mt-2" onSubmit={submit}>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label>{labels?.firstName ?? 'First Name'}</Label>
@@ -140,6 +151,46 @@ export function PersonFormDialog({
           <div>
             <Label>{labels?.remarks ?? 'Remarks'}</Label>
             <Input {...register('remarks')} />
+          </div>
+
+          <div>
+            <Label>{t('departmentPlural')}</Label>
+            <div className="mt-2 space-y-2">
+              {departmentsLoading ? (
+                <p className="text-sm text-muted-foreground">Loading...</p>
+              ) : !departments.length ? (
+                <p className="text-sm text-muted-foreground">
+                  Keine Abteilungen
+                </p>
+              ) : (
+                departments.map((d) => {
+                  const checked = selectedDepartmentIds.includes(d.id);
+                  return (
+                    <label
+                      key={d.id}
+                      className="flex items-center gap-2 text-sm cursor-pointer"
+                    >
+                      <Checkbox
+                        checked={checked}
+                        onCheckedChange={(value) => {
+                          const isChecked = value === true;
+                          let next = selectedDepartmentIds;
+                          if (isChecked && !checked) {
+                            next = [...next, d.id];
+                          } else if (!isChecked && checked) {
+                            next = next.filter((id) => id !== d.id);
+                          }
+                          setValue('departmentIds', next, {
+                            shouldDirty: true,
+                          });
+                        }}
+                      />
+                      <span>{d.name}</span>
+                    </label>
+                  );
+                })
+              )}
+            </div>
           </div>
 
           <div className="flex justify-end space-x-2 mt-4">
