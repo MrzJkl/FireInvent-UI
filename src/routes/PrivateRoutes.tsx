@@ -4,6 +4,7 @@ import ProductTypesPage from '@/pages/ProductTypesPage';
 import ProductsPage from '@/pages/ProductsPage';
 import MaintenanceTypesPage from '@/pages/MaintenanceTypesPage';
 import DepartmentsPage from '@/pages/DepartmentsPage';
+import PersonsPage from '@/pages/PersonsPage';
 import AppLayout from '@/layouts/AppLayout';
 import StorageLocationsPage from '@/pages/StorageLocationsPage';
 
@@ -15,6 +16,7 @@ export function PrivateRoutes() {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="productTypes" element={<ProductTypesPage />} />
         <Route path="products" element={<ProductsPage />} />
+        <Route path="persons" element={<PersonsPage />} />
         <Route path="departments" element={<DepartmentsPage />} />
         <Route path="storageLocations" element={<StorageLocationsPage />} />
         <Route path="maintenanceTypes" element={<MaintenanceTypesPage />} />

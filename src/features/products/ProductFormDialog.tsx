@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -61,6 +63,8 @@ export function ProductFormDialog({
   const { items: productTypes, initialLoading: loadingTypes } =
     useProductTypes();
 
+  const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
@@ -103,6 +107,11 @@ export function ProductFormDialog({
               ? (labels?.titleEdit ?? 'Edit Product')
               : (labels?.titleCreate ?? 'Add new Product')}
           </DialogTitle>
+          <DialogDescription>
+            {mode === 'edit'
+              ? t('products.descriptionEdit')
+              : t('products.descriptionAdd')}
+          </DialogDescription>
         </DialogHeader>
         <form className="space-y-4 mt-2" onSubmit={submit}>
           <div className="grid gap-4">
