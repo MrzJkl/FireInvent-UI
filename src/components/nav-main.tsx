@@ -9,6 +9,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export function NavMain({
   items,
@@ -19,15 +21,19 @@ export function NavMain({
     icon?: Icon;
   }[];
 }) {
+  const { t } = useTranslation();
+
   return (
     <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
+      <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+                <Link to={item.url}>
+                  {item.icon && <item.icon />}
+                  <span>{t(item.title)}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
