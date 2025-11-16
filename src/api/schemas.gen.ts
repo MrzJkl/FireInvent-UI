@@ -210,6 +210,14 @@ export const CreatePersonModelSchema = {
       type: "string",
       nullable: true,
     },
+    departmentIds: {
+      type: "array",
+      items: {
+        type: "string",
+        format: "uuid",
+      },
+      nullable: true,
+    },
   },
   additionalProperties: false,
 } as const;
@@ -398,6 +406,9 @@ export const ItemModelSchema = {
       type: "string",
       format: "uuid",
     },
+    variant: {
+      $ref: "#/components/schemas/VariantModel",
+    },
   },
   additionalProperties: false,
 } as const;
@@ -561,9 +572,24 @@ export const PersonModelSchema = {
       type: "string",
       nullable: true,
     },
+    departmentIds: {
+      type: "array",
+      items: {
+        type: "string",
+        format: "uuid",
+      },
+      nullable: true,
+    },
     id: {
       type: "string",
       format: "uuid",
+    },
+    departments: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/DepartmentModel",
+      },
+      nullable: true,
     },
   },
   additionalProperties: false,
@@ -692,6 +718,9 @@ export const VariantModelSchema = {
     id: {
       type: "string",
       format: "uuid",
+    },
+    product: {
+      $ref: "#/components/schemas/ProductModel",
     },
   },
   additionalProperties: false,

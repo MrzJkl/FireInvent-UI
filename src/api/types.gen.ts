@@ -59,6 +59,7 @@ export type CreatePersonModel = {
   remarks?: string | null;
   contactInfo?: string | null;
   externalId?: string | null;
+  departmentIds?: Array<string> | null;
 };
 
 export type CreateProductModel = {
@@ -118,6 +119,7 @@ export type ItemModel = {
   purchaseDate: Date;
   retirementDate?: Date | null;
   id: string;
+  variant?: VariantModel;
 };
 
 export type MaintenanceModel = {
@@ -169,7 +171,9 @@ export type PersonModel = {
   remarks?: string | null;
   contactInfo?: string | null;
   externalId?: string | null;
+  departmentIds?: Array<string> | null;
   id: string;
+  departments?: Array<DepartmentModel> | null;
 };
 
 export type ProductModel = {
@@ -205,6 +209,7 @@ export type VariantModel = {
   name: string;
   additionalSpecs?: string | null;
   id: string;
+  product?: ProductModel;
 };
 
 export type GetDepartmentsData = {
@@ -1470,6 +1475,40 @@ export type PutPersonsByIdResponses = {
 export type PutPersonsByIdResponse =
   PutPersonsByIdResponses[keyof PutPersonsByIdResponses];
 
+export type GetPersonsByIdItemsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/persons/{id}/items";
+};
+
+export type GetPersonsByIdItemsErrors = {
+  /**
+   * Unauthorized
+   */
+  401: unknown;
+  /**
+   * Forbidden
+   */
+  403: unknown;
+  /**
+   * Person not found
+   */
+  404: unknown;
+};
+
+export type GetPersonsByIdItemsResponses = {
+  /**
+   * List of items
+   */
+  200: Array<ItemModel>;
+};
+
+export type GetPersonsByIdItemsResponse =
+  GetPersonsByIdItemsResponses[keyof GetPersonsByIdItemsResponses];
+
 export type GetProductsData = {
   body?: never;
   path?: never;
@@ -1666,7 +1705,7 @@ export type GetProductsByIdVariantsErrors = {
 
 export type GetProductsByIdVariantsResponses = {
   /**
-   * List of items
+   * List of variants
    */
   200: Array<VariantModel>;
 };

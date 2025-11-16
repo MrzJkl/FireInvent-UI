@@ -78,7 +78,7 @@ export default function ProductDetailPage() {
           <div>
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="text-sm text-muted-foreground">
-              {product.manufacturer} · {product.type.name}
+              {product.type.name} · {product.manufacturer}
             </p>
           </div>
         </div>

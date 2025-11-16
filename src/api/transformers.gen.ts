@@ -11,6 +11,7 @@ import type {
   GetMaintenancesResponse,
   GetOrdersByIdResponse,
   GetOrdersResponse,
+  GetPersonsByIdItemsResponse,
   GetStorageLocationsByIdItemsResponse,
   GetVariantsByIdItemsResponse,
   PostAssignmentsResponse,
@@ -155,6 +156,15 @@ export const getOrdersByIdResponseTransformer = async (
   data: any,
 ): Promise<GetOrdersByIdResponse> => {
   data = orderModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getPersonsByIdItemsResponseTransformer = async (
+  data: any,
+): Promise<GetPersonsByIdItemsResponse> => {
+  data = data.map((item: any) => {
+    return itemModelSchemaResponseTransformer(item);
+  });
   return data;
 };
 

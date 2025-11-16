@@ -13,6 +13,7 @@ import {
   getMaintenancesResponseTransformer,
   getOrdersByIdResponseTransformer,
   getOrdersResponseTransformer,
+  getPersonsByIdItemsResponseTransformer,
   getStorageLocationsByIdItemsResponseTransformer,
   getVariantsByIdItemsResponseTransformer,
   postAssignmentsResponseTransformer,
@@ -101,6 +102,9 @@ import type {
   GetOrdersResponses,
   GetPersonsByIdData,
   GetPersonsByIdErrors,
+  GetPersonsByIdItemsData,
+  GetPersonsByIdItemsErrors,
+  GetPersonsByIdItemsResponses,
   GetPersonsByIdResponses,
   GetPersonsData,
   GetPersonsErrors,
@@ -1234,6 +1238,32 @@ export const putPersonsById = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List all items assigned to a person
+ *
+ * Returns all items assigned to a specific person.
+ */
+export const getPersonsByIdItems = <ThrowOnError extends boolean = false>(
+  options: Options<GetPersonsByIdItemsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetPersonsByIdItemsResponses,
+    GetPersonsByIdItemsErrors,
+    ThrowOnError
+  >({
+    responseTransformer: getPersonsByIdItemsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/persons/{id}/items",
+    ...options,
   });
 };
 
