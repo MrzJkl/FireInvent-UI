@@ -1,25 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  getProducts,
-  postProducts,
-  putProductsById,
-  deleteProductsById,
-  type CreateProductModel,
-  type ProductModel,
+  getPersons,
+  postPersons,
+  putPersonsById,
+  deletePersonsById,
+  type CreatePersonModel,
+  type PersonModel,
 } from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
 
-export function useProducts() {
-  const [items, setItems] = useState<ProductModel[]>([]);
+export function usePersons() {
+  const [items, setItems] = useState<PersonModel[]>([]);
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getProducts,
+    getPersons,
     { showSuccess: false },
   );
-  const { callApi: createApi, loading: creating } = useApiRequest(postProducts);
+  const { callApi: createApi, loading: creating } = useApiRequest(postPersons);
   const { callApi: updateApi, loading: updating } =
-    useApiRequest(putProductsById);
+    useApiRequest(putPersonsById);
   const { callApi: deleteApi, loading: deleting } =
-    useApiRequest(deleteProductsById);
+    useApiRequest(deletePersonsById);
 
   const fetchApiRef = useRef(fetchApi);
   useEffect(() => {
@@ -31,13 +31,14 @@ export function useProducts() {
     if (res) setItems(res);
   }, []);
 
+  // Only fetch once on mount
   useEffect(() => {
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const createProduct = useCallback(
-    async (body: CreateProductModel) => {
+  const createPerson = useCallback(
+    async (body: CreatePersonModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -45,12 +46,12 @@ export function useProducts() {
     [createApi, refetch],
   );
 
-  const updateProduct = useCallback(
-    async (id: string, body: CreateProductModel) => {
+  const updatePerson = useCallback(
+    async (id: string, body: CreatePersonModel) => {
       const current = items.find((p) => p.id === id);
       if (!current) return null;
-      // API expects full ProductModel
-      const full: ProductModel = { ...current, ...body };
+      // API expects full PersonModel
+      const full: PersonModel = { ...current, ...body };
       const res = await updateApi({ path: { id }, body: full });
       await refetch();
       return res;
@@ -58,7 +59,7 @@ export function useProducts() {
     [items, updateApi, refetch],
   );
 
-  const deleteProduct = useCallback(
+  const deletePerson = useCallback(
     async (id: string) => {
       const res = await deleteApi({ path: { id } });
       await refetch();
@@ -70,16 +71,15 @@ export function useProducts() {
   const initialLoading = loadingList && items.length === 0;
 
   return {
-    products: items,
+    persons: items,
     initialLoading,
     loadingList,
-    isLoading: loadingList,
-    isCreating: creating,
-    isUpdating: updating,
-    isDeleting: deleting,
-    createProduct,
-    updateProduct,
-    deleteProduct,
+    creating,
+    updating,
+    deleting,
+    createPerson,
+    updatePerson,
+    deletePerson,
     refetch,
   };
 }

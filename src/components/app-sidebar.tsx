@@ -7,6 +7,7 @@ import {
   IconDashboard,
   IconFlame,
   IconPackage,
+  IconUser,
   IconUsers,
   IconWashMachine,
 } from '@tabler/icons-react';
@@ -41,6 +42,11 @@ const data = {
       title: 'productPlural',
       url: '/app/products',
       icon: IconPackage,
+    },
+    {
+      title: 'personPlural',
+      url: '/app/persons',
+      icon: IconUser,
     },
   ],
   navSecondary: [

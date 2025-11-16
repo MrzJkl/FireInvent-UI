@@ -16,30 +16,56 @@
   "productTypePlural": "Product-Types",
   "productTypes": {
     "edit": "Edit Product-Type",
-    "add": "Add new Product-Type"
+    "add": "Add new Product-Type",
+    "descriptionEdit": "Update the product type details below.",
+    "descriptionAdd": "Fill in the product type details below."
   },
   "products": {
     "edit": "Edit Product",
-    "add": "Add new Product"
+    "add": "Add new Product",
+    "descriptionEdit": "Update the product details below.",
+    "descriptionAdd": "Fill in the product details below."
   },
   "maintenanceType": "Maintenance Type",
   "maintenanceTypePlural": "Maintenance Types",
   "maintenanceTypes": {
     "edit": "Edit Maintenance-Type",
-    "add": "Add new Maintenance-Type"
+    "add": "Add new Maintenance-Type",
+    "descriptionEdit": "Update the maintenance type details below.",
+    "descriptionAdd": "Fill in the maintenance type details below."
   },
   "storageLocation": "Storage Location",
   "storageLocationPlural": "Storage Locations",
   "storageLocations": {
     "edit": "Edit Storage Location",
-    "add": "Add new Storage Location"
+    "add": "Add new Storage Location",
+    "descriptionEdit": "Update the storage location details below.",
+    "descriptionAdd": "Fill in the storage location details below."
   },
   "remarks": "Remarks",
+  "toggleTheme": "Toggle theme",
+  "lightMode": "Light",
+  "darkMode": "Dark",
+  "systemMode": "System",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "contactInfo": "Contact Info",
+  "externalId": "External ID",
+  "person": "Person",
+  "personPlural": "Persons",
   "department": "Department",
   "departmentPlural": "Departments",
   "departments": {
     "edit": "Edit Department",
-    "add": "Add new Department"
+    "add": "Add new Department",
+    "descriptionEdit": "Update the department details below.",
+    "descriptionAdd": "Fill in the department details below."
+  },
+  "persons": {
+    "edit": "Edit Person",
+    "add": "Add new Person",
+    "descriptionEdit": "Update the person details below.",
+    "descriptionAdd": "Fill in the person details below."
   },
   "confirmDeleteTitle": "Confirm deletion",
   "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."

@@ -18,30 +18,56 @@
   "save": "Speichern",
   "productTypes": {
     "edit": "Produkttyp bearbeiten",
-    "add": "Neuen Produkttyp hinzufügen"
+    "add": "Neuen Produkttyp hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Produkttyps unten.",
+    "descriptionAdd": "Geben Sie die Details des neuen Produkttyps unten ein."
   },
   "products": {
     "edit": "Produkt bearbeiten",
-    "add": "Neues Produkt hinzufügen"
+    "add": "Neues Produkt hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Produkts unten.",
+    "descriptionAdd": "Geben Sie die Details des neuen Produkts unten ein."
   },
   "maintenanceType": "Wartungstyp",
   "maintenanceTypePlural": "Wartungstypen",
   "maintenanceTypes": {
     "edit": "Wartungstyp bearbeiten",
-    "add": "Neuen Wartungstyp hinzufügen"
+    "add": "Neuen Wartungstyp hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Wartungstyps unten.",
+    "descriptionAdd": "Geben Sie die Details des neuen Wartungstyps unten ein."
   },
   "storageLocation": "Lagerort",
   "storageLocationPlural": "Lagerorte",
   "storageLocations": {
     "edit": "Lagerort bearbeiten",
-    "add": "Neuen Lagerort hinzufügen"
+    "add": "Neuen Lagerort hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Lagerorts unten.",
+    "descriptionAdd": "Geben Sie die Details des neuen Lagerorts unten ein."
   },
   "remarks": "Bemerkungen",
+  "toggleTheme": "Theme umschalten",
+  "lightMode": "Hell",
+  "darkMode": "Dunkel",
+  "systemMode": "System",
+  "firstName": "Vorname",
+  "lastName": "Nachname",
+  "contactInfo": "Kontaktinfo",
+  "externalId": "Externe ID",
+  "person": "Person",
+  "personPlural": "Personen",
   "department": "Abteilung",
   "departmentPlural": "Abteilungen",
   "departments": {
     "edit": "Abteilung bearbeiten",
-    "add": "Neue Abteilung hinzufügen"
+    "add": "Neue Abteilung hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Abteilung unten.",
+    "descriptionAdd": "Geben Sie die Details der neuen Abteilung unten ein."
+  },
+  "persons": {
+    "edit": "Person bearbeiten",
+    "add": "Neue Person hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Person unten.",
+    "descriptionAdd": "Geben Sie die Details der neuen Person unten ein."
   },
   "confirmDeleteTitle": "Löschen bestätigen",
   "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."

@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -46,6 +48,7 @@ export function DepartmentFormDialog({
   onOpenChange,
   labels,
 }: DepartmentFormDialogProps) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -75,6 +78,11 @@ export function DepartmentFormDialog({
               ? (labels?.titleEdit ?? 'Edit Department')
               : (labels?.titleCreate ?? 'Add new Department')}
           </DialogTitle>
+          <DialogDescription>
+            {mode === 'edit'
+              ? t('departments.descriptionEdit')
+              : t('departments.descriptionAdd')}
+          </DialogDescription>
         </DialogHeader>
         <form className="space-y-4 mt-2" onSubmit={submit}>
           <div>

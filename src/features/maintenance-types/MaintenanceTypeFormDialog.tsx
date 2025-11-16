@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -46,6 +48,7 @@ export function MaintenanceTypeFormDialog({
   onOpenChange,
   labels,
 }: MaintenanceTypeFormDialogProps) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -75,6 +78,11 @@ export function MaintenanceTypeFormDialog({
               ? (labels?.titleEdit ?? 'Edit Maintenance-Type')
               : (labels?.titleCreate ?? 'Add new Maintenance-Type')}
           </DialogTitle>
+          <DialogDescription>
+            {mode === 'edit'
+              ? t('maintenanceTypes.descriptionEdit')
+              : t('maintenanceTypes.descriptionAdd')}
+          </DialogDescription>
         </DialogHeader>
         <form className="space-y-4 mt-2" onSubmit={submit}>
           <div>
