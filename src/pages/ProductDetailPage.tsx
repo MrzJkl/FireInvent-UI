@@ -8,6 +8,8 @@ import { ProductFormDialog } from '@/features/products/ProductFormDialog';
 import { useVariants } from '@/features/variants/useVariants';
 import { VariantFormDialog } from '@/features/variants/VariantFormDialog';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { useItems } from '@/features/items/useItems';
+import { ItemFormDialog } from '@/features/items/ItemFormDialog';
 import { useProducts } from '@/features/products/useProducts';
 import { type ProductModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +38,22 @@ export default function ProductDetailPage() {
     updateVariant,
     deleteVariant,
   } = useVariants(id);
+
+  const {
+    items,
+    isLoading: itemsLoading,
+    isCreating: creatingItem,
+    isUpdating: updatingItem,
+    isDeleting: deletingItem,
+    createItem,
+    updateItem,
+    deleteItem,
+  } = useItems(id, variants);
+
+  const [itemFormOpen, setItemFormOpen] = useState(false);
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+  const [confirmItemOpen, setConfirmItemOpen] = useState(false);
 
   useEffect(() => {
     if (products && id) {
@@ -207,13 +225,64 @@ export default function ProductDetailPage() {
         {/* Items Tab */}
         <TabsContent value="items" className="mt-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Items</CardTitle>
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>{t('items')}</CardTitle>
+              <Button
+                size="sm"
+                onClick={() => {
+                  setEditingItemId(null);
+                  setItemFormOpen(true);
+                }}
+              >
+                {t('add')}
+              </Button>
             </CardHeader>
             <CardContent>
-              <div className="flex h-32 items-center justify-center text-muted-foreground">
-                Items-Feature wird hier implementiert
-              </div>
+              {itemsLoading ? (
+                <LoadingIndicator />
+              ) : items.length === 0 ? (
+                <div className="flex h-24 items-center justify-center text-muted-foreground">
+                  {t('items')} leer
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {items.map((it) => (
+                    <div
+                      key={it.id}
+                      className="flex items-start justify-between rounded border p-3"
+                    >
+                      <div>
+                        <p className="font-medium">{it.identifier ?? it.id}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {it.variant?.name ?? t('variant')} · {it.condition}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setEditingItemId(it.id);
+                            setItemFormOpen(true);
+                          }}
+                        >
+                          {t('edit')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => {
+                            setDeleteItemId(it.id);
+                            setConfirmItemOpen(true);
+                          }}
+                        >
+                          {t('delete')}
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -289,6 +358,85 @@ export default function ProductDetailPage() {
           await deleteVariant(deleteVariantId);
           setConfirmVariantOpen(false);
           setDeleteVariantId(null);
+        }}
+      />
+
+      {/* Item Form Dialog */}
+      <ItemFormDialog
+        open={itemFormOpen}
+        onOpenChange={(o) => {
+          setItemFormOpen(o);
+          if (!o) setEditingItemId(null);
+        }}
+        mode={editingItemId ? 'edit' : 'create'}
+        initialValues={
+          editingItemId
+            ? (() => {
+                const current = items.find((it) => it.id === editingItemId);
+                if (!current) return undefined;
+                return {
+                  variantId: current.variantId,
+                  identifier: current.identifier ?? '',
+                  storageLocationId: current.storageLocationId ?? undefined,
+                  condition: current.condition,
+                  purchaseDate: current.purchaseDate
+                    ? new Date(current.purchaseDate)
+                        .toISOString()
+                        .substring(0, 10)
+                    : new Date().toISOString().substring(0, 10),
+                  retirementDate: current.retirementDate
+                    ? new Date(current.retirementDate)
+                        .toISOString()
+                        .substring(0, 10)
+                    : undefined,
+                };
+              })()
+            : undefined
+        }
+        loading={editingItemId ? updatingItem : creatingItem}
+        variants={variants}
+        variantsLoading={variantsLoading}
+        onSubmit={async (values) => {
+          const payload = {
+            variantId: values.variantId,
+            identifier: values.identifier || undefined,
+            storageLocationId: values.storageLocationId || undefined,
+            condition: Number(values.condition) as any,
+            purchaseDate: new Date(values.purchaseDate),
+            retirementDate: values.retirementDate
+              ? new Date(values.retirementDate)
+              : undefined,
+          };
+          if (editingItemId) {
+            await updateItem(editingItemId, payload);
+          } else {
+            await createItem(payload);
+          }
+          setItemFormOpen(false);
+          setEditingItemId(null);
+        }}
+      />
+
+      {/* Item Delete Confirm */}
+      <ConfirmDialog
+        open={confirmItemOpen}
+        onOpenChange={(o) => {
+          setConfirmItemOpen(o);
+          if (!o) setDeleteItemId(null);
+        }}
+        title={t('confirmDeleteTitle')}
+        description={t('confirmDeleteDescription', {
+          name: items.find((it) => it.id === deleteItemId)?.identifier ?? '',
+        })}
+        confirmLabel={t('delete')}
+        cancelLabel={t('cancel')}
+        confirmVariant="destructive"
+        confirmDisabled={deletingItem}
+        onConfirm={async () => {
+          if (!deleteItemId) return;
+          await deleteItem(deleteItemId);
+          setConfirmItemOpen(false);
+          setDeleteItemId(null);
         }}
       />
     </div>
