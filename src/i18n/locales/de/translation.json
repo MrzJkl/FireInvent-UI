@@ -1,0 +1,41 @@
+{
+  "welcome": "Willkommen bei FireInvent",
+  "login": "Anmelden",
+  "account": "Konto",
+  "logout": "Abmelden",
+  "add": "Hinzufügen",
+  "name": "Name",
+  "description": "Beschreibung",
+  "cancel": "Abbrechen",
+  "actions": "Aktionen",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "productType": "Produkttyp",
+  "productTypePlural": "Produkttypen",
+  "save": "Speichern",
+  "productTypes": {
+    "edit": "Produkttyp bearbeiten",
+    "add": "Neuen Produkttyp hinzufügen"
+  },
+  "maintenanceType": "Wartungstyp",
+  "maintenanceTypePlural": "Wartungstypen",
+  "maintenanceTypes": {
+    "edit": "Wartungstyp bearbeiten",
+    "add": "Neuen Wartungstyp hinzufügen"
+  },
+  "storageLocation": "Lagerort",
+  "storageLocationPlural": "Lagerorte",
+  "storageLocations": {
+    "edit": "Lagerort bearbeiten",
+    "add": "Neuen Lagerort hinzufügen"
+  },
+  "remarks": "Bemerkungen",
+  "department": "Abteilung",
+  "departmentPlural": "Abteilungen",
+  "departments": {
+    "edit": "Abteilung bearbeiten",
+    "add": "Neue Abteilung hinzufügen"
+  },
+  "confirmDeleteTitle": "Löschen bestätigen",
+  "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+}
