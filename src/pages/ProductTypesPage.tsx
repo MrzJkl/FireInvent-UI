@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -12,6 +12,8 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogDescription,
+  DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -38,6 +40,8 @@ export default function ProductTypesPage() {
     description: '',
   });
   const [openDialog, setOpenDialog] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [toDelete, setToDelete] = useState<ProductTypeModel | null>(null);
 
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
     getProductTypes,
@@ -53,14 +57,19 @@ export default function ProductTypesPage() {
     deleteProductTypesById,
   );
 
-  const fetchProductTypes = async () => {
-    const res = await fetchApi({});
-    if (res?.data) setProductTypes(res.data);
-  };
+  const fetchApiRef = useRef(fetchApi);
+  useEffect(() => {
+    fetchApiRef.current = fetchApi;
+  }, [fetchApi]);
+
+  const fetchProductTypes = useCallback(async () => {
+    const res = await fetchApiRef.current({});
+    if (res) setProductTypes(res);
+  }, []);
 
   useEffect(() => {
     fetchProductTypes();
-  }, []);
+  }, [fetchProductTypes]);
 
   const handleSave = async () => {
     if (editing) {
@@ -74,11 +83,12 @@ export default function ProductTypesPage() {
     fetchProductTypes();
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm(t('confirmDelete') ?? 'Wirklich löschen?')) {
-      await deleteApi({ path: { id } });
-      fetchProductTypes();
-    }
+  const handleDelete = async () => {
+    if (!toDelete) return;
+    await deleteApi({ path: { id: toDelete.id } });
+    setDeleteDialogOpen(false);
+    setToDelete(null);
+    fetchProductTypes();
   };
 
   const loading =
@@ -128,7 +138,10 @@ export default function ProductTypesPage() {
                 <Button
                   size="sm"
                   variant="destructive"
-                  onClick={() => handleDelete(pt.id)}
+                  onClick={() => {
+                    setToDelete(pt);
+                    setDeleteDialogOpen(true);
+                  }}
                 >
                   {t('delete')}
                 </Button>
@@ -187,6 +200,39 @@ export default function ProductTypesPage() {
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t('confirmDeleteTitle') ?? 'Delete item'}
+            </DialogTitle>
+            <DialogDescription>
+              {t('confirmDeleteDescription', { name: toDelete?.name ?? '' }) ||
+                'Are you sure you want to delete this item? This action cannot be undone.'}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setDeleteDialogOpen(false);
+                setToDelete(null);
+              }}
+            >
+              {t('cancel')}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={loadingDelete}
+            >
+              {t('delete')}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

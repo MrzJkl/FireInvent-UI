@@ -42,10 +42,10 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       }
 
       if (merged.showSuccess) {
-        toast.success(merged.successMessage ?? 'Erfolg');
+        toast.success(merged.successMessage ?? 'Erfolgreich');
       }
 
-      return res.data ?? res;
+      return res?.data ?? res.data ?? null;
     } catch (err: any) {
       if (merged.showError) {
         const msg =

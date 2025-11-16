@@ -13,7 +13,7 @@ export function AuthGate({ children }: AuthGateProps) {
   useEffect(() => {
     if (!initialized) return;
 
-    if (!keycloak.authenticated) {
+    if (!keycloak.authenticated && window.location.pathname !== '/') {
       keycloak.login({ redirectUri: window.location.origin + '/app' });
     } else {
       setChecking(false);
