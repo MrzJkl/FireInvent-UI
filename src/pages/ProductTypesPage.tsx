@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -8,93 +8,39 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogDescription,
-  DialogFooter,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
-import { useApiRequest } from '@/hooks/useApiRequest';
-import {
-  deleteProductTypesById,
-  getProductTypes,
-  postProductTypes,
-  putProductTypesById,
-  type CreateProductTypeModel,
-  type ProductTypeModel,
-} from '@/api';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { ProductTypeFormDialog } from '@/features/product-types/ProductTypeFormDialog';
+import { useProductTypes } from '@/features/product-types/useProductTypes';
+import { type ProductTypeModel } from '@/api';
 import { useTranslation } from 'react-i18next';
 
 export default function ProductTypesPage() {
   const { t } = useTranslation();
 
-  const [productTypes, setProductTypes] = useState<ProductTypeModel[]>([]);
-  const [editing, setEditing] = useState<ProductTypeModel | null>(null);
-  const [newProductType, setNewProductType] = useState<CreateProductTypeModel>({
-    name: '',
-    description: '',
-  });
-  const [openDialog, setOpenDialog] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [toDelete, setToDelete] = useState<ProductTypeModel | null>(null);
-
-  const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getProductTypes,
-    {
-      showSuccess: false,
-    },
-  );
-  const { callApi: createApi, loading: loadingCreate } =
-    useApiRequest(postProductTypes);
-  const { callApi: updateApi, loading: loadingUpdate } =
-    useApiRequest(putProductTypesById);
-  const { callApi: deleteApi, loading: loadingDelete } = useApiRequest(
-    deleteProductTypesById,
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<ProductTypeModel | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<ProductTypeModel | null>(
+    null,
   );
 
-  const fetchApiRef = useRef(fetchApi);
+  const {
+    items: productTypes,
+    initialLoading,
+    creating,
+    updating,
+    deleting,
+    createItem,
+    updateItem,
+    deleteItem,
+  } = useProductTypes();
+
   useEffect(() => {
-    fetchApiRef.current = fetchApi;
-  }, [fetchApi]);
+    if (!formOpen) setEditingItem(null);
+  }, [formOpen]);
 
-  const fetchProductTypes = useCallback(async () => {
-    const res = await fetchApiRef.current({});
-    if (res) setProductTypes(res);
-  }, []);
-
-  useEffect(() => {
-    fetchProductTypes();
-  }, [fetchProductTypes]);
-
-  const handleSave = async () => {
-    if (editing) {
-      await updateApi({ path: { id: editing.id }, body: editing });
-    } else {
-      await createApi({ body: newProductType });
-    }
-    setEditing(null);
-    setNewProductType({ name: '', description: '' });
-    setOpenDialog(false);
-    fetchProductTypes();
-  };
-
-  const handleDelete = async () => {
-    if (!toDelete) return;
-    await deleteApi({ path: { id: toDelete.id } });
-    setDeleteDialogOpen(false);
-    setToDelete(null);
-    fetchProductTypes();
-  };
-
-  const loading =
-    loadingList || loadingCreate || loadingUpdate || loadingDelete;
-
-  if (loading) return <LoadingIndicator message={t('loadingData')} />;
+  if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
   return (
     <div className="p-4">
@@ -102,9 +48,8 @@ export default function ProductTypesPage() {
         <h1 className="text-2xl font-bold">{t('productType')}</h1>
         <Button
           onClick={() => {
-            setEditing(null);
-            setNewProductType({ name: '', description: '' });
-            setOpenDialog(true);
+            setEditingItem(null);
+            setFormOpen(true);
           }}
         >
           {t('add')}
@@ -129,8 +74,8 @@ export default function ProductTypesPage() {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    setEditing(pt);
-                    setOpenDialog(true);
+                    setEditingItem(pt);
+                    setFormOpen(true);
                   }}
                 >
                   {t('edit')}
@@ -139,8 +84,8 @@ export default function ProductTypesPage() {
                   size="sm"
                   variant="destructive"
                   onClick={() => {
-                    setToDelete(pt);
-                    setDeleteDialogOpen(true);
+                    setItemToDelete(pt);
+                    setConfirmOpen(true);
                   }}
                 >
                   {t('delete')}
@@ -151,90 +96,56 @@ export default function ProductTypesPage() {
         </TableBody>
       </Table>
 
-      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {editing ? t('productTypes.edit') : t('productTypes.add')}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 mt-2">
-            <div>
-              <Label>{t('name')}</Label>
-              <Input
-                value={editing ? editing.name : newProductType.name}
-                onChange={(e) =>
-                  editing
-                    ? setEditing({ ...editing, name: e.target.value })
-                    : setNewProductType({
-                        ...newProductType,
-                        name: e.target.value,
-                      })
-                }
-              />
-            </div>
-            <div>
-              <Label>{t('description')}</Label>
-              <Input
-                value={
-                  editing
-                    ? (editing.description ?? '')
-                    : (newProductType.description ?? '')
-                }
-                onChange={(e) =>
-                  editing
-                    ? setEditing({ ...editing, description: e.target.value })
-                    : setNewProductType({
-                        ...newProductType,
-                        description: e.target.value,
-                      })
-                }
-              />
-            </div>
-            <div className="flex justify-end space-x-2 mt-4">
-              <Button variant="outline" onClick={() => setOpenDialog(false)}>
-                {t('cancel')}
-              </Button>
-              <Button onClick={handleSave}>
-                {editing ? t('save') : t('add')}
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ProductTypeFormDialog
+        open={formOpen}
+        mode={editingItem ? 'edit' : 'create'}
+        initialValues={{
+          name: editingItem?.name ?? '',
+          description: editingItem?.description ?? '',
+        }}
+        loading={editingItem ? updating : creating}
+        onOpenChange={setFormOpen}
+        labels={{
+          titleCreate: t('productTypes.add'),
+          titleEdit: t('productTypes.edit'),
+          name: t('name'),
+          description: t('description'),
+          cancel: t('cancel'),
+          save: t('save') ?? 'Save',
+          add: t('add'),
+        }}
+        onSubmit={async (values) => {
+          if (editingItem) {
+            await updateItem({ ...editingItem, ...values });
+          } else {
+            await createItem(values);
+          }
+          setFormOpen(false);
+        }}
+      />
 
-      {/* Delete confirmation dialog */}
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {t('confirmDeleteTitle') ?? 'Delete item'}
-            </DialogTitle>
-            <DialogDescription>
-              {t('confirmDeleteDescription', { name: toDelete?.name ?? '' }) ||
-                'Are you sure you want to delete this item? This action cannot be undone.'}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setDeleteDialogOpen(false);
-                setToDelete(null);
-              }}
-            >
-              {t('cancel')}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={loadingDelete}
-            >
-              {t('delete')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={(o) => {
+          setConfirmOpen(o);
+          if (!o) setItemToDelete(null);
+        }}
+        title={t('confirmDeleteTitle') ?? 'Delete item'}
+        description={
+          t('confirmDeleteDescription', { name: itemToDelete?.name ?? '' }) ||
+          'Are you sure you want to delete this item? This action cannot be undone.'
+        }
+        confirmLabel={t('delete')}
+        cancelLabel={t('cancel')}
+        confirmVariant="destructive"
+        confirmDisabled={deleting}
+        onConfirm={async () => {
+          if (!itemToDelete) return;
+          await deleteItem(itemToDelete.id);
+          setConfirmOpen(false);
+          setItemToDelete(null);
+        }}
+      />
     </div>
   );
 }
