@@ -70,5 +70,14 @@
     "descriptionAdd": "Geben Sie die Details der neuen Person unten ein."
   },
   "confirmDeleteTitle": "Löschen bestätigen",
-  "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+  "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "variant": "Variante",
+  "variantPlural": "Varianten",
+  "additionalSpecs": "Zusätzliche Spezifikationen",
+  "variants": {
+    "edit": "Variante bearbeiten",
+    "add": "Neue Variante hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Variante unten.",
+    "descriptionAdd": "Geben Sie die Details der neuen Variante unten ein."
+  }
 }

@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ProductFormDialog } from '@/features/products/ProductFormDialog';
+import { useVariants } from '@/features/variants/useVariants';
+import { VariantFormDialog } from '@/features/variants/VariantFormDialog';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { useProducts } from '@/features/products/useProducts';
 import { type ProductModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
@@ -16,9 +19,23 @@ export default function ProductDetailPage() {
   const { t } = useTranslation();
 
   const [formOpen, setFormOpen] = useState(false);
+  const [variantFormOpen, setVariantFormOpen] = useState(false);
+  const [editingVariantId, setEditingVariantId] = useState<string | null>(null);
+  const [deleteVariantId, setDeleteVariantId] = useState<string | null>(null);
+  const [confirmVariantOpen, setConfirmVariantOpen] = useState(false);
   const [product, setProduct] = useState<ProductModel | null>(null);
 
   const { products, isLoading, updateProduct } = useProducts();
+  const {
+    variants,
+    isLoading: variantsLoading,
+    isCreating: creatingVariant,
+    isUpdating: updatingVariant,
+    isDeleting: deletingVariant,
+    createVariant,
+    updateVariant,
+    deleteVariant,
+  } = useVariants(id);
 
   useEffect(() => {
     if (products && id) {
@@ -114,9 +131,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="mt-1">
                   {product.description || (
-                    <span className="text-muted-foreground italic">
-                      Keine Beschreibung
-                    </span>
+                    <span className="text-muted-foreground italic">-</span>
                   )}
                 </div>
               </div>
@@ -127,13 +142,64 @@ export default function ProductDetailPage() {
         {/* Variants Tab */}
         <TabsContent value="variants" className="mt-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Varianten</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>{t('variantPlural')}</CardTitle>
+              <Button
+                size="sm"
+                onClick={() => {
+                  setEditingVariantId(null);
+                  setVariantFormOpen(true);
+                }}
+              >
+                {t('add')}
+              </Button>
             </CardHeader>
             <CardContent>
-              <div className="flex h-32 items-center justify-center text-muted-foreground">
-                Varianten-Feature wird hier implementiert
-              </div>
+              {variantsLoading ? (
+                <LoadingIndicator />
+              ) : variants.length === 0 ? (
+                <div className="flex h-24 items-center justify-center text-muted-foreground">
+                  {t('variantPlural')} leer
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {variants.map((v) => (
+                    <div
+                      key={v.id}
+                      className="flex items-start justify-between rounded border p-3"
+                    >
+                      <div className="space-y-1">
+                        <p className="font-medium">{v.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {v.additionalSpecs || '–'}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setEditingVariantId(v.id);
+                            setVariantFormOpen(true);
+                          }}
+                        >
+                          {t('edit')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => {
+                            setDeleteVariantId(v.id);
+                            setConfirmVariantOpen(true);
+                          }}
+                        >
+                          {t('delete')}
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -153,7 +219,7 @@ export default function ProductDetailPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Edit Dialog */}
+      {/* Product Edit Dialog */}
       <ProductFormDialog
         open={formOpen}
         onOpenChange={setFormOpen}
@@ -167,6 +233,62 @@ export default function ProductDetailPage() {
         onSubmit={async (data) => {
           await updateProduct(product.id, data);
           setFormOpen(false);
+        }}
+      />
+
+      {/* Variant Form Dialog */}
+      <VariantFormDialog
+        open={variantFormOpen}
+        onOpenChange={(o) => {
+          setVariantFormOpen(o);
+          if (!o) setEditingVariantId(null);
+        }}
+        mode={editingVariantId ? 'edit' : 'create'}
+        initialValues={
+          editingVariantId
+            ? (() => {
+                const current = variants.find((v) => v.id === editingVariantId);
+                return current
+                  ? {
+                      name: current.name,
+                      additionalSpecs: current.additionalSpecs ?? '',
+                    }
+                  : undefined;
+              })()
+            : undefined
+        }
+        loading={editingVariantId ? updatingVariant : creatingVariant}
+        onSubmit={async (values) => {
+          if (editingVariantId) {
+            await updateVariant(editingVariantId, values);
+          } else {
+            await createVariant(values);
+          }
+          setVariantFormOpen(false);
+          setEditingVariantId(null);
+        }}
+      />
+
+      {/* Variant Delete Confirm */}
+      <ConfirmDialog
+        open={confirmVariantOpen}
+        onOpenChange={(o) => {
+          setConfirmVariantOpen(o);
+          if (!o) setDeleteVariantId(null);
+        }}
+        title={t('confirmDeleteTitle')}
+        description={t('confirmDeleteDescription', {
+          name: variants.find((v) => v.id === deleteVariantId)?.name ?? '',
+        })}
+        confirmLabel={t('delete')}
+        cancelLabel={t('cancel')}
+        confirmVariant="destructive"
+        confirmDisabled={deletingVariant}
+        onConfirm={async () => {
+          if (!deleteVariantId) return;
+          await deleteVariant(deleteVariantId);
+          setConfirmVariantOpen(false);
+          setDeleteVariantId(null);
         }}
       />
     </div>
