@@ -51,7 +51,7 @@ export function usePersons() {
       const current = items.find((p) => p.id === id);
       if (!current) return null;
       // API expects full PersonModel
-      const full: PersonModel = { ...current, ...body };
+      const full: PersonModel = { ...current, ...body, departments: [] };
       const res = await updateApi({ path: { id }, body: full });
       await refetch();
       return res;

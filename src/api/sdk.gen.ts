@@ -13,6 +13,7 @@ import {
   getMaintenancesResponseTransformer,
   getOrdersByIdResponseTransformer,
   getOrdersResponseTransformer,
+  getPersonsByIdItemsResponseTransformer,
   getStorageLocationsByIdItemsResponseTransformer,
   getVariantsByIdItemsResponseTransformer,
   postAssignmentsResponseTransformer,
@@ -101,6 +102,9 @@ import type {
   GetOrdersResponses,
   GetPersonsByIdData,
   GetPersonsByIdErrors,
+  GetPersonsByIdItemsData,
+  GetPersonsByIdItemsErrors,
+  GetPersonsByIdItemsResponses,
   GetPersonsByIdResponses,
   GetPersonsData,
   GetPersonsErrors,
@@ -108,6 +112,9 @@ import type {
   GetProductsByIdData,
   GetProductsByIdErrors,
   GetProductsByIdResponses,
+  GetProductsByIdVariantsData,
+  GetProductsByIdVariantsErrors,
+  GetProductsByIdVariantsResponses,
   GetProductsData,
   GetProductsErrors,
   GetProductsResponses,
@@ -1235,6 +1242,32 @@ export const putPersonsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * List all items assigned to a person
+ *
+ * Returns all items assigned to a specific person.
+ */
+export const getPersonsByIdItems = <ThrowOnError extends boolean = false>(
+  options: Options<GetPersonsByIdItemsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetPersonsByIdItemsResponses,
+    GetPersonsByIdItemsErrors,
+    ThrowOnError
+  >({
+    responseTransformer: getPersonsByIdItemsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/persons/{id}/items",
+    ...options,
+  });
+};
+
+/**
  * List all products
  *
  * Returns a list of all products.
@@ -1362,6 +1395,31 @@ export const putProductsById = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List all variants for a product
+ *
+ * Returns all variants for a specific product.
+ */
+export const getProductsByIdVariants = <ThrowOnError extends boolean = false>(
+  options: Options<GetProductsByIdVariantsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetProductsByIdVariantsResponses,
+    GetProductsByIdVariantsErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/products/{id}/variants",
+    ...options,
   });
 };
 

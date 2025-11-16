@@ -61,7 +61,7 @@ export default function PersonsPage() {
             <TableHead>{t('lastName')}</TableHead>
             <TableHead>{t('contactInfo')}</TableHead>
             <TableHead>{t('externalId')}</TableHead>
-            <TableHead>{t('remarks')}</TableHead>
+            <TableHead>{t('departmentPlural')}</TableHead>
             <TableHead>{t('actions')}</TableHead>
           </TableRow>
         </TableHeader>
@@ -72,7 +72,11 @@ export default function PersonsPage() {
               <TableCell>{person.lastName}</TableCell>
               <TableCell>{person.contactInfo}</TableCell>
               <TableCell>{person.externalId}</TableCell>
-              <TableCell>{person.remarks}</TableCell>
+              <TableCell>
+                {person.departments?.length
+                  ? person.departments.map((d) => d.name).join(', ')
+                  : '-'}
+              </TableCell>
               <TableCell className="flex space-x-2">
                 <Button
                   size="sm"
@@ -111,6 +115,10 @@ export default function PersonsPage() {
                 remarks: editingItem.remarks ?? '',
                 contactInfo: editingItem.contactInfo ?? '',
                 externalId: editingItem.externalId ?? '',
+                departmentIds:
+                  (editingItem.departmentIds && editingItem.departmentIds.length
+                    ? editingItem.departmentIds
+                    : editingItem.departments?.map((d) => d.id)) ?? [],
               }
             : undefined
         }
@@ -129,10 +137,12 @@ export default function PersonsPage() {
           add: t('add'),
         }}
         onSubmit={async (values) => {
+          // values.departmentIds is optional array
+          const payload = { ...values };
           if (editingItem) {
-            await updatePerson(editingItem.id, values);
+            await updatePerson(editingItem.id, payload);
           } else {
-            await createPerson(values);
+            await createPerson(payload);
           }
           setFormOpen(false);
         }}

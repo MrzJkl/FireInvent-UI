@@ -68,5 +68,14 @@
     "descriptionAdd": "Fill in the person details below."
   },
   "confirmDeleteTitle": "Confirm deletion",
-  "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
+  "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+  "variant": "Variant",
+  "variantPlural": "Variants",
+  "additionalSpecs": "Additional Specs",
+  "variants": {
+    "edit": "Edit Variant",
+    "add": "Add new Variant",
+    "descriptionEdit": "Update the variant details below.",
+    "descriptionAdd": "Fill in the variant details below."
+  }
 }
