@@ -76,7 +76,7 @@ export function StorageLocationFormDialog({
               : (labels?.titleCreate ?? 'Add new Storage Location')}
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 mt-2">
+        <form className="space-y-4 mt-2" onSubmit={submit}>
           <div>
             <Label>{labels?.name ?? 'Name'}</Label>
             <Input {...register('name')} />
@@ -90,19 +90,20 @@ export function StorageLocationFormDialog({
           </div>
           <div className="flex justify-end space-x-2 mt-4">
             <Button
+              type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
               {labels?.cancel ?? 'Cancel'}
             </Button>
-            <Button onClick={submit} disabled={loading}>
+            <Button type="submit" disabled={loading}>
               {mode === 'edit'
                 ? (labels?.save ?? 'Save')
                 : (labels?.add ?? 'Add')}
             </Button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
