@@ -1640,6 +1640,40 @@ export type PutProductsByIdResponses = {
 export type PutProductsByIdResponse =
   PutProductsByIdResponses[keyof PutProductsByIdResponses];
 
+export type GetProductsByIdVariantsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/products/{id}/variants";
+};
+
+export type GetProductsByIdVariantsErrors = {
+  /**
+   * Unauthorized
+   */
+  401: unknown;
+  /**
+   * Forbidden
+   */
+  403: unknown;
+  /**
+   * Product not found
+   */
+  404: unknown;
+};
+
+export type GetProductsByIdVariantsResponses = {
+  /**
+   * List of items
+   */
+  200: Array<VariantModel>;
+};
+
+export type GetProductsByIdVariantsResponse =
+  GetProductsByIdVariantsResponses[keyof GetProductsByIdVariantsResponses];
+
 export type GetProductTypesData = {
   body?: never;
   path?: never;
@@ -2260,7 +2294,7 @@ export type GetVariantsByIdItemsErrors = {
    */
   403: unknown;
   /**
-   * variant not found
+   * Variant not found
    */
   404: unknown;
 };

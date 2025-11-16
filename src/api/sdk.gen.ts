@@ -108,6 +108,9 @@ import type {
   GetProductsByIdData,
   GetProductsByIdErrors,
   GetProductsByIdResponses,
+  GetProductsByIdVariantsData,
+  GetProductsByIdVariantsErrors,
+  GetProductsByIdVariantsResponses,
   GetProductsData,
   GetProductsErrors,
   GetProductsResponses,
@@ -1362,6 +1365,31 @@ export const putProductsById = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List all variants for a product
+ *
+ * Returns all variants for a specific product.
+ */
+export const getProductsByIdVariants = <ThrowOnError extends boolean = false>(
+  options: Options<GetProductsByIdVariantsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetProductsByIdVariantsResponses,
+    GetProductsByIdVariantsErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/products/{id}/variants",
+    ...options,
   });
 };
 
