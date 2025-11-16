@@ -45,7 +45,7 @@ export default function ProductTypesPage() {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">{t('productType')}</h1>
+        <h1 className="text-2xl font-bold">{t('productTypePlural')}</h1>
         <Button
           onClick={() => {
             setEditingItem(null);

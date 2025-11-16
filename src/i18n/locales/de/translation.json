@@ -6,16 +6,23 @@
   "add": "Hinzufügen",
   "name": "Name",
   "description": "Beschreibung",
+  "manufacturer": "Hersteller",
   "cancel": "Abbrechen",
   "actions": "Aktionen",
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "productType": "Produkttyp",
   "productTypePlural": "Produkttypen",
+  "product": "Produkt",
+  "productPlural": "Produkte",
   "save": "Speichern",
   "productTypes": {
     "edit": "Produkttyp bearbeiten",
     "add": "Neuen Produkttyp hinzufügen"
+  },
+  "products": {
+    "edit": "Produkt bearbeiten",
+    "add": "Neues Produkt hinzufügen"
   },
   "maintenanceType": "Wartungstyp",
   "maintenanceTypePlural": "Wartungstypen",

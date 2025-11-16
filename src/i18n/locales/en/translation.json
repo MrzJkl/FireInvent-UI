@@ -6,6 +6,7 @@
   "add": "Add",
   "name": "Name",
   "description": "Description",
+  "manufacturer": "Manufacturer",
   "cancel": "Cancel",
   "actions": "Actions",
   "edit": "Edit",
@@ -16,6 +17,10 @@
   "productTypes": {
     "edit": "Edit Product-Type",
     "add": "Add new Product-Type"
+  },
+  "products": {
+    "edit": "Edit Product",
+    "add": "Add new Product"
   },
   "maintenanceType": "Maintenance Type",
   "maintenanceTypePlural": "Maintenance Types",

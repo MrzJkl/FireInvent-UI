@@ -10,44 +10,40 @@ import {
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { StorageLocationFormDialog } from '@/features/storage-locations/StorageLocationFormDialog';
-import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
-import { type StorageLocationModel } from '@/api';
+import { ProductFormDialog } from '@/features/products/ProductFormDialog';
+import { useProducts } from '@/features/products/useProducts';
+import { type ProductModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
 
-export default function StorageLocationsPage() {
+export default function ProductsPage() {
   const { t } = useTranslation();
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<StorageLocationModel | null>(
-    null,
-  );
+  const [editingItem, setEditingItem] = useState<ProductModel | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<StorageLocationModel | null>(
-    null,
-  );
+  const [itemToDelete, setItemToDelete] = useState<ProductModel | null>(null);
 
   const {
-    items: storageLocations,
-    initialLoading,
-    creating,
-    updating,
-    deleting,
-    createItem,
-    updateItem,
-    deleteItem,
-  } = useStorageLocations();
+    products,
+    isLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+  } = useProducts();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
-  if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
+  if (isLoading) return <LoadingIndicator />;
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">{t('storageLocationPlural')}</h1>
+        <h1 className="text-2xl font-bold">{t('productPlural')}</h1>
         <Button
           onClick={() => {
             setEditingItem(null);
@@ -62,21 +58,25 @@ export default function StorageLocationsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('remarks') ?? 'Remarks'}</TableHead>
+            <TableHead>{t('manufacturer')}</TableHead>
+            <TableHead>{t('productType')}</TableHead>
+            <TableHead>{t('description')}</TableHead>
             <TableHead>{t('actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {storageLocations.map((sl) => (
-            <TableRow key={sl.id}>
-              <TableCell>{sl.name}</TableCell>
-              <TableCell>{sl.remarks}</TableCell>
+          {products.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.manufacturer}</TableCell>
+              <TableCell>{product.type.name}</TableCell>
+              <TableCell>{product.description}</TableCell>
               <TableCell className="flex space-x-2">
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    setEditingItem(sl);
+                    setEditingItem(product);
                     setFormOpen(true);
                   }}
                 >
@@ -86,7 +86,7 @@ export default function StorageLocationsPage() {
                   size="sm"
                   variant="destructive"
                   onClick={() => {
-                    setItemToDelete(sl);
+                    setItemToDelete(product);
                     setConfirmOpen(true);
                   }}
                 >
@@ -98,29 +98,37 @@ export default function StorageLocationsPage() {
         </TableBody>
       </Table>
 
-      <StorageLocationFormDialog
+      <ProductFormDialog
         open={formOpen}
         mode={editingItem ? 'edit' : 'create'}
-        initialValues={{
-          name: editingItem?.name ?? '',
-          remarks: editingItem?.remarks ?? '',
-        }}
-        loading={editingItem ? updating : creating}
+        initialValues={
+          editingItem
+            ? {
+                name: editingItem.name,
+                manufacturer: editingItem.manufacturer,
+                description: editingItem.description ?? '',
+                typeId: editingItem.typeId,
+              }
+            : undefined
+        }
+        loading={editingItem ? isUpdating : isCreating}
         onOpenChange={setFormOpen}
         labels={{
-          titleCreate: t('storageLocations.add'),
-          titleEdit: t('storageLocations.edit'),
+          titleCreate: t('products.add'),
+          titleEdit: t('products.edit'),
           name: t('name'),
-          remarks: t('remarks') ?? 'Remarks',
+          manufacturer: t('manufacturer'),
+          description: t('description'),
+          productType: t('productType'),
           cancel: t('cancel'),
-          save: t('save') ?? 'Save',
+          save: t('save'),
           add: t('add'),
         }}
         onSubmit={async (values) => {
           if (editingItem) {
-            await updateItem({ ...editingItem, ...values });
+            await updateProduct(editingItem.id, values);
           } else {
-            await createItem(values);
+            await createProduct(values);
           }
           setFormOpen(false);
         }}
@@ -132,18 +140,17 @@ export default function StorageLocationsPage() {
           setConfirmOpen(o);
           if (!o) setItemToDelete(null);
         }}
-        title={t('confirmDeleteTitle') ?? 'Delete item'}
-        description={
-          t('confirmDeleteDescription', { name: itemToDelete?.name ?? '' }) ||
-          'Are you sure you want to delete this item? This action cannot be undone.'
-        }
+        title={t('confirmDeleteTitle')}
+        description={t('confirmDeleteDescription', {
+          name: itemToDelete?.name ?? '',
+        })}
         confirmLabel={t('delete')}
         cancelLabel={t('cancel')}
         confirmVariant="destructive"
-        confirmDisabled={deleting}
+        confirmDisabled={isDeleting}
         onConfirm={async () => {
           if (!itemToDelete) return;
-          await deleteItem(itemToDelete.id);
+          await deleteProduct(itemToDelete.id);
           setConfirmOpen(false);
           setItemToDelete(null);
         }}
