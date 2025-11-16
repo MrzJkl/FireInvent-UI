@@ -27,6 +27,11 @@
     "add": "Add new Storage Location"
   },
   "remarks": "Remarks",
+  "department": "Department",
+  "departments": {
+    "edit": "Edit Department",
+    "add": "Add new Department"
+  },
   "confirmDeleteTitle": "Confirm deletion",
   "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
 }

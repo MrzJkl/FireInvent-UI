@@ -127,6 +127,11 @@ const data = {
       icon: IconWashMachine,
     },
     {
+      title: 'Departments',
+      url: '/app/departments',
+      icon: IconUsers,
+    },
+    {
       title: 'StorageLocations',
       url: '/app/storageLocations',
       icon: IconBuildingStore,

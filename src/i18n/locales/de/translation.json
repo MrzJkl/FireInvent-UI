@@ -27,6 +27,11 @@
     "add": "Neuen Lagerort hinzufügen"
   },
   "remarks": "Bemerkungen",
+  "department": "Abteilung",
+  "departments": {
+    "edit": "Abteilung bearbeiten",
+    "add": "Neue Abteilung hinzufügen"
+  },
   "confirmDeleteTitle": "Löschen bestätigen",
   "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
 }
