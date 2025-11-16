@@ -36,7 +36,8 @@ export function useDepartments() {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const createItem = useCallback(
     async (body: CreateDepartmentModel) => {

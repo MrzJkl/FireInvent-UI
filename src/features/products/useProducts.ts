@@ -33,7 +33,8 @@ export function useProducts() {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const createProduct = useCallback(
     async (body: CreateProductModel) => {

@@ -35,9 +35,11 @@ export function useStorageLocations() {
     if (res) setItems(res);
   }, []);
 
+  // Only fetch once on mount
   useEffect(() => {
     refetch();
-  }, [refetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const createItem = useCallback(
     async (body: CreateStorageLocationModel) => {

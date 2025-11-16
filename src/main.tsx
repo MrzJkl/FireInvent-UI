@@ -31,5 +31,6 @@ createRoot(document.getElementById('root')!).render(
       </AuthGate>
       <Toaster position="top-right" richColors closeButton />
     </ReactKeycloakProvider>
+    ,
   </StrictMode>,
 );
