@@ -10,10 +10,16 @@
   "actions": "Actions",
   "edit": "Edit",
   "delete": "Delete",
+  "save": "Save",
   "productType": "Product-Type",
   "productTypes": {
     "edit": "Edit Product-Type",
     "add": "Add new Product-Type"
+  },
+  "maintenanceType": "Maintenance-Type",
+  "maintenanceTypes": {
+    "edit": "Edit Maintenance-Type",
+    "add": "Add new Maintenance-Type"
   },
   "confirmDeleteTitle": "Confirm deletion",
   "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."

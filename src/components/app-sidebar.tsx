@@ -123,7 +123,7 @@ const data = {
     },
     {
       title: 'MaintenanceTypes',
-      url: '#',
+      url: '/app/maintenanceTypes',
       icon: IconWashMachine,
     },
     {

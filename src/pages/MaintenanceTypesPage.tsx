@@ -10,23 +10,25 @@ import {
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { ProductTypeFormDialog } from '@/features/product-types/ProductTypeFormDialog';
-import { useProductTypes } from '@/features/product-types/useProductTypes';
-import { type ProductTypeModel } from '@/api';
+import { MaintenanceTypeFormDialog } from '@/features/maintenance-types/MaintenanceTypeFormDialog';
+import { useMaintenanceTypes } from '@/features/maintenance-types/useMaintenanceTypes';
+import { type MaintenanceTypeModel } from '@/api';
 import { useTranslation } from 'react-i18next';
 
-export default function ProductTypesPage() {
+export default function MaintenanceTypesPage() {
   const { t } = useTranslation();
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<ProductTypeModel | null>(null);
+  const [editingItem, setEditingItem] = useState<MaintenanceTypeModel | null>(
+    null,
+  );
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<ProductTypeModel | null>(
+  const [itemToDelete, setItemToDelete] = useState<MaintenanceTypeModel | null>(
     null,
   );
 
   const {
-    items: productTypes,
+    items: maintenanceTypes,
     initialLoading,
     creating,
     updating,
@@ -34,7 +36,7 @@ export default function ProductTypesPage() {
     createItem,
     updateItem,
     deleteItem,
-  } = useProductTypes();
+  } = useMaintenanceTypes();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
@@ -45,7 +47,7 @@ export default function ProductTypesPage() {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">{t('productType')}</h1>
+        <h1 className="text-2xl font-bold">{t('maintenanceType')}</h1>
         <Button
           onClick={() => {
             setEditingItem(null);
@@ -65,16 +67,16 @@ export default function ProductTypesPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {productTypes.map((pt) => (
-            <TableRow key={pt.id}>
-              <TableCell>{pt.name}</TableCell>
-              <TableCell>{pt.description}</TableCell>
+          {maintenanceTypes.map((mt) => (
+            <TableRow key={mt.id}>
+              <TableCell>{mt.name}</TableCell>
+              <TableCell>{mt.description}</TableCell>
               <TableCell className="flex space-x-2">
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    setEditingItem(pt);
+                    setEditingItem(mt);
                     setFormOpen(true);
                   }}
                 >
@@ -84,7 +86,7 @@ export default function ProductTypesPage() {
                   size="sm"
                   variant="destructive"
                   onClick={() => {
-                    setItemToDelete(pt);
+                    setItemToDelete(mt);
                     setConfirmOpen(true);
                   }}
                 >
@@ -96,7 +98,7 @@ export default function ProductTypesPage() {
         </TableBody>
       </Table>
 
-      <ProductTypeFormDialog
+      <MaintenanceTypeFormDialog
         open={formOpen}
         mode={editingItem ? 'edit' : 'create'}
         initialValues={{
@@ -106,8 +108,8 @@ export default function ProductTypesPage() {
         loading={editingItem ? updating : creating}
         onOpenChange={setFormOpen}
         labels={{
-          titleCreate: t('productTypes.add'),
-          titleEdit: t('productTypes.edit'),
+          titleCreate: t('maintenanceTypes.add'),
+          titleEdit: t('maintenanceTypes.edit'),
           name: t('name'),
           description: t('description'),
           cancel: t('cancel'),

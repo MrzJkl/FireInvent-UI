@@ -11,9 +11,15 @@
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "productType": "Produkttyp",
+  "save": "Speichern",
   "productTypes": {
     "edit": "Produkttyp bearbeiten",
     "add": "Neuen Produkttyp hinzufügen"
+  },
+  "maintenanceType": "Wartungstyp",
+  "maintenanceTypes": {
+    "edit": "Wartungstyp bearbeiten",
+    "add": "Neuen Wartungstyp hinzufügen"
   },
   "confirmDeleteTitle": "Löschen bestätigen",
   "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
