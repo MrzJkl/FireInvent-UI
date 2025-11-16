@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -17,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function ProductsPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [formOpen, setFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<ProductModel | null>(null);
@@ -66,7 +68,11 @@ export default function ProductsPage() {
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id}>
+            <TableRow
+              key={product.id}
+              className="cursor-pointer hover:bg-muted/50"
+              onClick={() => navigate(`/app/products/${product.id}`)}
+            >
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.manufacturer}</TableCell>
               <TableCell>{product.type.name}</TableCell>
@@ -75,7 +81,8 @@ export default function ProductsPage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setEditingItem(product);
                     setFormOpen(true);
                   }}
@@ -85,7 +92,8 @@ export default function ProductsPage() {
                 <Button
                   size="sm"
                   variant="destructive"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setItemToDelete(product);
                     setConfirmOpen(true);
                   }}

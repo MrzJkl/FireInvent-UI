@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import DashboardPage from '@/pages/DashboardPage';
 import ProductTypesPage from '@/pages/ProductTypesPage';
 import ProductsPage from '@/pages/ProductsPage';
+import ProductDetailPage from '@/pages/ProductDetailPage';
 import MaintenanceTypesPage from '@/pages/MaintenanceTypesPage';
 import DepartmentsPage from '@/pages/DepartmentsPage';
 import PersonsPage from '@/pages/PersonsPage';
@@ -16,6 +17,7 @@ export function PrivateRoutes() {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="productTypes" element={<ProductTypesPage />} />
         <Route path="products" element={<ProductsPage />} />
+        <Route path="products/:id" element={<ProductDetailPage />} />
         <Route path="persons" element={<PersonsPage />} />
         <Route path="departments" element={<DepartmentsPage />} />
         <Route path="storageLocations" element={<StorageLocationsPage />} />
