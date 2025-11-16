@@ -43,6 +43,10 @@
     "descriptionAdd": "Fill in the storage location details below."
   },
   "remarks": "Remarks",
+  "toggleTheme": "Toggle theme",
+  "lightMode": "Light",
+  "darkMode": "Dark",
+  "systemMode": "System",
   "firstName": "First Name",
   "lastName": "Last Name",
   "contactInfo": "Contact Info",

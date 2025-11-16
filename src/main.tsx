@@ -7,6 +7,7 @@ import './i18n';
 import keycloak from './auth/keycloak.ts';
 import { AuthGate } from './auth/AuthGate.tsx';
 import { Toaster } from 'sonner';
+import { ThemeProvider } from '@/components/theme-provider.tsx';
 
 const keycloakEventLogger = (event: unknown, error: unknown) => {
   console.log('Keycloak event:', event, error);
@@ -26,10 +27,12 @@ createRoot(document.getElementById('root')!).render(
       }}
       autoRefreshToken={true}
     >
-      <AuthGate>
-        <App />
-      </AuthGate>
-      <Toaster position="top-right" richColors closeButton />
+      <ThemeProvider defaultTheme="system" storageKey="fireinvent-ui-theme">
+        <AuthGate>
+          <App />
+        </AuthGate>
+        <Toaster position="top-right" richColors closeButton />
+      </ThemeProvider>
     </ReactKeycloakProvider>
     ,
   </StrictMode>,

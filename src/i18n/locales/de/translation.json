@@ -45,6 +45,10 @@
     "descriptionAdd": "Geben Sie die Details des neuen Lagerorts unten ein."
   },
   "remarks": "Bemerkungen",
+  "toggleTheme": "Theme umschalten",
+  "lightMode": "Hell",
+  "darkMode": "Dunkel",
+  "systemMode": "System",
   "firstName": "Vorname",
   "lastName": "Nachname",
   "contactInfo": "Kontaktinfo",
