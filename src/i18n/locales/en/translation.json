@@ -12,22 +12,26 @@
   "delete": "Delete",
   "save": "Save",
   "productType": "Product-Type",
+  "productTypePlural": "Product-Types",
   "productTypes": {
     "edit": "Edit Product-Type",
     "add": "Add new Product-Type"
   },
-  "maintenanceType": "Maintenance-Type",
+  "maintenanceType": "Maintenance Type",
+  "maintenanceTypePlural": "Maintenance Types",
   "maintenanceTypes": {
     "edit": "Edit Maintenance-Type",
     "add": "Add new Maintenance-Type"
   },
   "storageLocation": "Storage Location",
+  "storageLocationPlural": "Storage Locations",
   "storageLocations": {
     "edit": "Edit Storage Location",
     "add": "Add new Storage Location"
   },
   "remarks": "Remarks",
   "department": "Department",
+  "departmentPlural": "Departments",
   "departments": {
     "edit": "Edit Department",
     "add": "Add new Department"
