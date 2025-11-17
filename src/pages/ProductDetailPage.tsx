@@ -409,6 +409,7 @@ export default function ProductDetailPage() {
           if (!o) setEditingItemId(null);
         }}
         mode={editingItemId ? 'edit' : 'create'}
+        variantId={createForVariantId ?? undefined}
         initialValues={
           editingItemId
             ? (() => {
@@ -436,7 +437,7 @@ export default function ProductDetailPage() {
                   variantId: createForVariantId,
                   identifier: '',
                   storageLocationId: undefined,
-                  condition: 0,
+                  condition: 'New' as const,
                   purchaseDate: new Date().toISOString().substring(0, 10),
                   retirementDate: undefined,
                 }
@@ -450,7 +451,7 @@ export default function ProductDetailPage() {
             variantId: values.variantId,
             identifier: values.identifier || undefined,
             storageLocationId: values.storageLocationId || undefined,
-            condition: Number(values.condition) as any,
+            condition: values.condition,
             purchaseDate: new Date(values.purchaseDate),
             retirementDate: values.retirementDate
               ? new Date(values.retirementDate)

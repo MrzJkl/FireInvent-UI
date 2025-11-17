@@ -22,11 +22,19 @@ import {
 } from '@/components/ui/select';
 import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
 
+const conditionOptions = [
+  'New',
+  'Used',
+  'Damaged',
+  'Destroyed',
+  'Lost',
+] as const;
+
 const schema = z.object({
   variantId: z.string().min(1, 'Variant is required'),
   identifier: z.string().optional(),
   storageLocationId: z.string().optional(),
-  condition: z.number(),
+  condition: z.enum(conditionOptions),
   purchaseDate: z.string(),
   retirementDate: z.string().optional(),
 });
@@ -40,6 +48,7 @@ export type ItemFormDialogProps = {
   loading?: boolean;
   variants?: Array<{ id: string; name: string }>;
   variantsLoading?: boolean;
+  variantId?: string;
   onSubmit: (values: ItemFormValues) => void | Promise<void>;
   onOpenChange: (open: boolean) => void;
   labels?: {
@@ -67,37 +76,43 @@ export function ItemFormDialog({
   labels,
   variants,
   variantsLoading,
+  variantId,
 }: ItemFormDialogProps) {
   const { t } = useTranslation();
   const { items: locations, initialLoading: locationsLoading } =
     useStorageLocations();
 
-  const { register, handleSubmit, reset, setValue } = useForm<ItemFormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: initialValues ?? {
-      variantId: '',
-      identifier: '',
-      storageLocationId: undefined,
-      condition: 0,
-      purchaseDate: new Date().toISOString().substring(0, 10),
-      retirementDate: undefined,
-    },
-  });
+  const { register, handleSubmit, reset, setValue, watch } =
+    useForm<ItemFormValues>({
+      resolver: zodResolver(schema),
+      defaultValues: initialValues ?? {
+        variantId: variantId ?? '',
+        identifier: '',
+        storageLocationId: undefined,
+        condition: 'New',
+        purchaseDate: new Date().toISOString().substring(0, 10),
+        retirementDate: undefined,
+      },
+    });
+
+  const currentCondition = watch('condition');
+  const currentStorageLocationId = watch('storageLocationId');
+  const currentVariantId = watch('variantId');
 
   useEffect(() => {
     if (open) {
       reset(
         initialValues ?? {
-          variantId: '',
+          variantId: variantId ?? '',
           identifier: '',
           storageLocationId: undefined,
-          condition: 0,
+          condition: 'New',
           purchaseDate: new Date().toISOString().substring(0, 10),
           retirementDate: undefined,
         },
       );
     }
-  }, [open, initialValues, reset]);
+  }, [open, initialValues, reset, variantId]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -121,32 +136,40 @@ export function ItemFormDialog({
           })}
           className="space-y-4"
         >
-          <div>
-            <Label>{labels?.variant ?? t('variant')}</Label>
-            <Select onValueChange={(v) => setValue('variantId', v)}>
-              <SelectTrigger>
-                <SelectValue placeholder={t('select') as string} />
-              </SelectTrigger>
-              <SelectContent>
-                {variantsLoading
-                  ? null
-                  : variants?.map((v) => (
-                      <SelectItem key={v.id} value={v.id}>
-                        {v.name}
-                      </SelectItem>
-                    ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {!variantId && (
+            <div>
+              <Label>{labels?.variant ?? t('variant')}</Label>
+              <Select
+                value={currentVariantId}
+                onValueChange={(v) => setValue('variantId', v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={t('select') as string} />
+                </SelectTrigger>
+                <SelectContent>
+                  {variantsLoading
+                    ? null
+                    : variants?.map((v) => (
+                        <SelectItem key={v.id} value={v.id}>
+                          {v.name}
+                        </SelectItem>
+                      ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           <div>
-            <Label>{labels?.identifier ?? 'Identifier'}</Label>
+            <Label>{labels?.identifier ?? t('identifier')}</Label>
             <Input {...register('identifier')} />
           </div>
 
           <div>
-            <Label>{labels?.storageLocation ?? 'Storage Location'}</Label>
-            <Select onValueChange={(v) => setValue('storageLocationId', v)}>
+            <Label>{labels?.storageLocation ?? t('storageLocation')}</Label>
+            <Select
+              value={currentStorageLocationId}
+              onValueChange={(v) => setValue('storageLocationId', v)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder={t('select') as string} />
               </SelectTrigger>
@@ -163,20 +186,33 @@ export function ItemFormDialog({
           </div>
 
           <div>
-            <Label>{labels?.condition ?? 'Condition'}</Label>
-            <Input
-              type="number"
-              {...register('condition', { valueAsNumber: true })}
-            />
+            <Label>{labels?.condition ?? t('condition')}</Label>
+            <Select
+              value={currentCondition}
+              onValueChange={(v) =>
+                setValue('condition', v as ItemFormValues['condition'])
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t('select') as string} />
+              </SelectTrigger>
+              <SelectContent>
+                {conditionOptions.map((cond) => (
+                  <SelectItem key={cond} value={cond}>
+                    {t(`itemCondition.${cond}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
-            <Label>{labels?.purchaseDate ?? 'Purchase Date'}</Label>
+            <Label>{labels?.purchaseDate ?? t('purchaseDate')}</Label>
             <Input type="date" {...register('purchaseDate')} />
           </div>
 
           <div>
-            <Label>{labels?.retirementDate ?? 'Retirement Date'}</Label>
+            <Label>{labels?.retirementDate ?? t('retirementDate')}</Label>
             <Input type="date" {...register('retirementDate')} />
           </div>
 

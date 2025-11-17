@@ -89,6 +89,17 @@
     "descriptionEdit": "Aktualisieren Sie die Details des Exemplars unten.",
     "descriptionAdd": "Geben Sie die Details des neuen Exemplars unten ein."
   },
+  "identifier": "Kennung",
+  "condition": "Zustand",
+  "purchaseDate": "Kaufdatum",
+  "retirementDate": "Ausmusterungsdatum",
+  "itemCondition": {
+    "New": "Neu",
+    "Used": "Gebraucht",
+    "Damaged": "Beschädigt",
+    "Destroyed": "Zerstört",
+    "Lost": "Verloren"
+  },
   "show": "Anzeigen",
   "hide": "Ausblenden",
   "select": "Auswählen"

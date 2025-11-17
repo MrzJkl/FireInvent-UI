@@ -87,6 +87,17 @@
     "descriptionEdit": "Update the item details below.",
     "descriptionAdd": "Fill in the item details below."
   },
+  "identifier": "Identifier",
+  "condition": "Condition",
+  "purchaseDate": "Purchase Date",
+  "retirementDate": "Retirement Date",
+  "itemCondition": {
+    "New": "New",
+    "Used": "Used",
+    "Damaged": "Damaged",
+    "Destroyed": "Destroyed",
+    "Lost": "Lost"
+  },
   "show": "Show",
   "hide": "Hide",
   "select": "Select"
