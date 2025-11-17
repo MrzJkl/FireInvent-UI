@@ -98,6 +98,14 @@
     "Destroyed": "Destroyed",
     "Lost": "Lost"
   },
+  "itemAssignments": {
+    "label": "Assignments",
+    "empty": "No assignments available",
+    "active": "Active",
+    "returned": "Returned",
+    "assignedFrom": "Assigned from",
+    "assignedUntil": "Assigned until"
+  },
   "show": "Show",
   "hide": "Hide",
   "select": "Select"

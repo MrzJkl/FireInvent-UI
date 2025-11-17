@@ -279,7 +279,10 @@ export default function ProductDetailPage() {
                                 {variantItems.map((it) => (
                                   <div
                                     key={it.id}
-                                    className="flex items-start justify-between rounded border p-2"
+                                    className="flex items-start justify-between rounded border p-2 cursor-pointer hover:bg-muted/50 transition-colors"
+                                    onClick={() =>
+                                      navigate(`/app/items/${it.id}`)
+                                    }
                                   >
                                     <div>
                                       <p className="text-sm font-medium">
@@ -293,7 +296,8 @@ export default function ProductDetailPage() {
                                       <Button
                                         size="sm"
                                         variant="outline"
-                                        onClick={() => {
+                                        onClick={(e) => {
+                                          e.stopPropagation();
                                           setEditingItemId(it.id);
                                           setCreateForVariantId(null);
                                           setItemFormOpen(true);
@@ -304,7 +308,8 @@ export default function ProductDetailPage() {
                                       <Button
                                         size="sm"
                                         variant="destructive"
-                                        onClick={() => {
+                                        onClick={(e) => {
+                                          e.stopPropagation();
                                           setDeleteItemId(it.id);
                                           setConfirmItemOpen(true);
                                         }}
