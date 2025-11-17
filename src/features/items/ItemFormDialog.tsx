@@ -46,8 +46,6 @@ export type ItemFormDialogProps = {
   mode: 'create' | 'edit';
   initialValues?: ItemFormValues;
   loading?: boolean;
-  variants?: Array<{ id: string; name: string }>;
-  variantsLoading?: boolean;
   variantId?: string;
   onSubmit: (values: ItemFormValues) => void | Promise<void>;
   onOpenChange: (open: boolean) => void;
@@ -74,8 +72,6 @@ export function ItemFormDialog({
   onSubmit,
   onOpenChange,
   labels,
-  variants,
-  variantsLoading,
   variantId,
 }: ItemFormDialogProps) {
   const { t } = useTranslation();
@@ -97,7 +93,6 @@ export function ItemFormDialog({
 
   const currentCondition = watch('condition');
   const currentStorageLocationId = watch('storageLocationId');
-  const currentVariantId = watch('variantId');
 
   useEffect(() => {
     if (open) {
@@ -136,29 +131,6 @@ export function ItemFormDialog({
           })}
           className="space-y-4"
         >
-          {!variantId && (
-            <div>
-              <Label>{labels?.variant ?? t('variant')}</Label>
-              <Select
-                value={currentVariantId}
-                onValueChange={(v) => setValue('variantId', v)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t('select') as string} />
-                </SelectTrigger>
-                <SelectContent>
-                  {variantsLoading
-                    ? null
-                    : variants?.map((v) => (
-                        <SelectItem key={v.id} value={v.id}>
-                          {v.name}
-                        </SelectItem>
-                      ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-
           <div>
             <Label>{labels?.identifier ?? t('identifier')}</Label>
             <Input {...register('identifier')} />

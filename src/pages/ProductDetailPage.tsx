@@ -125,7 +125,7 @@ export default function ProductDetailPage() {
       <Tabs defaultValue="product" className="w-full">
         <TabsList>
           <TabsTrigger value="product">{t('product')}</TabsTrigger>
-          <TabsTrigger value="variants">Variants</TabsTrigger>
+          <TabsTrigger value="variants">{t('variantPlural')}</TabsTrigger>
         </TabsList>
 
         {/* Product Tab */}
@@ -444,8 +444,6 @@ export default function ProductDetailPage() {
               : undefined
         }
         loading={editingItemId ? updatingItem : creatingItem}
-        variants={variants}
-        variantsLoading={variantsLoading}
         onSubmit={async (values) => {
           const payload = {
             variantId: values.variantId,
