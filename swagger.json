@@ -8,9 +8,7 @@
   "paths": {
     "/departments": {
       "get": {
-        "tags": [
-          "Departments"
-        ],
+        "tags": ["Departments"],
         "summary": "List all departments",
         "description": "Returns a list of all departments.",
         "responses": {
@@ -52,9 +50,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Departments"
-        ],
+        "tags": ["Departments"],
         "summary": "Create a new department",
         "description": "Creates a new department.",
         "requestBody": {
@@ -108,9 +104,7 @@
     },
     "/departments/{id}": {
       "get": {
-        "tags": [
-          "Departments"
-        ],
+        "tags": ["Departments"],
         "summary": "Get department by ID",
         "description": "Returns a department by its unique ID.",
         "parameters": [
@@ -145,21 +139,19 @@
               }
             }
           },
+          "404": {
+            "description": "Department not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Department not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Departments"
-        ],
+        "tags": ["Departments"],
         "summary": "Update a department",
         "description": "Updates an existing department.",
         "parameters": [
@@ -199,21 +191,19 @@
           "400": {
             "description": "ID mismatch"
           },
+          "404": {
+            "description": "Department not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Department not found"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Departments"
-        ],
+        "tags": ["Departments"],
         "summary": "Delete a department",
         "description": "Deletes a department by its unique ID.",
         "parameters": [
@@ -231,23 +221,21 @@
           "204": {
             "description": "Department deleted"
           },
+          "404": {
+            "description": "Department not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Department not found"
           }
         }
       }
     },
     "/departments/{id}/persons": {
       "get": {
-        "tags": [
-          "Departments"
-        ],
+        "tags": ["Departments"],
         "summary": "List all persons in a department",
         "description": "Returns all persons that are members of the given department.",
         "parameters": [
@@ -291,23 +279,21 @@
               }
             }
           },
+          "404": {
+            "description": "Department not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Department not found"
           }
         }
       }
     },
     "/assignments": {
       "get": {
-        "tags": [
-          "ItemAssignmentHistories"
-        ],
+        "tags": ["ItemAssignmentHistories"],
         "summary": "List all item assignments",
         "description": "Returns a list of all item assignment histories.",
         "responses": {
@@ -349,9 +335,7 @@
         }
       },
       "post": {
-        "tags": [
-          "ItemAssignmentHistories"
-        ],
+        "tags": ["ItemAssignmentHistories"],
         "summary": "Create a new assignment",
         "description": "Creates a new item assignment history.",
         "requestBody": {
@@ -397,23 +381,21 @@
           "400": {
             "description": "Invalid input or referenced item/person does not exist"
           },
+          "409": {
+            "description": "An overlapping assignment already exists for this item"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "409": {
-            "description": "An overlapping assignment already exists for this item"
           }
         }
       }
     },
     "/assignments/{id}": {
       "get": {
-        "tags": [
-          "ItemAssignmentHistories"
-        ],
+        "tags": ["ItemAssignmentHistories"],
         "summary": "Get assignment by ID",
         "description": "Returns a item assignment history by its unique ID.",
         "parameters": [
@@ -448,21 +430,19 @@
               }
             }
           },
+          "404": {
+            "description": "Assignment not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Assignment not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "ItemAssignmentHistories"
-        ],
+        "tags": ["ItemAssignmentHistories"],
         "summary": "Update an assignment",
         "description": "Updates an existing item assignment history.",
         "parameters": [
@@ -502,24 +482,22 @@
           "400": {
             "description": "ID mismatch or referenced item/person does not exist"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "Assignment not found"
           },
           "409": {
             "description": "An overlapping assignment already exists for this item"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
       "delete": {
-        "tags": [
-          "ItemAssignmentHistories"
-        ],
+        "tags": ["ItemAssignmentHistories"],
         "summary": "Delete an assignment",
         "description": "Deletes a item assignment history by its unique ID.",
         "parameters": [
@@ -537,23 +515,21 @@
           "204": {
             "description": "Assignment deleted"
           },
+          "404": {
+            "description": "Assignment not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Assignment not found"
           }
         }
       }
     },
     "/items": {
       "get": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "List all items",
         "description": "Returns a list of all items.",
         "responses": {
@@ -595,9 +571,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "Create a new item",
         "description": "Creates a new item.",
         "requestBody": {
@@ -643,23 +617,21 @@
           "400": {
             "description": "Invalid input or referenced variant/location not found"
           },
+          "409": {
+            "description": "A item with the same identifier already exists"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "409": {
-            "description": "A item with the same identifier already exists"
           }
         }
       }
     },
     "/items/{id}": {
       "get": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "Get item by ID",
         "description": "Returns a item by its unique ID.",
         "parameters": [
@@ -694,21 +666,19 @@
               }
             }
           },
+          "404": {
+            "description": "Item not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Item not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "Update a item",
         "description": "Updates an existing item.",
         "parameters": [
@@ -748,24 +718,22 @@
           "400": {
             "description": "ID mismatch or referenced variant/location not found"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "Item not found"
           },
           "409": {
             "description": "A item with the same identifier already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "Delete a item",
         "description": "Deletes a item by its unique ID.",
         "parameters": [
@@ -783,23 +751,21 @@
           "204": {
             "description": "Item deleted"
           },
+          "404": {
+            "description": "Item not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Item not found"
           }
         }
       }
     },
     "/items/{id}/assignments": {
       "get": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "List all assignments for a item",
         "description": "Returns all assignment histories for a specific item.",
         "parameters": [
@@ -843,23 +809,21 @@
               }
             }
           },
+          "404": {
+            "description": "Item not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Item not found"
           }
         }
       }
     },
     "/items/{id}/maintenance": {
       "get": {
-        "tags": [
-          "Items"
-        ],
+        "tags": ["Items"],
         "summary": "List all maintenances for a item",
         "description": "Returns all maintenance records for a specific item.",
         "parameters": [
@@ -903,23 +867,21 @@
               }
             }
           },
+          "404": {
+            "description": "Item not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Item not found"
           }
         }
       }
     },
     "/maintenances": {
       "get": {
-        "tags": [
-          "Maintenances"
-        ],
+        "tags": ["Maintenances"],
         "summary": "List all maintenances",
         "description": "Returns a list of all maintenance records.",
         "responses": {
@@ -961,9 +923,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Maintenances"
-        ],
+        "tags": ["Maintenances"],
         "summary": "Create a new maintenance",
         "description": "Creates a new maintenance record.",
         "requestBody": {
@@ -1020,9 +980,7 @@
     },
     "/maintenances/{id}": {
       "get": {
-        "tags": [
-          "Maintenances"
-        ],
+        "tags": ["Maintenances"],
         "summary": "Get maintenance by ID",
         "description": "Returns a maintenance record by its unique ID.",
         "parameters": [
@@ -1057,21 +1015,19 @@
               }
             }
           },
+          "404": {
+            "description": "Maintenance not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Maintenance not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Maintenances"
-        ],
+        "tags": ["Maintenances"],
         "summary": "Update a maintenance",
         "description": "Updates an existing maintenance record.",
         "parameters": [
@@ -1111,21 +1067,19 @@
           "400": {
             "description": "ID mismatch or referenced item does not exist"
           },
+          "404": {
+            "description": "Maintenance not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Maintenance not found"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Maintenances"
-        ],
+        "tags": ["Maintenances"],
         "summary": "Delete a maintenance",
         "description": "Deletes a maintenance record by its unique ID.",
         "parameters": [
@@ -1143,23 +1097,21 @@
           "204": {
             "description": "Maintenance deleted"
           },
+          "404": {
+            "description": "Maintenance not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Maintenance not found"
           }
         }
       }
     },
     "/maintenanceTypes": {
       "get": {
-        "tags": [
-          "MaintenanceTypes"
-        ],
+        "tags": ["MaintenanceTypes"],
         "summary": "List all maintenanceTypes",
         "description": "Returns a list of all maintenanceTypes.",
         "responses": {
@@ -1201,9 +1153,7 @@
         }
       },
       "post": {
-        "tags": [
-          "MaintenanceTypes"
-        ],
+        "tags": ["MaintenanceTypes"],
         "summary": "Create a new maintenanceType",
         "description": "Creates a new maintenanceType.",
         "requestBody": {
@@ -1257,9 +1207,7 @@
     },
     "/maintenanceTypes/{id}": {
       "get": {
-        "tags": [
-          "MaintenanceTypes"
-        ],
+        "tags": ["MaintenanceTypes"],
         "summary": "Get maintenanceType by ID",
         "description": "Returns a maintenanceType by its unique ID.",
         "parameters": [
@@ -1294,21 +1242,19 @@
               }
             }
           },
+          "404": {
+            "description": "MaintenanceType not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "MaintenanceType not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "MaintenanceTypes"
-        ],
+        "tags": ["MaintenanceTypes"],
         "summary": "Update a maintenanceType",
         "description": "Updates an existing maintenanceType.",
         "parameters": [
@@ -1348,21 +1294,19 @@
           "400": {
             "description": "ID mismatch"
           },
+          "404": {
+            "description": "MaintenanceType not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "MaintenanceType not found"
           }
         }
       },
       "delete": {
-        "tags": [
-          "MaintenanceTypes"
-        ],
+        "tags": ["MaintenanceTypes"],
         "summary": "Delete a maintenanceType",
         "description": "Deletes a maintenanceType by its unique ID.",
         "parameters": [
@@ -1380,23 +1324,21 @@
           "204": {
             "description": "MaintenanceType deleted"
           },
+          "404": {
+            "description": "MaintenanceType not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "MaintenanceType not found"
           }
         }
       }
     },
     "/orders": {
       "get": {
-        "tags": [
-          "Order"
-        ],
+        "tags": ["Order"],
         "summary": "List all orders",
         "description": "Returns a list of all orders.",
         "responses": {
@@ -1438,9 +1380,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Order"
-        ],
+        "tags": ["Order"],
         "summary": "Create a new order",
         "description": "Creates a new order.",
         "requestBody": {
@@ -1494,9 +1434,7 @@
     },
     "/orders/{id}": {
       "get": {
-        "tags": [
-          "Order"
-        ],
+        "tags": ["Order"],
         "summary": "Get order by ID",
         "description": "Returns an order by its unique ID.",
         "parameters": [
@@ -1531,21 +1469,19 @@
               }
             }
           },
+          "404": {
+            "description": "Order not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Order not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Order"
-        ],
+        "tags": ["Order"],
         "summary": "Update an order",
         "description": "Updates an existing order.",
         "parameters": [
@@ -1585,21 +1521,19 @@
           "400": {
             "description": "ID mismatch"
           },
+          "404": {
+            "description": "Order not found or cannot be updated"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Order not found or cannot be updated"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Order"
-        ],
+        "tags": ["Order"],
         "summary": "Delete an order",
         "description": "Deletes an order by its unique ID.",
         "parameters": [
@@ -1617,23 +1551,21 @@
           "204": {
             "description": "Order deleted"
           },
+          "404": {
+            "description": "Order not found."
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Order not found."
           }
         }
       }
     },
     "/persons": {
       "get": {
-        "tags": [
-          "Persons"
-        ],
+        "tags": ["Persons"],
         "summary": "List all persons",
         "description": "Returns a list of all persons.",
         "responses": {
@@ -1675,9 +1607,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Persons"
-        ],
+        "tags": ["Persons"],
         "summary": "Create a new person",
         "description": "Creates a new person entry.",
         "requestBody": {
@@ -1720,23 +1650,21 @@
               }
             }
           },
+          "409": {
+            "description": "Person with same name or external ID already exists"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "409": {
-            "description": "Person with same name or external ID already exists"
           }
         }
       }
     },
     "/persons/{id}": {
       "get": {
-        "tags": [
-          "Persons"
-        ],
+        "tags": ["Persons"],
         "summary": "Get person by ID",
         "description": "Returns a single person by their unique ID.",
         "parameters": [
@@ -1771,21 +1699,19 @@
               }
             }
           },
+          "404": {
+            "description": "Person not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Person not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Persons"
-        ],
+        "tags": ["Persons"],
         "summary": "Update a person",
         "description": "Updates an existing person.",
         "parameters": [
@@ -1822,6 +1748,9 @@
           "204": {
             "description": "Person updated"
           },
+          "404": {
+            "description": "Person not found"
+          },
           "400": {
             "description": "ID mismatch"
           },
@@ -1830,16 +1759,11 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Person not found"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Persons"
-        ],
+        "tags": ["Persons"],
         "summary": "Delete a person",
         "description": "Deletes a person by ID.",
         "parameters": [
@@ -1857,23 +1781,21 @@
           "204": {
             "description": "Person deleted"
           },
+          "404": {
+            "description": "Person not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Person not found"
           }
         }
       }
     },
     "/persons/{id}/items": {
       "get": {
-        "tags": [
-          "Persons"
-        ],
+        "tags": ["Persons"],
         "summary": "List all items assigned to a person",
         "description": "Returns all items assigned to a specific person.",
         "parameters": [
@@ -1917,23 +1839,21 @@
               }
             }
           },
+          "404": {
+            "description": "Person not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Person not found"
           }
         }
       }
     },
     "/products": {
       "get": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "summary": "List all products",
         "description": "Returns a list of all products.",
         "responses": {
@@ -1975,9 +1895,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "summary": "Create a new product",
         "description": "Creates a new product.",
         "requestBody": {
@@ -2020,23 +1938,21 @@
               }
             }
           },
+          "409": {
+            "description": "A product with the same name and manufacturer already exists"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "409": {
-            "description": "A product with the same name and manufacturer already exists"
           }
         }
       }
     },
     "/products/{id}": {
       "get": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "summary": "Get product by ID",
         "description": "Returns a product by its unique ID.",
         "parameters": [
@@ -2071,21 +1987,19 @@
               }
             }
           },
+          "404": {
+            "description": "Product not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Product not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "summary": "Update a product",
         "description": "Updates an existing product.",
         "parameters": [
@@ -2125,24 +2039,22 @@
           "400": {
             "description": "ID mismatch"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "Product not found"
           },
           "409": {
             "description": "A product with the same name and manufacturer already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "summary": "Delete a product",
         "description": "Deletes a product by its unique ID.",
         "parameters": [
@@ -2160,23 +2072,21 @@
           "204": {
             "description": "Product deleted"
           },
+          "404": {
+            "description": "Product not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Product not found"
           }
         }
       }
     },
     "/products/{id}/variants": {
       "get": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "summary": "List all variants for a product",
         "description": "Returns all variants for a specific product.",
         "parameters": [
@@ -2220,23 +2130,21 @@
               }
             }
           },
+          "404": {
+            "description": "Product not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Product not found"
           }
         }
       }
     },
     "/productTypes": {
       "get": {
-        "tags": [
-          "ProductTypes"
-        ],
+        "tags": ["ProductTypes"],
         "summary": "List all productTypes",
         "description": "Returns a list of all productTypes.",
         "responses": {
@@ -2278,9 +2186,7 @@
         }
       },
       "post": {
-        "tags": [
-          "ProductTypes"
-        ],
+        "tags": ["ProductTypes"],
         "summary": "Create a new productType",
         "description": "Creates a new productType.",
         "requestBody": {
@@ -2334,9 +2240,7 @@
     },
     "/productTypes/{id}": {
       "get": {
-        "tags": [
-          "ProductTypes"
-        ],
+        "tags": ["ProductTypes"],
         "summary": "Get productType by ID",
         "description": "Returns a productType by its unique ID.",
         "parameters": [
@@ -2371,21 +2275,19 @@
               }
             }
           },
+          "404": {
+            "description": "ProductType not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "ProductType not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "ProductTypes"
-        ],
+        "tags": ["ProductTypes"],
         "summary": "Update a productType",
         "description": "Updates an existing productType.",
         "parameters": [
@@ -2425,21 +2327,19 @@
           "400": {
             "description": "ID mismatch"
           },
+          "404": {
+            "description": "ProductType not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "ProductType not found"
           }
         }
       },
       "delete": {
-        "tags": [
-          "ProductTypes"
-        ],
+        "tags": ["ProductTypes"],
         "summary": "Delete a productType",
         "description": "Deletes a productType by its unique ID.",
         "parameters": [
@@ -2457,23 +2357,21 @@
           "204": {
             "description": "ProductType deleted"
           },
+          "404": {
+            "description": "ProductType not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "ProductType not found"
           }
         }
       }
     },
     "/storageLocations": {
       "get": {
-        "tags": [
-          "StorageLocations"
-        ],
+        "tags": ["StorageLocations"],
         "summary": "List all storage locations",
         "description": "Returns a list of all storage locations.",
         "responses": {
@@ -2515,9 +2413,7 @@
         }
       },
       "post": {
-        "tags": [
-          "StorageLocations"
-        ],
+        "tags": ["StorageLocations"],
         "summary": "Create a new storage location",
         "description": "Creates a new storage location.",
         "requestBody": {
@@ -2560,23 +2456,21 @@
               }
             }
           },
+          "409": {
+            "description": "A storage location with the same name already exists"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "409": {
-            "description": "A storage location with the same name already exists"
           }
         }
       }
     },
     "/storageLocations/{id}": {
       "get": {
-        "tags": [
-          "StorageLocations"
-        ],
+        "tags": ["StorageLocations"],
         "summary": "Get storage location by ID",
         "description": "Returns a storage location by its unique ID.",
         "parameters": [
@@ -2611,21 +2505,19 @@
               }
             }
           },
+          "404": {
+            "description": "Storage location not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Storage location not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "StorageLocations"
-        ],
+        "tags": ["StorageLocations"],
         "summary": "Update a storage location",
         "description": "Updates an existing storage location.",
         "parameters": [
@@ -2665,24 +2557,22 @@
           "400": {
             "description": "ID mismatch"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "Storage location not found"
           },
           "409": {
             "description": "A storage location with the same name already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
       "delete": {
-        "tags": [
-          "StorageLocations"
-        ],
+        "tags": ["StorageLocations"],
         "summary": "Delete a storage location",
         "description": "Deletes a storage location by its unique ID.",
         "parameters": [
@@ -2700,23 +2590,21 @@
           "204": {
             "description": "Storage location deleted"
           },
+          "404": {
+            "description": "Storage location not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Storage location not found"
           }
         }
       }
     },
     "/storageLocations/{id}/items": {
       "get": {
-        "tags": [
-          "StorageLocations"
-        ],
+        "tags": ["StorageLocations"],
         "summary": "List all items for a storage location",
         "description": "Returns all items assigned to a storage location.",
         "parameters": [
@@ -2760,23 +2648,21 @@
               }
             }
           },
+          "404": {
+            "description": "Storage location not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Storage location not found"
           }
         }
       }
     },
     "/users": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "responses": {
           "200": {
             "description": "OK",
@@ -2818,9 +2704,7 @@
     },
     "/users/{id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Get user by ID",
         "description": "Returns a user by its unique ID.",
         "parameters": [
@@ -2855,23 +2739,21 @@
               }
             }
           },
+          "404": {
+            "description": "User not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "User not found"
           }
         }
       }
     },
     "/variants": {
       "get": {
-        "tags": [
-          "Variants"
-        ],
+        "tags": ["Variants"],
         "summary": "List all variants",
         "description": "Returns a list of all variants.",
         "responses": {
@@ -2913,9 +2795,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Variants"
-        ],
+        "tags": ["Variants"],
         "summary": "Create a new variant",
         "description": "Creates a new variant.",
         "requestBody": {
@@ -2958,6 +2838,9 @@
               }
             }
           },
+          "409": {
+            "description": "A variant with the same name already exists for this product"
+          },
           "400": {
             "description": "Referenced product does not exist"
           },
@@ -2966,18 +2849,13 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "409": {
-            "description": "A variant with the same name already exists for this product"
           }
         }
       }
     },
     "/variants/{id}": {
       "get": {
-        "tags": [
-          "Variants"
-        ],
+        "tags": ["Variants"],
         "summary": "Get variant by ID",
         "description": "Returns a variant by its unique ID.",
         "parameters": [
@@ -3012,21 +2890,19 @@
               }
             }
           },
+          "404": {
+            "description": "variant not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "variant not found"
           }
         }
       },
       "put": {
-        "tags": [
-          "Variants"
-        ],
+        "tags": ["Variants"],
         "summary": "Update a variant",
         "description": "Updates an existing variant.",
         "parameters": [
@@ -3066,24 +2942,22 @@
           "400": {
             "description": "ID mismatch"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "variant not found"
           },
           "409": {
             "description": "Another variant with the same name already exists for this product"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Variants"
-        ],
+        "tags": ["Variants"],
         "summary": "Delete a variant",
         "description": "Deletes a variant by its unique ID.",
         "parameters": [
@@ -3101,23 +2975,21 @@
           "204": {
             "description": "variant deleted"
           },
+          "404": {
+            "description": "variant not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "variant not found"
           }
         }
       }
     },
     "/variants/{id}/items": {
       "get": {
-        "tags": [
-          "Variants"
-        ],
+        "tags": ["Variants"],
         "summary": "List all items for a variant",
         "description": "Returns all items for a specific variant.",
         "parameters": [
@@ -3161,14 +3033,14 @@
               }
             }
           },
+          "404": {
+            "description": "Variant not found"
+          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Variant not found"
           }
         }
       }
@@ -3177,9 +3049,7 @@
   "components": {
     "schemas": {
       "CreateDepartmentModel": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3196,11 +3066,7 @@
         "additionalProperties": false
       },
       "CreateItemAssignmentHistoryModel": {
-        "required": [
-          "assignedFrom",
-          "itemId",
-          "personId"
-        ],
+        "required": ["assignedFrom", "itemId", "personId"],
         "type": "object",
         "properties": {
           "itemId": {
@@ -3229,11 +3095,7 @@
         "additionalProperties": false
       },
       "CreateItemModel": {
-        "required": [
-          "condition",
-          "purchaseDate",
-          "variantId"
-        ],
+        "required": ["condition", "purchaseDate", "variantId"],
         "type": "object",
         "properties": {
           "variantId": {
@@ -3251,7 +3113,8 @@
             "nullable": true
           },
           "condition": {
-            "$ref": "#/components/schemas/ItemCondition"
+            "enum": ["New", "Used", "Damaged", "Destroyed", "Lost"],
+            "type": "string"
           },
           "purchaseDate": {
             "type": "string",
@@ -3266,11 +3129,7 @@
         "additionalProperties": false
       },
       "CreateMaintenanceModel": {
-        "required": [
-          "itemId",
-          "performedAt",
-          "typeId"
-        ],
+        "required": ["itemId", "performedAt", "typeId"],
         "type": "object",
         "properties": {
           "itemId": {
@@ -3299,9 +3158,7 @@
         "additionalProperties": false
       },
       "CreateMaintenanceTypeModel": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3318,11 +3175,7 @@
         "additionalProperties": false
       },
       "CreateOrderItemModel": {
-        "required": [
-          "orderId",
-          "quantity",
-          "variantId"
-        ],
+        "required": ["orderId", "quantity", "variantId"],
         "type": "object",
         "properties": {
           "orderId": {
@@ -3341,11 +3194,7 @@
         "additionalProperties": false
       },
       "CreateOrderModel": {
-        "required": [
-          "items",
-          "orderDate",
-          "status"
-        ],
+        "required": ["items", "orderDate", "status"],
         "type": "object",
         "properties": {
           "orderIdentifier": {
@@ -3358,7 +3207,8 @@
             "format": "date-time"
           },
           "status": {
-            "$ref": "#/components/schemas/OrderStatus"
+            "enum": ["Draft", "Submitted", "Delivered", "Completed"],
+            "type": "string"
           },
           "items": {
             "type": "array",
@@ -3375,10 +3225,7 @@
         "additionalProperties": false
       },
       "CreatePersonModel": {
-        "required": [
-          "firstName",
-          "lastName"
-        ],
+        "required": ["firstName", "lastName"],
         "type": "object",
         "properties": {
           "firstName": {
@@ -3418,11 +3265,7 @@
         "additionalProperties": false
       },
       "CreateProductModel": {
-        "required": [
-          "manufacturer",
-          "name",
-          "typeId"
-        ],
+        "required": ["manufacturer", "name", "typeId"],
         "type": "object",
         "properties": {
           "name": {
@@ -3448,9 +3291,7 @@
         "additionalProperties": false
       },
       "CreateProductTypeModel": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3467,9 +3308,7 @@
         "additionalProperties": false
       },
       "CreateStorageLocationModel": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3486,10 +3325,7 @@
         "additionalProperties": false
       },
       "CreateVariantModel": {
-        "required": [
-          "name",
-          "productId"
-        ],
+        "required": ["name", "productId"],
         "type": "object",
         "properties": {
           "productId": {
@@ -3510,10 +3346,7 @@
         "additionalProperties": false
       },
       "DepartmentModel": {
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3534,12 +3367,7 @@
         "additionalProperties": false
       },
       "ItemAssignmentHistoryModel": {
-        "required": [
-          "assignedFrom",
-          "id",
-          "itemId",
-          "personId"
-        ],
+        "required": ["assignedFrom", "id", "itemId", "personId"],
         "type": "object",
         "properties": {
           "itemId": {
@@ -3574,24 +3402,8 @@
         },
         "additionalProperties": false
       },
-      "ItemCondition": {
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
       "ItemModel": {
-        "required": [
-          "condition",
-          "id",
-          "purchaseDate",
-          "variantId"
-        ],
+        "required": ["condition", "id", "purchaseDate", "variantId"],
         "type": "object",
         "properties": {
           "variantId": {
@@ -3609,7 +3421,8 @@
             "nullable": true
           },
           "condition": {
-            "$ref": "#/components/schemas/ItemCondition"
+            "enum": ["New", "Used", "Damaged", "Destroyed", "Lost"],
+            "type": "string"
           },
           "purchaseDate": {
             "type": "string",
@@ -3631,12 +3444,7 @@
         "additionalProperties": false
       },
       "MaintenanceModel": {
-        "required": [
-          "id",
-          "itemId",
-          "performedAt",
-          "typeId"
-        ],
+        "required": ["id", "itemId", "performedAt", "typeId"],
         "type": "object",
         "properties": {
           "itemId": {
@@ -3675,10 +3483,7 @@
         "additionalProperties": false
       },
       "MaintenanceTypeModel": {
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3699,13 +3504,7 @@
         "additionalProperties": false
       },
       "OrderItemModel": {
-        "required": [
-          "id",
-          "orderId",
-          "quantity",
-          "variant",
-          "variantId"
-        ],
+        "required": ["id", "orderId", "quantity", "variant", "variantId"],
         "type": "object",
         "properties": {
           "orderId": {
@@ -3731,12 +3530,7 @@
         "additionalProperties": false
       },
       "OrderModel": {
-        "required": [
-          "id",
-          "items",
-          "orderDate",
-          "status"
-        ],
+        "required": ["id", "items", "orderDate", "status"],
         "type": "object",
         "properties": {
           "orderIdentifier": {
@@ -3749,7 +3543,8 @@
             "format": "date-time"
           },
           "status": {
-            "$ref": "#/components/schemas/OrderStatus"
+            "enum": ["Draft", "Submitted", "Delivered", "Completed"],
+            "type": "string"
           },
           "items": {
             "type": "array",
@@ -3769,22 +3564,8 @@
         },
         "additionalProperties": false
       },
-      "OrderStatus": {
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
       "PersonModel": {
-        "required": [
-          "firstName",
-          "id",
-          "lastName"
-        ],
+        "required": ["firstName", "id", "lastName"],
         "type": "object",
         "properties": {
           "firstName": {
@@ -3835,13 +3616,7 @@
         "additionalProperties": false
       },
       "ProductModel": {
-        "required": [
-          "id",
-          "manufacturer",
-          "name",
-          "type",
-          "typeId"
-        ],
+        "required": ["id", "manufacturer", "name", "type", "typeId"],
         "type": "object",
         "properties": {
           "name": {
@@ -3874,10 +3649,7 @@
         "additionalProperties": false
       },
       "ProductTypeModel": {
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3898,10 +3670,7 @@
         "additionalProperties": false
       },
       "StorageLocationModel": {
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "type": "object",
         "properties": {
           "name": {
@@ -3922,12 +3691,7 @@
         "additionalProperties": false
       },
       "UserModel": {
-        "required": [
-          "eMail",
-          "firstName",
-          "id",
-          "lastName"
-        ],
+        "required": ["eMail", "firstName", "id", "lastName"],
         "type": "object",
         "properties": {
           "id": {
@@ -3950,11 +3714,7 @@
         "additionalProperties": false
       },
       "VariantModel": {
-        "required": [
-          "id",
-          "name",
-          "productId"
-        ],
+        "required": ["id", "name", "productId"],
         "type": "object",
         "properties": {
           "productId": {
@@ -3992,11 +3752,7 @@
   },
   "security": [
     {
-      "oidc": [
-        "openid",
-        "profile",
-        "email"
-      ]
+      "oidc": ["openid", "profile", "email"]
     }
   ]
 }

@@ -67,7 +67,8 @@ export const CreateItemModelSchema = {
       nullable: true,
     },
     condition: {
-      $ref: "#/components/schemas/ItemCondition",
+      enum: ["New", "Used", "Damaged", "Destroyed", "Lost"],
+      type: "string",
     },
     purchaseDate: {
       type: "string",
@@ -164,7 +165,8 @@ export const CreateOrderModelSchema = {
       format: "date-time",
     },
     status: {
-      $ref: "#/components/schemas/OrderStatus",
+      enum: ["Draft", "Submitted", "Delivered", "Completed"],
+      type: "string",
     },
     items: {
       type: "array",
@@ -366,12 +368,6 @@ export const ItemAssignmentHistoryModelSchema = {
   additionalProperties: false,
 } as const;
 
-export const ItemConditionSchema = {
-  enum: [0, 1, 2, 3, 4],
-  type: "integer",
-  format: "int32",
-} as const;
-
 export const ItemModelSchema = {
   required: ["condition", "id", "purchaseDate", "variantId"],
   type: "object",
@@ -391,7 +387,8 @@ export const ItemModelSchema = {
       nullable: true,
     },
     condition: {
-      $ref: "#/components/schemas/ItemCondition",
+      enum: ["New", "Used", "Damaged", "Destroyed", "Lost"],
+      type: "string",
     },
     purchaseDate: {
       type: "string",
@@ -516,7 +513,8 @@ export const OrderModelSchema = {
       format: "date-time",
     },
     status: {
-      $ref: "#/components/schemas/OrderStatus",
+      enum: ["Draft", "Submitted", "Delivered", "Completed"],
+      type: "string",
     },
     items: {
       type: "array",
@@ -535,12 +533,6 @@ export const OrderModelSchema = {
     },
   },
   additionalProperties: false,
-} as const;
-
-export const OrderStatusSchema = {
-  enum: [0, 1, 2, 3],
-  type: "integer",
-  format: "int32",
 } as const;
 
 export const PersonModelSchema = {

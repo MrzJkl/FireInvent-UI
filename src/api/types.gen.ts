@@ -21,7 +21,7 @@ export type CreateItemModel = {
   variantId: string;
   identifier?: string | null;
   storageLocationId?: string | null;
-  condition: ItemCondition;
+  condition: "New" | "Used" | "Damaged" | "Destroyed" | "Lost";
   purchaseDate: Date;
   retirementDate?: Date | null;
 };
@@ -48,7 +48,7 @@ export type CreateOrderItemModel = {
 export type CreateOrderModel = {
   orderIdentifier?: string | null;
   orderDate: Date;
-  status: OrderStatus;
+  status: "Draft" | "Submitted" | "Delivered" | "Completed";
   items: Array<CreateOrderItemModel>;
   deliveryDate?: Date | null;
 };
@@ -101,21 +101,11 @@ export type ItemAssignmentHistoryModel = {
   assignedBy?: UserModel;
 };
 
-export const ItemCondition = {
-  0: 0,
-  1: 1,
-  2: 2,
-  3: 3,
-  4: 4,
-} as const;
-
-export type ItemCondition = (typeof ItemCondition)[keyof typeof ItemCondition];
-
 export type ItemModel = {
   variantId: string;
   identifier?: string | null;
   storageLocationId?: string | null;
-  condition: ItemCondition;
+  condition: "New" | "Used" | "Damaged" | "Destroyed" | "Lost";
   purchaseDate: Date;
   retirementDate?: Date | null;
   id: string;
@@ -150,20 +140,11 @@ export type OrderItemModel = {
 export type OrderModel = {
   orderIdentifier?: string | null;
   orderDate: Date;
-  status: OrderStatus;
+  status: "Draft" | "Submitted" | "Delivered" | "Completed";
   items: Array<OrderItemModel>;
   deliveryDate?: Date | null;
   id: string;
 };
-
-export const OrderStatus = {
-  0: 0,
-  1: 1,
-  2: 2,
-  3: 3,
-} as const;
-
-export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 export type PersonModel = {
   firstName: string;
