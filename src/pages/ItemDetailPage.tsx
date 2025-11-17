@@ -280,6 +280,7 @@ export default function ItemDetailPage() {
         }}
         mode={editingAssignmentId ? 'edit' : 'create'}
         itemId={id!}
+        editingAssignmentId={editingAssignmentId}
         existingAssignments={assignments}
         initialValues={
           editingAssignmentId

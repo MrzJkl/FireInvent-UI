@@ -37,6 +37,7 @@ export type ItemAssignmentFormDialogProps = {
   initialValues?: AssignmentFormValues;
   loading?: boolean;
   itemId: string;
+  editingAssignmentId?: string | null;
   existingAssignments: ItemAssignmentHistoryModel[];
   onSubmit: (values: AssignmentFormValues) => void | Promise<void>;
   onOpenChange: (open: boolean) => void;
@@ -47,6 +48,7 @@ export function ItemAssignmentFormDialog({
   mode,
   initialValues,
   loading,
+  editingAssignmentId,
   existingAssignments,
   onSubmit,
   onOpenChange,
@@ -92,6 +94,11 @@ export function ItemAssignmentFormDialog({
     const newUntil = until ? new Date(until) : null;
 
     return existingAssignments.some((a) => {
+      // Exclude current assignment when editing (matching server logic: a.Id != model.Id)
+      if (editingAssignmentId && a.id === editingAssignmentId) {
+        return false;
+      }
+
       const existingFrom = new Date(a.assignedFrom);
       const existingUntil = a.assignedUntil ? new Date(a.assignedUntil) : null;
 
