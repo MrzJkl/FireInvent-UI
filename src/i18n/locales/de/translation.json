@@ -102,11 +102,20 @@
   },
   "itemAssignments": {
     "label": "Zuweisungen",
+    "description": "Verlauf der Zuweisungen dieses Exemplars",
     "empty": "Keine Zuweisungen vorhanden",
     "active": "Aktiv",
     "returned": "Zurückgegeben",
     "assignedFrom": "Zugewiesen von",
-    "assignedUntil": "Zugewiesen bis"
+    "assignedUntil": "Zugewiesen bis",
+    "descriptionAdd": "Geben Sie die Details der neuen Zuweisung ein.",
+    "descriptionEdit": "Aktualisieren Sie die Details der Zuweisung.",
+    "overlapError": "Es existiert bereits eine überschneidende Zuweisung für diesen Zeitraum.",
+    "overlapWarning": "Achtung: Diese Zuweisung überschneidet sich mit einer bestehenden Zuweisung.",
+    "add": "Neue Zuweisung hinzufügen",
+    "edit": "Zuweisung bearbeiten",
+    "person": "Person",
+    "personPlaceholder": "Person auswählen"
   },
   "show": "Anzeigen",
   "hide": "Ausblenden",

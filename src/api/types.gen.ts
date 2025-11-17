@@ -98,6 +98,7 @@ export type ItemAssignmentHistoryModel = {
   assignedUntil?: Date | null;
   assignedById?: string | null;
   id: string;
+  person?: PersonModel;
   assignedBy?: UserModel;
 };
 

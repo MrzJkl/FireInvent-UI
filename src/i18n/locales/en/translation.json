@@ -100,11 +100,20 @@
   },
   "itemAssignments": {
     "label": "Assignments",
+    "description": "Assignment history for this item",
     "empty": "No assignments available",
     "active": "Active",
     "returned": "Returned",
     "assignedFrom": "Assigned from",
-    "assignedUntil": "Assigned until"
+    "assignedUntil": "Assigned until",
+    "descriptionAdd": "Enter the details for the new assignment.",
+    "descriptionEdit": "Update the assignment details.",
+    "overlapError": "There is already an overlapping assignment for this time period.",
+    "overlapWarning": "Warning: This assignment overlaps with an existing assignment.",
+    "add": "Add new Assignment",
+    "edit": "Edit Assignment",
+    "person": "Person",
+    "personPlaceholder": "Select person"
   },
   "show": "Show",
   "hide": "Hide",

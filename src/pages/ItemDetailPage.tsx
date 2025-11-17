@@ -4,9 +4,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { ItemAssignmentFormDialog } from '@/features/item-assignments/ItemAssignmentFormDialog';
 import { useTranslation } from 'react-i18next';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { getItemsById, getItemsByIdAssignments } from '@/api';
+import {
+  getItemsById,
+  getItemsByIdAssignments,
+  postAssignments,
+  putAssignmentsById,
+  deleteAssignmentsById,
+} from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
 import type { ItemModel, ItemAssignmentHistoryModel } from '@/api/types.gen';
 
@@ -19,6 +27,14 @@ export default function ItemDetailPage() {
   const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>(
     [],
   );
+  const [assignmentFormOpen, setAssignmentFormOpen] = useState(false);
+  const [editingAssignmentId, setEditingAssignmentId] = useState<string | null>(
+    null,
+  );
+  const [deleteAssignmentId, setDeleteAssignmentId] = useState<string | null>(
+    null,
+  );
+  const [confirmAssignmentOpen, setConfirmAssignmentOpen] = useState(false);
 
   const { callApi: fetchItem, loading: itemLoading } = useApiRequest(
     getItemsById,
@@ -26,6 +42,12 @@ export default function ItemDetailPage() {
   );
   const { callApi: fetchAssignments, loading: assignmentsLoading } =
     useApiRequest(getItemsByIdAssignments, { showSuccess: false });
+  const { callApi: createAssignment, loading: creatingAssignment } =
+    useApiRequest(postAssignments);
+  const { callApi: updateAssignment, loading: updatingAssignment } =
+    useApiRequest(putAssignmentsById);
+  const { callApi: deleteAssignment, loading: deletingAssignment } =
+    useApiRequest(deleteAssignmentsById);
 
   useEffect(() => {
     if (!id) return;
@@ -41,6 +63,12 @@ export default function ItemDetailPage() {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const refetchAssignments = async () => {
+    if (!id) return;
+    const assignmentsData = await fetchAssignments({ path: { id } });
+    if (assignmentsData) setAssignments(assignmentsData);
+  };
 
   if (itemLoading) return <LoadingIndicator />;
 
@@ -153,8 +181,18 @@ export default function ItemDetailPage() {
         {/* Assignments Tab */}
         <TabsContent value="assignments" className="mt-6">
           <Card>
-            <CardHeader>
-              <CardTitle>{t('itemAssignments.label')}</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>{t('itemAssignments.label')}</CardTitle>
+              </div>
+              <Button
+                onClick={() => {
+                  setEditingAssignmentId(null);
+                  setAssignmentFormOpen(true);
+                }}
+              >
+                {t('add')}
+              </Button>
             </CardHeader>
             <CardContent>
               {assignmentsLoading ? (
@@ -172,19 +210,43 @@ export default function ItemDetailPage() {
                     >
                       <div className="flex items-center justify-between">
                         <p className="font-medium">
-                          Person ID: {assignment.personId}
+                          {assignment.person
+                            ? `${assignment.person.firstName} ${assignment.person.lastName}`
+                            : `Person ID: ${assignment.personId}`}
                         </p>
-                        <span
-                          className={`text-xs px-2 py-1 rounded ${
-                            assignment.assignedUntil
-                              ? 'bg-muted text-muted-foreground'
-                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          }`}
-                        >
-                          {assignment.assignedUntil
-                            ? t('itemAssignments.returned')
-                            : t('itemAssignments.active')}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`text-xs px-2 py-1 rounded ${
+                              assignment.assignedUntil
+                                ? 'bg-muted text-muted-foreground'
+                                : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                            }`}
+                          >
+                            {assignment.assignedUntil
+                              ? t('itemAssignments.returned')
+                              : t('itemAssignments.active')}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingAssignmentId(assignment.id);
+                              setAssignmentFormOpen(true);
+                            }}
+                          >
+                            {t('edit')}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setDeleteAssignmentId(assignment.id);
+                              setConfirmAssignmentOpen(true);
+                            }}
+                          >
+                            {t('delete')}
+                          </Button>
+                        </div>
                       </div>
                       <p className="text-sm text-muted-foreground">
                         {t('itemAssignments.assignedFrom')}:{' '}
@@ -208,6 +270,101 @@ export default function ItemDetailPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Assignment Form Dialog */}
+      <ItemAssignmentFormDialog
+        open={assignmentFormOpen}
+        onOpenChange={(o) => {
+          setAssignmentFormOpen(o);
+          if (!o) setEditingAssignmentId(null);
+        }}
+        mode={editingAssignmentId ? 'edit' : 'create'}
+        itemId={id!}
+        existingAssignments={assignments}
+        initialValues={
+          editingAssignmentId
+            ? (() => {
+                const current = assignments.find(
+                  (a) => a.id === editingAssignmentId,
+                );
+                if (!current) return undefined;
+                return {
+                  personId: current.personId,
+                  assignedFrom: new Date(current.assignedFrom)
+                    .toISOString()
+                    .substring(0, 10),
+                  assignedUntil: current.assignedUntil
+                    ? new Date(current.assignedUntil)
+                        .toISOString()
+                        .substring(0, 10)
+                    : undefined,
+                };
+              })()
+            : undefined
+        }
+        loading={editingAssignmentId ? updatingAssignment : creatingAssignment}
+        onSubmit={async (values) => {
+          const payload = {
+            itemId: id!,
+            personId: values.personId,
+            assignedFrom: new Date(values.assignedFrom),
+            assignedUntil: values.assignedUntil
+              ? new Date(values.assignedUntil)
+              : undefined,
+            assignedById: null,
+          };
+
+          if (editingAssignmentId) {
+            const current = assignments.find(
+              (a) => a.id === editingAssignmentId,
+            );
+            if (current) {
+              await updateAssignment({
+                path: { id: editingAssignmentId },
+                body: { ...current, ...payload },
+              });
+            }
+          } else {
+            await createAssignment({ body: payload });
+          }
+
+          await refetchAssignments();
+          setAssignmentFormOpen(false);
+          setEditingAssignmentId(null);
+        }}
+      />
+
+      {/* Assignment Delete Confirm */}
+      <ConfirmDialog
+        open={confirmAssignmentOpen}
+        onOpenChange={(o) => {
+          setConfirmAssignmentOpen(o);
+          if (!o) setDeleteAssignmentId(null);
+        }}
+        title={t('confirmDeleteTitle')}
+        description={t('confirmDeleteDescription', {
+          name: (() => {
+            const assignment = assignments.find(
+              (a) => a.id === deleteAssignmentId,
+            );
+            if (!assignment) return '';
+            return assignment.person
+              ? `${assignment.person.firstName} ${assignment.person.lastName}`
+              : assignment.personId;
+          })(),
+        })}
+        confirmLabel={t('delete')}
+        cancelLabel={t('cancel')}
+        confirmVariant="destructive"
+        confirmDisabled={deletingAssignment}
+        onConfirm={async () => {
+          if (!deleteAssignmentId) return;
+          await deleteAssignment({ path: { id: deleteAssignmentId } });
+          await refetchAssignments();
+          setConfirmAssignmentOpen(false);
+          setDeleteAssignmentId(null);
+        }}
+      />
     </div>
   );
 }

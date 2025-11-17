@@ -361,6 +361,9 @@ export const ItemAssignmentHistoryModelSchema = {
       type: "string",
       format: "uuid",
     },
+    person: {
+      $ref: "#/components/schemas/PersonModel",
+    },
     assignedBy: {
       $ref: "#/components/schemas/UserModel",
     },
