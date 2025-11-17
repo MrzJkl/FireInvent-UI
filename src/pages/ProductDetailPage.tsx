@@ -13,7 +13,12 @@ import { ItemFormDialog } from '@/features/items/ItemFormDialog';
 import { useProducts } from '@/features/products/useProducts';
 import { type ProductModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
-import { IconArrowLeft, IconEdit } from '@tabler/icons-react';
+import {
+  IconArrowLeft,
+  IconEdit,
+  IconChevronDown,
+  IconChevronRight,
+} from '@tabler/icons-react';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -54,6 +59,12 @@ export default function ProductDetailPage() {
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const [confirmItemOpen, setConfirmItemOpen] = useState(false);
+  const [expandedVariants, setExpandedVariants] = useState<
+    Record<string, boolean>
+  >({});
+  const [createForVariantId, setCreateForVariantId] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     if (products && id) {
@@ -115,7 +126,6 @@ export default function ProductDetailPage() {
         <TabsList>
           <TabsTrigger value="product">{t('product')}</TabsTrigger>
           <TabsTrigger value="variants">Variants</TabsTrigger>
-          <TabsTrigger value="items">Items</TabsTrigger>
         </TabsList>
 
         {/* Product Tab */}
@@ -181,106 +191,136 @@ export default function ProductDetailPage() {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {variants.map((v) => (
-                    <div
-                      key={v.id}
-                      className="flex items-start justify-between rounded border p-3"
-                    >
-                      <div className="space-y-1">
-                        <p className="font-medium">{v.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {v.additionalSpecs || '–'}
-                        </p>
+                  {variants.map((v) => {
+                    const isOpen = !!expandedVariants[v.id];
+                    const variantItems = items.filter(
+                      (it) => it.variantId === v.id,
+                    );
+                    return (
+                      <div key={v.id} className="rounded border">
+                        <div className="flex items-start justify-between p-3">
+                          <div className="flex items-start gap-2">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              aria-label={isOpen ? t('hide') : t('show')}
+                              onClick={() =>
+                                setExpandedVariants((prev) => ({
+                                  ...prev,
+                                  [v.id]: !prev[v.id],
+                                }))
+                              }
+                            >
+                              {isOpen ? (
+                                <IconChevronDown className="size-4" />
+                              ) : (
+                                <IconChevronRight className="size-4" />
+                              )}
+                            </Button>
+                            <div className="space-y-1">
+                              <p className="font-medium">{v.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {(v.additionalSpecs || '–') +
+                                  ' · ' +
+                                  t('itemsCount', {
+                                    count: variantItems.length,
+                                  })}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setEditingVariantId(v.id);
+                                setVariantFormOpen(true);
+                              }}
+                            >
+                              {t('edit')}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => {
+                                setDeleteVariantId(v.id);
+                                setConfirmVariantOpen(true);
+                              }}
+                            >
+                              {t('delete')}
+                            </Button>
+                          </div>
+                        </div>
+                        {isOpen && (
+                          <div className="border-t p-3">
+                            <div className="mb-2 flex items-center justify-between">
+                              <p className="text-sm font-medium">
+                                {t('items.label')}
+                              </p>
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  setEditingItemId(null);
+                                  setCreateForVariantId(v.id);
+                                  setItemFormOpen(true);
+                                }}
+                              >
+                                {t('add')}
+                              </Button>
+                            </div>
+                            {itemsLoading ? (
+                              <LoadingIndicator />
+                            ) : variantItems.length === 0 ? (
+                              <div className="flex h-16 items-center justify-center text-muted-foreground">
+                                {t('itemsEmpty')}
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                {variantItems.map((it) => (
+                                  <div
+                                    key={it.id}
+                                    className="flex items-start justify-between rounded border p-2"
+                                  >
+                                    <div>
+                                      <p className="text-sm font-medium">
+                                        {it.identifier ?? it.id}
+                                      </p>
+                                      <p className="text-xs text-muted-foreground">
+                                        {it.condition}
+                                      </p>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => {
+                                          setEditingItemId(it.id);
+                                          setCreateForVariantId(null);
+                                          setItemFormOpen(true);
+                                        }}
+                                      >
+                                        {t('edit')}
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="destructive"
+                                        onClick={() => {
+                                          setDeleteItemId(it.id);
+                                          setConfirmItemOpen(true);
+                                        }}
+                                      >
+                                        {t('delete')}
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            setEditingVariantId(v.id);
-                            setVariantFormOpen(true);
-                          }}
-                        >
-                          {t('edit')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => {
-                            setDeleteVariantId(v.id);
-                            setConfirmVariantOpen(true);
-                          }}
-                        >
-                          {t('delete')}
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Items Tab */}
-        <TabsContent value="items" className="mt-6">
-          <Card>
-            <CardHeader className="flex items-center justify-between">
-              <CardTitle>{t('items')}</CardTitle>
-              <Button
-                size="sm"
-                onClick={() => {
-                  setEditingItemId(null);
-                  setItemFormOpen(true);
-                }}
-              >
-                {t('add')}
-              </Button>
-            </CardHeader>
-            <CardContent>
-              {itemsLoading ? (
-                <LoadingIndicator />
-              ) : items.length === 0 ? (
-                <div className="flex h-24 items-center justify-center text-muted-foreground">
-                  {t('items')} leer
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {items.map((it) => (
-                    <div
-                      key={it.id}
-                      className="flex items-start justify-between rounded border p-3"
-                    >
-                      <div>
-                        <p className="font-medium">{it.identifier ?? it.id}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {it.variant?.name ?? t('variant')} · {it.condition}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            setEditingItemId(it.id);
-                            setItemFormOpen(true);
-                          }}
-                        >
-                          {t('edit')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => {
-                            setDeleteItemId(it.id);
-                            setConfirmItemOpen(true);
-                          }}
-                        >
-                          {t('delete')}
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </CardContent>
@@ -391,7 +431,16 @@ export default function ProductDetailPage() {
                     : undefined,
                 };
               })()
-            : undefined
+            : createForVariantId
+              ? {
+                  variantId: createForVariantId,
+                  identifier: '',
+                  storageLocationId: undefined,
+                  condition: 0,
+                  purchaseDate: new Date().toISOString().substring(0, 10),
+                  retirementDate: undefined,
+                }
+              : undefined
         }
         loading={editingItemId ? updatingItem : creatingItem}
         variants={variants}
@@ -414,6 +463,7 @@ export default function ProductDetailPage() {
           }
           setItemFormOpen(false);
           setEditingItemId(null);
+          setCreateForVariantId(null);
         }}
       />
 

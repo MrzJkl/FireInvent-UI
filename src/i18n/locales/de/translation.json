@@ -79,5 +79,17 @@
     "add": "Neue Variante hinzufügen",
     "descriptionEdit": "Aktualisieren Sie die Details der Variante unten.",
     "descriptionAdd": "Geben Sie die Details der neuen Variante unten ein."
-  }
+  },
+  "item": "Exemplar",
+  "itemsCount_one": "{{count}} Exemplar",
+  "itemsCount_other": "{{count}} Exemplare",
+  "itemsEmpty": "Keine Exemplare vorhanden",
+  "items": {
+    "label": "Exemplare",
+    "descriptionEdit": "Aktualisieren Sie die Details des Exemplars unten.",
+    "descriptionAdd": "Geben Sie die Details des neuen Exemplars unten ein."
+  },
+  "show": "Anzeigen",
+  "hide": "Ausblenden",
+  "select": "Auswählen"
 }
