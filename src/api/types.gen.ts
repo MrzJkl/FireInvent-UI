@@ -4,12 +4,12 @@ export type ClientOptions = {
   baseURL: `${string}://${string}` | (string & {});
 };
 
-export type CreateDepartmentModel = {
+export type CreateOrUpdateDepartmentModel = {
   name: string;
   description?: string | null;
 };
 
-export type CreateItemAssignmentHistoryModel = {
+export type CreateOrUpdateItemAssignmentHistoryModel = {
   itemId: string;
   personId: string;
   assignedFrom: Date;
@@ -17,7 +17,7 @@ export type CreateItemAssignmentHistoryModel = {
   assignedById?: string | null;
 };
 
-export type CreateItemModel = {
+export type CreateOrUpdateItemModel = {
   variantId: string;
   identifier?: string | null;
   storageLocationId?: string | null;
@@ -26,7 +26,7 @@ export type CreateItemModel = {
   retirementDate?: Date | null;
 };
 
-export type CreateMaintenanceModel = {
+export type CreateOrUpdateMaintenanceModel = {
   itemId: string;
   performedAt: Date;
   typeId: string;
@@ -34,26 +34,26 @@ export type CreateMaintenanceModel = {
   performedById?: string | null;
 };
 
-export type CreateMaintenanceTypeModel = {
+export type CreateOrUpdateMaintenanceTypeModel = {
   name: string;
   description?: string | null;
 };
 
-export type CreateOrderItemModel = {
+export type CreateOrUpdateOrderItemModel = {
   orderId: string;
   variantId: string;
   quantity: number;
 };
 
-export type CreateOrderModel = {
+export type CreateOrUpdateOrderModel = {
   orderIdentifier?: string | null;
   orderDate: Date;
   status: "Draft" | "Submitted" | "Delivered" | "Completed";
-  items: Array<CreateOrderItemModel>;
+  items: Array<CreateOrUpdateOrderItemModel>;
   deliveryDate?: Date | null;
 };
 
-export type CreatePersonModel = {
+export type CreateOrUpdatePersonModel = {
   firstName: string;
   lastName: string;
   remarks?: string | null;
@@ -62,24 +62,24 @@ export type CreatePersonModel = {
   departmentIds?: Array<string> | null;
 };
 
-export type CreateProductModel = {
+export type CreateOrUpdateProductModel = {
   name: string;
   manufacturer: string;
   description?: string | null;
   typeId: string;
 };
 
-export type CreateProductTypeModel = {
+export type CreateOrUpdateProductTypeModel = {
   name: string;
   description?: string | null;
 };
 
-export type CreateStorageLocationModel = {
+export type CreateOrUpdateStorageLocationModel = {
   name: string;
   remarks?: string | null;
 };
 
-export type CreateVariantModel = {
+export type CreateOrUpdateVariantModel = {
   productId: string;
   name: string;
   additionalSpecs?: string | null;
@@ -98,7 +98,7 @@ export type ItemAssignmentHistoryModel = {
   assignedUntil?: Date | null;
   assignedById?: string | null;
   id: string;
-  person?: PersonModel;
+  person: PersonModel;
   assignedBy?: UserModel;
 };
 
@@ -110,7 +110,7 @@ export type ItemModel = {
   purchaseDate: Date;
   retirementDate?: Date | null;
   id: string;
-  variant?: VariantModel;
+  variant: VariantModel;
 };
 
 export type MaintenanceModel = {
@@ -121,7 +121,7 @@ export type MaintenanceModel = {
   performedById?: string | null;
   id: string;
   performedBy?: UserModel;
-  type?: MaintenanceTypeModel;
+  type: MaintenanceTypeModel;
 };
 
 export type MaintenanceTypeModel = {
@@ -155,7 +155,7 @@ export type PersonModel = {
   externalId?: string | null;
   departmentIds?: Array<string> | null;
   id: string;
-  departments?: Array<DepartmentModel> | null;
+  departments: Array<DepartmentModel>;
 };
 
 export type ProductModel = {
@@ -182,8 +182,8 @@ export type StorageLocationModel = {
 export type UserModel = {
   id: string;
   eMail: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string | null;
+  lastName?: string | null;
 };
 
 export type VariantModel = {
@@ -191,7 +191,7 @@ export type VariantModel = {
   name: string;
   additionalSpecs?: string | null;
   id: string;
-  product?: ProductModel;
+  product: ProductModel;
 };
 
 export type GetDepartmentsData = {
@@ -223,7 +223,7 @@ export type GetDepartmentsResponse =
   GetDepartmentsResponses[keyof GetDepartmentsResponses];
 
 export type PostDepartmentsData = {
-  body?: CreateDepartmentModel;
+  body?: CreateOrUpdateDepartmentModel;
   path?: never;
   query?: never;
   url: "/departments";
@@ -319,7 +319,7 @@ export type GetDepartmentsByIdResponse =
   GetDepartmentsByIdResponses[keyof GetDepartmentsByIdResponses];
 
 export type PutDepartmentsByIdData = {
-  body?: DepartmentModel;
+  body?: CreateOrUpdateDepartmentModel;
   path: {
     id: string;
   };
@@ -328,10 +328,6 @@ export type PutDepartmentsByIdData = {
 };
 
 export type PutDepartmentsByIdErrors = {
-  /**
-   * ID mismatch
-   */
-  400: unknown;
   /**
    * Unauthorized
    */
@@ -419,7 +415,7 @@ export type GetAssignmentsResponse =
   GetAssignmentsResponses[keyof GetAssignmentsResponses];
 
 export type PostAssignmentsData = {
-  body?: CreateItemAssignmentHistoryModel;
+  body?: CreateOrUpdateItemAssignmentHistoryModel;
   path?: never;
   query?: never;
   url: "/assignments";
@@ -523,7 +519,7 @@ export type GetAssignmentsByIdResponse =
   GetAssignmentsByIdResponses[keyof GetAssignmentsByIdResponses];
 
 export type PutAssignmentsByIdData = {
-  body?: ItemAssignmentHistoryModel;
+  body?: CreateOrUpdateItemAssignmentHistoryModel;
   path: {
     id: string;
   };
@@ -533,7 +529,7 @@ export type PutAssignmentsByIdData = {
 
 export type PutAssignmentsByIdErrors = {
   /**
-   * ID mismatch or referenced item/person does not exist
+   * Referenced item/person does not exist
    */
   400: unknown;
   /**
@@ -592,7 +588,7 @@ export type GetItemsResponses = {
 export type GetItemsResponse = GetItemsResponses[keyof GetItemsResponses];
 
 export type PostItemsData = {
-  body?: CreateItemModel;
+  body?: CreateOrUpdateItemModel;
   path?: never;
   query?: never;
   url: "/items";
@@ -695,7 +691,7 @@ export type GetItemsByIdResponse =
   GetItemsByIdResponses[keyof GetItemsByIdResponses];
 
 export type PutItemsByIdData = {
-  body?: ItemModel;
+  body?: CreateOrUpdateItemModel;
   path: {
     id: string;
   };
@@ -705,7 +701,7 @@ export type PutItemsByIdData = {
 
 export type PutItemsByIdErrors = {
   /**
-   * ID mismatch or referenced variant/location not found
+   * Referenced variant/location not found
    */
   400: unknown;
   /**
@@ -833,7 +829,7 @@ export type GetMaintenancesResponse =
   GetMaintenancesResponses[keyof GetMaintenancesResponses];
 
 export type PostMaintenancesData = {
-  body?: CreateMaintenanceModel;
+  body?: CreateOrUpdateMaintenanceModel;
   path?: never;
   query?: never;
   url: "/maintenances";
@@ -933,7 +929,7 @@ export type GetMaintenancesByIdResponse =
   GetMaintenancesByIdResponses[keyof GetMaintenancesByIdResponses];
 
 export type PutMaintenancesByIdData = {
-  body?: MaintenanceModel;
+  body?: CreateOrUpdateMaintenanceModel;
   path: {
     id: string;
   };
@@ -943,7 +939,7 @@ export type PutMaintenancesByIdData = {
 
 export type PutMaintenancesByIdErrors = {
   /**
-   * ID mismatch or referenced item does not exist
+   * Referenced item does not exist
    */
   400: unknown;
   /**
@@ -999,7 +995,7 @@ export type GetMaintenanceTypesResponse =
   GetMaintenanceTypesResponses[keyof GetMaintenanceTypesResponses];
 
 export type PostMaintenanceTypesData = {
-  body?: CreateMaintenanceTypeModel;
+  body?: CreateOrUpdateMaintenanceTypeModel;
   path?: never;
   query?: never;
   url: "/maintenanceTypes";
@@ -1095,7 +1091,7 @@ export type GetMaintenanceTypesByIdResponse =
   GetMaintenanceTypesByIdResponses[keyof GetMaintenanceTypesByIdResponses];
 
 export type PutMaintenanceTypesByIdData = {
-  body?: MaintenanceTypeModel;
+  body?: CreateOrUpdateMaintenanceTypeModel;
   path: {
     id: string;
   };
@@ -1104,10 +1100,6 @@ export type PutMaintenanceTypesByIdData = {
 };
 
 export type PutMaintenanceTypesByIdErrors = {
-  /**
-   * ID mismatch
-   */
-  400: unknown;
   /**
    * Unauthorized
    */
@@ -1160,7 +1152,7 @@ export type GetOrdersResponses = {
 export type GetOrdersResponse = GetOrdersResponses[keyof GetOrdersResponses];
 
 export type PostOrdersData = {
-  body?: CreateOrderModel;
+  body?: CreateOrUpdateOrderModel;
   path?: never;
   query?: never;
   url: "/orders";
@@ -1255,7 +1247,7 @@ export type GetOrdersByIdResponse =
   GetOrdersByIdResponses[keyof GetOrdersByIdResponses];
 
 export type PutOrdersByIdData = {
-  body?: OrderModel;
+  body?: CreateOrUpdateOrderModel;
   path: {
     id: string;
   };
@@ -1320,7 +1312,7 @@ export type GetPersonsResponses = {
 export type GetPersonsResponse = GetPersonsResponses[keyof GetPersonsResponses];
 
 export type PostPersonsData = {
-  body?: CreatePersonModel;
+  body?: CreateOrUpdatePersonModel;
   path?: never;
   query?: never;
   url: "/persons";
@@ -1420,7 +1412,7 @@ export type GetPersonsByIdResponse =
   GetPersonsByIdResponses[keyof GetPersonsByIdResponses];
 
 export type PutPersonsByIdData = {
-  body?: PersonModel;
+  body?: CreateOrUpdatePersonModel;
   path: {
     id: string;
   };
@@ -1429,10 +1421,6 @@ export type PutPersonsByIdData = {
 };
 
 export type PutPersonsByIdErrors = {
-  /**
-   * ID mismatch
-   */
-  400: unknown;
   /**
    * Unauthorized
    */
@@ -1520,7 +1508,7 @@ export type GetProductsResponse =
   GetProductsResponses[keyof GetProductsResponses];
 
 export type PostProductsData = {
-  body?: CreateProductModel;
+  body?: CreateOrUpdateProductModel;
   path?: never;
   query?: never;
   url: "/products";
@@ -1620,7 +1608,7 @@ export type GetProductsByIdResponse =
   GetProductsByIdResponses[keyof GetProductsByIdResponses];
 
 export type PutProductsByIdData = {
-  body?: ProductModel;
+  body?: CreateOrUpdateProductModel;
   path: {
     id: string;
   };
@@ -1629,10 +1617,6 @@ export type PutProductsByIdData = {
 };
 
 export type PutProductsByIdErrors = {
-  /**
-   * ID mismatch
-   */
-  400: unknown;
   /**
    * Unauthorized
    */
@@ -1724,7 +1708,7 @@ export type GetProductTypesResponse =
   GetProductTypesResponses[keyof GetProductTypesResponses];
 
 export type PostProductTypesData = {
-  body?: CreateProductTypeModel;
+  body?: CreateOrUpdateProductTypeModel;
   path?: never;
   query?: never;
   url: "/productTypes";
@@ -1820,7 +1804,7 @@ export type GetProductTypesByIdResponse =
   GetProductTypesByIdResponses[keyof GetProductTypesByIdResponses];
 
 export type PutProductTypesByIdData = {
-  body?: ProductTypeModel;
+  body?: CreateOrUpdateProductTypeModel;
   path: {
     id: string;
   };
@@ -1829,10 +1813,6 @@ export type PutProductTypesByIdData = {
 };
 
 export type PutProductTypesByIdErrors = {
-  /**
-   * ID mismatch
-   */
-  400: unknown;
   /**
    * Unauthorized
    */
@@ -1886,7 +1866,7 @@ export type GetStorageLocationsResponse =
   GetStorageLocationsResponses[keyof GetStorageLocationsResponses];
 
 export type PostStorageLocationsData = {
-  body?: CreateStorageLocationModel;
+  body?: CreateOrUpdateStorageLocationModel;
   path?: never;
   query?: never;
   url: "/storageLocations";
@@ -1986,7 +1966,7 @@ export type GetStorageLocationsByIdResponse =
   GetStorageLocationsByIdResponses[keyof GetStorageLocationsByIdResponses];
 
 export type PutStorageLocationsByIdData = {
-  body?: StorageLocationModel;
+  body?: CreateOrUpdateStorageLocationModel;
   path: {
     id: string;
   };
@@ -1995,10 +1975,6 @@ export type PutStorageLocationsByIdData = {
 };
 
 export type PutStorageLocationsByIdErrors = {
-  /**
-   * ID mismatch
-   */
-  400: unknown;
   /**
    * Unauthorized
    */
@@ -2151,7 +2127,7 @@ export type GetVariantsResponse =
   GetVariantsResponses[keyof GetVariantsResponses];
 
 export type PostVariantsData = {
-  body?: CreateVariantModel;
+  body?: CreateOrUpdateVariantModel;
   path?: never;
   query?: never;
   url: "/variants";
@@ -2255,7 +2231,7 @@ export type GetVariantsByIdResponse =
   GetVariantsByIdResponses[keyof GetVariantsByIdResponses];
 
 export type PutVariantsByIdData = {
-  body?: VariantModel;
+  body?: CreateOrUpdateVariantModel;
   path: {
     id: string;
   };
@@ -2265,7 +2241,7 @@ export type PutVariantsByIdData = {
 
 export type PutVariantsByIdErrors = {
   /**
-   * ID mismatch
+   * Referenced Product not found
    */
   400: unknown;
   /**
@@ -2277,7 +2253,7 @@ export type PutVariantsByIdErrors = {
    */
   403: unknown;
   /**
-   * variant not found
+   * Variant not found
    */
   404: unknown;
   /**

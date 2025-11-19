@@ -5,7 +5,7 @@ import {
   getMaintenanceTypes,
   postMaintenanceTypes,
   putMaintenanceTypesById,
-  type CreateMaintenanceTypeModel,
+  type CreateOrUpdateMaintenanceTypeModel,
   type MaintenanceTypeModel,
 } from '@/api';
 
@@ -41,7 +41,7 @@ export function useMaintenanceTypes() {
   }, []);
 
   const createItem = useCallback(
-    async (body: CreateMaintenanceTypeModel) => {
+    async (body: CreateOrUpdateMaintenanceTypeModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -50,8 +50,8 @@ export function useMaintenanceTypes() {
   );
 
   const updateItem = useCallback(
-    async (item: MaintenanceTypeModel) => {
-      const res = await updateApi({ path: { id: item.id }, body: item });
+    async (id: string, body: CreateOrUpdateMaintenanceTypeModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },

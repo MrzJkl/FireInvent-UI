@@ -118,7 +118,7 @@ export default function StorageLocationsPage() {
         }}
         onSubmit={async (values) => {
           if (editingItem) {
-            await updateItem({ ...editingItem, ...values });
+            await updateItem(editingItem.id, values);
           } else {
             await createItem(values);
           }

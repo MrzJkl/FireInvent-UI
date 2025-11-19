@@ -316,15 +316,10 @@ export default function ItemDetailPage() {
           };
 
           if (editingAssignmentId) {
-            const current = assignments.find(
-              (a) => a.id === editingAssignmentId,
-            );
-            if (current) {
-              await updateAssignment({
-                path: { id: editingAssignmentId },
-                body: { ...current, ...payload },
-              });
-            }
+            await updateAssignment({
+              path: { id: editingAssignmentId },
+              body: payload,
+            });
           } else {
             await createAssignment({ body: payload });
           }

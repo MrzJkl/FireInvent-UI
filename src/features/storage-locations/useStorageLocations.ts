@@ -5,7 +5,7 @@ import {
   getStorageLocations,
   postStorageLocations,
   putStorageLocationsById,
-  type CreateStorageLocationModel,
+  type CreateOrUpdateStorageLocationModel,
   type StorageLocationModel,
 } from '@/api';
 
@@ -42,7 +42,7 @@ export function useStorageLocations() {
   }, []);
 
   const createItem = useCallback(
-    async (body: CreateStorageLocationModel) => {
+    async (body: CreateOrUpdateStorageLocationModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -51,8 +51,8 @@ export function useStorageLocations() {
   );
 
   const updateItem = useCallback(
-    async (item: StorageLocationModel) => {
-      const res = await updateApi({ path: { id: item.id }, body: item });
+    async (id: string, body: CreateOrUpdateStorageLocationModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },

@@ -5,7 +5,7 @@ import {
   getProductTypes,
   postProductTypes,
   putProductTypesById,
-  type CreateProductTypeModel,
+  type CreateOrUpdateProductTypeModel,
   type ProductTypeModel,
 } from '@/api';
 
@@ -40,7 +40,7 @@ export function useProductTypes() {
   }, []);
 
   const createItem = useCallback(
-    async (body: CreateProductTypeModel) => {
+    async (body: CreateOrUpdateProductTypeModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -49,8 +49,8 @@ export function useProductTypes() {
   );
 
   const updateItem = useCallback(
-    async (item: ProductTypeModel) => {
-      const res = await updateApi({ path: { id: item.id }, body: item });
+    async (id: string, body: CreateOrUpdateProductTypeModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },

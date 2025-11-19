@@ -4,7 +4,7 @@ import {
   postPersons,
   putPersonsById,
   deletePersonsById,
-  type CreatePersonModel,
+  type CreateOrUpdatePersonModel,
   type PersonModel,
 } from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
@@ -38,7 +38,7 @@ export function usePersons() {
   }, []);
 
   const createPerson = useCallback(
-    async (body: CreatePersonModel) => {
+    async (body: CreateOrUpdatePersonModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -47,16 +47,12 @@ export function usePersons() {
   );
 
   const updatePerson = useCallback(
-    async (id: string, body: CreatePersonModel) => {
-      const current = items.find((p) => p.id === id);
-      if (!current) return null;
-      // API expects full PersonModel
-      const full: PersonModel = { ...current, ...body, departments: [] };
-      const res = await updateApi({ path: { id }, body: full });
+    async (id: string, body: CreateOrUpdatePersonModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },
-    [items, updateApi, refetch],
+    [updateApi, refetch],
   );
 
   const deletePerson = useCallback(

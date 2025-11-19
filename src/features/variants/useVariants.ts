@@ -4,7 +4,7 @@ import {
   postVariants,
   putVariantsById,
   deleteVariantsById,
-  type CreateVariantModel,
+  type CreateOrUpdateVariantModel,
   type VariantModel,
 } from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
@@ -39,7 +39,7 @@ export function useVariants(productId: string | undefined) {
   }, [productId]);
 
   const createVariant = useCallback(
-    async (body: Omit<CreateVariantModel, 'productId'>) => {
+    async (body: Omit<CreateOrUpdateVariantModel, 'productId'>) => {
       if (!productId) return null;
       const res = await createApi({
         body: { ...body, productId },
@@ -51,15 +51,16 @@ export function useVariants(productId: string | undefined) {
   );
 
   const updateVariant = useCallback(
-    async (id: string, body: Omit<CreateVariantModel, 'productId'>) => {
-      const current = items.find((v) => v.id === id);
-      if (!current || !productId) return null;
-      const full: VariantModel = { ...current, ...body, productId };
-      const res = await updateApi({ path: { id }, body: full });
+    async (id: string, body: Omit<CreateOrUpdateVariantModel, 'productId'>) => {
+      if (!productId) return null;
+      const res = await updateApi({
+        path: { id },
+        body: { ...body, productId },
+      });
       await refetch();
       return res;
     },
-    [items, updateApi, productId, refetch],
+    [updateApi, productId, refetch],
   );
 
   const deleteVariant = useCallback(

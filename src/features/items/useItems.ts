@@ -4,7 +4,7 @@ import {
   postItems,
   putItemsById,
   deleteItemsById,
-  type CreateItemModel,
+  type CreateOrUpdateItemModel,
   type ItemModel,
 } from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
@@ -49,7 +49,7 @@ export function useItems(
   }, [productId, variants]);
 
   const createItem = useCallback(
-    async (body: CreateItemModel) => {
+    async (body: CreateOrUpdateItemModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -58,15 +58,12 @@ export function useItems(
   );
 
   const updateItem = useCallback(
-    async (id: string, body: CreateItemModel) => {
-      const current = items.find((it) => it.id === id);
-      if (!current) return null;
-      const full: ItemModel = { ...current, ...body } as ItemModel;
-      const res = await updateApi({ path: { id }, body: full });
+    async (id: string, body: CreateOrUpdateItemModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },
-    [items, updateApi, refetch],
+    [updateApi, refetch],
   );
 
   const deleteItem = useCallback(

@@ -116,7 +116,7 @@ export default function ProductTypesPage() {
         }}
         onSubmit={async (values) => {
           if (editingItem) {
-            await updateItem({ ...editingItem, ...values });
+            await updateItem(editingItem.id, values);
           } else {
             await createItem(values);
           }

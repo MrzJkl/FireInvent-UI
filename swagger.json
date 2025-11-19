@@ -57,17 +57,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             }
           }
@@ -169,17 +169,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/DepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/DepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             }
           }
@@ -187,9 +187,6 @@
         "responses": {
           "204": {
             "description": "Department updated"
-          },
-          "400": {
-            "description": "ID mismatch"
           },
           "404": {
             "description": "Department not found"
@@ -342,17 +339,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             }
           }
@@ -460,17 +457,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             }
           }
@@ -479,11 +476,11 @@
           "204": {
             "description": "Assignment updated"
           },
-          "400": {
-            "description": "ID mismatch or referenced item/person does not exist"
-          },
           "404": {
             "description": "Assignment not found"
+          },
+          "400": {
+            "description": "Referenced item/person does not exist"
           },
           "409": {
             "description": "An overlapping assignment already exists for this item"
@@ -578,17 +575,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             }
           }
@@ -696,17 +693,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             }
           }
@@ -716,7 +713,7 @@
             "description": "Item updated"
           },
           "400": {
-            "description": "ID mismatch or referenced variant/location not found"
+            "description": "Referenced variant/location not found"
           },
           "404": {
             "description": "Item not found"
@@ -930,17 +927,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             }
           }
@@ -1045,17 +1042,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             }
           }
@@ -1065,7 +1062,7 @@
             "description": "Maintenance updated"
           },
           "400": {
-            "description": "ID mismatch or referenced item does not exist"
+            "description": "Referenced item does not exist"
           },
           "404": {
             "description": "Maintenance not found"
@@ -1160,17 +1157,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             }
           }
@@ -1272,17 +1269,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             }
           }
@@ -1290,9 +1287,6 @@
         "responses": {
           "204": {
             "description": "MaintenanceType updated"
-          },
-          "400": {
-            "description": "ID mismatch"
           },
           "404": {
             "description": "MaintenanceType not found"
@@ -1387,17 +1381,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             }
           }
@@ -1499,17 +1493,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             }
           }
@@ -1614,17 +1608,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             }
           }
@@ -1729,17 +1723,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             }
           }
@@ -1750,9 +1744,6 @@
           },
           "404": {
             "description": "Person not found"
-          },
-          "400": {
-            "description": "ID mismatch"
           },
           "401": {
             "description": "Unauthorized"
@@ -1902,17 +1893,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             }
           }
@@ -2017,17 +2008,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             }
           }
@@ -2035,9 +2026,6 @@
         "responses": {
           "204": {
             "description": "Product updated"
-          },
-          "400": {
-            "description": "ID mismatch"
           },
           "404": {
             "description": "Product not found"
@@ -2193,17 +2181,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             }
           }
@@ -2305,17 +2293,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             }
           }
@@ -2323,9 +2311,6 @@
         "responses": {
           "204": {
             "description": "ProductType updated"
-          },
-          "400": {
-            "description": "ID mismatch"
           },
           "404": {
             "description": "ProductType not found"
@@ -2420,17 +2405,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             }
           }
@@ -2535,17 +2520,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             }
           }
@@ -2553,9 +2538,6 @@
         "responses": {
           "204": {
             "description": "Storage location updated"
-          },
-          "400": {
-            "description": "ID mismatch"
           },
           "404": {
             "description": "Storage location not found"
@@ -2802,17 +2784,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             }
           }
@@ -2920,17 +2902,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             }
           }
@@ -2940,10 +2922,10 @@
             "description": "variant updated"
           },
           "400": {
-            "description": "ID mismatch"
+            "description": "Referenced Product not found"
           },
           "404": {
-            "description": "variant not found"
+            "description": "Variant not found"
           },
           "409": {
             "description": "Another variant with the same name already exists for this product"
@@ -3048,7 +3030,7 @@
   },
   "components": {
     "schemas": {
-      "CreateDepartmentModel": {
+      "CreateOrUpdateDepartmentModel": {
         "required": ["name"],
         "type": "object",
         "properties": {
@@ -3065,7 +3047,7 @@
         },
         "additionalProperties": false
       },
-      "CreateItemAssignmentHistoryModel": {
+      "CreateOrUpdateItemAssignmentHistoryModel": {
         "required": ["assignedFrom", "itemId", "personId"],
         "type": "object",
         "properties": {
@@ -3094,7 +3076,7 @@
         },
         "additionalProperties": false
       },
-      "CreateItemModel": {
+      "CreateOrUpdateItemModel": {
         "required": ["condition", "purchaseDate", "variantId"],
         "type": "object",
         "properties": {
@@ -3128,7 +3110,7 @@
         },
         "additionalProperties": false
       },
-      "CreateMaintenanceModel": {
+      "CreateOrUpdateMaintenanceModel": {
         "required": ["itemId", "performedAt", "typeId"],
         "type": "object",
         "properties": {
@@ -3157,7 +3139,7 @@
         },
         "additionalProperties": false
       },
-      "CreateMaintenanceTypeModel": {
+      "CreateOrUpdateMaintenanceTypeModel": {
         "required": ["name"],
         "type": "object",
         "properties": {
@@ -3174,7 +3156,7 @@
         },
         "additionalProperties": false
       },
-      "CreateOrderItemModel": {
+      "CreateOrUpdateOrderItemModel": {
         "required": ["orderId", "quantity", "variantId"],
         "type": "object",
         "properties": {
@@ -3193,7 +3175,7 @@
         },
         "additionalProperties": false
       },
-      "CreateOrderModel": {
+      "CreateOrUpdateOrderModel": {
         "required": ["items", "orderDate", "status"],
         "type": "object",
         "properties": {
@@ -3213,7 +3195,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CreateOrderItemModel"
+              "$ref": "#/components/schemas/CreateOrUpdateOrderItemModel"
             }
           },
           "deliveryDate": {
@@ -3224,7 +3206,7 @@
         },
         "additionalProperties": false
       },
-      "CreatePersonModel": {
+      "CreateOrUpdatePersonModel": {
         "required": ["firstName", "lastName"],
         "type": "object",
         "properties": {
@@ -3264,7 +3246,7 @@
         },
         "additionalProperties": false
       },
-      "CreateProductModel": {
+      "CreateOrUpdateProductModel": {
         "required": ["manufacturer", "name", "typeId"],
         "type": "object",
         "properties": {
@@ -3290,7 +3272,7 @@
         },
         "additionalProperties": false
       },
-      "CreateProductTypeModel": {
+      "CreateOrUpdateProductTypeModel": {
         "required": ["name"],
         "type": "object",
         "properties": {
@@ -3307,7 +3289,7 @@
         },
         "additionalProperties": false
       },
-      "CreateStorageLocationModel": {
+      "CreateOrUpdateStorageLocationModel": {
         "required": ["name"],
         "type": "object",
         "properties": {
@@ -3324,7 +3306,7 @@
         },
         "additionalProperties": false
       },
-      "CreateVariantModel": {
+      "CreateOrUpdateVariantModel": {
         "required": ["name", "productId"],
         "type": "object",
         "properties": {
@@ -3367,7 +3349,7 @@
         "additionalProperties": false
       },
       "ItemAssignmentHistoryModel": {
-        "required": ["assignedFrom", "id", "itemId", "personId"],
+        "required": ["assignedFrom", "id", "itemId", "person", "personId"],
         "type": "object",
         "properties": {
           "itemId": {
@@ -3406,7 +3388,7 @@
         "additionalProperties": false
       },
       "ItemModel": {
-        "required": ["condition", "id", "purchaseDate", "variantId"],
+        "required": ["condition", "id", "purchaseDate", "variant", "variantId"],
         "type": "object",
         "properties": {
           "variantId": {
@@ -3447,7 +3429,7 @@
         "additionalProperties": false
       },
       "MaintenanceModel": {
-        "required": ["id", "itemId", "performedAt", "typeId"],
+        "required": ["id", "itemId", "performedAt", "type", "typeId"],
         "type": "object",
         "properties": {
           "itemId": {
@@ -3568,7 +3550,7 @@
         "additionalProperties": false
       },
       "PersonModel": {
-        "required": ["firstName", "id", "lastName"],
+        "required": ["departments", "firstName", "id", "lastName"],
         "type": "object",
         "properties": {
           "firstName": {
@@ -3612,8 +3594,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/DepartmentModel"
-            },
-            "nullable": true
+            }
           }
         },
         "additionalProperties": false
@@ -3694,7 +3675,7 @@
         "additionalProperties": false
       },
       "UserModel": {
-        "required": ["eMail", "firstName", "id", "lastName"],
+        "required": ["eMail", "id"],
         "type": "object",
         "properties": {
           "id": {
@@ -3706,18 +3687,18 @@
             "type": "string"
           },
           "firstName": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "lastName": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
       "VariantModel": {
-        "required": ["id", "name", "productId"],
+        "required": ["id", "name", "product", "productId"],
         "type": "object",
         "properties": {
           "productId": {

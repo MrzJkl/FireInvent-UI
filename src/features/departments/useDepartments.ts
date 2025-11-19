@@ -5,7 +5,7 @@ import {
   getDepartments,
   postDepartments,
   putDepartmentsById,
-  type CreateDepartmentModel,
+  type CreateOrUpdateDepartmentModel,
   type DepartmentModel,
 } from '@/api';
 
@@ -40,7 +40,7 @@ export function useDepartments() {
   }, []);
 
   const createItem = useCallback(
-    async (body: CreateDepartmentModel) => {
+    async (body: CreateOrUpdateDepartmentModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -49,8 +49,8 @@ export function useDepartments() {
   );
 
   const updateItem = useCallback(
-    async (item: DepartmentModel) => {
-      const res = await updateApi({ path: { id: item.id }, body: item });
+    async (id: string, body: CreateOrUpdateDepartmentModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },
