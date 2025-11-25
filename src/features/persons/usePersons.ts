@@ -39,7 +39,7 @@ export function usePersons() {
 
   const createPerson = useCallback(
     async (body: CreateOrUpdatePersonModel) => {
-      const res = await createApi({ body });
+      const res = await createApi({ body: body });
       await refetch();
       return res;
     },
@@ -48,7 +48,10 @@ export function usePersons() {
 
   const updatePerson = useCallback(
     async (id: string, body: CreateOrUpdatePersonModel) => {
-      const res = await updateApi({ path: { id }, body });
+      const res = await updateApi({
+        path: { id },
+        body: body,
+      });
       await refetch();
       return res;
     },

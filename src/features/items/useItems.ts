@@ -50,7 +50,7 @@ export function useItems(
 
   const createItem = useCallback(
     async (body: CreateOrUpdateItemModel) => {
-      const res = await createApi({ body });
+      const res = await createApi({ body: body });
       await refetch();
       return res;
     },
@@ -59,7 +59,10 @@ export function useItems(
 
   const updateItem = useCallback(
     async (id: string, body: CreateOrUpdateItemModel) => {
-      const res = await updateApi({ path: { id }, body });
+      const res = await updateApi({
+        path: { id },
+        body: body,
+      });
       await refetch();
       return res;
     },

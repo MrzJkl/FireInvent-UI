@@ -38,7 +38,7 @@ export function useProducts() {
 
   const createProduct = useCallback(
     async (body: CreateOrUpdateProductModel) => {
-      const res = await createApi({ body });
+      const res = await createApi({ body: body });
       await refetch();
       return res;
     },
@@ -47,7 +47,10 @@ export function useProducts() {
 
   const updateProduct = useCallback(
     async (id: string, body: CreateOrUpdateProductModel) => {
-      const res = await updateApi({ path: { id }, body });
+      const res = await updateApi({
+        path: { id },
+        body: body,
+      });
       await refetch();
       return res;
     },

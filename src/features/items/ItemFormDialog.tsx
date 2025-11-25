@@ -35,7 +35,7 @@ const schema = z.object({
   identifier: z.string().optional(),
   storageLocationId: z.string().optional(),
   condition: z.enum(conditionOptions),
-  purchaseDate: z.string(),
+  purchaseDate: z.string().min(1, 'Purchase date is required'),
   retirementDate: z.string().optional(),
 });
 

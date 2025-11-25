@@ -455,9 +455,11 @@ export default function ProductDetailPage() {
             identifier: values.identifier || undefined,
             storageLocationId: values.storageLocationId || undefined,
             condition: values.condition,
-            purchaseDate: new Date(values.purchaseDate),
+            purchaseDate: values.purchaseDate
+              ? new Date(values.purchaseDate + 'T00:00:00')
+              : new Date(),
             retirementDate: values.retirementDate
-              ? new Date(values.retirementDate)
+              ? new Date(values.retirementDate + 'T00:00:00')
               : undefined,
           };
           if (editingItemId) {
