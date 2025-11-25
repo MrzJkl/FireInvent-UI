@@ -59,7 +59,6 @@ import type {
   GetAssignmentsByIdErrors,
   GetAssignmentsByIdResponses,
   GetAssignmentsData,
-  GetAssignmentsErrors,
   GetAssignmentsResponses,
   GetDepartmentsByIdData,
   GetDepartmentsByIdErrors,
@@ -68,7 +67,6 @@ import type {
   GetDepartmentsByIdPersonsResponses,
   GetDepartmentsByIdResponses,
   GetDepartmentsData,
-  GetDepartmentsErrors,
   GetDepartmentsResponses,
   GetItemsByIdAssignmentsData,
   GetItemsByIdAssignmentsErrors,
@@ -80,25 +78,21 @@ import type {
   GetItemsByIdMaintenanceResponses,
   GetItemsByIdResponses,
   GetItemsData,
-  GetItemsErrors,
   GetItemsResponses,
   GetMaintenancesByIdData,
   GetMaintenancesByIdErrors,
   GetMaintenancesByIdResponses,
   GetMaintenancesData,
-  GetMaintenancesErrors,
   GetMaintenancesResponses,
   GetMaintenanceTypesByIdData,
   GetMaintenanceTypesByIdErrors,
   GetMaintenanceTypesByIdResponses,
   GetMaintenanceTypesData,
-  GetMaintenanceTypesErrors,
   GetMaintenanceTypesResponses,
   GetOrdersByIdData,
   GetOrdersByIdErrors,
   GetOrdersByIdResponses,
   GetOrdersData,
-  GetOrdersErrors,
   GetOrdersResponses,
   GetPersonsByIdData,
   GetPersonsByIdErrors,
@@ -107,7 +101,6 @@ import type {
   GetPersonsByIdItemsResponses,
   GetPersonsByIdResponses,
   GetPersonsData,
-  GetPersonsErrors,
   GetPersonsResponses,
   GetProductsByIdData,
   GetProductsByIdErrors,
@@ -116,13 +109,11 @@ import type {
   GetProductsByIdVariantsErrors,
   GetProductsByIdVariantsResponses,
   GetProductsData,
-  GetProductsErrors,
   GetProductsResponses,
   GetProductTypesByIdData,
   GetProductTypesByIdErrors,
   GetProductTypesByIdResponses,
   GetProductTypesData,
-  GetProductTypesErrors,
   GetProductTypesResponses,
   GetStorageLocationsByIdData,
   GetStorageLocationsByIdErrors,
@@ -131,13 +122,11 @@ import type {
   GetStorageLocationsByIdItemsResponses,
   GetStorageLocationsByIdResponses,
   GetStorageLocationsData,
-  GetStorageLocationsErrors,
   GetStorageLocationsResponses,
   GetUsersByIdData,
   GetUsersByIdErrors,
   GetUsersByIdResponses,
   GetUsersData,
-  GetUsersErrors,
   GetUsersResponses,
   GetVariantsByIdData,
   GetVariantsByIdErrors,
@@ -146,13 +135,11 @@ import type {
   GetVariantsByIdItemsResponses,
   GetVariantsByIdResponses,
   GetVariantsData,
-  GetVariantsErrors,
   GetVariantsResponses,
   PostAssignmentsData,
   PostAssignmentsErrors,
   PostAssignmentsResponses,
   PostDepartmentsData,
-  PostDepartmentsErrors,
   PostDepartmentsResponses,
   PostItemsData,
   PostItemsErrors,
@@ -161,10 +148,8 @@ import type {
   PostMaintenancesErrors,
   PostMaintenancesResponses,
   PostMaintenanceTypesData,
-  PostMaintenanceTypesErrors,
   PostMaintenanceTypesResponses,
   PostOrdersData,
-  PostOrdersErrors,
   PostOrdersResponses,
   PostPersonsData,
   PostPersonsErrors,
@@ -173,7 +158,6 @@ import type {
   PostProductsErrors,
   PostProductsResponses,
   PostProductTypesData,
-  PostProductTypesErrors,
   PostProductTypesResponses,
   PostStorageLocationsData,
   PostStorageLocationsErrors,
@@ -243,7 +227,7 @@ export const getDepartments = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetDepartmentsResponses,
-    GetDepartmentsErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -264,11 +248,11 @@ export const getDepartments = <ThrowOnError extends boolean = false>(
  * Creates a new department.
  */
 export const postDepartments = <ThrowOnError extends boolean = false>(
-  options?: Options<PostDepartmentsData, ThrowOnError>,
+  options: Options<PostDepartmentsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostDepartmentsResponses,
-    PostDepartmentsErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -282,7 +266,7 @@ export const postDepartments = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -399,7 +383,7 @@ export const getAssignments = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetAssignmentsResponses,
-    GetAssignmentsErrors,
+    unknown,
     ThrowOnError
   >({
     responseTransformer: getAssignmentsResponseTransformer,
@@ -421,9 +405,9 @@ export const getAssignments = <ThrowOnError extends boolean = false>(
  * Creates a new item assignment history.
  */
 export const postAssignments = <ThrowOnError extends boolean = false>(
-  options?: Options<PostAssignmentsData, ThrowOnError>,
+  options: Options<PostAssignmentsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostAssignmentsResponses,
     PostAssignmentsErrors,
     ThrowOnError
@@ -440,7 +424,7 @@ export const postAssignments = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -533,7 +517,7 @@ export const getItems = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetItemsResponses,
-    GetItemsErrors,
+    unknown,
     ThrowOnError
   >({
     responseTransformer: getItemsResponseTransformer,
@@ -555,9 +539,9 @@ export const getItems = <ThrowOnError extends boolean = false>(
  * Creates a new item.
  */
 export const postItems = <ThrowOnError extends boolean = false>(
-  options?: Options<PostItemsData, ThrowOnError>,
+  options: Options<PostItemsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostItemsResponses,
     PostItemsErrors,
     ThrowOnError
@@ -574,7 +558,7 @@ export const postItems = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -719,7 +703,7 @@ export const getMaintenances = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetMaintenancesResponses,
-    GetMaintenancesErrors,
+    unknown,
     ThrowOnError
   >({
     responseTransformer: getMaintenancesResponseTransformer,
@@ -741,9 +725,9 @@ export const getMaintenances = <ThrowOnError extends boolean = false>(
  * Creates a new maintenance record.
  */
 export const postMaintenances = <ThrowOnError extends boolean = false>(
-  options?: Options<PostMaintenancesData, ThrowOnError>,
+  options: Options<PostMaintenancesData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostMaintenancesResponses,
     PostMaintenancesErrors,
     ThrowOnError
@@ -760,7 +744,7 @@ export const postMaintenances = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -853,7 +837,7 @@ export const getMaintenanceTypes = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetMaintenanceTypesResponses,
-    GetMaintenanceTypesErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -874,11 +858,11 @@ export const getMaintenanceTypes = <ThrowOnError extends boolean = false>(
  * Creates a new maintenanceType.
  */
 export const postMaintenanceTypes = <ThrowOnError extends boolean = false>(
-  options?: Options<PostMaintenanceTypesData, ThrowOnError>,
+  options: Options<PostMaintenanceTypesData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostMaintenanceTypesResponses,
-    PostMaintenanceTypesErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -892,7 +876,7 @@ export const postMaintenanceTypes = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -986,7 +970,7 @@ export const getOrders = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetOrdersResponses,
-    GetOrdersErrors,
+    unknown,
     ThrowOnError
   >({
     responseTransformer: getOrdersResponseTransformer,
@@ -1008,11 +992,11 @@ export const getOrders = <ThrowOnError extends boolean = false>(
  * Creates a new order.
  */
 export const postOrders = <ThrowOnError extends boolean = false>(
-  options?: Options<PostOrdersData, ThrowOnError>,
+  options: Options<PostOrdersData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostOrdersResponses,
-    PostOrdersErrors,
+    unknown,
     ThrowOnError
   >({
     responseTransformer: postOrdersResponseTransformer,
@@ -1027,7 +1011,7 @@ export const postOrders = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -1120,7 +1104,7 @@ export const getPersons = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetPersonsResponses,
-    GetPersonsErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1141,9 +1125,9 @@ export const getPersons = <ThrowOnError extends boolean = false>(
  * Creates a new person entry.
  */
 export const postPersons = <ThrowOnError extends boolean = false>(
-  options?: Options<PostPersonsData, ThrowOnError>,
+  options: Options<PostPersonsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostPersonsResponses,
     PostPersonsErrors,
     ThrowOnError
@@ -1159,7 +1143,7 @@ export const postPersons = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -1277,7 +1261,7 @@ export const getProducts = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetProductsResponses,
-    GetProductsErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1298,9 +1282,9 @@ export const getProducts = <ThrowOnError extends boolean = false>(
  * Creates a new product.
  */
 export const postProducts = <ThrowOnError extends boolean = false>(
-  options?: Options<PostProductsData, ThrowOnError>,
+  options: Options<PostProductsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostProductsResponses,
     PostProductsErrors,
     ThrowOnError
@@ -1316,7 +1300,7 @@ export const postProducts = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -1433,7 +1417,7 @@ export const getProductTypes = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetProductTypesResponses,
-    GetProductTypesErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1454,11 +1438,11 @@ export const getProductTypes = <ThrowOnError extends boolean = false>(
  * Creates a new productType.
  */
 export const postProductTypes = <ThrowOnError extends boolean = false>(
-  options?: Options<PostProductTypesData, ThrowOnError>,
+  options: Options<PostProductTypesData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostProductTypesResponses,
-    PostProductTypesErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1472,7 +1456,7 @@ export const postProductTypes = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -1564,7 +1548,7 @@ export const getStorageLocations = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetStorageLocationsResponses,
-    GetStorageLocationsErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1585,9 +1569,9 @@ export const getStorageLocations = <ThrowOnError extends boolean = false>(
  * Creates a new storage location.
  */
 export const postStorageLocations = <ThrowOnError extends boolean = false>(
-  options?: Options<PostStorageLocationsData, ThrowOnError>,
+  options: Options<PostStorageLocationsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostStorageLocationsResponses,
     PostStorageLocationsErrors,
     ThrowOnError
@@ -1603,7 +1587,7 @@ export const postStorageLocations = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };
@@ -1715,12 +1699,17 @@ export const getStorageLocationsByIdItems = <
   });
 };
 
+/**
+ * List all users
+ *
+ * Returns a list of all users.
+ */
 export const getUsers = <ThrowOnError extends boolean = false>(
   options?: Options<GetUsersData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     GetUsersResponses,
-    GetUsersErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1770,7 +1759,7 @@ export const getVariants = <ThrowOnError extends boolean = false>(
 ) => {
   return (options?.client ?? client).get<
     GetVariantsResponses,
-    GetVariantsErrors,
+    unknown,
     ThrowOnError
   >({
     responseType: "json",
@@ -1791,9 +1780,9 @@ export const getVariants = <ThrowOnError extends boolean = false>(
  * Creates a new variant.
  */
 export const postVariants = <ThrowOnError extends boolean = false>(
-  options?: Options<PostVariantsData, ThrowOnError>,
+  options: Options<PostVariantsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
+  return (options.client ?? client).post<
     PostVariantsResponses,
     PostVariantsErrors,
     ThrowOnError
@@ -1809,7 +1798,7 @@ export const postVariants = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...options.headers,
     },
   });
 };

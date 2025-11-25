@@ -6,20 +6,17 @@ export const CreateOrUpdateDepartmentModelSchema = {
   properties: {
     name: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     description: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateItemAssignmentHistoryModelSchema = {
-  required: ["assignedFrom", "itemId", "personId"],
+  required: ["itemId", "personId", "assignedFrom"],
   type: "object",
   properties: {
     itemId: {
@@ -35,21 +32,18 @@ export const CreateOrUpdateItemAssignmentHistoryModelSchema = {
       format: "date-time",
     },
     assignedUntil: {
-      type: "string",
+      type: ["null", "string"],
       format: "date-time",
-      nullable: true,
     },
     assignedById: {
-      type: "string",
+      type: ["null", "string"],
       format: "uuid",
-      nullable: true,
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateItemModelSchema = {
-  required: ["condition", "purchaseDate", "variantId"],
+  required: ["variantId", "condition", "purchaseDate"],
   type: "object",
   properties: {
     variantId: {
@@ -58,29 +52,24 @@ export const CreateOrUpdateItemModelSchema = {
     },
     identifier: {
       maxLength: 255,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     storageLocationId: {
-      type: "string",
+      type: ["null", "string"],
       format: "uuid",
-      nullable: true,
     },
     condition: {
-      enum: ["New", "Used", "Damaged", "Destroyed", "Lost"],
-      type: "string",
+      $ref: "#/components/schemas/ItemCondition",
     },
     purchaseDate: {
       type: "string",
       format: "date-time",
     },
     retirementDate: {
-      type: "string",
+      type: ["null", "string"],
       format: "date-time",
-      nullable: true,
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateMaintenanceModelSchema = {
@@ -101,16 +90,13 @@ export const CreateOrUpdateMaintenanceModelSchema = {
     },
     remarks: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     performedById: {
-      type: "string",
+      type: ["null", "string"],
       format: "uuid",
-      nullable: true,
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateMaintenanceTypeModelSchema = {
@@ -119,20 +105,17 @@ export const CreateOrUpdateMaintenanceTypeModelSchema = {
   properties: {
     name: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     description: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateOrderItemModelSchema = {
-  required: ["orderId", "quantity", "variantId"],
+  required: ["orderId", "variantId", "quantity"],
   type: "object",
   properties: {
     orderId: {
@@ -144,29 +127,27 @@ export const CreateOrUpdateOrderItemModelSchema = {
       format: "uuid",
     },
     quantity: {
-      type: "integer",
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
       format: "int32",
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateOrderModelSchema = {
-  required: ["items", "orderDate", "status"],
+  required: ["orderDate", "status", "items"],
   type: "object",
   properties: {
     orderIdentifier: {
       maxLength: 255,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     orderDate: {
       type: "string",
       format: "date-time",
     },
     status: {
-      enum: ["Draft", "Submitted", "Delivered", "Completed"],
-      type: "string",
+      $ref: "#/components/schemas/OrderStatus",
     },
     items: {
       type: "array",
@@ -175,12 +156,10 @@ export const CreateOrUpdateOrderModelSchema = {
       },
     },
     deliveryDate: {
-      type: "string",
+      type: ["null", "string"],
       format: "date-time",
-      nullable: true,
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdatePersonModelSchema = {
@@ -189,28 +168,23 @@ export const CreateOrUpdatePersonModelSchema = {
   properties: {
     firstName: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     lastName: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     remarks: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     contactInfo: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     externalId: {
       maxLength: 255,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     departmentIds: {
       type: "array",
@@ -218,37 +192,31 @@ export const CreateOrUpdatePersonModelSchema = {
         type: "string",
         format: "uuid",
       },
-      nullable: true,
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateProductModelSchema = {
-  required: ["manufacturer", "name", "typeId"],
+  required: ["name", "manufacturer", "typeId"],
   type: "object",
   properties: {
     name: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     manufacturer: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     description: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     typeId: {
       type: "string",
       format: "uuid",
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateProductTypeModelSchema = {
@@ -257,16 +225,13 @@ export const CreateOrUpdateProductTypeModelSchema = {
   properties: {
     name: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     description: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateStorageLocationModelSchema = {
@@ -275,20 +240,17 @@ export const CreateOrUpdateStorageLocationModelSchema = {
   properties: {
     name: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     remarks: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const CreateOrUpdateVariantModelSchema = {
-  required: ["name", "productId"],
+  required: ["productId", "name"],
   type: "object",
   properties: {
     productId: {
@@ -297,44 +259,55 @@ export const CreateOrUpdateVariantModelSchema = {
     },
     name: {
       maxLength: 255,
-      minLength: 1,
       type: "string",
     },
     additionalSpecs: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const DepartmentModelSchema = {
   required: ["id", "name"],
   type: "object",
   properties: {
-    name: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    description: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
     },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
   },
-  additionalProperties: false,
 } as const;
 
 export const ItemAssignmentHistoryModelSchema = {
-  required: ["assignedFrom", "id", "itemId", "person", "personId"],
+  required: ["id", "person", "itemId", "personId", "assignedFrom"],
   type: "object",
   properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    person: {
+      $ref: "#/components/schemas/PersonModel",
+    },
+    assignedBy: {
+      oneOf: [
+        {
+          type: "null",
+        },
+        {
+          $ref: "#/components/schemas/UserModel",
+        },
+      ],
+    },
     itemId: {
       type: "string",
       format: "uuid",
@@ -348,60 +321,24 @@ export const ItemAssignmentHistoryModelSchema = {
       format: "date-time",
     },
     assignedUntil: {
-      type: "string",
+      type: ["null", "string"],
       format: "date-time",
-      nullable: true,
     },
     assignedById: {
-      type: "string",
+      type: ["null", "string"],
       format: "uuid",
-      nullable: true,
-    },
-    id: {
-      type: "string",
-      format: "uuid",
-    },
-    person: {
-      $ref: "#/components/schemas/PersonModel",
-    },
-    assignedBy: {
-      $ref: "#/components/schemas/UserModel",
     },
   },
-  additionalProperties: false,
+} as const;
+
+export const ItemConditionSchema = {
+  enum: ["New", "Used", "Damaged", "Destroyed", "Lost"],
 } as const;
 
 export const ItemModelSchema = {
-  required: ["condition", "id", "purchaseDate", "variant", "variantId"],
+  required: ["id", "variant", "variantId", "condition", "purchaseDate"],
   type: "object",
   properties: {
-    variantId: {
-      type: "string",
-      format: "uuid",
-    },
-    identifier: {
-      maxLength: 255,
-      type: "string",
-      nullable: true,
-    },
-    storageLocationId: {
-      type: "string",
-      format: "uuid",
-      nullable: true,
-    },
-    condition: {
-      enum: ["New", "Used", "Damaged", "Destroyed", "Lost"],
-      type: "string",
-    },
-    purchaseDate: {
-      type: "string",
-      format: "date-time",
-    },
-    retirementDate: {
-      type: "string",
-      format: "date-time",
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
@@ -409,14 +346,53 @@ export const ItemModelSchema = {
     variant: {
       $ref: "#/components/schemas/VariantModel",
     },
+    variantId: {
+      type: "string",
+      format: "uuid",
+    },
+    identifier: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    storageLocationId: {
+      type: ["null", "string"],
+      format: "uuid",
+    },
+    condition: {
+      $ref: "#/components/schemas/ItemCondition",
+    },
+    purchaseDate: {
+      type: "string",
+      format: "date-time",
+    },
+    retirementDate: {
+      type: ["null", "string"],
+      format: "date-time",
+    },
   },
-  additionalProperties: false,
 } as const;
 
 export const MaintenanceModelSchema = {
-  required: ["id", "itemId", "performedAt", "type", "typeId"],
+  required: ["id", "type", "itemId", "performedAt", "typeId"],
   type: "object",
   properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    performedBy: {
+      oneOf: [
+        {
+          type: "null",
+        },
+        {
+          $ref: "#/components/schemas/UserModel",
+        },
+      ],
+    },
+    type: {
+      $ref: "#/components/schemas/MaintenanceTypeModel",
+    },
     itemId: {
       type: "string",
       format: "uuid",
@@ -431,54 +407,45 @@ export const MaintenanceModelSchema = {
     },
     remarks: {
       maxLength: 2000,
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     performedById: {
-      type: "string",
+      type: ["null", "string"],
       format: "uuid",
-      nullable: true,
-    },
-    id: {
-      type: "string",
-      format: "uuid",
-    },
-    performedBy: {
-      $ref: "#/components/schemas/UserModel",
-    },
-    type: {
-      $ref: "#/components/schemas/MaintenanceTypeModel",
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const MaintenanceTypeModelSchema = {
   required: ["id", "name"],
   type: "object",
   properties: {
-    name: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    description: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
     },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
   },
-  additionalProperties: false,
 } as const;
 
 export const OrderItemModelSchema = {
-  required: ["id", "orderId", "quantity", "variant", "variantId"],
+  required: ["id", "variant", "orderId", "variantId", "quantity"],
   type: "object",
   properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    variant: {
+      $ref: "#/components/schemas/VariantModel",
+    },
     orderId: {
       type: "string",
       format: "uuid",
@@ -488,36 +455,20 @@ export const OrderItemModelSchema = {
       format: "uuid",
     },
     quantity: {
-      type: "integer",
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
       format: "int32",
     },
-    id: {
-      type: "string",
-      format: "uuid",
-    },
-    variant: {
-      $ref: "#/components/schemas/VariantModel",
-    },
   },
-  additionalProperties: false,
 } as const;
 
 export const OrderModelSchema = {
   required: ["id", "items", "orderDate", "status"],
   type: "object",
   properties: {
-    orderIdentifier: {
-      maxLength: 255,
+    id: {
       type: "string",
-      nullable: true,
-    },
-    orderDate: {
-      type: "string",
-      format: "date-time",
-    },
-    status: {
-      enum: ["Draft", "Submitted", "Delivered", "Completed"],
-      type: "string",
+      format: "uuid",
     },
     items: {
       type: "array",
@@ -525,56 +476,32 @@ export const OrderModelSchema = {
         $ref: "#/components/schemas/OrderItemModel",
       },
     },
-    deliveryDate: {
+    orderIdentifier: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    orderDate: {
       type: "string",
       format: "date-time",
-      nullable: true,
     },
-    id: {
-      type: "string",
-      format: "uuid",
+    status: {
+      $ref: "#/components/schemas/OrderStatus",
+    },
+    deliveryDate: {
+      type: ["null", "string"],
+      format: "date-time",
     },
   },
-  additionalProperties: false,
+} as const;
+
+export const OrderStatusSchema = {
+  enum: ["Draft", "Submitted", "Delivered", "Completed"],
 } as const;
 
 export const PersonModelSchema = {
-  required: ["departments", "firstName", "id", "lastName"],
+  required: ["id", "departments", "firstName", "lastName"],
   type: "object",
   properties: {
-    firstName: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    lastName: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    remarks: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
-    contactInfo: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
-    externalId: {
-      maxLength: 255,
-      type: "string",
-      nullable: true,
-    },
-    departmentIds: {
-      type: "array",
-      items: {
-        type: "string",
-        format: "uuid",
-      },
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
@@ -585,33 +512,63 @@ export const PersonModelSchema = {
         $ref: "#/components/schemas/DepartmentModel",
       },
     },
+    firstName: {
+      maxLength: 255,
+      type: "string",
+    },
+    lastName: {
+      maxLength: 255,
+      type: "string",
+    },
+    remarks: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
+    contactInfo: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
+    externalId: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    departmentIds: {
+      type: "array",
+      items: {
+        type: "string",
+        format: "uuid",
+      },
+    },
   },
-  additionalProperties: false,
+} as const;
+
+export const ProblemDetailsSchema = {
+  type: "object",
+  properties: {
+    type: {
+      type: ["null", "string"],
+    },
+    title: {
+      type: ["null", "string"],
+    },
+    status: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["null", "integer", "string"],
+      format: "int32",
+    },
+    detail: {
+      type: ["null", "string"],
+    },
+    instance: {
+      type: ["null", "string"],
+    },
+  },
 } as const;
 
 export const ProductModelSchema = {
-  required: ["id", "manufacturer", "name", "type", "typeId"],
+  required: ["id", "type", "name", "manufacturer", "typeId"],
   type: "object",
   properties: {
-    name: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    manufacturer: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    description: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
-    typeId: {
-      type: "string",
-      format: "uuid",
-    },
     id: {
       type: "string",
       format: "uuid",
@@ -619,56 +576,65 @@ export const ProductModelSchema = {
     type: {
       $ref: "#/components/schemas/ProductTypeModel",
     },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    manufacturer: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
+    typeId: {
+      type: "string",
+      format: "uuid",
+    },
   },
-  additionalProperties: false,
 } as const;
 
 export const ProductTypeModelSchema = {
   required: ["id", "name"],
   type: "object",
   properties: {
-    name: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    description: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
     },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
   },
-  additionalProperties: false,
 } as const;
 
 export const StorageLocationModelSchema = {
   required: ["id", "name"],
   type: "object",
   properties: {
-    name: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    remarks: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
     },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    remarks: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
   },
-  additionalProperties: false,
 } as const;
 
 export const UserModelSchema = {
-  required: ["eMail", "id"],
+  required: ["id", "eMail"],
   type: "object",
   properties: {
     id: {
@@ -676,39 +642,21 @@ export const UserModelSchema = {
       format: "uuid",
     },
     eMail: {
-      minLength: 1,
       type: "string",
     },
     firstName: {
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
     lastName: {
-      type: "string",
-      nullable: true,
+      type: ["null", "string"],
     },
   },
-  additionalProperties: false,
 } as const;
 
 export const VariantModelSchema = {
-  required: ["id", "name", "product", "productId"],
+  required: ["id", "product", "productId", "name"],
   type: "object",
   properties: {
-    productId: {
-      type: "string",
-      format: "uuid",
-    },
-    name: {
-      maxLength: 255,
-      minLength: 1,
-      type: "string",
-    },
-    additionalSpecs: {
-      maxLength: 2000,
-      type: "string",
-      nullable: true,
-    },
     id: {
       type: "string",
       format: "uuid",
@@ -716,6 +664,17 @@ export const VariantModelSchema = {
     product: {
       $ref: "#/components/schemas/ProductModel",
     },
+    productId: {
+      type: "string",
+      format: "uuid",
+    },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    additionalSpecs: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
   },
-  additionalProperties: false,
 } as const;
