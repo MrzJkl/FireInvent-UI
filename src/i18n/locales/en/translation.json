@@ -131,5 +131,14 @@
   "show": "Show",
   "hide": "Hide",
   "select": "Select",
-  "optional": "Optional"
+  "optional": "Optional",
+  "users": {
+    "label": "Users",
+    "empty": "No users available",
+    "email": "Email",
+    "name": "Name",
+    "userId": "User ID",
+    "noName": "No name",
+    "managedInKeycloak": "User management is handled through Keycloak"
+  }
 }
