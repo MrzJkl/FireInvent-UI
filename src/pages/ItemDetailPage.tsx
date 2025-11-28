@@ -6,17 +6,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ItemAssignmentFormDialog } from '@/features/item-assignments/ItemAssignmentFormDialog';
+import { MaintenanceFormDialog } from '@/features/maintenances/MaintenanceFormDialog';
 import { useTranslation } from 'react-i18next';
 import { IconArrowLeft } from '@tabler/icons-react';
 import {
   getItemsById,
   getItemsByIdAssignments,
+  getItemsByIdMaintenance,
   postAssignments,
   putAssignmentsById,
   deleteAssignmentsById,
+  postMaintenances,
+  putMaintenancesById,
+  deleteMaintenancesById,
 } from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
-import type { ItemModel, ItemAssignmentHistoryModel } from '@/api/types.gen';
+import type {
+  ItemModel,
+  ItemAssignmentHistoryModel,
+  MaintenanceModel,
+} from '@/api/types.gen';
 
 export default function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,6 +36,7 @@ export default function ItemDetailPage() {
   const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>(
     [],
   );
+  const [maintenances, setMaintenances] = useState<MaintenanceModel[]>([]);
   const [assignmentFormOpen, setAssignmentFormOpen] = useState(false);
   const [editingAssignmentId, setEditingAssignmentId] = useState<string | null>(
     null,
@@ -36,18 +46,35 @@ export default function ItemDetailPage() {
   );
   const [confirmAssignmentOpen, setConfirmAssignmentOpen] = useState(false);
 
+  const [maintenanceFormOpen, setMaintenanceFormOpen] = useState(false);
+  const [editingMaintenanceId, setEditingMaintenanceId] = useState<
+    string | null
+  >(null);
+  const [deleteMaintenanceId, setDeleteMaintenanceId] = useState<string | null>(
+    null,
+  );
+  const [confirmMaintenanceOpen, setConfirmMaintenanceOpen] = useState(false);
+
   const { callApi: fetchItem, loading: itemLoading } = useApiRequest(
     getItemsById,
     { showSuccess: false },
   );
   const { callApi: fetchAssignments, loading: assignmentsLoading } =
     useApiRequest(getItemsByIdAssignments, { showSuccess: false });
+  const { callApi: fetchMaintenances, loading: maintenancesLoading } =
+    useApiRequest(getItemsByIdMaintenance, { showSuccess: false });
   const { callApi: createAssignment, loading: creatingAssignment } =
     useApiRequest(postAssignments);
   const { callApi: updateAssignment, loading: updatingAssignment } =
     useApiRequest(putAssignmentsById);
   const { callApi: deleteAssignment, loading: deletingAssignment } =
     useApiRequest(deleteAssignmentsById);
+  const { callApi: createMaintenance, loading: creatingMaintenance } =
+    useApiRequest(postMaintenances);
+  const { callApi: updateMaintenance, loading: updatingMaintenance } =
+    useApiRequest(putMaintenancesById);
+  const { callApi: deleteMaintenance, loading: deletingMaintenance } =
+    useApiRequest(deleteMaintenancesById);
 
   useEffect(() => {
     if (!id) return;
@@ -58,6 +85,9 @@ export default function ItemDetailPage() {
 
       const assignmentsData = await fetchAssignments({ path: { id } });
       if (assignmentsData) setAssignments(assignmentsData);
+
+      const maintenancesData = await fetchMaintenances({ path: { id } });
+      if (maintenancesData) setMaintenances(maintenancesData);
     };
 
     loadData();
@@ -68,6 +98,12 @@ export default function ItemDetailPage() {
     if (!id) return;
     const assignmentsData = await fetchAssignments({ path: { id } });
     if (assignmentsData) setAssignments(assignmentsData);
+  };
+
+  const refetchMaintenances = async () => {
+    if (!id) return;
+    const maintenancesData = await fetchMaintenances({ path: { id } });
+    if (maintenancesData) setMaintenances(maintenancesData);
   };
 
   if (itemLoading) return <LoadingIndicator />;
@@ -110,6 +146,9 @@ export default function ItemDetailPage() {
           <TabsTrigger value="item">{t('item')}</TabsTrigger>
           <TabsTrigger value="assignments">
             {t('itemAssignments.label')}
+          </TabsTrigger>
+          <TabsTrigger value="maintenances">
+            {t('maintenances.label')}
           </TabsTrigger>
         </TabsList>
 
@@ -269,6 +308,90 @@ export default function ItemDetailPage() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {/* Maintenances Tab */}
+        <TabsContent value="maintenances" className="mt-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>{t('maintenances.label')}</CardTitle>
+              </div>
+              <Button
+                onClick={() => {
+                  setEditingMaintenanceId(null);
+                  setMaintenanceFormOpen(true);
+                }}
+              >
+                {t('add')}
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {maintenancesLoading ? (
+                <LoadingIndicator />
+              ) : maintenances.length === 0 ? (
+                <div className="flex h-24 items-center justify-center text-muted-foreground">
+                  {t('maintenances.empty')}
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {maintenances.map((maintenance) => (
+                    <div
+                      key={maintenance.id}
+                      className="rounded border p-3 space-y-1"
+                    >
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium">
+                          {maintenance.type?.name || `Type ID: ${maintenance.typeId}`}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingMaintenanceId(maintenance.id);
+                              setMaintenanceFormOpen(true);
+                            }}
+                          >
+                            {t('edit')}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setDeleteMaintenanceId(maintenance.id);
+                              setConfirmMaintenanceOpen(true);
+                            }}
+                          >
+                            {t('delete')}
+                          </Button>
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {t('maintenances.performedAt')}:{' '}
+                        {new Date(maintenance.performedAt).toLocaleDateString(
+                          'de-DE',
+                        )}
+                      </p>
+                      {maintenance.performedBy && (
+                        <p className="text-sm text-muted-foreground">
+                          {t('maintenances.performedBy')}:{' '}
+                          {maintenance.performedBy.firstName && maintenance.performedBy.lastName
+                            ? `${maintenance.performedBy.firstName} ${maintenance.performedBy.lastName}`
+                            : maintenance.performedBy.eMail}
+                        </p>
+                      )}
+                      {maintenance.remarks && (
+                        <p className="text-sm text-muted-foreground">
+                          {t('maintenances.remarks')}: {maintenance.remarks}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
 
       {/* Assignment Form Dialog */}
@@ -359,6 +482,89 @@ export default function ItemDetailPage() {
           await refetchAssignments();
           setConfirmAssignmentOpen(false);
           setDeleteAssignmentId(null);
+        }}
+      />
+
+      {/* Maintenance Form Dialog */}
+      <MaintenanceFormDialog
+        open={maintenanceFormOpen}
+        onOpenChange={(o) => {
+          setMaintenanceFormOpen(o);
+          if (!o) setEditingMaintenanceId(null);
+        }}
+        mode={editingMaintenanceId ? 'edit' : 'create'}
+        initialValues={
+          editingMaintenanceId
+            ? (() => {
+                const current = maintenances.find(
+                  (m) => m.id === editingMaintenanceId,
+                );
+                if (!current) return undefined;
+                return {
+                  typeId: current.typeId,
+                  performedAt: new Date(current.performedAt)
+                    .toISOString()
+                    .substring(0, 10),
+                  performedById: current.performedById || undefined,
+                  remarks: current.remarks || '',
+                };
+              })()
+            : undefined
+        }
+        loading={
+          editingMaintenanceId ? updatingMaintenance : creatingMaintenance
+        }
+        onSubmit={async (values) => {
+          const payload = {
+            itemId: id!,
+            typeId: values.typeId,
+            performedAt: new Date(values.performedAt),
+            performedById: values.performedById || null,
+            remarks: values.remarks || null,
+          };
+
+          if (editingMaintenanceId) {
+            await updateMaintenance({
+              path: { id: editingMaintenanceId },
+              body: payload,
+            });
+          } else {
+            await createMaintenance({ body: payload });
+          }
+
+          await refetchMaintenances();
+          setMaintenanceFormOpen(false);
+          setEditingMaintenanceId(null);
+        }}
+      />
+
+      {/* Maintenance Delete Confirm */}
+      <ConfirmDialog
+        open={confirmMaintenanceOpen}
+        onOpenChange={(o) => {
+          setConfirmMaintenanceOpen(o);
+          if (!o) setDeleteMaintenanceId(null);
+        }}
+        title={t('confirmDeleteTitle')}
+        description={t('confirmDeleteDescription', {
+          name: (() => {
+            const maintenance = maintenances.find(
+              (m) => m.id === deleteMaintenanceId,
+            );
+            if (!maintenance) return '';
+            return maintenance.type?.name || maintenance.typeId;
+          })(),
+        })}
+        confirmLabel={t('delete')}
+        cancelLabel={t('cancel')}
+        confirmVariant="destructive"
+        confirmDisabled={deletingMaintenance}
+        onConfirm={async () => {
+          if (!deleteMaintenanceId) return;
+          await deleteMaintenance({ path: { id: deleteMaintenanceId } });
+          await refetchMaintenances();
+          setConfirmMaintenanceOpen(false);
+          setDeleteMaintenanceId(null);
         }}
       />
     </div>

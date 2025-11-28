@@ -115,7 +115,21 @@
     "person": "Person",
     "personPlaceholder": "Select person"
   },
+  "maintenances": {
+    "label": "Maintenances",
+    "empty": "No maintenances available",
+    "type": "Maintenance Type",
+    "performedAt": "Performed at",
+    "performedBy": "Performed by",
+    "noUserSelected": "No user selected",
+    "remarks": "Remarks",
+    "descriptionAdd": "Enter the details for the new maintenance.",
+    "descriptionEdit": "Update the maintenance details.",
+    "add": "Add new Maintenance",
+    "edit": "Edit Maintenance"
+  },
   "show": "Show",
   "hide": "Hide",
-  "select": "Select"
+  "select": "Select",
+  "optional": "Optional"
 }

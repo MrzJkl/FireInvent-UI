@@ -117,7 +117,21 @@
     "person": "Person",
     "personPlaceholder": "Person auswählen"
   },
+  "maintenances": {
+    "label": "Wartungen",
+    "empty": "Keine Wartungen vorhanden",
+    "type": "Wartungstyp",
+    "performedAt": "Durchgeführt am",
+    "performedBy": "Durchgeführt von",
+    "noUserSelected": "Kein Benutzer ausgewählt",
+    "remarks": "Bemerkungen",
+    "descriptionAdd": "Geben Sie die Details der neuen Wartung ein.",
+    "descriptionEdit": "Aktualisieren Sie die Details der Wartung.",
+    "add": "Neue Wartung hinzufügen",
+    "edit": "Wartung bearbeiten"
+  },
   "show": "Anzeigen",
   "hide": "Ausblenden",
-  "select": "Auswählen"
+  "select": "Auswählen",
+  "optional": "Optional"
 }
