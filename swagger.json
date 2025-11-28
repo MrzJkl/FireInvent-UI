@@ -1,10 +1,14 @@
 {
-  "openapi": "3.0.4",
+  "openapi": "3.1.1",
   "info": {
-    "title": "FireInvent",
-    "description": "Manage your inventory a modern way!",
-    "version": "v1"
+    "title": "FireInvent - Open Inventory Management",
+    "version": "1"
   },
+  "servers": [
+    {
+      "url": "https://localhost:7197/"
+    }
+  ],
   "paths": {
     "/departments": {
       "get": {
@@ -15,7 +19,7 @@
         "description": "Returns a list of all departments.",
         "responses": {
           "200": {
-            "description": "List of departments",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -42,14 +46,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -61,24 +64,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Department created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -96,14 +100,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/departments/{id}": {
@@ -126,7 +129,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Department found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -145,16 +148,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Department not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -177,38 +196,52 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/DepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/DepartmentModel"
+                "$ref": "#/components/schemas/CreateOrUpdateDepartmentModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Department updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Department not found"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -229,18 +262,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Department deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Department not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/departments/{id}/persons": {
@@ -263,7 +312,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of persons",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -291,16 +340,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Department not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/assignments": {
@@ -312,7 +377,7 @@
         "description": "Returns a list of all item assignment histories.",
         "responses": {
           "200": {
-            "description": "List of item assignment histories",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -339,14 +404,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -358,24 +422,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Assignment created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -395,18 +460,51 @@
             }
           },
           "400": {
-            "description": "Invalid input or referenced item/person does not exist"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "409": {
-            "description": "An overlapping assignment already exists for this item"
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/assignments/{id}": {
@@ -429,7 +527,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Assignment found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -448,16 +546,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Assignment not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -480,41 +594,92 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemAssignmentHistoryModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Assignment updated"
-          },
-          "400": {
-            "description": "ID mismatch or referenced item/person does not exist"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Assignment not found"
-          },
-          "409": {
-            "description": "An overlapping assignment already exists for this item"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -535,18 +700,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Assignment deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Assignment not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/items": {
@@ -558,7 +739,7 @@
         "description": "Returns a list of all items.",
         "responses": {
           "200": {
-            "description": "List of items",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -585,14 +766,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -604,24 +784,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Item created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -641,18 +822,51 @@
             }
           },
           "400": {
-            "description": "Invalid input or referenced variant/location not found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "409": {
-            "description": "A item with the same identifier already exists"
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/items/{id}": {
@@ -675,7 +889,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Item found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -694,16 +908,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Item not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -726,41 +956,92 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ItemModel"
+                "$ref": "#/components/schemas/CreateOrUpdateItemModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Item updated"
-          },
-          "400": {
-            "description": "ID mismatch or referenced variant/location not found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Item not found"
-          },
-          "409": {
-            "description": "A item with the same identifier already exists"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -781,18 +1062,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Item deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Item not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/items/{id}/assignments": {
@@ -815,7 +1112,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of assignment histories",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -843,16 +1140,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Item not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/items/{id}/maintenance": {
@@ -875,7 +1188,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of maintenances",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -903,16 +1216,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Item not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/maintenances": {
@@ -924,7 +1253,7 @@
         "description": "Returns a list of all maintenance records.",
         "responses": {
           "200": {
-            "description": "List of maintenances",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -951,14 +1280,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -970,24 +1298,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Maintenance created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1007,15 +1336,31 @@
             }
           },
           "400": {
-            "description": "Invalid input or referenced item does not exist"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/maintenances/{id}": {
@@ -1038,7 +1383,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Maintenance found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1057,16 +1402,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Maintenance not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -1089,38 +1450,72 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Maintenance updated"
-          },
-          "400": {
-            "description": "ID mismatch or referenced item does not exist"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Maintenance not found"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -1141,18 +1536,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Maintenance deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Maintenance not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/maintenanceTypes": {
@@ -1164,7 +1575,7 @@
         "description": "Returns a list of all maintenanceTypes.",
         "responses": {
           "200": {
-            "description": "List of maintenanceTypes",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1191,14 +1602,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -1210,24 +1620,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "MaintenanceType created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1245,14 +1656,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/maintenanceTypes/{id}": {
@@ -1275,7 +1685,7 @@
         ],
         "responses": {
           "200": {
-            "description": "MaintenanceType found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1294,16 +1704,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "MaintenanceType not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -1326,38 +1752,52 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MaintenanceTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateMaintenanceTypeModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "MaintenanceType updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "MaintenanceType not found"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -1378,18 +1818,34 @@
         ],
         "responses": {
           "204": {
-            "description": "MaintenanceType deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "MaintenanceType not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/orders": {
@@ -1401,7 +1857,7 @@
         "description": "Returns a list of all orders.",
         "responses": {
           "200": {
-            "description": "List of orders",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1428,14 +1884,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -1447,24 +1902,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Order created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1482,14 +1938,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/orders/{id}": {
@@ -1512,7 +1967,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Order found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1531,16 +1986,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Order not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -1563,38 +2034,72 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderModel"
+                "$ref": "#/components/schemas/CreateOrUpdateOrderModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Order updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Order not found or cannot be updated"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -1615,18 +2120,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Order deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Order not found."
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/persons": {
@@ -1638,7 +2159,7 @@
         "description": "Returns a list of all persons.",
         "responses": {
           "200": {
-            "description": "List of persons",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1665,14 +2186,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -1684,24 +2204,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Person created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1720,16 +2241,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "409": {
-            "description": "Person with same name or external ID already exists"
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/persons/{id}": {
@@ -1752,7 +2289,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Person found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1771,16 +2308,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Person not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -1803,38 +2356,52 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PersonModel"
+                "$ref": "#/components/schemas/CreateOrUpdatePersonModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Person updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Person not found"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -1855,18 +2422,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Person deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Person not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/persons/{id}/items": {
@@ -1889,7 +2472,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of items",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1917,16 +2500,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Person not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/products": {
@@ -1938,7 +2537,7 @@
         "description": "Returns a list of all products.",
         "responses": {
           "200": {
-            "description": "List of products",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1965,14 +2564,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -1984,24 +2582,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Product created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2020,16 +2619,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "409": {
-            "description": "A product with the same name and manufacturer already exists"
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/products/{id}": {
@@ -2052,7 +2667,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Product found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2071,16 +2686,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Product not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -2103,41 +2734,72 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Product updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Product not found"
-          },
-          "409": {
-            "description": "A product with the same name and manufacturer already exists"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -2158,18 +2820,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Product deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Product not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/products/{id}/variants": {
@@ -2192,7 +2870,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of variants",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2220,16 +2898,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Product not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/productTypes": {
@@ -2241,7 +2935,7 @@
         "description": "Returns a list of all productTypes.",
         "responses": {
           "200": {
-            "description": "List of productTypes",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2268,14 +2962,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -2287,24 +2980,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "ProductType created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2322,14 +3016,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/productTypes/{id}": {
@@ -2352,7 +3045,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ProductType found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2371,16 +3064,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "ProductType not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -2403,38 +3112,52 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductTypeModel"
+                "$ref": "#/components/schemas/CreateOrUpdateProductTypeModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "ProductType updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "ProductType not found"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -2455,18 +3178,34 @@
         ],
         "responses": {
           "204": {
-            "description": "ProductType deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "ProductType not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/storageLocations": {
@@ -2478,7 +3217,7 @@
         "description": "Returns a list of all storage locations.",
         "responses": {
           "200": {
-            "description": "List of storage locations",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2505,14 +3244,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -2524,24 +3262,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Storage location created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2560,16 +3299,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "409": {
-            "description": "A storage location with the same name already exists"
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/storageLocations/{id}": {
@@ -2592,7 +3347,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Storage location found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2611,16 +3366,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Storage location not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -2643,41 +3414,72 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StorageLocationModel"
+                "$ref": "#/components/schemas/CreateOrUpdateStorageLocationModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "Storage location updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Storage location not found"
-          },
-          "409": {
-            "description": "A storage location with the same name already exists"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -2698,18 +3500,34 @@
         ],
         "responses": {
           "204": {
-            "description": "Storage location deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "Storage location not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/storageLocations/{id}/items": {
@@ -2732,7 +3550,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of items",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2760,16 +3578,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Storage location not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/users": {
@@ -2777,6 +3611,8 @@
         "tags": [
           "Users"
         ],
+        "summary": "List all users",
+        "description": "Returns a list of all users.",
         "responses": {
           "200": {
             "description": "OK",
@@ -2806,14 +3642,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/users/{id}": {
@@ -2836,35 +3671,51 @@
         ],
         "responses": {
           "200": {
-            "description": "User found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StorageLocationModel"
+                  "$ref": "#/components/schemas/UserModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StorageLocationModel"
+                  "$ref": "#/components/schemas/UserModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StorageLocationModel"
+                  "$ref": "#/components/schemas/UserModel"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "User not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/variants": {
@@ -2876,7 +3727,7 @@
         "description": "Returns a list of all variants.",
         "responses": {
           "200": {
-            "description": "List of variants",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2903,14 +3754,13 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -2922,24 +3772,25 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "variant created",
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
@@ -2959,18 +3810,51 @@
             }
           },
           "400": {
-            "description": "Referenced product does not exist"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "409": {
-            "description": "A variant with the same name already exists for this product"
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/variants/{id}": {
@@ -2993,7 +3877,7 @@
         ],
         "responses": {
           "200": {
-            "description": "variant found",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -3012,16 +3896,32 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "variant not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -3044,41 +3944,92 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantModel"
+                "$ref": "#/components/schemas/CreateOrUpdateVariantModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
         },
-        "responses": {
-          "204": {
-            "description": "variant updated"
-          },
-          "400": {
-            "description": "ID mismatch"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "variant not found"
-          },
-          "409": {
-            "description": "Another variant with the same name already exists for this product"
+        "security": [
+          {
+            "Bearer": []
           }
-        }
+        ]
       },
       "delete": {
         "tags": [
@@ -3099,18 +4050,34 @@
         ],
         "responses": {
           "204": {
-            "description": "variant deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "No Content"
           },
           "404": {
-            "description": "variant not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/variants/{id}/items": {
@@ -3133,7 +4100,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of items",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -3161,22 +4128,38 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Variant not found"
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
-      "CreateDepartmentModel": {
+      "CreateOrUpdateDepartmentModel": {
         "required": [
           "name"
         ],
@@ -3184,22 +4167,22 @@
         "properties": {
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateItemAssignmentHistoryModel": {
+      "CreateOrUpdateItemAssignmentHistoryModel": {
         "required": [
-          "assignedFrom",
           "itemId",
-          "personId"
+          "personId",
+          "assignedFrom"
         ],
         "type": "object",
         "properties": {
@@ -3216,23 +4199,26 @@
             "format": "date-time"
           },
           "assignedUntil": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           },
           "assignedById": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateItemModel": {
+      "CreateOrUpdateItemModel": {
         "required": [
+          "variantId",
           "condition",
-          "purchaseDate",
-          "variantId"
+          "purchaseDate"
         ],
         "type": "object",
         "properties": {
@@ -3242,13 +4228,17 @@
           },
           "identifier": {
             "maxLength": 255,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "storageLocationId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "condition": {
             "$ref": "#/components/schemas/ItemCondition"
@@ -3258,14 +4248,15 @@
             "format": "date-time"
           },
           "retirementDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateMaintenanceModel": {
+      "CreateOrUpdateMaintenanceModel": {
         "required": [
           "itemId",
           "performedAt",
@@ -3287,18 +4278,21 @@
           },
           "remarks": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "performedById": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateMaintenanceTypeModel": {
+      "CreateOrUpdateMaintenanceTypeModel": {
         "required": [
           "name"
         ],
@@ -3306,22 +4300,22 @@
         "properties": {
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateOrderItemModel": {
+      "CreateOrUpdateOrderItemModel": {
         "required": [
           "orderId",
-          "quantity",
-          "variantId"
+          "variantId",
+          "quantity"
         ],
         "type": "object",
         "properties": {
@@ -3334,24 +4328,29 @@
             "format": "uuid"
           },
           "quantity": {
-            "type": "integer",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
             "format": "int32"
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateOrderModel": {
+      "CreateOrUpdateOrderModel": {
         "required": [
-          "items",
           "orderDate",
-          "status"
+          "status",
+          "items"
         ],
         "type": "object",
         "properties": {
           "orderIdentifier": {
             "maxLength": 255,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "orderDate": {
             "type": "string",
@@ -3363,18 +4362,19 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CreateOrderItemModel"
+              "$ref": "#/components/schemas/CreateOrUpdateOrderItemModel"
             }
           },
           "deliveryDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreatePersonModel": {
+      "CreateOrUpdatePersonModel": {
         "required": [
           "firstName",
           "lastName"
@@ -3383,71 +4383,72 @@
         "properties": {
           "firstName": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "lastName": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "remarks": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "contactInfo": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "externalId": {
             "maxLength": 255,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "departmentIds": {
             "type": "array",
             "items": {
               "type": "string",
               "format": "uuid"
-            },
-            "nullable": true
+            }
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateProductModel": {
+      "CreateOrUpdateProductModel": {
         "required": [
-          "manufacturer",
           "name",
+          "manufacturer",
           "typeId"
         ],
         "type": "object",
         "properties": {
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "manufacturer": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "typeId": {
             "type": "string",
             "format": "uuid"
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateProductTypeModel": {
+      "CreateOrUpdateProductTypeModel": {
         "required": [
           "name"
         ],
@@ -3455,18 +4456,18 @@
         "properties": {
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateStorageLocationModel": {
+      "CreateOrUpdateStorageLocationModel": {
         "required": [
           "name"
         ],
@@ -3474,21 +4475,21 @@
         "properties": {
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "remarks": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
-      "CreateVariantModel": {
+      "CreateOrUpdateVariantModel": {
         "required": [
-          "name",
-          "productId"
+          "productId",
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -3498,16 +4499,16 @@
           },
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "additionalSpecs": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
       "DepartmentModel": {
         "required": [
@@ -3516,32 +4517,50 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
       "ItemAssignmentHistoryModel": {
         "required": [
-          "assignedFrom",
           "id",
+          "person",
           "itemId",
-          "personId"
+          "personId",
+          "assignedFrom"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "person": {
+            "$ref": "#/components/schemas/PersonModel"
+          },
+          "assignedBy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          },
           "itemId": {
             "type": "string",
             "format": "uuid"
@@ -3555,58 +4574,64 @@
             "format": "date-time"
           },
           "assignedUntil": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           },
           "assignedById": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          }
+        }
+      },
+      "ItemCondition": {
+        "enum": [
+          "New",
+          "Used",
+          "Damaged",
+          "Destroyed",
+          "Lost"
+        ]
+      },
+      "ItemModel": {
+        "required": [
+          "id",
+          "variant",
+          "variantId",
+          "condition",
+          "purchaseDate"
+        ],
+        "type": "object",
+        "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "assignedBy": {
-            "$ref": "#/components/schemas/UserModel"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ItemCondition": {
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
-      "ItemModel": {
-        "required": [
-          "condition",
-          "id",
-          "purchaseDate",
-          "variantId"
-        ],
-        "type": "object",
-        "properties": {
+          "variant": {
+            "$ref": "#/components/schemas/VariantModel"
+          },
           "variantId": {
             "type": "string",
             "format": "uuid"
           },
           "identifier": {
             "maxLength": 255,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "storageLocationId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "condition": {
             "$ref": "#/components/schemas/ItemCondition"
@@ -3616,29 +4641,41 @@
             "format": "date-time"
           },
           "retirementDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "variant": {
-            "$ref": "#/components/schemas/VariantModel"
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "MaintenanceModel": {
         "required": [
           "id",
+          "type",
           "itemId",
           "performedAt",
           "typeId"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "performedBy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/MaintenanceTypeModel"
+          },
           "itemId": {
             "type": "string",
             "format": "uuid"
@@ -3653,26 +4690,19 @@
           },
           "remarks": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "performedById": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
-          },
-          "performedBy": {
-            "$ref": "#/components/schemas/UserModel"
-          },
-          "type": {
-            "$ref": "#/components/schemas/MaintenanceTypeModel"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "MaintenanceTypeModel": {
         "required": [
@@ -3681,33 +4711,40 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
       "OrderItemModel": {
         "required": [
           "id",
-          "orderId",
-          "quantity",
           "variant",
-          "variantId"
+          "orderId",
+          "variantId",
+          "quantity"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "variant": {
+            "$ref": "#/components/schemas/VariantModel"
+          },
           "orderId": {
             "type": "string",
             "format": "uuid"
@@ -3717,18 +4754,14 @@
             "format": "uuid"
           },
           "quantity": {
-            "type": "integer",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
             "format": "int32"
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "variant": {
-            "$ref": "#/components/schemas/VariantModel"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "OrderModel": {
         "required": [
@@ -3739,10 +4772,22 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemModel"
+            }
+          },
           "orderIdentifier": {
             "maxLength": 255,
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "orderDate": {
             "type": "string",
@@ -3751,75 +4796,32 @@
           "status": {
             "$ref": "#/components/schemas/OrderStatus"
           },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderItemModel"
-            }
-          },
           "deliveryDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "OrderStatus": {
         "enum": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "type": "integer",
-        "format": "int32"
+          "Draft",
+          "Submitted",
+          "Delivered",
+          "Completed"
+        ]
       },
       "PersonModel": {
         "required": [
-          "firstName",
           "id",
+          "departments",
+          "firstName",
           "lastName"
         ],
         "type": "object",
         "properties": {
-          "firstName": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "lastName": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "remarks": {
-            "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "contactInfo": {
-            "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "externalId": {
-            "maxLength": 255,
-            "type": "string",
-            "nullable": true
-          },
-          "departmentIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "nullable": true
-          },
           "id": {
             "type": "string",
             "format": "uuid"
@@ -3828,50 +4830,121 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/DepartmentModel"
-            },
-            "nullable": true
+            }
+          },
+          "firstName": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "remarks": {
+            "maxLength": 2000,
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "contactInfo": {
+            "maxLength": 2000,
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "externalId": {
+            "maxLength": 255,
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "departmentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
-        },
-        "additionalProperties": false
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
       },
       "ProductModel": {
         "required": [
           "id",
-          "manufacturer",
-          "name",
           "type",
+          "name",
+          "manufacturer",
           "typeId"
         ],
         "type": "object",
         "properties": {
-          "name": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "manufacturer": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "typeId": {
-            "type": "string",
-            "format": "uuid"
-          },
           "id": {
             "type": "string",
             "format": "uuid"
           },
           "type": {
             "$ref": "#/components/schemas/ProductTypeModel"
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "manufacturer": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 2000,
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "typeId": {
+            "type": "string",
+            "format": "uuid"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "ProductTypeModel": {
         "required": [
@@ -3880,22 +4953,22 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "description": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
       "StorageLocationModel": {
         "required": [
@@ -3904,29 +4977,27 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "maxLength": 255,
-            "minLength": 1,
             "type": "string"
           },
           "remarks": {
             "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
       "UserModel": {
         "required": [
-          "eMail",
-          "firstName",
           "id",
-          "lastName"
+          "eMail"
         ],
         "type": "object",
         "properties": {
@@ -3935,68 +5006,100 @@
             "format": "uuid"
           },
           "eMail": {
-            "minLength": 1,
             "type": "string"
           },
           "firstName": {
-            "minLength": 1,
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "lastName": {
-            "minLength": 1,
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       },
       "VariantModel": {
         "required": [
           "id",
-          "name",
-          "productId"
+          "product",
+          "productId",
+          "name"
         ],
         "type": "object",
         "properties": {
-          "productId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "additionalSpecs": {
-            "maxLength": 2000,
-            "type": "string",
-            "nullable": true
-          },
           "id": {
             "type": "string",
             "format": "uuid"
           },
           "product": {
             "$ref": "#/components/schemas/ProductModel"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "additionalSpecs": {
+            "maxLength": 2000,
+            "type": [
+              "null",
+              "string"
+            ]
           }
-        },
-        "additionalProperties": false
+        }
       }
     },
     "securitySchemes": {
-      "oidc": {
-        "type": "openIdConnect",
-        "description": "Login via OpenID Connect",
-        "openIdConnectUrl": "http://localhost:8080/realms/fireinvent/.well-known/openid-configuration"
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Json Web Token"
       }
     }
   },
-  "security": [
+  "tags": [
     {
-      "oidc": [
-        "openid",
-        "profile",
-        "email"
-      ]
+      "name": "Departments"
+    },
+    {
+      "name": "ItemAssignmentHistories"
+    },
+    {
+      "name": "Items"
+    },
+    {
+      "name": "Maintenances"
+    },
+    {
+      "name": "MaintenanceTypes"
+    },
+    {
+      "name": "Order"
+    },
+    {
+      "name": "Persons"
+    },
+    {
+      "name": "Products"
+    },
+    {
+      "name": "ProductTypes"
+    },
+    {
+      "name": "StorageLocations"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Variants"
     }
   ]
 }

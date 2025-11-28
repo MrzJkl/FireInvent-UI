@@ -1,20 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 import {
   deleteMaintenanceTypesById,
   getMaintenanceTypes,
   postMaintenanceTypes,
   putMaintenanceTypesById,
-  type CreateMaintenanceTypeModel,
+  type CreateOrUpdateMaintenanceTypeModel,
   type MaintenanceTypeModel,
 } from '@/api';
 
 export function useMaintenanceTypes() {
   const [items, setItems] = useState<MaintenanceTypeModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
     getMaintenanceTypes,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } =
     useApiRequest(postMaintenanceTypes);
@@ -31,8 +32,15 @@ export function useMaintenanceTypes() {
   }, [fetchApi]);
 
   const refetch = useCallback(async () => {
+    setError(null);
     const res = await fetchApiRef.current({});
-    if (res) setItems(res);
+    if (res) {
+      setItems(res);
+    } else {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -41,7 +49,7 @@ export function useMaintenanceTypes() {
   }, []);
 
   const createItem = useCallback(
-    async (body: CreateMaintenanceTypeModel) => {
+    async (body: CreateOrUpdateMaintenanceTypeModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -50,8 +58,8 @@ export function useMaintenanceTypes() {
   );
 
   const updateItem = useCallback(
-    async (item: MaintenanceTypeModel) => {
-      const res = await updateApi({ path: { id: item.id }, body: item });
+    async (id: string, body: CreateOrUpdateMaintenanceTypeModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },
@@ -67,7 +75,7 @@ export function useMaintenanceTypes() {
     [deleteApi, refetch],
   );
 
-  const initialLoading = loadingList && items.length === 0;
+  const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
     items,
@@ -76,6 +84,7 @@ export function useMaintenanceTypes() {
     creating,
     updating,
     deleting,
+    error,
     refetch,
     createItem,
     updateItem,

@@ -4,16 +4,17 @@ import {
   postPersons,
   putPersonsById,
   deletePersonsById,
-  type CreatePersonModel,
+  type CreateOrUpdatePersonModel,
   type PersonModel,
 } from '@/api';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 
 export function usePersons() {
   const [items, setItems] = useState<PersonModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
     getPersons,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } = useApiRequest(postPersons);
   const { callApi: updateApi, loading: updating } =
@@ -27,8 +28,15 @@ export function usePersons() {
   }, [fetchApi]);
 
   const refetch = useCallback(async () => {
+    setError(null);
     const res = await fetchApiRef.current({});
-    if (res) setItems(res);
+    if (res) {
+      setItems(res);
+    } else {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    }
   }, []);
 
   // Only fetch once on mount
@@ -38,8 +46,8 @@ export function usePersons() {
   }, []);
 
   const createPerson = useCallback(
-    async (body: CreatePersonModel) => {
-      const res = await createApi({ body });
+    async (body: CreateOrUpdatePersonModel) => {
+      const res = await createApi({ body: body });
       await refetch();
       return res;
     },
@@ -47,16 +55,15 @@ export function usePersons() {
   );
 
   const updatePerson = useCallback(
-    async (id: string, body: CreatePersonModel) => {
-      const current = items.find((p) => p.id === id);
-      if (!current) return null;
-      // API expects full PersonModel
-      const full: PersonModel = { ...current, ...body, departments: [] };
-      const res = await updateApi({ path: { id }, body: full });
+    async (id: string, body: CreateOrUpdatePersonModel) => {
+      const res = await updateApi({
+        path: { id },
+        body: body,
+      });
       await refetch();
       return res;
     },
-    [items, updateApi, refetch],
+    [updateApi, refetch],
   );
 
   const deletePerson = useCallback(
@@ -68,7 +75,7 @@ export function usePersons() {
     [deleteApi, refetch],
   );
 
-  const initialLoading = loadingList && items.length === 0;
+  const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
     persons: items,
@@ -77,6 +84,7 @@ export function usePersons() {
     creating,
     updating,
     deleting,
+    error,
     createPerson,
     updatePerson,
     deletePerson,

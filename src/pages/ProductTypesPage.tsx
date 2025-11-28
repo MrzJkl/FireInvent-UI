@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ProductTypeFormDialog } from '@/features/product-types/ProductTypeFormDialog';
 import { useProductTypes } from '@/features/product-types/useProductTypes';
@@ -31,15 +32,18 @@ export default function ProductTypesPage() {
     creating,
     updating,
     deleting,
+    error,
     createItem,
     updateItem,
     deleteItem,
+    refetch,
   } = useProductTypes();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
   return (
@@ -116,7 +120,7 @@ export default function ProductTypesPage() {
         }}
         onSubmit={async (values) => {
           if (editingItem) {
-            await updateItem({ ...editingItem, ...values });
+            await updateItem(editingItem.id, values);
           } else {
             await createItem(values);
           }

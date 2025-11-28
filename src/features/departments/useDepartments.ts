@@ -1,20 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 import {
   deleteDepartmentsById,
   getDepartments,
   postDepartments,
   putDepartmentsById,
-  type CreateDepartmentModel,
+  type CreateOrUpdateDepartmentModel,
   type DepartmentModel,
 } from '@/api';
 
 export function useDepartments() {
   const [items, setItems] = useState<DepartmentModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
     getDepartments,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } =
     useApiRequest(postDepartments);
@@ -30,8 +31,15 @@ export function useDepartments() {
   }, [fetchApi]);
 
   const refetch = useCallback(async () => {
+    setError(null);
     const res = await fetchApiRef.current({});
-    if (res) setItems(res);
+    if (res) {
+      setItems(res);
+    } else {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -40,7 +48,7 @@ export function useDepartments() {
   }, []);
 
   const createItem = useCallback(
-    async (body: CreateDepartmentModel) => {
+    async (body: CreateOrUpdateDepartmentModel) => {
       const res = await createApi({ body });
       await refetch();
       return res;
@@ -49,8 +57,8 @@ export function useDepartments() {
   );
 
   const updateItem = useCallback(
-    async (item: DepartmentModel) => {
-      const res = await updateApi({ path: { id: item.id }, body: item });
+    async (id: string, body: CreateOrUpdateDepartmentModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },
@@ -66,7 +74,7 @@ export function useDepartments() {
     [deleteApi, refetch],
   );
 
-  const initialLoading = loadingList && items.length === 0;
+  const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
     items,
@@ -75,6 +83,7 @@ export function useDepartments() {
     creating,
     updating,
     deleting,
+    error,
     refetch,
     createItem,
     updateItem,

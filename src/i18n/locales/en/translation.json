@@ -77,5 +77,73 @@
     "add": "Add new Variant",
     "descriptionEdit": "Update the variant details below.",
     "descriptionAdd": "Fill in the variant details below."
+  },
+  "item": "Item",
+  "itemsCount_one": "{{count}} item",
+  "itemsCount_other": "{{count}} items",
+  "itemsEmpty": "No items available",
+  "items": {
+    "label": "Items",
+    "descriptionEdit": "Update the item details below.",
+    "descriptionAdd": "Fill in the item details below."
+  },
+  "identifier": "Identifier",
+  "condition": "Condition",
+  "purchaseDate": "Purchase Date",
+  "retirementDate": "Retirement Date",
+  "itemCondition": {
+    "New": "New",
+    "Used": "Used",
+    "Damaged": "Damaged",
+    "Destroyed": "Destroyed",
+    "Lost": "Lost"
+  },
+  "itemAssignments": {
+    "label": "Assignments",
+    "description": "Assignment history for this item",
+    "empty": "No assignments available",
+    "active": "Active",
+    "returned": "Returned",
+    "assignedFrom": "Assigned from",
+    "assignedUntil": "Assigned until",
+    "descriptionAdd": "Enter the details for the new assignment.",
+    "descriptionEdit": "Update the assignment details.",
+    "overlapError": "There is already an overlapping assignment for this time period.",
+    "overlapWarning": "Warning: This assignment overlaps with an existing assignment.",
+    "add": "Add new Assignment",
+    "edit": "Edit Assignment",
+    "person": "Person",
+    "personPlaceholder": "Select person"
+  },
+  "maintenances": {
+    "label": "Maintenances",
+    "empty": "No maintenances available",
+    "type": "Maintenance Type",
+    "performedAt": "Performed at",
+    "performedBy": "Performed by",
+    "noUserSelected": "No user selected",
+    "remarks": "Remarks",
+    "descriptionAdd": "Enter the details for the new maintenance.",
+    "descriptionEdit": "Update the maintenance details.",
+    "add": "Add new Maintenance",
+    "edit": "Edit Maintenance"
+  },
+  "show": "Show",
+  "hide": "Hide",
+  "select": "Select",
+  "optional": "Optional",
+  "users": {
+    "label": "Users",
+    "empty": "No users available",
+    "email": "Email",
+    "name": "Name",
+    "userId": "User ID",
+    "noName": "No name",
+    "managedInKeycloak": "User management is handled through Keycloak"
+  },
+  "error": {
+    "loadingFailed": "Failed to load data",
+    "statusCode": "Status code",
+    "retry": "Retry"
   }
 }

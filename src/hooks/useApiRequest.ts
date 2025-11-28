@@ -8,11 +8,17 @@ type ApiOptions = {
   showError?: boolean;
 };
 
+export type ApiError = {
+  message: string;
+  statusCode?: number;
+};
+
 export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
   apiFn: T,
   defaultOptions: ApiOptions = {},
 ) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<ApiError | null>(null);
 
   async function callApi(
     ...args: Parameters<T> & [ApiOptions?]
@@ -27,15 +33,23 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
 
     try {
       setLoading(true);
+      setError(null);
 
       const res = await apiFn(...args);
 
       const status = res?.status ?? 200;
 
       if (status >= 400) {
+        const errorMsg = res?.data?.message ?? 'Ein Fehler ist aufgetreten.';
+        const apiError: ApiError = {
+          message: errorMsg,
+          statusCode: status,
+        };
+        setError(apiError);
+
         if (merged.showError) {
           toast.error(merged.errorMessage ?? `Fehler ${status}`, {
-            description: res?.data?.message ?? 'Ein Fehler ist aufgetreten.',
+            description: errorMsg,
           });
         }
         return null;
@@ -47,11 +61,17 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
 
       return res?.data ?? res.data ?? null;
     } catch (err: any) {
+      const errorMsg =
+        err?.response?.data?.message ?? err?.message ?? 'Unbekannter Fehler';
+      const apiError: ApiError = {
+        message: errorMsg,
+        statusCode: err?.response?.status,
+      };
+      setError(apiError);
+
       if (merged.showError) {
-        const msg =
-          err?.response?.data?.message ?? err?.message ?? 'Unbekannter Fehler';
         toast.error(merged.errorMessage ?? 'Fehler bei der API-Anfrage', {
-          description: msg,
+          description: errorMsg,
         });
       }
       return null;
@@ -60,5 +80,5 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
     }
   }
 
-  return { callApi, loading };
+  return { callApi, loading, error };
 }

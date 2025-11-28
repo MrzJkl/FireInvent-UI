@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ProductFormDialog } from '@/features/products/ProductFormDialog';
 import { useProducts } from '@/features/products/useProducts';
@@ -31,15 +32,18 @@ export default function ProductsPage() {
     isCreating,
     isUpdating,
     isDeleting,
+    error,
     createProduct,
     updateProduct,
     deleteProduct,
+    refetch,
   } = useProducts();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (isLoading) return <LoadingIndicator />;
 
   return (

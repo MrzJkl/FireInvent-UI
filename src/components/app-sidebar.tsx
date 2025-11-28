@@ -9,6 +9,7 @@ import {
   IconPackage,
   IconUser,
   IconUsers,
+  IconUserCircle,
   IconWashMachine,
 } from '@tabler/icons-react';
 
@@ -69,6 +70,11 @@ const data = {
       title: 'storageLocationPlural',
       url: '/app/storageLocations',
       icon: IconBuildingStore,
+    },
+    {
+      title: 'users.label',
+      url: '/app/users',
+      icon: IconUserCircle,
     },
   ],
 };

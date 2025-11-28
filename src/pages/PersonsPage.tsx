@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { PersonFormDialog } from '@/features/persons/PersonFormDialog';
 import { usePersons } from '@/features/persons/usePersons';
@@ -29,15 +30,18 @@ export default function PersonsPage() {
     creating,
     updating,
     deleting,
+    error,
     createPerson,
     updatePerson,
     deletePerson,
+    refetch,
   } = usePersons();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator />;
 
   return (

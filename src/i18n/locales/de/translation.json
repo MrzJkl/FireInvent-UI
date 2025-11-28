@@ -19,30 +19,30 @@
   "productTypes": {
     "edit": "Produkttyp bearbeiten",
     "add": "Neuen Produkttyp hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details des Produkttyps unten.",
-    "descriptionAdd": "Geben Sie die Details des neuen Produkttyps unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details des Produkttyps.",
+    "descriptionAdd": "Geben Sie die Details des neuen Produkttyps ein."
   },
   "products": {
     "edit": "Produkt bearbeiten",
     "add": "Neues Produkt hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details des Produkts unten.",
-    "descriptionAdd": "Geben Sie die Details des neuen Produkts unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details des Produkts.",
+    "descriptionAdd": "Geben Sie die Details des neuen Produkts ein."
   },
   "maintenanceType": "Wartungstyp",
   "maintenanceTypePlural": "Wartungstypen",
   "maintenanceTypes": {
     "edit": "Wartungstyp bearbeiten",
     "add": "Neuen Wartungstyp hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details des Wartungstyps unten.",
-    "descriptionAdd": "Geben Sie die Details des neuen Wartungstyps unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details des Wartungstyps.",
+    "descriptionAdd": "Geben Sie die Details des neuen Wartungstyps ein."
   },
   "storageLocation": "Lagerort",
   "storageLocationPlural": "Lagerorte",
   "storageLocations": {
     "edit": "Lagerort bearbeiten",
     "add": "Neuen Lagerort hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details des Lagerorts unten.",
-    "descriptionAdd": "Geben Sie die Details des neuen Lagerorts unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details des Lagerorts.",
+    "descriptionAdd": "Geben Sie die Details des neuen Lagerorts ein."
   },
   "remarks": "Bemerkungen",
   "toggleTheme": "Theme umschalten",
@@ -60,14 +60,14 @@
   "departments": {
     "edit": "Abteilung bearbeiten",
     "add": "Neue Abteilung hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details der Abteilung unten.",
-    "descriptionAdd": "Geben Sie die Details der neuen Abteilung unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details der Abteilung.",
+    "descriptionAdd": "Geben Sie die Details der neuen Abteilung ein."
   },
   "persons": {
     "edit": "Person bearbeiten",
     "add": "Neue Person hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details der Person unten.",
-    "descriptionAdd": "Geben Sie die Details der neuen Person unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details der Person.",
+    "descriptionAdd": "Geben Sie die Details der neuen Person ein."
   },
   "confirmDeleteTitle": "Löschen bestätigen",
   "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
@@ -77,7 +77,75 @@
   "variants": {
     "edit": "Variante bearbeiten",
     "add": "Neue Variante hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details der Variante unten.",
-    "descriptionAdd": "Geben Sie die Details der neuen Variante unten ein."
+    "descriptionEdit": "Aktualisieren Sie die Details der Variante.",
+    "descriptionAdd": "Geben Sie die Details der neuen Variante ein."
+  },
+  "item": "Exemplar",
+  "itemsCount_one": "{{count}} Exemplar",
+  "itemsCount_other": "{{count}} Exemplare",
+  "itemsEmpty": "Keine Exemplare vorhanden",
+  "items": {
+    "label": "Exemplare",
+    "descriptionEdit": "Aktualisieren Sie die Details des Exemplars.",
+    "descriptionAdd": "Geben Sie die Details des neuen Exemplars ein."
+  },
+  "identifier": "Kennung",
+  "condition": "Zustand",
+  "purchaseDate": "Kaufdatum",
+  "retirementDate": "Ausmusterungsdatum",
+  "itemCondition": {
+    "New": "Neu",
+    "Used": "Gebraucht",
+    "Damaged": "Beschädigt",
+    "Destroyed": "Zerstört",
+    "Lost": "Verloren"
+  },
+  "itemAssignments": {
+    "label": "Zuweisungen",
+    "description": "Verlauf der Zuweisungen dieses Exemplars",
+    "empty": "Keine Zuweisungen vorhanden",
+    "active": "Aktiv",
+    "returned": "Zurückgegeben",
+    "assignedFrom": "Zugewiesen von",
+    "assignedUntil": "Zugewiesen bis",
+    "descriptionAdd": "Geben Sie die Details der neuen Zuweisung ein.",
+    "descriptionEdit": "Aktualisieren Sie die Details der Zuweisung.",
+    "overlapError": "Es existiert bereits eine überschneidende Zuweisung für diesen Zeitraum.",
+    "overlapWarning": "Achtung: Diese Zuweisung überschneidet sich mit einer bestehenden Zuweisung.",
+    "add": "Neue Zuweisung hinzufügen",
+    "edit": "Zuweisung bearbeiten",
+    "person": "Person",
+    "personPlaceholder": "Person auswählen"
+  },
+  "maintenances": {
+    "label": "Wartungen",
+    "empty": "Keine Wartungen vorhanden",
+    "type": "Wartungstyp",
+    "performedAt": "Durchgeführt am",
+    "performedBy": "Durchgeführt von",
+    "noUserSelected": "Kein Benutzer ausgewählt",
+    "remarks": "Bemerkungen",
+    "descriptionAdd": "Geben Sie die Details der neuen Wartung ein.",
+    "descriptionEdit": "Aktualisieren Sie die Details der Wartung.",
+    "add": "Neue Wartung hinzufügen",
+    "edit": "Wartung bearbeiten"
+  },
+  "show": "Anzeigen",
+  "hide": "Ausblenden",
+  "select": "Auswählen",
+  "optional": "Optional",
+  "users": {
+    "label": "Benutzer",
+    "empty": "Keine Benutzer vorhanden",
+    "email": "E-Mail",
+    "name": "Name",
+    "userId": "Benutzer-ID",
+    "noName": "Kein Name",
+    "managedInKeycloak": "Benutzerverwaltung erfolgt über Keycloak"
+  },
+  "error": {
+    "loadingFailed": "Daten konnten nicht geladen werden",
+    "statusCode": "Statuscode",
+    "retry": "Erneut versuchen"
   }
 }

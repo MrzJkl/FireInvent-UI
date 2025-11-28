@@ -4,17 +4,18 @@ import {
   postVariants,
   putVariantsById,
   deleteVariantsById,
-  type CreateVariantModel,
+  type CreateOrUpdateVariantModel,
   type VariantModel,
 } from '@/api';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 
 export function useVariants(productId: string | undefined) {
   const [items, setItems] = useState<VariantModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: listApi, loading: loadingList } = useApiRequest(
     getProductsByIdVariants,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } = useApiRequest(postVariants);
   const { callApi: updateApi, loading: updating } =
@@ -29,8 +30,15 @@ export function useVariants(productId: string | undefined) {
 
   const refetch = useCallback(async () => {
     if (!productId) return;
+    setError(null);
     const res = await listApiRef.current({ path: { id: productId } });
-    if (res) setItems(res);
+    if (res) {
+      setItems(res);
+    } else {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    }
   }, [productId]);
 
   useEffect(() => {
@@ -39,7 +47,7 @@ export function useVariants(productId: string | undefined) {
   }, [productId]);
 
   const createVariant = useCallback(
-    async (body: Omit<CreateVariantModel, 'productId'>) => {
+    async (body: Omit<CreateOrUpdateVariantModel, 'productId'>) => {
       if (!productId) return null;
       const res = await createApi({
         body: { ...body, productId },
@@ -51,15 +59,16 @@ export function useVariants(productId: string | undefined) {
   );
 
   const updateVariant = useCallback(
-    async (id: string, body: Omit<CreateVariantModel, 'productId'>) => {
-      const current = items.find((v) => v.id === id);
-      if (!current || !productId) return null;
-      const full: VariantModel = { ...current, ...body, productId };
-      const res = await updateApi({ path: { id }, body: full });
+    async (id: string, body: Omit<CreateOrUpdateVariantModel, 'productId'>) => {
+      if (!productId) return null;
+      const res = await updateApi({
+        path: { id },
+        body: { ...body, productId },
+      });
       await refetch();
       return res;
     },
-    [items, updateApi, productId, refetch],
+    [updateApi, productId, refetch],
   );
 
   const deleteVariant = useCallback(
@@ -71,7 +80,7 @@ export function useVariants(productId: string | undefined) {
     [deleteApi, refetch],
   );
 
-  const initialLoading = loadingList && items.length === 0;
+  const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
     variants: items,
@@ -80,6 +89,7 @@ export function useVariants(productId: string | undefined) {
     isCreating: creating,
     isUpdating: updating,
     isDeleting: deleting,
+    error,
     createVariant,
     updateVariant,
     deleteVariant,

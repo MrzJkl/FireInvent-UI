@@ -1,26 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  getProducts,
-  postProducts,
-  putProductsById,
-  deleteProductsById,
-  type CreateOrUpdateProductModel,
-  type ProductModel,
-} from '@/api';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
+import {
+  deleteMaintenancesById,
+  getMaintenances,
+  postMaintenances,
+  putMaintenancesById,
+  type CreateOrUpdateMaintenanceModel,
+  type MaintenanceModel,
+} from '@/api';
 
-export function useProducts() {
-  const [items, setItems] = useState<ProductModel[]>([]);
+export function useMaintenances() {
+  const [items, setItems] = useState<MaintenanceModel[]>([]);
   const [error, setError] = useState<ApiError | null>(null);
+
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getProducts,
+    getMaintenances,
     { showSuccess: false, showError: false },
   );
-  const { callApi: createApi, loading: creating } = useApiRequest(postProducts);
-  const { callApi: updateApi, loading: updating } =
-    useApiRequest(putProductsById);
-  const { callApi: deleteApi, loading: deleting } =
-    useApiRequest(deleteProductsById);
+  const { callApi: createApi, loading: creating } =
+    useApiRequest(postMaintenances);
+  const { callApi: updateApi, loading: updating } = useApiRequest(
+    putMaintenancesById,
+  );
+  const { callApi: deleteApi, loading: deleting } = useApiRequest(
+    deleteMaintenancesById,
+  );
 
   const fetchApiRef = useRef(fetchApi);
   useEffect(() => {
@@ -44,28 +48,25 @@ export function useProducts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const createProduct = useCallback(
-    async (body: CreateOrUpdateProductModel) => {
-      const res = await createApi({ body: body });
+  const createItem = useCallback(
+    async (body: CreateOrUpdateMaintenanceModel) => {
+      const res = await createApi({ body });
       await refetch();
       return res;
     },
     [createApi, refetch],
   );
 
-  const updateProduct = useCallback(
-    async (id: string, body: CreateOrUpdateProductModel) => {
-      const res = await updateApi({
-        path: { id },
-        body: body,
-      });
+  const updateItem = useCallback(
+    async (id: string, body: CreateOrUpdateMaintenanceModel) => {
+      const res = await updateApi({ path: { id }, body });
       await refetch();
       return res;
     },
     [updateApi, refetch],
   );
 
-  const deleteProduct = useCallback(
+  const deleteItem = useCallback(
     async (id: string) => {
       const res = await deleteApi({ path: { id } });
       await refetch();
@@ -77,17 +78,16 @@ export function useProducts() {
   const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
-    products: items,
+    items,
     initialLoading,
     loadingList,
-    isLoading: loadingList,
-    isCreating: creating,
-    isUpdating: updating,
-    isDeleting: deleting,
+    creating,
+    updating,
+    deleting,
     error,
-    createProduct,
-    updateProduct,
-    deleteProduct,
     refetch,
+    createItem,
+    updateItem,
+    deleteItem,
   };
 }
