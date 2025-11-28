@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ItemAssignmentFormDialog } from '@/features/item-assignments/ItemAssignmentFormDialog';
 import { MaintenanceFormDialog } from '@/features/maintenances/MaintenanceFormDialog';
@@ -20,7 +21,7 @@ import {
   putMaintenancesById,
   deleteMaintenancesById,
 } from '@/api';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 import type {
   ItemModel,
   ItemAssignmentHistoryModel,
@@ -37,6 +38,7 @@ export default function ItemDetailPage() {
     [],
   );
   const [maintenances, setMaintenances] = useState<MaintenanceModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
   const [assignmentFormOpen, setAssignmentFormOpen] = useState(false);
   const [editingAssignmentId, setEditingAssignmentId] = useState<string | null>(
     null,
@@ -57,12 +59,12 @@ export default function ItemDetailPage() {
 
   const { callApi: fetchItem, loading: itemLoading } = useApiRequest(
     getItemsById,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: fetchAssignments, loading: assignmentsLoading } =
-    useApiRequest(getItemsByIdAssignments, { showSuccess: false });
+    useApiRequest(getItemsByIdAssignments, { showSuccess: false, showError: false });
   const { callApi: fetchMaintenances, loading: maintenancesLoading } =
-    useApiRequest(getItemsByIdMaintenance, { showSuccess: false });
+    useApiRequest(getItemsByIdMaintenance, { showSuccess: false, showError: false });
   const { callApi: createAssignment, loading: creatingAssignment } =
     useApiRequest(postAssignments);
   const { callApi: updateAssignment, loading: updatingAssignment } =
@@ -80,8 +82,15 @@ export default function ItemDetailPage() {
     if (!id) return;
 
     const loadData = async () => {
+      setError(null);
       const itemData = await fetchItem({ path: { id } });
-      if (itemData) setItem(itemData);
+      if (!itemData) {
+        setError({
+          message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+        });
+        return;
+      }
+      setItem(itemData);
 
       const assignmentsData = await fetchAssignments({ path: { id } });
       if (assignmentsData) setAssignments(assignmentsData);
@@ -93,6 +102,25 @@ export default function ItemDetailPage() {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const refetchData = async () => {
+    if (!id) return;
+    setError(null);
+    const itemData = await fetchItem({ path: { id } });
+    if (!itemData) {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+      return;
+    }
+    setItem(itemData);
+    
+    const assignmentsData = await fetchAssignments({ path: { id } });
+    if (assignmentsData) setAssignments(assignmentsData);
+    
+    const maintenancesData = await fetchMaintenances({ path: { id } });
+    if (maintenancesData) setMaintenances(maintenancesData);
+  };
 
   const refetchAssignments = async () => {
     if (!id) return;
@@ -106,7 +134,10 @@ export default function ItemDetailPage() {
     if (maintenancesData) setMaintenances(maintenancesData);
   };
 
-  if (itemLoading) return <LoadingIndicator />;
+  const initialLoading = itemLoading && !item && !error;
+
+  if (error) return <ErrorState error={error} onRetry={refetchData} />;
+  if (initialLoading) return <LoadingIndicator />;
 
   if (!item) {
     return (

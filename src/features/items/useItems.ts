@@ -7,17 +7,18 @@ import {
   type CreateOrUpdateItemModel,
   type ItemModel,
 } from '@/api';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 
 export function useItems(
   productId: string | undefined,
   variants: Array<{ id: string }> | undefined,
 ) {
   const [items, setItems] = useState<ItemModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: listApi, loading: loadingList } = useApiRequest(
     getVariantsByIdItems,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } = useApiRequest(postItems);
   const { callApi: updateApi, loading: updating } = useApiRequest(putItemsById);
@@ -31,16 +32,26 @@ export function useItems(
 
   const refetch = useCallback(async () => {
     if (!productId || !variants) return;
+    setError(null);
     const results: ItemModel[] = [];
+    let hasError = false;
     await Promise.all(
       variants.map(async (v) => {
         const res = await listApiRef.current({ path: { id: v.id } });
         if (res && Array.isArray(res)) {
           results.push(...res);
+        } else {
+          hasError = true;
         }
       }),
     );
-    setItems(results);
+    if (hasError) {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    } else {
+      setItems(results);
+    }
   }, [productId, variants]);
 
   useEffect(() => {
@@ -84,6 +95,7 @@ export function useItems(
     isCreating: creating,
     isUpdating: updating,
     isDeleting: deleting,
+    error,
     createItem,
     updateItem,
     deleteItem,

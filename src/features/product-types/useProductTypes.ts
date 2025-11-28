@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 import {
   deleteProductTypesById,
   getProductTypes,
@@ -11,10 +11,11 @@ import {
 
 export function useProductTypes() {
   const [items, setItems] = useState<ProductTypeModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
     getProductTypes,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } =
     useApiRequest(postProductTypes);
@@ -30,8 +31,15 @@ export function useProductTypes() {
   }, [fetchApi]);
 
   const refetch = useCallback(async () => {
+    setError(null);
     const res = await fetchApiRef.current({});
-    if (res) setItems(res);
+    if (res) {
+      setItems(res);
+    } else {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -66,7 +74,7 @@ export function useProductTypes() {
     [deleteApi, refetch],
   );
 
-  const initialLoading = loadingList && items.length === 0;
+  const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
     items,
@@ -75,6 +83,7 @@ export function useProductTypes() {
     creating,
     updating,
     deleting,
+    error,
     refetch,
     createItem,
     updateItem,

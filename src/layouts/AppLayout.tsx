@@ -1,5 +1,4 @@
 import { AppSidebar } from '@/components/app-sidebar';
-import { AppFooter } from '@/components/AppFooter';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
@@ -23,7 +22,6 @@ export default function AppLayout() {
             <Outlet />
           </div>
         </main>
-        <AppFooter />
       </SidebarInset>
     </SidebarProvider>
   );

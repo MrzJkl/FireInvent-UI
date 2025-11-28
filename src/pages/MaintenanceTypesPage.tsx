@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { MaintenanceTypeFormDialog } from '@/features/maintenance-types/MaintenanceTypeFormDialog';
 import { useMaintenanceTypes } from '@/features/maintenance-types/useMaintenanceTypes';
@@ -33,15 +34,18 @@ export default function MaintenanceTypesPage() {
     creating,
     updating,
     deleting,
+    error,
     createItem,
     updateItem,
     deleteItem,
+    refetch,
   } = useMaintenanceTypes();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
   return (

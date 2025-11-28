@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { StorageLocationFormDialog } from '@/features/storage-locations/StorageLocationFormDialog';
 import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
@@ -33,15 +34,18 @@ export default function StorageLocationsPage() {
     creating,
     updating,
     deleting,
+    error,
     createItem,
     updateItem,
     deleteItem,
+    refetch,
   } = useStorageLocations();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
   return (

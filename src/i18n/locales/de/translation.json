@@ -142,5 +142,10 @@
     "userId": "Benutzer-ID",
     "noName": "Kein Name",
     "managedInKeycloak": "Benutzerverwaltung erfolgt über Keycloak"
+  },
+  "error": {
+    "loadingFailed": "Daten konnten nicht geladen werden",
+    "statusCode": "Statuscode",
+    "retry": "Erneut versuchen"
   }
 }

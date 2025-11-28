@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { ProductFormDialog } from '@/features/products/ProductFormDialog';
 import { useVariants } from '@/features/variants/useVariants';
 import { VariantFormDialog } from '@/features/variants/VariantFormDialog';
@@ -32,16 +33,18 @@ export default function ProductDetailPage() {
   const [confirmVariantOpen, setConfirmVariantOpen] = useState(false);
   const [product, setProduct] = useState<ProductModel | null>(null);
 
-  const { products, isLoading, updateProduct } = useProducts();
+  const { products, isLoading, updateProduct, error: productsError, refetch: refetchProducts } = useProducts();
   const {
     variants,
     isLoading: variantsLoading,
     isCreating: creatingVariant,
     isUpdating: updatingVariant,
     isDeleting: deletingVariant,
+    error: variantsError,
     createVariant,
     updateVariant,
     deleteVariant,
+    refetch: refetchVariants,
   } = useVariants(id);
 
   const {
@@ -50,9 +53,11 @@ export default function ProductDetailPage() {
     isCreating: creatingItem,
     isUpdating: updatingItem,
     isDeleting: deletingItem,
+    error: itemsError,
     createItem,
     updateItem,
     deleteItem,
+    refetch: refetchItems,
   } = useItems(id, variants);
 
   const [itemFormOpen, setItemFormOpen] = useState(false);
@@ -73,6 +78,9 @@ export default function ProductDetailPage() {
     }
   }, [products, id]);
 
+  if (productsError) return <ErrorState error={productsError} onRetry={refetchProducts} />;
+  if (variantsError) return <ErrorState error={variantsError} onRetry={refetchVariants} />;
+  if (itemsError) return <ErrorState error={itemsError} onRetry={refetchItems} />;
   if (isLoading) return <LoadingIndicator />;
 
   if (!product) {

@@ -7,14 +7,17 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
+import { ErrorState } from '@/components/ErrorState';
 import { useUsers } from '@/hooks/useUsers';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 
 export default function UsersPage() {
   const { t } = useTranslation();
-  const { users, initialLoading } = useUsers();
+  const { users, initialLoading, error, refetch } = useUsers();
 
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
+  
   if (initialLoading) return <LoadingIndicator />;
 
   return (

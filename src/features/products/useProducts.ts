@@ -7,13 +7,14 @@ import {
   type CreateOrUpdateProductModel,
   type ProductModel,
 } from '@/api';
-import { useApiRequest } from '@/hooks/useApiRequest';
+import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 
 export function useProducts() {
   const [items, setItems] = useState<ProductModel[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(
     getProducts,
-    { showSuccess: false },
+    { showSuccess: false, showError: false },
   );
   const { callApi: createApi, loading: creating } = useApiRequest(postProducts);
   const { callApi: updateApi, loading: updating } =
@@ -27,8 +28,15 @@ export function useProducts() {
   }, [fetchApi]);
 
   const refetch = useCallback(async () => {
+    setError(null);
     const res = await fetchApiRef.current({});
-    if (res) setItems(res);
+    if (res) {
+      setItems(res);
+    } else {
+      setError({
+        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -66,7 +74,7 @@ export function useProducts() {
     [deleteApi, refetch],
   );
 
-  const initialLoading = loadingList && items.length === 0;
+  const initialLoading = loadingList && items.length === 0 && !error;
 
   return {
     products: items,
@@ -76,6 +84,7 @@ export function useProducts() {
     isCreating: creating,
     isUpdating: updating,
     isDeleting: deleting,
+    error,
     createProduct,
     updateProduct,
     deleteProduct,

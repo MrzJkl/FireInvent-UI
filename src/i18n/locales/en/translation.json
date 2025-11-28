@@ -140,5 +140,10 @@
     "userId": "User ID",
     "noName": "No name",
     "managedInKeycloak": "User management is handled through Keycloak"
+  },
+  "error": {
+    "loadingFailed": "Failed to load data",
+    "statusCode": "Status code",
+    "retry": "Retry"
   }
 }
