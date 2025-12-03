@@ -41,7 +41,7 @@ export default function DashboardPage() {
           variants: variantsRes.data?.length ?? 0,
           items: itemsRes.data?.length ?? 0,
           persons: personsRes.data?.length ?? 0,
-          orders: 0, // Platzhalter
+          orders: 0,
         });
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);

@@ -1,4 +1,10 @@
-// Rekursiv alle leeren Strings in null umwandeln (auch in Arrays und verschachtelten Objekten)
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export function normalizeNullableStrings<T>(input: T): T {
   if (Array.isArray(input)) {
     return input.map(normalizeNullableStrings) as T;
@@ -7,7 +13,7 @@ export function normalizeNullableStrings<T>(input: T): T {
     return input;
   }
   if (input !== null && typeof input === 'object') {
-    const result: any = {};
+    const result: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(input)) {
       if (typeof value === 'string' && value.trim() === '') {
         result[key] = null;
@@ -15,13 +21,7 @@ export function normalizeNullableStrings<T>(input: T): T {
         result[key] = normalizeNullableStrings(value);
       }
     }
-    return result;
+    return result as T;
   }
   return input;
-}
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
 }

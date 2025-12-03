@@ -39,7 +39,6 @@ export function usePersons() {
     }
   }, []);
 
-  // Only fetch once on mount
   useEffect(() => {
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps

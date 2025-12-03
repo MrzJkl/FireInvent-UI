@@ -141,7 +141,6 @@ export default function PersonsPage() {
           add: t('add'),
         }}
         onSubmit={async (values) => {
-          // values.departmentIds is optional array
           const payload = { ...values };
           if (editingItem) {
             await updatePerson(editingItem.id, payload);

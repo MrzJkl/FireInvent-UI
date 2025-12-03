@@ -4,7 +4,7 @@ import { AppRouter } from './routes';
 
 client.setConfig({
   auth: () => keycloak.token,
-  baseURL: 'https://localhost:7197',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://localhost:7197',
 });
 
 export default function App() {

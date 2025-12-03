@@ -8,7 +8,7 @@ export function useUsers() {
 
   const { callApi: fetchApi, loading: loadingList } = useApiRequest(getUsers, {
     showSuccess: false,
-    showError: false, // Wir zeigen den Error in der Komponente
+    showError: false,
   });
 
   const fetchApiRef = useRef(fetchApi);
@@ -22,7 +22,6 @@ export function useUsers() {
     if (res) {
       setUsers(res);
     } else {
-      // API call failed, check if we got data back
       setError({
         message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
       });

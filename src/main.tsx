@@ -34,6 +34,5 @@ createRoot(document.getElementById('root')!).render(
         <Toaster position="top-right" richColors closeButton />
       </ThemeProvider>
     </ReactKeycloakProvider>
-    ,
   </StrictMode>,
 );
