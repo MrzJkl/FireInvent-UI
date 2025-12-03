@@ -13,6 +13,7 @@ export type ApiError = {
   statusCode?: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
   apiFn: T,
   defaultOptions: ApiOptions = {},
@@ -22,6 +23,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
 
   async function callApi(
     ...args: Parameters<T> & [ApiOptions?]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any | null> {
     const options = args[args.length - 1] as ApiOptions | undefined;
     const merged = {
@@ -60,12 +62,14 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       }
 
       return res?.data ?? res.data ?? null;
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const axiosError = err as any;
       const errorMsg =
-        err?.response?.data?.message ?? err?.message ?? 'Unbekannter Fehler';
+        axiosError?.response?.data?.message ?? axiosError?.message ?? 'Unbekannter Fehler';
       const apiError: ApiError = {
         message: errorMsg,
-        statusCode: err?.response?.status,
+        statusCode: axiosError?.response?.status,
       };
       setError(apiError);
 
