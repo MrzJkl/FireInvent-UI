@@ -1,73 +1,126 @@
-# React + TypeScript + Vite
+# FireInvent UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FireInvent UI ist eine moderne Webanwendung zur Verwaltung von Inventar für Feuerwehren. Die Anwendung ermöglicht die Verwaltung von Produkten, Varianten, Einzelgegenständen (Items), Personen, Abteilungen und Wartungen.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Produktverwaltung**: Anlegen und Verwalten von Produkten mit Produkttypen
+- **Variantenverwaltung**: Produktvarianten mit zusätzlichen Spezifikationen
+- **Gegenstandsverwaltung**: Tracking einzelner Gegenstände mit Zustand, Kaufdatum und Standort
+- **Personenzuordnung**: Zuweisung von Gegenständen an Personen mit Historisierung
+- **Wartungsverwaltung**: Dokumentation von Wartungen und Prüfungen
+- **Mehrsprachigkeit**: Unterstützung für Deutsch und Englisch
+- **Dark Mode**: Automatische Anpassung an Systemeinstellungen
 
-## React Compiler
+## Technologie-Stack
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **React 19** mit TypeScript
+- **Vite** als Build-Tool
+- **Tailwind CSS** für Styling
+- **Radix UI** / **shadcn/ui** für UI-Komponenten
+- **React Router** für Navigation
+- **Keycloak** für Authentifizierung
+- **i18next** für Internationalisierung
 
-## Expanding the ESLint configuration
+## Voraussetzungen
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 18 oder höher
+- npm oder pnpm
+- Zugang zu einer FireInvent API-Instanz
+- Zugang zu einer Keycloak-Instanz
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# Dependencies installieren
+pnpm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Entwicklungsserver starten
+pnpm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Konfiguration
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Die Anwendung wird über Umgebungsvariablen konfiguriert. Kopiere `.env.example` zu `.env.local` und passe die Werte an:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.example .env.local
 ```
+
+### Umgebungsvariablen
+
+| Variable                  | Beschreibung                 | Standardwert             |
+| ------------------------- | ---------------------------- | ------------------------ |
+| `VITE_API_BASE_URL`       | Basis-URL der FireInvent API | `https://localhost:7197` |
+| `VITE_KEYCLOAK_URL`       | URL des Keycloak-Servers     | `http://localhost:8080`  |
+| `VITE_KEYCLOAK_REALM`     | Keycloak Realm               | `fireinvent`             |
+| `VITE_KEYCLOAK_CLIENT_ID` | Keycloak Client ID           | `fireinvent-spa`         |
+
+## Skripte
+
+| Befehl                | Beschreibung                          |
+| --------------------- | ------------------------------------- |
+| `pnpm run dev`        | Startet den Entwicklungsserver        |
+| `pnpm run build`      | Erstellt einen Production-Build       |
+| `pnpm run preview`    | Vorschau des Production-Builds        |
+| `pnpm run lint`       | Führt ESLint aus                      |
+| `pnpm run openapi-ts` | Generiert API-Client aus OpenAPI-Spec |
+
+## Production Deployment
+
+### Docker
+
+Die empfohlene Methode für das Deployment ist Docker. Das Repository enthält einen GitHub Actions Workflow, der automatisch ein Docker-Image erstellt.
+
+```bash
+# Image bauen
+docker build -t fireinvent-ui .
+
+# Container starten
+docker run -p 80:80 \
+  -e VITE_API_BASE_URL=https://api.example.com \
+  -e VITE_KEYCLOAK_URL=https://auth.example.com \
+  -e VITE_KEYCLOAK_REALM=fireinvent \
+  -e VITE_KEYCLOAK_CLIENT_ID=fireinvent-spa \
+  fireinvent-ui
+```
+
+### Manuelles Deployment
+
+1. Build erstellen:
+
+   ```bash
+   npm run build
+   ```
+
+2. Den Inhalt des `dist`-Verzeichnisses auf einen Webserver kopieren (nginx, Apache, etc.)
+
+3. Server so konfigurieren, dass alle Anfragen auf `index.html` umgeleitet werden (SPA-Routing)
+
+### nginx Konfiguration (Beispiel)
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+## API-Client Generierung
+
+Der API-Client wird aus der OpenAPI-Spezifikation (`swagger.json`) generiert:
+
+```bash
+# Swagger-Datei aktualisieren und Client neu generieren
+npm run openapi-ts
+```
+
+## Lizenz
+
+Dieses Projekt steht unter der MIT-Lizenz. Siehe [LICENSE](LICENSE) für Details.
