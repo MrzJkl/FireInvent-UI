@@ -1,13 +1,16 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+
+RUN npm install -g pnpm@latest
 
 # Install dependencies
-RUN npm ci
+RUN pnpm install
 
 # Copy source files
 COPY . .
@@ -22,7 +25,7 @@ ARG VITE_KEYCLOAK_CLIENT_ID
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine
+FROM nginx:1.29-alpine
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf

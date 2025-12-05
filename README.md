@@ -33,10 +33,10 @@ FireInvent UI ist eine moderne Webanwendung zur Verwaltung von Inventar für Feu
 
 ```bash
 # Dependencies installieren
-npm install
+pnpm install
 
 # Entwicklungsserver starten
-npm run dev
+pnpm run dev
 ```
 
 ## Konfiguration
@@ -49,22 +49,22 @@ cp .env.example .env.local
 
 ### Umgebungsvariablen
 
-| Variable | Beschreibung | Standardwert |
-|----------|--------------|--------------|
-| `VITE_API_BASE_URL` | Basis-URL der FireInvent API | `https://localhost:7197` |
-| `VITE_KEYCLOAK_URL` | URL des Keycloak-Servers | `http://localhost:8080` |
-| `VITE_KEYCLOAK_REALM` | Keycloak Realm | `fireinvent` |
-| `VITE_KEYCLOAK_CLIENT_ID` | Keycloak Client ID | `fireinvent-spa` |
+| Variable                  | Beschreibung                 | Standardwert             |
+| ------------------------- | ---------------------------- | ------------------------ |
+| `VITE_API_BASE_URL`       | Basis-URL der FireInvent API | `https://localhost:7197` |
+| `VITE_KEYCLOAK_URL`       | URL des Keycloak-Servers     | `http://localhost:8080`  |
+| `VITE_KEYCLOAK_REALM`     | Keycloak Realm               | `fireinvent`             |
+| `VITE_KEYCLOAK_CLIENT_ID` | Keycloak Client ID           | `fireinvent-spa`         |
 
 ## Skripte
 
-| Befehl | Beschreibung |
-|--------|--------------|
-| `npm run dev` | Startet den Entwicklungsserver |
-| `npm run build` | Erstellt einen Production-Build |
-| `npm run preview` | Vorschau des Production-Builds |
-| `npm run lint` | Führt ESLint aus |
-| `npm run openapi-ts` | Generiert API-Client aus OpenAPI-Spec |
+| Befehl                | Beschreibung                          |
+| --------------------- | ------------------------------------- |
+| `pnpm run dev`        | Startet den Entwicklungsserver        |
+| `pnpm run build`      | Erstellt einen Production-Build       |
+| `pnpm run preview`    | Vorschau des Production-Builds        |
+| `pnpm run lint`       | Führt ESLint aus                      |
+| `pnpm run openapi-ts` | Generiert API-Client aus OpenAPI-Spec |
 
 ## Production Deployment
 
@@ -88,6 +88,7 @@ docker run -p 80:80 \
 ### Manuelles Deployment
 
 1. Build erstellen:
+
    ```bash
    npm run build
    ```
