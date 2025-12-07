@@ -12,6 +12,17 @@ FireInvent UI ist eine moderne Webanwendung zur Verwaltung von Inventar für Feu
 - **Mehrsprachigkeit**: Unterstützung für Deutsch und Englisch
 - **Dark Mode**: Automatische Anpassung an Systemeinstellungen
 
+## Rollen & Berechtigungen
+
+Die Rollen werden aus dem Keycloak-Token (Feld `roles` bzw. `realm_access.roles`) gelesen. Der UI-Zugriff richtet sich danach:
+
+- **admin**: Vollzugriff auf alle Bereiche inkl. API-Integrationen und Benutzerliste
+- **procurement**: Anlegen/Bearbeiten in allen Fachbereichen außer API-Integrationen und Benutzer
+- **maintenance**: Lesezugriff überall; Wartungen dürfen angelegt/bearbeitet werden, sonst nur Lesen; API-Integrationen werden ausgeblendet
+- **ohne Rolle** (nur `default-roles-fireinvent`): Reiner Lesezugriff in allen Bereichen
+
+Navigation und Aktions-Buttons werden entsprechend ein- bzw. ausgeblendet. Geschützte Routen (z. B. API-Integrationen, Benutzer) sind nur für Admins erreichbar.
+
 ## Technologie-Stack
 
 - **React 19** mit TypeScript

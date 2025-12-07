@@ -21,9 +21,11 @@ import {
   type ApiIntegrationCredentialsModel,
 } from '@/api';
 import { Plus } from 'lucide-react';
+import { useAuthorization } from '@/auth/permissions';
 
 export default function ApiIntegrationsPage() {
   const { t } = useTranslation();
+  const { canAccessApiIntegrations } = useAuthorization();
   const [formOpen, setFormOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ApiIntegrationModel | null>(
@@ -53,6 +55,8 @@ export default function ApiIntegrationsPage() {
   if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
+  const showActions = canAccessApiIntegrations;
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -62,14 +66,16 @@ export default function ApiIntegrationsPage() {
             {t('apiIntegrations.subtitle')}
           </p>
         </div>
-        <Button
-          onClick={() => {
-            setFormOpen(true);
-          }}
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          {t('apiIntegrations.newIntegration')}
-        </Button>
+        {showActions && (
+          <Button
+            onClick={() => {
+              setFormOpen(true);
+            }}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            {t('apiIntegrations.newIntegration')}
+          </Button>
+        )}
       </div>
 
       {integrations.length === 0 ? (
@@ -77,10 +83,12 @@ export default function ApiIntegrationsPage() {
           <p className="text-muted-foreground mb-4">
             {t('apiIntegrations.empty')}
           </p>
-          <Button onClick={() => setFormOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            {t('apiIntegrations.createFirst')}
-          </Button>
+          {showActions && (
+            <Button onClick={() => setFormOpen(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              {t('apiIntegrations.createFirst')}
+            </Button>
+          )}
         </div>
       ) : (
         <div className="border rounded-lg">
@@ -116,16 +124,18 @@ export default function ApiIntegrationsPage() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => {
-                        setItemToDelete(integration);
-                        setConfirmOpen(true);
-                      }}
-                    >
-                      {t('delete')}
-                    </Button>
+                    {showActions && (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          setItemToDelete(integration);
+                          setConfirmOpen(true);
+                        }}
+                      >
+                        {t('delete')}
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -134,19 +144,21 @@ export default function ApiIntegrationsPage() {
         </div>
       )}
 
-      <ApiIntegrationFormDialog
-        open={formOpen}
-        loading={creating}
-        onOpenChange={setFormOpen}
-        onSubmit={async (values) => {
-          const result = await createItem(values);
-          if (result) {
-            setFormOpen(false);
-            setCredentials(result);
-            setCredentialsOpen(true);
-          }
-        }}
-      />
+      {showActions && (
+        <ApiIntegrationFormDialog
+          open={formOpen}
+          loading={creating}
+          onOpenChange={setFormOpen}
+          onSubmit={async (values) => {
+            const result = await createItem(values);
+            if (result) {
+              setFormOpen(false);
+              setCredentials(result);
+              setCredentialsOpen(true);
+            }
+          }}
+        />
+      )}
 
       <ApiIntegrationCredentialsDialog
         open={credentialsOpen}
@@ -154,31 +166,33 @@ export default function ApiIntegrationsPage() {
         onOpenChange={setCredentialsOpen}
       />
 
-      <ConfirmDialog
-        open={confirmOpen}
-        onOpenChange={(o) => {
-          setConfirmOpen(o);
-          if (!o) setItemToDelete(null);
-        }}
-        title={t('apiIntegrations.confirmDeleteTitle')}
-        description={
-          itemToDelete
-            ? t('apiIntegrations.confirmDeleteDescription', {
-                name: itemToDelete.name,
-              })
-            : ''
-        }
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deleting}
-        onConfirm={async () => {
-          if (!itemToDelete) return;
-          await deleteItem(itemToDelete.clientId);
-          setConfirmOpen(false);
-          setItemToDelete(null);
-        }}
-      />
+      {showActions && (
+        <ConfirmDialog
+          open={confirmOpen}
+          onOpenChange={(o) => {
+            setConfirmOpen(o);
+            if (!o) setItemToDelete(null);
+          }}
+          title={t('apiIntegrations.confirmDeleteTitle')}
+          description={
+            itemToDelete
+              ? t('apiIntegrations.confirmDeleteDescription', {
+                  name: itemToDelete.name,
+                })
+              : ''
+          }
+          confirmLabel={t('delete')}
+          cancelLabel={t('cancel')}
+          confirmVariant="destructive"
+          confirmDisabled={deleting}
+          onConfirm={async () => {
+            if (!itemToDelete) return;
+            await deleteItem(itemToDelete.clientId);
+            setConfirmOpen(false);
+            setItemToDelete(null);
+          }}
+        />
+      )}
     </div>
   );
 }

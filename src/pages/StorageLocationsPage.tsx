@@ -15,9 +15,11 @@ import { StorageLocationFormDialog } from '@/features/storage-locations/StorageL
 import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
 import { type StorageLocationModel } from '@/api';
 import { useTranslation } from 'react-i18next';
+import { useAuthorization } from '@/auth/permissions';
 
 export default function StorageLocationsPage() {
   const { t } = useTranslation();
+  const { canEditCatalog } = useAuthorization();
 
   const [formOpen, setFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<StorageLocationModel | null>(
@@ -48,18 +50,22 @@ export default function StorageLocationsPage() {
   if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
+  const showActions = canEditCatalog;
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">{t('storageLocationPlural')}</h1>
-        <Button
-          onClick={() => {
-            setEditingItem(null);
-            setFormOpen(true);
-          }}
-        >
-          {t('add')}
-        </Button>
+        {showActions && (
+          <Button
+            onClick={() => {
+              setEditingItem(null);
+              setFormOpen(true);
+            }}
+          >
+            {t('add')}
+          </Button>
+        )}
       </div>
 
       <Table>
@@ -67,7 +73,7 @@ export default function StorageLocationsPage() {
           <TableRow>
             <TableHead>{t('name')}</TableHead>
             <TableHead>{t('remarks') ?? 'Remarks'}</TableHead>
-            <TableHead>{t('actions')}</TableHead>
+            {showActions && <TableHead>{t('actions')}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -75,83 +81,91 @@ export default function StorageLocationsPage() {
             <TableRow key={sl.id}>
               <TableCell>{sl.name}</TableCell>
               <TableCell>{sl.remarks}</TableCell>
-              <TableCell className="flex space-x-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    setEditingItem(sl);
-                    setFormOpen(true);
-                  }}
-                >
-                  {t('edit')}
-                </Button>
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => {
-                    setItemToDelete(sl);
-                    setConfirmOpen(true);
-                  }}
-                >
-                  {t('delete')}
-                </Button>
-              </TableCell>
+              {showActions && (
+                <TableCell className="flex space-x-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      setEditingItem(sl);
+                      setFormOpen(true);
+                    }}
+                  >
+                    {t('edit')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => {
+                      setItemToDelete(sl);
+                      setConfirmOpen(true);
+                    }}
+                  >
+                    {t('delete')}
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
-      <StorageLocationFormDialog
-        open={formOpen}
-        mode={editingItem ? 'edit' : 'create'}
-        initialValues={{
-          name: editingItem?.name ?? '',
-          remarks: editingItem?.remarks ?? '',
-        }}
-        loading={editingItem ? updating : creating}
-        onOpenChange={setFormOpen}
-        labels={{
-          titleCreate: t('storageLocations.add'),
-          titleEdit: t('storageLocations.edit'),
-          name: t('name'),
-          remarks: t('remarks') ?? 'Remarks',
-          cancel: t('cancel'),
-          save: t('save') ?? 'Save',
-          add: t('add'),
-        }}
-        onSubmit={async (values) => {
-          if (editingItem) {
-            await updateItem(editingItem.id, values);
-          } else {
-            await createItem(values);
-          }
-          setFormOpen(false);
-        }}
-      />
+      {showActions && (
+        <>
+          <StorageLocationFormDialog
+            open={formOpen}
+            mode={editingItem ? 'edit' : 'create'}
+            initialValues={{
+              name: editingItem?.name ?? '',
+              remarks: editingItem?.remarks ?? '',
+            }}
+            loading={editingItem ? updating : creating}
+            onOpenChange={setFormOpen}
+            labels={{
+              titleCreate: t('storageLocations.add'),
+              titleEdit: t('storageLocations.edit'),
+              name: t('name'),
+              remarks: t('remarks') ?? 'Remarks',
+              cancel: t('cancel'),
+              save: t('save') ?? 'Save',
+              add: t('add'),
+            }}
+            onSubmit={async (values) => {
+              if (editingItem) {
+                await updateItem(editingItem.id, values);
+              } else {
+                await createItem(values);
+              }
+              setFormOpen(false);
+            }}
+          />
 
-      <ConfirmDialog
-        open={confirmOpen}
-        onOpenChange={(o) => {
-          setConfirmOpen(o);
-          if (!o) setItemToDelete(null);
-        }}
-        title={t('confirmDeleteTitle') ?? 'Delete item'}
-        description={
-          t('confirmDeleteDescription', { name: itemToDelete?.name ?? '' }) ||
-          'Are you sure you want to delete this item? This action cannot be undone.'
-        }
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deleting}
-        onConfirm={async () => {
-          if (!itemToDelete) return;
-          await deleteItem(itemToDelete.id);
-          setConfirmOpen(false);
-          setItemToDelete(null);
-        }}
-      />
+          <ConfirmDialog
+            open={confirmOpen}
+            onOpenChange={(o) => {
+              setConfirmOpen(o);
+              if (!o) setItemToDelete(null);
+            }}
+            title={t('confirmDeleteTitle') ?? 'Delete item'}
+            description={
+              t('confirmDeleteDescription', {
+                name: itemToDelete?.name ?? '',
+              }) ||
+              'Are you sure you want to delete this item? This action cannot be undone.'
+            }
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deleting}
+            onConfirm={async () => {
+              if (!itemToDelete) return;
+              await deleteItem(itemToDelete.id);
+              setConfirmOpen(false);
+              setItemToDelete(null);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
