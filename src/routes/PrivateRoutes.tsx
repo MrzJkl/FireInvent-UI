@@ -10,6 +10,7 @@ import PersonsPage from '@/pages/PersonsPage';
 import UsersPage from '@/pages/UsersPage';
 import AppLayout from '@/layouts/AppLayout';
 import StorageLocationsPage from '@/pages/StorageLocationsPage';
+import ApiIntegrationsPage from '@/pages/ApiIntegrationsPage';
 
 export function PrivateRoutes() {
   return (
@@ -26,6 +27,7 @@ export function PrivateRoutes() {
         <Route path="storageLocations" element={<StorageLocationsPage />} />
         <Route path="maintenanceTypes" element={<MaintenanceTypesPage />} />
         <Route path="users" element={<UsersPage />} />
+        <Route path="api-integrations" element={<ApiIntegrationsPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/app" />} />
     </Routes>

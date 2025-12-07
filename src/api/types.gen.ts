@@ -4,6 +4,24 @@ export type ClientOptions = {
   baseURL: "https://localhost:7197/" | (string & {});
 };
 
+export type ApiIntegrationCredentialsModel = {
+  clientId: string;
+  clientSecret: string;
+  name: string;
+};
+
+export type ApiIntegrationModel = {
+  clientId: string;
+  name: string;
+  description?: null | string;
+  enabled?: boolean;
+};
+
+export type CreateApiIntegrationModel = {
+  name: string;
+  description?: null | string;
+};
+
 export type CreateOrUpdateDepartmentModel = {
   name: string;
   description?: null | string;
@@ -220,6 +238,83 @@ export type VariantModel = {
   name: string;
   additionalSpecs?: null | string;
 };
+
+export type GetApiIntegrationsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api-integrations";
+};
+
+export type GetApiIntegrationsResponses = {
+  /**
+   * OK
+   */
+  200: Array<ApiIntegrationModel>;
+};
+
+export type GetApiIntegrationsResponse =
+  GetApiIntegrationsResponses[keyof GetApiIntegrationsResponses];
+
+export type PostApiIntegrationsData = {
+  body: CreateApiIntegrationModel;
+  path?: never;
+  query?: never;
+  url: "/api-integrations";
+};
+
+export type PostApiIntegrationsErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Conflict
+   */
+  409: ProblemDetails;
+};
+
+export type PostApiIntegrationsError =
+  PostApiIntegrationsErrors[keyof PostApiIntegrationsErrors];
+
+export type PostApiIntegrationsResponses = {
+  /**
+   * Created
+   */
+  201: ApiIntegrationCredentialsModel;
+};
+
+export type PostApiIntegrationsResponse =
+  PostApiIntegrationsResponses[keyof PostApiIntegrationsResponses];
+
+export type DeleteApiIntegrationsByClientIdData = {
+  body?: never;
+  path: {
+    clientId: string;
+  };
+  query?: never;
+  url: "/api-integrations/{clientId}";
+};
+
+export type DeleteApiIntegrationsByClientIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteApiIntegrationsByClientIdError =
+  DeleteApiIntegrationsByClientIdErrors[keyof DeleteApiIntegrationsByClientIdErrors];
+
+export type DeleteApiIntegrationsByClientIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteApiIntegrationsByClientIdResponse =
+  DeleteApiIntegrationsByClientIdResponses[keyof DeleteApiIntegrationsByClientIdResponses];
 
 export type GetDepartmentsData = {
   body?: never;
@@ -849,7 +944,7 @@ export type GetMaintenanceTypesData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/maintenanceTypes";
+  url: "/maintenance-types";
 };
 
 export type GetMaintenanceTypesResponses = {
@@ -866,7 +961,7 @@ export type PostMaintenanceTypesData = {
   body: CreateOrUpdateMaintenanceTypeModel;
   path?: never;
   query?: never;
-  url: "/maintenanceTypes";
+  url: "/maintenance-types";
 };
 
 export type PostMaintenanceTypesResponses = {
@@ -885,7 +980,7 @@ export type DeleteMaintenanceTypesByIdData = {
     id: string;
   };
   query?: never;
-  url: "/maintenanceTypes/{id}";
+  url: "/maintenance-types/{id}";
 };
 
 export type DeleteMaintenanceTypesByIdErrors = {
@@ -914,7 +1009,7 @@ export type GetMaintenanceTypesByIdData = {
     id: string;
   };
   query?: never;
-  url: "/maintenanceTypes/{id}";
+  url: "/maintenance-types/{id}";
 };
 
 export type GetMaintenanceTypesByIdErrors = {
@@ -943,7 +1038,7 @@ export type PutMaintenanceTypesByIdData = {
     id: string;
   };
   query?: never;
-  url: "/maintenanceTypes/{id}";
+  url: "/maintenance-types/{id}";
 };
 
 export type PutMaintenanceTypesByIdErrors = {
@@ -1412,7 +1507,7 @@ export type GetProductTypesData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/productTypes";
+  url: "/product-types";
 };
 
 export type GetProductTypesResponses = {
@@ -1429,7 +1524,7 @@ export type PostProductTypesData = {
   body: CreateOrUpdateProductTypeModel;
   path?: never;
   query?: never;
-  url: "/productTypes";
+  url: "/product-types";
 };
 
 export type PostProductTypesResponses = {
@@ -1448,7 +1543,7 @@ export type DeleteProductTypesByIdData = {
     id: string;
   };
   query?: never;
-  url: "/productTypes/{id}";
+  url: "/product-types/{id}";
 };
 
 export type DeleteProductTypesByIdErrors = {
@@ -1477,7 +1572,7 @@ export type GetProductTypesByIdData = {
     id: string;
   };
   query?: never;
-  url: "/productTypes/{id}";
+  url: "/product-types/{id}";
 };
 
 export type GetProductTypesByIdErrors = {
@@ -1506,7 +1601,7 @@ export type PutProductTypesByIdData = {
     id: string;
   };
   query?: never;
-  url: "/productTypes/{id}";
+  url: "/product-types/{id}";
 };
 
 export type PutProductTypesByIdErrors = {
@@ -1533,7 +1628,7 @@ export type GetStorageLocationsData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/storageLocations";
+  url: "/storage-locations";
 };
 
 export type GetStorageLocationsResponses = {
@@ -1550,7 +1645,7 @@ export type PostStorageLocationsData = {
   body: CreateOrUpdateStorageLocationModel;
   path?: never;
   query?: never;
-  url: "/storageLocations";
+  url: "/storage-locations";
 };
 
 export type PostStorageLocationsErrors = {
@@ -1579,7 +1674,7 @@ export type DeleteStorageLocationsByIdData = {
     id: string;
   };
   query?: never;
-  url: "/storageLocations/{id}";
+  url: "/storage-locations/{id}";
 };
 
 export type DeleteStorageLocationsByIdErrors = {
@@ -1608,7 +1703,7 @@ export type GetStorageLocationsByIdData = {
     id: string;
   };
   query?: never;
-  url: "/storageLocations/{id}";
+  url: "/storage-locations/{id}";
 };
 
 export type GetStorageLocationsByIdErrors = {
@@ -1637,7 +1732,7 @@ export type PutStorageLocationsByIdData = {
     id: string;
   };
   query?: never;
-  url: "/storageLocations/{id}";
+  url: "/storage-locations/{id}";
 };
 
 export type PutStorageLocationsByIdErrors = {
@@ -1670,7 +1765,7 @@ export type GetStorageLocationsByIdItemsData = {
     id: string;
   };
   query?: never;
-  url: "/storageLocations/{id}/items";
+  url: "/storage-locations/{id}/items";
 };
 
 export type GetStorageLocationsByIdItemsErrors = {

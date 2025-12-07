@@ -22,6 +22,9 @@ import {
   postOrdersResponseTransformer,
 } from "./transformers.gen";
 import type {
+  DeleteApiIntegrationsByClientIdData,
+  DeleteApiIntegrationsByClientIdErrors,
+  DeleteApiIntegrationsByClientIdResponses,
   DeleteAssignmentsByIdData,
   DeleteAssignmentsByIdErrors,
   DeleteAssignmentsByIdResponses,
@@ -55,6 +58,8 @@ import type {
   DeleteVariantsByIdData,
   DeleteVariantsByIdErrors,
   DeleteVariantsByIdResponses,
+  GetApiIntegrationsData,
+  GetApiIntegrationsResponses,
   GetAssignmentsByIdData,
   GetAssignmentsByIdErrors,
   GetAssignmentsByIdResponses,
@@ -136,6 +141,9 @@ import type {
   GetVariantsByIdResponses,
   GetVariantsData,
   GetVariantsResponses,
+  PostApiIntegrationsData,
+  PostApiIntegrationsErrors,
+  PostApiIntegrationsResponses,
   PostAssignmentsData,
   PostAssignmentsErrors,
   PostAssignmentsResponses,
@@ -215,6 +223,86 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+/**
+ * List API integrations
+ *
+ * Returns a list of all API integrations. Client secrets are not included.
+ */
+export const getApiIntegrations = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiIntegrationsData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetApiIntegrationsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/api-integrations",
+    ...options,
+  });
+};
+
+/**
+ * Create API integration
+ *
+ * Creates a new API integration with confidential client credentials. The credentials are shown only once.
+ */
+export const postApiIntegrations = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiIntegrationsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostApiIntegrationsResponses,
+    PostApiIntegrationsErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/api-integrations",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete API integration
+ *
+ * Deletes an API integration and revokes all access. This action cannot be undone.
+ */
+export const deleteApiIntegrationsByClientId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteApiIntegrationsByClientIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteApiIntegrationsByClientIdResponses,
+    DeleteApiIntegrationsByClientIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/api-integrations/{clientId}",
+    ...options,
+  });
 };
 
 /**
@@ -847,7 +935,7 @@ export const getMaintenanceTypes = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/maintenanceTypes",
+    url: "/maintenance-types",
     ...options,
   });
 };
@@ -872,7 +960,7 @@ export const postMaintenanceTypes = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/maintenanceTypes",
+    url: "/maintenance-types",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -902,7 +990,7 @@ export const deleteMaintenanceTypesById = <
         type: "http",
       },
     ],
-    url: "/maintenanceTypes/{id}",
+    url: "/maintenance-types/{id}",
     ...options,
   });
 };
@@ -927,7 +1015,7 @@ export const getMaintenanceTypesById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/maintenanceTypes/{id}",
+    url: "/maintenance-types/{id}",
     ...options,
   });
 };
@@ -951,7 +1039,7 @@ export const putMaintenanceTypesById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/maintenanceTypes/{id}",
+    url: "/maintenance-types/{id}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -1427,7 +1515,7 @@ export const getProductTypes = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/productTypes",
+    url: "/product-types",
     ...options,
   });
 };
@@ -1452,7 +1540,7 @@ export const postProductTypes = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/productTypes",
+    url: "/product-types",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -1480,7 +1568,7 @@ export const deleteProductTypesById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/productTypes/{id}",
+    url: "/product-types/{id}",
     ...options,
   });
 };
@@ -1505,7 +1593,7 @@ export const getProductTypesById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/productTypes/{id}",
+    url: "/product-types/{id}",
     ...options,
   });
 };
@@ -1529,7 +1617,7 @@ export const putProductTypesById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/productTypes/{id}",
+    url: "/product-types/{id}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -1558,7 +1646,7 @@ export const getStorageLocations = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/storageLocations",
+    url: "/storage-locations",
     ...options,
   });
 };
@@ -1583,7 +1671,7 @@ export const postStorageLocations = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/storageLocations",
+    url: "/storage-locations",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -1613,7 +1701,7 @@ export const deleteStorageLocationsById = <
         type: "http",
       },
     ],
-    url: "/storageLocations/{id}",
+    url: "/storage-locations/{id}",
     ...options,
   });
 };
@@ -1638,7 +1726,7 @@ export const getStorageLocationsById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/storageLocations/{id}",
+    url: "/storage-locations/{id}",
     ...options,
   });
 };
@@ -1662,7 +1750,7 @@ export const putStorageLocationsById = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/storageLocations/{id}",
+    url: "/storage-locations/{id}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -1694,7 +1782,7 @@ export const getStorageLocationsByIdItems = <
         type: "http",
       },
     ],
-    url: "/storageLocations/{id}/items",
+    url: "/storage-locations/{id}/items",
     ...options,
   });
 };
