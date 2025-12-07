@@ -15,9 +15,11 @@ import { PersonFormDialog } from '@/features/persons/PersonFormDialog';
 import { usePersons } from '@/features/persons/usePersons';
 import { type PersonModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
+import { useAuthorization } from '@/auth/permissions';
 
 export default function PersonsPage() {
   const { t } = useTranslation();
+  const { canEditCatalog } = useAuthorization();
 
   const [formOpen, setFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<PersonModel | null>(null);
@@ -44,18 +46,22 @@ export default function PersonsPage() {
   if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (initialLoading) return <LoadingIndicator />;
 
+  const showActions = canEditCatalog;
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">{t('personPlural')}</h1>
-        <Button
-          onClick={() => {
-            setEditingItem(null);
-            setFormOpen(true);
-          }}
-        >
-          {t('add')}
-        </Button>
+        {showActions && (
+          <Button
+            onClick={() => {
+              setEditingItem(null);
+              setFormOpen(true);
+            }}
+          >
+            {t('add')}
+          </Button>
+        )}
       </div>
 
       <Table>
@@ -66,7 +72,7 @@ export default function PersonsPage() {
             <TableHead>{t('contactInfo')}</TableHead>
             <TableHead>{t('externalId')}</TableHead>
             <TableHead>{t('departmentPlural')}</TableHead>
-            <TableHead>{t('actions')}</TableHead>
+            {showActions && <TableHead>{t('actions')}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -81,97 +87,104 @@ export default function PersonsPage() {
                   ? person.departments.map((d) => d.name).join(', ')
                   : '-'}
               </TableCell>
-              <TableCell className="flex space-x-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    setEditingItem(person);
-                    setFormOpen(true);
-                  }}
-                >
-                  {t('edit')}
-                </Button>
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => {
-                    setItemToDelete(person);
-                    setConfirmOpen(true);
-                  }}
-                >
-                  {t('delete')}
-                </Button>
-              </TableCell>
+              {showActions && (
+                <TableCell className="flex space-x-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      setEditingItem(person);
+                      setFormOpen(true);
+                    }}
+                  >
+                    {t('edit')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => {
+                      setItemToDelete(person);
+                      setConfirmOpen(true);
+                    }}
+                  >
+                    {t('delete')}
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
-      <PersonFormDialog
-        open={formOpen}
-        mode={editingItem ? 'edit' : 'create'}
-        initialValues={
-          editingItem
-            ? {
-                firstName: editingItem.firstName,
-                lastName: editingItem.lastName,
-                remarks: editingItem.remarks ?? '',
-                contactInfo: editingItem.contactInfo ?? '',
-                externalId: editingItem.externalId ?? '',
-                departmentIds:
-                  (editingItem.departmentIds && editingItem.departmentIds.length
-                    ? editingItem.departmentIds
-                    : editingItem.departments?.map((d) => d.id)) ?? [],
+      {showActions && (
+        <>
+          <PersonFormDialog
+            open={formOpen}
+            mode={editingItem ? 'edit' : 'create'}
+            initialValues={
+              editingItem
+                ? {
+                    firstName: editingItem.firstName,
+                    lastName: editingItem.lastName,
+                    remarks: editingItem.remarks ?? '',
+                    contactInfo: editingItem.contactInfo ?? '',
+                    externalId: editingItem.externalId ?? '',
+                    departmentIds:
+                      (editingItem.departmentIds &&
+                      editingItem.departmentIds.length
+                        ? editingItem.departmentIds
+                        : editingItem.departments?.map((d) => d.id)) ?? [],
+                  }
+                : undefined
+            }
+            loading={editingItem ? updating : creating}
+            onOpenChange={setFormOpen}
+            labels={{
+              titleCreate: t('persons.add'),
+              titleEdit: t('persons.edit'),
+              firstName: t('firstName'),
+              lastName: t('lastName'),
+              contactInfo: t('contactInfo'),
+              externalId: t('externalId'),
+              remarks: t('remarks'),
+              cancel: t('cancel'),
+              save: t('save'),
+              add: t('add'),
+            }}
+            onSubmit={async (values) => {
+              const payload = { ...values };
+              if (editingItem) {
+                await updatePerson(editingItem.id, payload);
+              } else {
+                await createPerson(payload);
               }
-            : undefined
-        }
-        loading={editingItem ? updating : creating}
-        onOpenChange={setFormOpen}
-        labels={{
-          titleCreate: t('persons.add'),
-          titleEdit: t('persons.edit'),
-          firstName: t('firstName'),
-          lastName: t('lastName'),
-          contactInfo: t('contactInfo'),
-          externalId: t('externalId'),
-          remarks: t('remarks'),
-          cancel: t('cancel'),
-          save: t('save'),
-          add: t('add'),
-        }}
-        onSubmit={async (values) => {
-          const payload = { ...values };
-          if (editingItem) {
-            await updatePerson(editingItem.id, payload);
-          } else {
-            await createPerson(payload);
-          }
-          setFormOpen(false);
-        }}
-      />
+              setFormOpen(false);
+            }}
+          />
 
-      <ConfirmDialog
-        open={confirmOpen}
-        onOpenChange={(o) => {
-          setConfirmOpen(o);
-          if (!o) setItemToDelete(null);
-        }}
-        title={t('confirmDeleteTitle')}
-        description={t('confirmDeleteDescription', {
-          name: `${itemToDelete?.firstName ?? ''} ${itemToDelete?.lastName ?? ''}`,
-        })}
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deleting}
-        onConfirm={async () => {
-          if (!itemToDelete) return;
-          await deletePerson(itemToDelete.id);
-          setConfirmOpen(false);
-          setItemToDelete(null);
-        }}
-      />
+          <ConfirmDialog
+            open={confirmOpen}
+            onOpenChange={(o) => {
+              setConfirmOpen(o);
+              if (!o) setItemToDelete(null);
+            }}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name: `${itemToDelete?.firstName ?? ''} ${itemToDelete?.lastName ?? ''}`,
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deleting}
+            onConfirm={async () => {
+              if (!itemToDelete) return;
+              await deletePerson(itemToDelete.id);
+              setConfirmOpen(false);
+              setItemToDelete(null);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }

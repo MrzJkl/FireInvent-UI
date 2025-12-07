@@ -27,11 +27,15 @@ import type {
   ItemAssignmentHistoryModel,
   MaintenanceModel,
 } from '@/api/types.gen';
+import { useAuthorization } from '@/auth/permissions';
 
 export default function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { canEditAssignments, canEditMaintenances } = useAuthorization();
+  const canManageAssignments = canEditAssignments;
+  const canManageMaintenances = canEditMaintenances;
 
   const [item, setItem] = useState<ItemModel | null>(null);
   const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>(
@@ -62,9 +66,15 @@ export default function ItemDetailPage() {
     { showSuccess: false, showError: false },
   );
   const { callApi: fetchAssignments, loading: assignmentsLoading } =
-    useApiRequest(getItemsByIdAssignments, { showSuccess: false, showError: false });
+    useApiRequest(getItemsByIdAssignments, {
+      showSuccess: false,
+      showError: false,
+    });
   const { callApi: fetchMaintenances, loading: maintenancesLoading } =
-    useApiRequest(getItemsByIdMaintenance, { showSuccess: false, showError: false });
+    useApiRequest(getItemsByIdMaintenance, {
+      showSuccess: false,
+      showError: false,
+    });
   const { callApi: createAssignment, loading: creatingAssignment } =
     useApiRequest(postAssignments);
   const { callApi: updateAssignment, loading: updatingAssignment } =
@@ -86,7 +96,8 @@ export default function ItemDetailPage() {
       const itemData = await fetchItem({ path: { id } });
       if (!itemData) {
         setError({
-          message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+          message:
+            'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
         });
         return;
       }
@@ -109,15 +120,16 @@ export default function ItemDetailPage() {
     const itemData = await fetchItem({ path: { id } });
     if (!itemData) {
       setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+        message:
+          'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
       });
       return;
     }
     setItem(itemData);
-    
+
     const assignmentsData = await fetchAssignments({ path: { id } });
     if (assignmentsData) setAssignments(assignmentsData);
-    
+
     const maintenancesData = await fetchMaintenances({ path: { id } });
     if (maintenancesData) setMaintenances(maintenancesData);
   };
@@ -255,14 +267,16 @@ export default function ItemDetailPage() {
               <div>
                 <CardTitle>{t('itemAssignments.label')}</CardTitle>
               </div>
-              <Button
-                onClick={() => {
-                  setEditingAssignmentId(null);
-                  setAssignmentFormOpen(true);
-                }}
-              >
-                {t('add')}
-              </Button>
+              {canManageAssignments && (
+                <Button
+                  onClick={() => {
+                    setEditingAssignmentId(null);
+                    setAssignmentFormOpen(true);
+                  }}
+                >
+                  {t('add')}
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
               {assignmentsLoading ? (
@@ -296,26 +310,30 @@ export default function ItemDetailPage() {
                               ? t('itemAssignments.returned')
                               : t('itemAssignments.active')}
                           </span>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setEditingAssignmentId(assignment.id);
-                              setAssignmentFormOpen(true);
-                            }}
-                          >
-                            {t('edit')}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setDeleteAssignmentId(assignment.id);
-                              setConfirmAssignmentOpen(true);
-                            }}
-                          >
-                            {t('delete')}
-                          </Button>
+                          {canManageAssignments && (
+                            <>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setEditingAssignmentId(assignment.id);
+                                  setAssignmentFormOpen(true);
+                                }}
+                              >
+                                {t('edit')}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setDeleteAssignmentId(assignment.id);
+                                  setConfirmAssignmentOpen(true);
+                                }}
+                              >
+                                {t('delete')}
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground">
@@ -347,14 +365,16 @@ export default function ItemDetailPage() {
               <div>
                 <CardTitle>{t('maintenances.label')}</CardTitle>
               </div>
-              <Button
-                onClick={() => {
-                  setEditingMaintenanceId(null);
-                  setMaintenanceFormOpen(true);
-                }}
-              >
-                {t('add')}
-              </Button>
+              {canManageMaintenances && (
+                <Button
+                  onClick={() => {
+                    setEditingMaintenanceId(null);
+                    setMaintenanceFormOpen(true);
+                  }}
+                >
+                  {t('add')}
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
               {maintenancesLoading ? (
@@ -372,29 +392,34 @@ export default function ItemDetailPage() {
                     >
                       <div className="flex items-center justify-between">
                         <p className="font-medium">
-                          {maintenance.type?.name || `Type ID: ${maintenance.typeId}`}
+                          {maintenance.type?.name ||
+                            `Type ID: ${maintenance.typeId}`}
                         </p>
                         <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setEditingMaintenanceId(maintenance.id);
-                              setMaintenanceFormOpen(true);
-                            }}
-                          >
-                            {t('edit')}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setDeleteMaintenanceId(maintenance.id);
-                              setConfirmMaintenanceOpen(true);
-                            }}
-                          >
-                            {t('delete')}
-                          </Button>
+                          {canManageMaintenances && (
+                            <>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setEditingMaintenanceId(maintenance.id);
+                                  setMaintenanceFormOpen(true);
+                                }}
+                              >
+                                {t('edit')}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setDeleteMaintenanceId(maintenance.id);
+                                  setConfirmMaintenanceOpen(true);
+                                }}
+                              >
+                                {t('delete')}
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground">
@@ -406,7 +431,8 @@ export default function ItemDetailPage() {
                       {maintenance.performedBy && (
                         <p className="text-sm text-muted-foreground">
                           {t('maintenances.performedBy')}:{' '}
-                          {maintenance.performedBy.firstName && maintenance.performedBy.lastName
+                          {maintenance.performedBy.firstName &&
+                          maintenance.performedBy.lastName
                             ? `${maintenance.performedBy.firstName} ${maintenance.performedBy.lastName}`
                             : maintenance.performedBy.eMail}
                         </p>
@@ -425,179 +451,189 @@ export default function ItemDetailPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Assignment Form Dialog */}
-      <ItemAssignmentFormDialog
-        open={assignmentFormOpen}
-        onOpenChange={(o) => {
-          setAssignmentFormOpen(o);
-          if (!o) setEditingAssignmentId(null);
-        }}
-        mode={editingAssignmentId ? 'edit' : 'create'}
-        itemId={id!}
-        editingAssignmentId={editingAssignmentId}
-        existingAssignments={assignments}
-        initialValues={
-          editingAssignmentId
-            ? (() => {
-                const current = assignments.find(
-                  (a) => a.id === editingAssignmentId,
-                );
-                if (!current) return undefined;
-                return {
-                  personId: current.personId,
-                  assignedFrom: new Date(current.assignedFrom)
-                    .toISOString()
-                    .substring(0, 10),
-                  assignedUntil: current.assignedUntil
-                    ? new Date(current.assignedUntil)
+      {canManageAssignments && (
+        <>
+          {/* Assignment Form Dialog */}
+          <ItemAssignmentFormDialog
+            open={assignmentFormOpen}
+            onOpenChange={(o) => {
+              setAssignmentFormOpen(o);
+              if (!o) setEditingAssignmentId(null);
+            }}
+            mode={editingAssignmentId ? 'edit' : 'create'}
+            itemId={id!}
+            editingAssignmentId={editingAssignmentId}
+            existingAssignments={assignments}
+            initialValues={
+              editingAssignmentId
+                ? (() => {
+                    const current = assignments.find(
+                      (a) => a.id === editingAssignmentId,
+                    );
+                    if (!current) return undefined;
+                    return {
+                      personId: current.personId,
+                      assignedFrom: new Date(current.assignedFrom)
                         .toISOString()
-                        .substring(0, 10)
-                    : undefined,
-                };
-              })()
-            : undefined
-        }
-        loading={editingAssignmentId ? updatingAssignment : creatingAssignment}
-        onSubmit={async (values) => {
-          const payload = {
-            itemId: id!,
-            personId: values.personId,
-            assignedFrom: new Date(values.assignedFrom),
-            assignedUntil: values.assignedUntil
-              ? new Date(values.assignedUntil)
-              : undefined,
-            assignedById: null,
-          };
+                        .substring(0, 10),
+                      assignedUntil: current.assignedUntil
+                        ? new Date(current.assignedUntil)
+                            .toISOString()
+                            .substring(0, 10)
+                        : undefined,
+                    };
+                  })()
+                : undefined
+            }
+            loading={
+              editingAssignmentId ? updatingAssignment : creatingAssignment
+            }
+            onSubmit={async (values) => {
+              const payload = {
+                itemId: id!,
+                personId: values.personId,
+                assignedFrom: new Date(values.assignedFrom),
+                assignedUntil: values.assignedUntil
+                  ? new Date(values.assignedUntil)
+                  : undefined,
+                assignedById: null,
+              };
 
-          if (editingAssignmentId) {
-            await updateAssignment({
-              path: { id: editingAssignmentId },
-              body: payload,
-            });
-          } else {
-            await createAssignment({ body: payload });
-          }
+              if (editingAssignmentId) {
+                await updateAssignment({
+                  path: { id: editingAssignmentId },
+                  body: payload,
+                });
+              } else {
+                await createAssignment({ body: payload });
+              }
 
-          await refetchAssignments();
-          setAssignmentFormOpen(false);
-          setEditingAssignmentId(null);
-        }}
-      />
+              await refetchAssignments();
+              setAssignmentFormOpen(false);
+              setEditingAssignmentId(null);
+            }}
+          />
 
-      {/* Assignment Delete Confirm */}
-      <ConfirmDialog
-        open={confirmAssignmentOpen}
-        onOpenChange={(o) => {
-          setConfirmAssignmentOpen(o);
-          if (!o) setDeleteAssignmentId(null);
-        }}
-        title={t('confirmDeleteTitle')}
-        description={t('confirmDeleteDescription', {
-          name: (() => {
-            const assignment = assignments.find(
-              (a) => a.id === deleteAssignmentId,
-            );
-            if (!assignment) return '';
-            return assignment.person
-              ? `${assignment.person.firstName} ${assignment.person.lastName}`
-              : assignment.personId;
-          })(),
-        })}
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deletingAssignment}
-        onConfirm={async () => {
-          if (!deleteAssignmentId) return;
-          await deleteAssignment({ path: { id: deleteAssignmentId } });
-          await refetchAssignments();
-          setConfirmAssignmentOpen(false);
-          setDeleteAssignmentId(null);
-        }}
-      />
-
-      {/* Maintenance Form Dialog */}
-      <MaintenanceFormDialog
-        open={maintenanceFormOpen}
-        onOpenChange={(o) => {
-          setMaintenanceFormOpen(o);
-          if (!o) setEditingMaintenanceId(null);
-        }}
-        mode={editingMaintenanceId ? 'edit' : 'create'}
-        initialValues={
-          editingMaintenanceId
-            ? (() => {
-                const current = maintenances.find(
-                  (m) => m.id === editingMaintenanceId,
+          {/* Assignment Delete Confirm */}
+          <ConfirmDialog
+            open={confirmAssignmentOpen}
+            onOpenChange={(o) => {
+              setConfirmAssignmentOpen(o);
+              if (!o) setDeleteAssignmentId(null);
+            }}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name: (() => {
+                const assignment = assignments.find(
+                  (a) => a.id === deleteAssignmentId,
                 );
-                if (!current) return undefined;
-                return {
-                  typeId: current.typeId,
-                  performedAt: new Date(current.performedAt)
-                    .toISOString()
-                    .substring(0, 10),
-                  performedById: current.performedById || undefined,
-                  remarks: current.remarks || '',
-                };
-              })()
-            : undefined
-        }
-        loading={
-          editingMaintenanceId ? updatingMaintenance : creatingMaintenance
-        }
-        onSubmit={async (values) => {
-          const payload = {
-            itemId: id!,
-            typeId: values.typeId,
-            performedAt: new Date(values.performedAt),
-            performedById: values.performedById || null,
-            remarks: values.remarks || null,
-          };
+                if (!assignment) return '';
+                return assignment.person
+                  ? `${assignment.person.firstName} ${assignment.person.lastName}`
+                  : assignment.personId;
+              })(),
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deletingAssignment}
+            onConfirm={async () => {
+              if (!deleteAssignmentId) return;
+              await deleteAssignment({ path: { id: deleteAssignmentId } });
+              await refetchAssignments();
+              setConfirmAssignmentOpen(false);
+              setDeleteAssignmentId(null);
+            }}
+          />
+        </>
+      )}
 
-          if (editingMaintenanceId) {
-            await updateMaintenance({
-              path: { id: editingMaintenanceId },
-              body: payload,
-            });
-          } else {
-            await createMaintenance({ body: payload });
-          }
+      {canManageMaintenances && (
+        <>
+          {/* Maintenance Form Dialog */}
+          <MaintenanceFormDialog
+            open={maintenanceFormOpen}
+            onOpenChange={(o) => {
+              setMaintenanceFormOpen(o);
+              if (!o) setEditingMaintenanceId(null);
+            }}
+            mode={editingMaintenanceId ? 'edit' : 'create'}
+            initialValues={
+              editingMaintenanceId
+                ? (() => {
+                    const current = maintenances.find(
+                      (m) => m.id === editingMaintenanceId,
+                    );
+                    if (!current) return undefined;
+                    return {
+                      typeId: current.typeId,
+                      performedAt: new Date(current.performedAt)
+                        .toISOString()
+                        .substring(0, 10),
+                      performedById: current.performedById || undefined,
+                      remarks: current.remarks || '',
+                    };
+                  })()
+                : undefined
+            }
+            loading={
+              editingMaintenanceId ? updatingMaintenance : creatingMaintenance
+            }
+            onSubmit={async (values) => {
+              const payload = {
+                itemId: id!,
+                typeId: values.typeId,
+                performedAt: new Date(values.performedAt),
+                performedById: values.performedById || null,
+                remarks: values.remarks || null,
+              };
 
-          await refetchMaintenances();
-          setMaintenanceFormOpen(false);
-          setEditingMaintenanceId(null);
-        }}
-      />
+              if (editingMaintenanceId) {
+                await updateMaintenance({
+                  path: { id: editingMaintenanceId },
+                  body: payload,
+                });
+              } else {
+                await createMaintenance({ body: payload });
+              }
 
-      {/* Maintenance Delete Confirm */}
-      <ConfirmDialog
-        open={confirmMaintenanceOpen}
-        onOpenChange={(o) => {
-          setConfirmMaintenanceOpen(o);
-          if (!o) setDeleteMaintenanceId(null);
-        }}
-        title={t('confirmDeleteTitle')}
-        description={t('confirmDeleteDescription', {
-          name: (() => {
-            const maintenance = maintenances.find(
-              (m) => m.id === deleteMaintenanceId,
-            );
-            if (!maintenance) return '';
-            return maintenance.type?.name || maintenance.typeId;
-          })(),
-        })}
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deletingMaintenance}
-        onConfirm={async () => {
-          if (!deleteMaintenanceId) return;
-          await deleteMaintenance({ path: { id: deleteMaintenanceId } });
-          await refetchMaintenances();
-          setConfirmMaintenanceOpen(false);
-          setDeleteMaintenanceId(null);
-        }}
-      />
+              await refetchMaintenances();
+              setMaintenanceFormOpen(false);
+              setEditingMaintenanceId(null);
+            }}
+          />
+
+          {/* Maintenance Delete Confirm */}
+          <ConfirmDialog
+            open={confirmMaintenanceOpen}
+            onOpenChange={(o) => {
+              setConfirmMaintenanceOpen(o);
+              if (!o) setDeleteMaintenanceId(null);
+            }}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name: (() => {
+                const maintenance = maintenances.find(
+                  (m) => m.id === deleteMaintenanceId,
+                );
+                if (!maintenance) return '';
+                return maintenance.type?.name || maintenance.typeId;
+              })(),
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deletingMaintenance}
+            onConfirm={async () => {
+              if (!deleteMaintenanceId) return;
+              await deleteMaintenance({ path: { id: deleteMaintenanceId } });
+              await refetchMaintenances();
+              setConfirmMaintenanceOpen(false);
+              setDeleteMaintenanceId(null);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }

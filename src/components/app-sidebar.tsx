@@ -27,6 +27,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Link } from 'react-router-dom';
+import { useAuthorization } from '@/auth/permissions';
 
 const data = {
   user: {
@@ -86,6 +87,19 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { canAccessApiIntegrations, canAccessUsers } = useAuthorization();
+
+  const navSecondary = React.useMemo(
+    () =>
+      data.navSecondary.filter((item) => {
+        if (item.url === '/app/api-integrations')
+          return canAccessApiIntegrations;
+        if (item.url === '/app/users') return canAccessUsers;
+        return true;
+      }),
+    [canAccessApiIntegrations, canAccessUsers],
+  );
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -105,7 +119,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary items={navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

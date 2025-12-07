@@ -1,3 +1,4 @@
+import { type ReactElement } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import DashboardPage from '@/pages/DashboardPage';
 import ProductTypesPage from '@/pages/ProductTypesPage';
@@ -11,8 +12,25 @@ import UsersPage from '@/pages/UsersPage';
 import AppLayout from '@/layouts/AppLayout';
 import StorageLocationsPage from '@/pages/StorageLocationsPage';
 import ApiIntegrationsPage from '@/pages/ApiIntegrationsPage';
+import { useAuthorization } from '@/auth/permissions';
+
+function GuardedRoute({
+  allow,
+  children,
+}: {
+  allow: boolean;
+  children: ReactElement;
+}) {
+  if (!allow) {
+    return <Navigate to="/app" replace />;
+  }
+
+  return children;
+}
 
 export function PrivateRoutes() {
+  const { canAccessApiIntegrations, canAccessUsers } = useAuthorization();
+
   return (
     <Routes>
       <Route element={<AppLayout />}>
@@ -26,8 +44,22 @@ export function PrivateRoutes() {
         <Route path="departments" element={<DepartmentsPage />} />
         <Route path="storageLocations" element={<StorageLocationsPage />} />
         <Route path="maintenanceTypes" element={<MaintenanceTypesPage />} />
-        <Route path="users" element={<UsersPage />} />
-        <Route path="api-integrations" element={<ApiIntegrationsPage />} />
+        <Route
+          path="users"
+          element={
+            <GuardedRoute allow={canAccessUsers}>
+              <UsersPage />
+            </GuardedRoute>
+          }
+        />
+        <Route
+          path="api-integrations"
+          element={
+            <GuardedRoute allow={canAccessApiIntegrations}>
+              <ApiIntegrationsPage />
+            </GuardedRoute>
+          }
+        />
       </Route>
       <Route path="*" element={<Navigate to="/app" />} />
     </Routes>

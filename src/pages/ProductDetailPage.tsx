@@ -20,11 +20,14 @@ import {
   IconChevronDown,
   IconChevronRight,
 } from '@tabler/icons-react';
+import { useAuthorization } from '@/auth/permissions';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { canEditCatalog } = useAuthorization();
+  const canManage = canEditCatalog;
 
   const [formOpen, setFormOpen] = useState(false);
   const [variantFormOpen, setVariantFormOpen] = useState(false);
@@ -33,7 +36,13 @@ export default function ProductDetailPage() {
   const [confirmVariantOpen, setConfirmVariantOpen] = useState(false);
   const [product, setProduct] = useState<ProductModel | null>(null);
 
-  const { products, isLoading, updateProduct, error: productsError, refetch: refetchProducts } = useProducts();
+  const {
+    products,
+    isLoading,
+    updateProduct,
+    error: productsError,
+    refetch: refetchProducts,
+  } = useProducts();
   const {
     variants,
     isLoading: variantsLoading,
@@ -78,9 +87,12 @@ export default function ProductDetailPage() {
     }
   }, [products, id]);
 
-  if (productsError) return <ErrorState error={productsError} onRetry={refetchProducts} />;
-  if (variantsError) return <ErrorState error={variantsError} onRetry={refetchVariants} />;
-  if (itemsError) return <ErrorState error={itemsError} onRetry={refetchItems} />;
+  if (productsError)
+    return <ErrorState error={productsError} onRetry={refetchProducts} />;
+  if (variantsError)
+    return <ErrorState error={variantsError} onRetry={refetchVariants} />;
+  if (itemsError)
+    return <ErrorState error={itemsError} onRetry={refetchItems} />;
   if (isLoading) return <LoadingIndicator />;
 
   if (!product) {
@@ -119,14 +131,16 @@ export default function ProductDetailPage() {
             </p>
           </div>
         </div>
-        <Button
-          variant="outline"
-          onClick={() => setFormOpen(true)}
-          className="gap-2"
-        >
-          <IconEdit className="size-4" />
-          {t('edit')}
-        </Button>
+        {canManage && (
+          <Button
+            variant="outline"
+            onClick={() => setFormOpen(true)}
+            className="gap-2"
+          >
+            <IconEdit className="size-4" />
+            {t('edit')}
+          </Button>
+        )}
       </div>
 
       {/* Tabs */}
@@ -180,15 +194,17 @@ export default function ProductDetailPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>{t('variantPlural')}</CardTitle>
-              <Button
-                size="sm"
-                onClick={() => {
-                  setEditingVariantId(null);
-                  setVariantFormOpen(true);
-                }}
-              >
-                {t('add')}
-              </Button>
+              {canManage && (
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setEditingVariantId(null);
+                    setVariantFormOpen(true);
+                  }}
+                >
+                  {t('add')}
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
               {variantsLoading ? (
@@ -236,28 +252,30 @@ export default function ProductDetailPage() {
                               </p>
                             </div>
                           </div>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setEditingVariantId(v.id);
-                                setVariantFormOpen(true);
-                              }}
-                            >
-                              {t('edit')}
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => {
-                                setDeleteVariantId(v.id);
-                                setConfirmVariantOpen(true);
-                              }}
-                            >
-                              {t('delete')}
-                            </Button>
-                          </div>
+                          {canManage && (
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setEditingVariantId(v.id);
+                                  setVariantFormOpen(true);
+                                }}
+                              >
+                                {t('edit')}
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => {
+                                  setDeleteVariantId(v.id);
+                                  setConfirmVariantOpen(true);
+                                }}
+                              >
+                                {t('delete')}
+                              </Button>
+                            </div>
+                          )}
                         </div>
                         {isOpen && (
                           <div className="border-t p-3">
@@ -265,16 +283,18 @@ export default function ProductDetailPage() {
                               <p className="text-sm font-medium">
                                 {t('items.label')}
                               </p>
-                              <Button
-                                size="sm"
-                                onClick={() => {
-                                  setEditingItemId(null);
-                                  setCreateForVariantId(v.id);
-                                  setItemFormOpen(true);
-                                }}
-                              >
-                                {t('add')}
-                              </Button>
+                              {canManage && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => {
+                                    setEditingItemId(null);
+                                    setCreateForVariantId(v.id);
+                                    setItemFormOpen(true);
+                                  }}
+                                >
+                                  {t('add')}
+                                </Button>
+                              )}
                             </div>
                             {itemsLoading ? (
                               <LoadingIndicator />
@@ -301,29 +321,33 @@ export default function ProductDetailPage() {
                                       </p>
                                     </div>
                                     <div className="flex gap-2">
-                                      <Button
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setEditingItemId(it.id);
-                                          setCreateForVariantId(null);
-                                          setItemFormOpen(true);
-                                        }}
-                                      >
-                                        {t('edit')}
-                                      </Button>
-                                      <Button
-                                        size="sm"
-                                        variant="destructive"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setDeleteItemId(it.id);
-                                          setConfirmItemOpen(true);
-                                        }}
-                                      >
-                                        {t('delete')}
-                                      </Button>
+                                      {canManage && (
+                                        <>
+                                          <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setEditingItemId(it.id);
+                                              setCreateForVariantId(null);
+                                              setItemFormOpen(true);
+                                            }}
+                                          >
+                                            {t('edit')}
+                                          </Button>
+                                          <Button
+                                            size="sm"
+                                            variant="destructive"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setDeleteItemId(it.id);
+                                              setConfirmItemOpen(true);
+                                            }}
+                                          >
+                                            {t('delete')}
+                                          </Button>
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                 ))}
@@ -341,168 +365,175 @@ export default function ProductDetailPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Product Edit Dialog */}
-      <ProductFormDialog
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        mode="edit"
-        initialValues={{
-          name: product.name,
-          manufacturer: product.manufacturer,
-          description: product.description ?? '',
-          typeId: product.typeId,
-        }}
-        onSubmit={async (data) => {
-          await updateProduct(product.id, data);
-          setFormOpen(false);
-        }}
-      />
+      {canManage && (
+        <>
+          {/* Product Edit Dialog */}
+          <ProductFormDialog
+            open={formOpen}
+            onOpenChange={setFormOpen}
+            mode="edit"
+            initialValues={{
+              name: product.name,
+              manufacturer: product.manufacturer,
+              description: product.description ?? '',
+              typeId: product.typeId,
+            }}
+            onSubmit={async (data) => {
+              await updateProduct(product.id, data);
+              setFormOpen(false);
+            }}
+          />
 
-      {/* Variant Form Dialog */}
-      <VariantFormDialog
-        open={variantFormOpen}
-        onOpenChange={(o) => {
-          setVariantFormOpen(o);
-          if (!o) setEditingVariantId(null);
-        }}
-        mode={editingVariantId ? 'edit' : 'create'}
-        initialValues={
-          editingVariantId
-            ? (() => {
-                const current = variants.find((v) => v.id === editingVariantId);
-                return current
+          {/* Variant Form Dialog */}
+          <VariantFormDialog
+            open={variantFormOpen}
+            onOpenChange={(o) => {
+              setVariantFormOpen(o);
+              if (!o) setEditingVariantId(null);
+            }}
+            mode={editingVariantId ? 'edit' : 'create'}
+            initialValues={
+              editingVariantId
+                ? (() => {
+                    const current = variants.find(
+                      (v) => v.id === editingVariantId,
+                    );
+                    return current
+                      ? {
+                          name: current.name,
+                          additionalSpecs: current.additionalSpecs ?? '',
+                        }
+                      : undefined;
+                  })()
+                : undefined
+            }
+            loading={editingVariantId ? updatingVariant : creatingVariant}
+            onSubmit={async (values) => {
+              if (editingVariantId) {
+                await updateVariant(editingVariantId, values);
+              } else {
+                await createVariant(values);
+              }
+              setVariantFormOpen(false);
+              setEditingVariantId(null);
+            }}
+          />
+
+          {/* Variant Delete Confirm */}
+          <ConfirmDialog
+            open={confirmVariantOpen}
+            onOpenChange={(o) => {
+              setConfirmVariantOpen(o);
+              if (!o) setDeleteVariantId(null);
+            }}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name: variants.find((v) => v.id === deleteVariantId)?.name ?? '',
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deletingVariant}
+            onConfirm={async () => {
+              if (!deleteVariantId) return;
+              await deleteVariant(deleteVariantId);
+              setConfirmVariantOpen(false);
+              setDeleteVariantId(null);
+            }}
+          />
+
+          {/* Item Form Dialog */}
+          <ItemFormDialog
+            open={itemFormOpen}
+            onOpenChange={(o) => {
+              setItemFormOpen(o);
+              if (!o) setEditingItemId(null);
+            }}
+            mode={editingItemId ? 'edit' : 'create'}
+            variantId={createForVariantId ?? undefined}
+            initialValues={
+              editingItemId
+                ? (() => {
+                    const current = items.find((it) => it.id === editingItemId);
+                    if (!current) return undefined;
+                    return {
+                      variantId: current.variantId,
+                      identifier: current.identifier ?? '',
+                      storageLocationId: current.storageLocationId ?? undefined,
+                      condition: current.condition,
+                      purchaseDate: current.purchaseDate
+                        ? new Date(current.purchaseDate)
+                            .toISOString()
+                            .substring(0, 10)
+                        : new Date().toISOString().substring(0, 10),
+                      retirementDate: current.retirementDate
+                        ? new Date(current.retirementDate)
+                            .toISOString()
+                            .substring(0, 10)
+                        : undefined,
+                    };
+                  })()
+                : createForVariantId
                   ? {
-                      name: current.name,
-                      additionalSpecs: current.additionalSpecs ?? '',
+                      variantId: createForVariantId,
+                      identifier: '',
+                      storageLocationId: undefined,
+                      condition: 'New' as const,
+                      purchaseDate: new Date().toISOString().substring(0, 10),
+                      retirementDate: undefined,
                     }
-                  : undefined;
-              })()
-            : undefined
-        }
-        loading={editingVariantId ? updatingVariant : creatingVariant}
-        onSubmit={async (values) => {
-          if (editingVariantId) {
-            await updateVariant(editingVariantId, values);
-          } else {
-            await createVariant(values);
-          }
-          setVariantFormOpen(false);
-          setEditingVariantId(null);
-        }}
-      />
+                  : undefined
+            }
+            loading={editingItemId ? updatingItem : creatingItem}
+            onSubmit={async (values) => {
+              const payload = {
+                variantId: values.variantId,
+                identifier: values.identifier || undefined,
+                storageLocationId: values.storageLocationId || undefined,
+                condition: values.condition,
+                purchaseDate: values.purchaseDate
+                  ? new Date(values.purchaseDate + 'T00:00:00')
+                  : new Date(),
+                retirementDate: values.retirementDate
+                  ? new Date(values.retirementDate + 'T00:00:00')
+                  : undefined,
+              };
+              if (editingItemId) {
+                await updateItem(editingItemId, payload);
+              } else {
+                await createItem(payload);
+              }
+              setItemFormOpen(false);
+              setEditingItemId(null);
+              setCreateForVariantId(null);
+            }}
+          />
 
-      {/* Variant Delete Confirm */}
-      <ConfirmDialog
-        open={confirmVariantOpen}
-        onOpenChange={(o) => {
-          setConfirmVariantOpen(o);
-          if (!o) setDeleteVariantId(null);
-        }}
-        title={t('confirmDeleteTitle')}
-        description={t('confirmDeleteDescription', {
-          name: variants.find((v) => v.id === deleteVariantId)?.name ?? '',
-        })}
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deletingVariant}
-        onConfirm={async () => {
-          if (!deleteVariantId) return;
-          await deleteVariant(deleteVariantId);
-          setConfirmVariantOpen(false);
-          setDeleteVariantId(null);
-        }}
-      />
-
-      {/* Item Form Dialog */}
-      <ItemFormDialog
-        open={itemFormOpen}
-        onOpenChange={(o) => {
-          setItemFormOpen(o);
-          if (!o) setEditingItemId(null);
-        }}
-        mode={editingItemId ? 'edit' : 'create'}
-        variantId={createForVariantId ?? undefined}
-        initialValues={
-          editingItemId
-            ? (() => {
-                const current = items.find((it) => it.id === editingItemId);
-                if (!current) return undefined;
-                return {
-                  variantId: current.variantId,
-                  identifier: current.identifier ?? '',
-                  storageLocationId: current.storageLocationId ?? undefined,
-                  condition: current.condition,
-                  purchaseDate: current.purchaseDate
-                    ? new Date(current.purchaseDate)
-                        .toISOString()
-                        .substring(0, 10)
-                    : new Date().toISOString().substring(0, 10),
-                  retirementDate: current.retirementDate
-                    ? new Date(current.retirementDate)
-                        .toISOString()
-                        .substring(0, 10)
-                    : undefined,
-                };
-              })()
-            : createForVariantId
-              ? {
-                  variantId: createForVariantId,
-                  identifier: '',
-                  storageLocationId: undefined,
-                  condition: 'New' as const,
-                  purchaseDate: new Date().toISOString().substring(0, 10),
-                  retirementDate: undefined,
-                }
-              : undefined
-        }
-        loading={editingItemId ? updatingItem : creatingItem}
-        onSubmit={async (values) => {
-          const payload = {
-            variantId: values.variantId,
-            identifier: values.identifier || undefined,
-            storageLocationId: values.storageLocationId || undefined,
-            condition: values.condition,
-            purchaseDate: values.purchaseDate
-              ? new Date(values.purchaseDate + 'T00:00:00')
-              : new Date(),
-            retirementDate: values.retirementDate
-              ? new Date(values.retirementDate + 'T00:00:00')
-              : undefined,
-          };
-          if (editingItemId) {
-            await updateItem(editingItemId, payload);
-          } else {
-            await createItem(payload);
-          }
-          setItemFormOpen(false);
-          setEditingItemId(null);
-          setCreateForVariantId(null);
-        }}
-      />
-
-      {/* Item Delete Confirm */}
-      <ConfirmDialog
-        open={confirmItemOpen}
-        onOpenChange={(o) => {
-          setConfirmItemOpen(o);
-          if (!o) setDeleteItemId(null);
-        }}
-        title={t('confirmDeleteTitle')}
-        description={t('confirmDeleteDescription', {
-          name: items.find((it) => it.id === deleteItemId)?.identifier ?? '',
-        })}
-        confirmLabel={t('delete')}
-        cancelLabel={t('cancel')}
-        confirmVariant="destructive"
-        confirmDisabled={deletingItem}
-        onConfirm={async () => {
-          if (!deleteItemId) return;
-          await deleteItem(deleteItemId);
-          setConfirmItemOpen(false);
-          setDeleteItemId(null);
-        }}
-      />
+          {/* Item Delete Confirm */}
+          <ConfirmDialog
+            open={confirmItemOpen}
+            onOpenChange={(o) => {
+              setConfirmItemOpen(o);
+              if (!o) setDeleteItemId(null);
+            }}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name:
+                items.find((it) => it.id === deleteItemId)?.identifier ?? '',
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deletingItem}
+            onConfirm={async () => {
+              if (!deleteItemId) return;
+              await deleteItem(deleteItemId);
+              setConfirmItemOpen(false);
+              setDeleteItemId(null);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
