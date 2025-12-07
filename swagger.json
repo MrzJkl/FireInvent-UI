@@ -10,6 +10,195 @@
     }
   ],
   "paths": {
+    "/api-integrations": {
+      "post": {
+        "tags": [
+          "ApiIntegrations"
+        ],
+        "summary": "Create API integration",
+        "description": "Creates a new API integration with confidential client credentials. The credentials are shown only once.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiIntegrationModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiIntegrationModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiIntegrationModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiIntegrationCredentialsModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiIntegrationCredentialsModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiIntegrationCredentialsModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "ApiIntegrations"
+        ],
+        "summary": "List API integrations",
+        "description": "Returns a list of all API integrations. Client secrets are not included.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiIntegrationModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiIntegrationModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiIntegrationModel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api-integrations/{clientId}": {
+      "delete": {
+        "tags": [
+          "ApiIntegrations"
+        ],
+        "summary": "Delete API integration",
+        "description": "Deletes an API integration and revokes all access. This action cannot be undone.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
     "/departments": {
       "get": {
         "tags": [
@@ -1566,7 +1755,7 @@
         ]
       }
     },
-    "/maintenanceTypes": {
+    "/maintenance-types": {
       "get": {
         "tags": [
           "MaintenanceTypes"
@@ -1665,7 +1854,7 @@
         ]
       }
     },
-    "/maintenanceTypes/{id}": {
+    "/maintenance-types/{id}": {
       "get": {
         "tags": [
           "MaintenanceTypes"
@@ -2926,7 +3115,7 @@
         ]
       }
     },
-    "/productTypes": {
+    "/product-types": {
       "get": {
         "tags": [
           "ProductTypes"
@@ -3025,7 +3214,7 @@
         ]
       }
     },
-    "/productTypes/{id}": {
+    "/product-types/{id}": {
       "get": {
         "tags": [
           "ProductTypes"
@@ -3208,7 +3397,7 @@
         ]
       }
     },
-    "/storageLocations": {
+    "/storage-locations": {
       "get": {
         "tags": [
           "StorageLocations"
@@ -3327,7 +3516,7 @@
         ]
       }
     },
-    "/storageLocations/{id}": {
+    "/storage-locations/{id}": {
       "get": {
         "tags": [
           "StorageLocations"
@@ -3530,7 +3719,7 @@
         ]
       }
     },
-    "/storageLocations/{id}/items": {
+    "/storage-locations/{id}/items": {
       "get": {
         "tags": [
           "StorageLocations"
@@ -4159,6 +4348,69 @@
   },
   "components": {
     "schemas": {
+      "ApiIntegrationCredentialsModel": {
+        "required": [
+          "clientId",
+          "clientSecret",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "clientSecret": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiIntegrationModel": {
+        "required": [
+          "clientId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateApiIntegrationModel": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
       "CreateOrUpdateDepartmentModel": {
         "required": [
           "name"
@@ -5065,6 +5317,9 @@
     }
   },
   "tags": [
+    {
+      "name": "ApiIntegrations"
+    },
     {
       "name": "Departments"
     },

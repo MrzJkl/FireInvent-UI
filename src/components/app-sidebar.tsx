@@ -11,6 +11,7 @@ import {
   IconUsers,
   IconUserCircle,
   IconWashMachine,
+  IconPlug,
 } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -75,6 +76,11 @@ const data = {
       title: 'users.label',
       url: '/app/users',
       icon: IconUserCircle,
+    },
+    {
+      title: 'API-Integrationen',
+      url: '/app/api-integrations',
+      icon: IconPlug,
     },
   ],
 };
