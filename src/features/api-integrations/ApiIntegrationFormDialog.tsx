@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -13,12 +14,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const schema = z.object({
-  name: z.string().min(1, 'Name ist erforderlich').max(100),
-  description: z.string().max(500).optional(),
-});
-
-export type ApiIntegrationFormValues = z.infer<typeof schema>;
+export type ApiIntegrationFormValues = {
+  name: string;
+  description?: string;
+};
 
 export type ApiIntegrationFormDialogProps = {
   open: boolean;
@@ -33,6 +32,19 @@ export function ApiIntegrationFormDialog({
   onSubmit,
   onOpenChange,
 }: ApiIntegrationFormDialogProps) {
+  const { t } = useTranslation();
+
+  const schema = z.object({
+    name: z
+      .string()
+      .min(1, t('apiIntegrations.nameRequired'))
+      .max(100, t('apiIntegrations.nameMaxLength')),
+    description: z
+      .string()
+      .max(500, t('apiIntegrations.descriptionMaxLength'))
+      .optional(),
+  });
+
   const {
     register,
     handleSubmit,
@@ -57,25 +69,27 @@ export function ApiIntegrationFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Neue API-Integration erstellen</DialogTitle>
+          <DialogTitle>{t('apiIntegrations.add')}</DialogTitle>
           <DialogDescription>
-            Erstellen Sie eine neue API-Integration. Nach dem Erstellen werden
-            die Zugangsdaten einmalig angezeigt.
+            {t('apiIntegrations.descriptionAdd')}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4 mt-2" onSubmit={submit}>
           <div>
-            <Label>Name *</Label>
-            <Input {...register('name')} placeholder="Meine Integration" />
+            <Label>{t('name')} *</Label>
+            <Input
+              {...register('name')}
+              placeholder={t('apiIntegrations.namePlaceholder')}
+            />
             {errors.name ? (
               <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>
             ) : null}
           </div>
           <div>
-            <Label>Beschreibung</Label>
+            <Label>{t('description')}</Label>
             <Input
               {...register('description')}
-              placeholder="Optionale Beschreibung der Integration"
+              placeholder={t('apiIntegrations.descriptionPlaceholder')}
             />
             {errors.description ? (
               <p className="text-sm text-red-500 mt-1">
@@ -90,10 +104,12 @@ export function ApiIntegrationFormDialog({
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              Abbrechen
+              {t('cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Erstelle...' : 'Erstellen'}
+              {loading
+                ? t('apiIntegrations.creating')
+                : t('apiIntegrations.create')}
             </Button>
           </div>
         </form>

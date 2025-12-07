@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -22,6 +23,7 @@ import {
 import { Plus } from 'lucide-react';
 
 export default function ApiIntegrationsPage() {
+  const { t } = useTranslation();
   const [formOpen, setFormOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ApiIntegrationModel | null>(
@@ -49,16 +51,15 @@ export default function ApiIntegrationsPage() {
   }, [credentialsOpen]);
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  if (initialLoading)
-    return <LoadingIndicator message="Lade API-Integrationen..." />;
+  if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h1 className="text-2xl font-bold">API-Integrationen</h1>
+          <h1 className="text-2xl font-bold">{t('apiIntegrations.title')}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Verwalten Sie API-Integrationen für externe Anwendungen
+            {t('apiIntegrations.subtitle')}
           </p>
         </div>
         <Button
@@ -67,18 +68,18 @@ export default function ApiIntegrationsPage() {
           }}
         >
           <Plus className="h-4 w-4 mr-2" />
-          Neue Integration
+          {t('apiIntegrations.newIntegration')}
         </Button>
       </div>
 
       {integrations.length === 0 ? (
         <div className="text-center py-12 border rounded-lg">
           <p className="text-muted-foreground mb-4">
-            Noch keine API-Integrationen vorhanden
+            {t('apiIntegrations.empty')}
           </p>
           <Button onClick={() => setFormOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
-            Erste Integration erstellen
+            {t('apiIntegrations.createFirst')}
           </Button>
         </div>
       ) : (
@@ -86,11 +87,11 @@ export default function ApiIntegrationsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Beschreibung</TableHead>
-                <TableHead>Client ID</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Aktionen</TableHead>
+                <TableHead>{t('name')}</TableHead>
+                <TableHead>{t('description')}</TableHead>
+                <TableHead>{t('apiIntegrations.clientId')}</TableHead>
+                <TableHead>{t('apiIntegrations.status')}</TableHead>
+                <TableHead className="text-right">{t('actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -109,7 +110,9 @@ export default function ApiIntegrationsPage() {
                     <Badge
                       variant={integration.enabled ? 'default' : 'secondary'}
                     >
-                      {integration.enabled ? 'Aktiv' : 'Inaktiv'}
+                      {integration.enabled
+                        ? t('apiIntegrations.active')
+                        : t('apiIntegrations.inactive')}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
@@ -121,7 +124,7 @@ export default function ApiIntegrationsPage() {
                         setConfirmOpen(true);
                       }}
                     >
-                      Löschen
+                      {t('delete')}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -157,14 +160,16 @@ export default function ApiIntegrationsPage() {
           setConfirmOpen(o);
           if (!o) setItemToDelete(null);
         }}
-        title="Integration löschen"
+        title={t('apiIntegrations.confirmDeleteTitle')}
         description={
           itemToDelete
-            ? `Möchten Sie die Integration "${itemToDelete.name}" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden und alle damit verbundenen Zugänge werden sofort widerrufen.`
+            ? t('apiIntegrations.confirmDeleteDescription', {
+                name: itemToDelete.name,
+              })
             : ''
         }
-        confirmLabel="Löschen"
-        cancelLabel="Abbrechen"
+        confirmLabel={t('delete')}
+        cancelLabel={t('cancel')}
         confirmVariant="destructive"
         confirmDisabled={deleting}
         onConfirm={async () => {

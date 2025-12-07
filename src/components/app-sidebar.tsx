@@ -78,7 +78,7 @@ const data = {
       icon: IconUserCircle,
     },
     {
-      title: 'API-Integrationen',
+      title: 'apiIntegrations.label',
       url: '/app/api-integrations',
       icon: IconPlug,
     },
