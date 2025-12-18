@@ -23,15 +23,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate version from date
-        id: set_version
-        run: |
-          VERSION="$(date +'%Y.%m.%d').${{ github.run_number }}"
-          echo "version=$VERSION" >> $GITHUB_ENV
-
-      - name: Set short commit SHA
-        run: echo "short_sha=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -49,9 +40,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            ghcr.io/mrzjkl/fireinventui:${{ env.version }}
-            ghcr.io/mrzjkl/fireinventui:${{ env.short_sha }}
-            ghcr.io/mrzjkl/fireinventui:latest
+            type=raw,value=latest
+            type=sha,prefix=,format=short
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
