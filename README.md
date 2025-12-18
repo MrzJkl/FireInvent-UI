@@ -83,18 +83,22 @@ cp .env.example .env.local
 
 Die empfohlene Methode für das Deployment ist Docker. Das Repository enthält einen GitHub Actions Workflow, der automatisch ein Docker-Image erstellt.
 
-```bash
-# Image bauen
-docker build -t fireinvent-ui .
+**Wichtig:** Umgebungsvariablen müssen zur **Build-Zeit** gesetzt werden, da Vite diese während des Builds in den JavaScript-Code einbettet. Runtime-Konfiguration ist nicht möglich.
 
-# Container starten
-docker run -p 80:80 \
-  -e VITE_API_BASE_URL=https://api.example.com \
-  -e VITE_KEYCLOAK_URL=https://auth.example.com \
-  -e VITE_KEYCLOAK_REALM=fireinvent \
-  -e VITE_KEYCLOAK_CLIENT_ID=fireinvent-spa \
-  fireinvent-ui
+```bash
+# Image bauen mit Produktions-Umgebungsvariablen
+docker build -t fireinvent-ui \
+  --build-arg VITE_API_BASE_URL=https://api.fireinvent.de \
+  --build-arg VITE_KEYCLOAK_URL=https://auth.fireinvent.de \
+  --build-arg VITE_KEYCLOAK_REALM=fireinvent \
+  --build-arg VITE_KEYCLOAK_CLIENT_ID=fireinvent-spa \
+  .
+
+# Container starten (keine Umgebungsvariablen mehr nötig)
+docker run -p 80:80 fireinvent-ui
 ```
+
+Der GitHub Actions Workflow baut das Image automatisch mit den Produktionswerten für `api.fireinvent.de` und `auth.fireinvent.de`.
 
 ### Manuelles Deployment
 
