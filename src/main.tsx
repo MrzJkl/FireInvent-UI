@@ -22,10 +22,16 @@ createRoot(document.getElementById('root')!).render(
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:
           window.location.origin + '/silent-check-sso.html',
-        checkLoginIframe: false,
+        checkLoginIframe: true,
         pkceMethod: 'S256',
       }}
       autoRefreshToken={true}
+      LoadingComponent={
+        <div className="h-screen w-screen flex flex-col items-center justify-center text-muted-foreground">
+          <div className="h-6 w-6 animate-spin mb-2" />
+          <span>Loading...</span>
+        </div>
+      }
     >
       <ThemeProvider defaultTheme="system" storageKey="fireinvent-ui-theme">
         <AuthGate>
