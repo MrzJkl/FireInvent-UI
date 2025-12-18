@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
+import keycloak from '@/auth/keycloak';
 
 type ApiOptions = {
   successMessage?: string;
@@ -42,6 +43,10 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       const status = res?.status ?? 200;
 
       if (status >= 400) {
+        if (status === 401) {
+          keycloak.login({ redirectUri: window.location.href });
+          return null;
+        }
         const errorMsg = res?.data?.message ?? 'Ein Fehler ist aufgetreten.';
         const apiError: ApiError = {
           message: errorMsg,
@@ -66,11 +71,17 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const axiosError = err as any;
       const errorMsg =
-        axiosError?.response?.data?.message ?? axiosError?.message ?? 'Unbekannter Fehler';
+        axiosError?.response?.data?.message ??
+        axiosError?.message ??
+        'Unbekannter Fehler';
       const apiError: ApiError = {
         message: errorMsg,
         statusCode: axiosError?.response?.status,
       };
+      if (axiosError?.response?.status === 401) {
+        keycloak.login({ redirectUri: window.location.href });
+        return null;
+      }
       setError(apiError);
 
       if (merged.showError) {
