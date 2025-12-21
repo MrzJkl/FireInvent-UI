@@ -17,8 +17,19 @@ export type ApiIntegrationModel = {
   enabled?: boolean;
 };
 
+export type AppointmentModel = {
+  id?: string;
+  scheduledAt: Date;
+  description?: null | string;
+};
+
 export type CreateApiIntegrationModel = {
   name: string;
+  description?: null | string;
+};
+
+export type CreateOrUpdateAppointmentModel = {
+  scheduledAt: Date;
   description?: null | string;
 };
 
@@ -30,9 +41,9 @@ export type CreateOrUpdateDepartmentModel = {
 export type CreateOrUpdateItemAssignmentHistoryModel = {
   itemId: string;
   personId: string;
+  assignedById: string;
   assignedFrom: Date;
   assignedUntil?: null | Date;
-  assignedById?: null | string;
 };
 
 export type CreateOrUpdateItemModel = {
@@ -49,7 +60,7 @@ export type CreateOrUpdateMaintenanceModel = {
   performedAt: Date;
   typeId: string;
   remarks?: null | string;
-  performedById?: null | string;
+  performedById: string;
 };
 
 export type CreateOrUpdateMaintenanceTypeModel = {
@@ -57,9 +68,23 @@ export type CreateOrUpdateMaintenanceTypeModel = {
   description?: null | string;
 };
 
+export type CreateOrUpdateManufacturerModel = {
+  name: string;
+  description?: null | string;
+  street?: null | string;
+  city?: null | string;
+  postalCode?: null | string;
+  houseNumber?: null | string;
+  country?: null | string;
+  website?: null | string;
+  phoneNumber?: null | string;
+  email?: null | string;
+};
+
 export type CreateOrUpdateOrderItemModel = {
   orderId: string;
   variantId: string;
+  personId?: null | string;
   quantity: number | string;
 };
 
@@ -67,7 +92,6 @@ export type CreateOrUpdateOrderModel = {
   orderIdentifier?: null | string;
   orderDate: Date;
   status: OrderStatus;
-  items: Array<CreateOrUpdateOrderItemModel>;
   deliveryDate?: null | Date;
 };
 
@@ -82,8 +106,9 @@ export type CreateOrUpdatePersonModel = {
 
 export type CreateOrUpdateProductModel = {
   name: string;
-  manufacturer: string;
+  manufacturerId: string;
   description?: null | string;
+  externalIdentifier?: null | string;
   typeId: string;
 };
 
@@ -97,10 +122,27 @@ export type CreateOrUpdateStorageLocationModel = {
   remarks?: null | string;
 };
 
+export type CreateOrUpdateTenantModel = {
+  name: string;
+  description?: null | string;
+};
+
 export type CreateOrUpdateVariantModel = {
   productId: string;
   name: string;
   additionalSpecs?: null | string;
+  externalIdentifier?: null | string;
+};
+
+export type CreateOrUpdateVisitItemModel = {
+  visitId: string;
+  productId: string;
+  quantity: number | string;
+};
+
+export type CreateOrUpdateVisitModel = {
+  appointmentId: string;
+  personId: string;
 };
 
 export type DepartmentModel = {
@@ -112,12 +154,12 @@ export type DepartmentModel = {
 export type ItemAssignmentHistoryModel = {
   id: string;
   person: PersonModel;
-  assignedBy?: null | UserModel;
+  item: ItemModel;
   itemId: string;
   personId: string;
+  assignedById: string;
   assignedFrom: Date;
   assignedUntil?: null | Date;
-  assignedById?: null | string;
 };
 
 export const ItemCondition = {
@@ -133,6 +175,7 @@ export type ItemCondition = (typeof ItemCondition)[keyof typeof ItemCondition];
 export type ItemModel = {
   id: string;
   variant: VariantModel;
+  storageLocation?: null | StorageLocationModel;
   variantId: string;
   identifier?: null | string;
   storageLocationId?: null | string;
@@ -149,7 +192,7 @@ export type MaintenanceModel = {
   performedAt: Date;
   typeId: string;
   remarks?: null | string;
-  performedById?: null | string;
+  performedById: string;
 };
 
 export type MaintenanceTypeModel = {
@@ -158,17 +201,32 @@ export type MaintenanceTypeModel = {
   description?: null | string;
 };
 
+export type ManufacturerModel = {
+  id: string;
+  name: string;
+  description?: null | string;
+  street?: null | string;
+  city?: null | string;
+  postalCode?: null | string;
+  houseNumber?: null | string;
+  country?: null | string;
+  website?: null | string;
+  phoneNumber?: null | string;
+  email?: null | string;
+};
+
 export type OrderItemModel = {
   id: string;
   variant: VariantModel;
+  person?: null | PersonModel;
   orderId: string;
   variantId: string;
+  personId?: null | string;
   quantity: number | string;
 };
 
 export type OrderModel = {
   id: string;
-  items: Array<OrderItemModel>;
   orderIdentifier?: null | string;
   orderDate: Date;
   status: OrderStatus;
@@ -206,9 +264,11 @@ export type ProblemDetails = {
 export type ProductModel = {
   id: string;
   type: ProductTypeModel;
+  manufacturer: ManufacturerModel;
   name: string;
-  manufacturer: string;
+  manufacturerId: string;
   description?: null | string;
+  externalIdentifier?: null | string;
   typeId: string;
 };
 
@@ -224,6 +284,13 @@ export type StorageLocationModel = {
   remarks?: null | string;
 };
 
+export type TenantModel = {
+  id: string;
+  createdAt: Date;
+  name: string;
+  description?: null | string;
+};
+
 export type UserModel = {
   id: string;
   eMail: string;
@@ -237,6 +304,23 @@ export type VariantModel = {
   productId: string;
   name: string;
   additionalSpecs?: null | string;
+  externalIdentifier?: null | string;
+};
+
+export type VisitItemModel = {
+  id: string;
+  product: ProductModel;
+  visitId: string;
+  productId: string;
+  quantity: number | string;
+};
+
+export type VisitModel = {
+  id: string;
+  appointment: AppointmentModel;
+  person: PersonModel;
+  appointmentId: string;
+  personId: string;
 };
 
 export type GetApiIntegrationsData = {
@@ -315,6 +399,156 @@ export type DeleteApiIntegrationsByClientIdResponses = {
 
 export type DeleteApiIntegrationsByClientIdResponse =
   DeleteApiIntegrationsByClientIdResponses[keyof DeleteApiIntegrationsByClientIdResponses];
+
+export type GetAppointmentsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/appointments";
+};
+
+export type GetAppointmentsResponses = {
+  /**
+   * OK
+   */
+  200: Array<AppointmentModel>;
+};
+
+export type GetAppointmentsResponse =
+  GetAppointmentsResponses[keyof GetAppointmentsResponses];
+
+export type PostAppointmentsData = {
+  body: CreateOrUpdateAppointmentModel;
+  path?: never;
+  query?: never;
+  url: "/appointments";
+};
+
+export type PostAppointmentsResponses = {
+  /**
+   * Created
+   */
+  201: AppointmentModel;
+};
+
+export type PostAppointmentsResponse =
+  PostAppointmentsResponses[keyof PostAppointmentsResponses];
+
+export type DeleteAppointmentsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/appointments/{id}";
+};
+
+export type DeleteAppointmentsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteAppointmentsByIdError =
+  DeleteAppointmentsByIdErrors[keyof DeleteAppointmentsByIdErrors];
+
+export type DeleteAppointmentsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteAppointmentsByIdResponse =
+  DeleteAppointmentsByIdResponses[keyof DeleteAppointmentsByIdResponses];
+
+export type GetAppointmentsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/appointments/{id}";
+};
+
+export type GetAppointmentsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetAppointmentsByIdError =
+  GetAppointmentsByIdErrors[keyof GetAppointmentsByIdErrors];
+
+export type GetAppointmentsByIdResponses = {
+  /**
+   * OK
+   */
+  200: AppointmentModel;
+};
+
+export type GetAppointmentsByIdResponse =
+  GetAppointmentsByIdResponses[keyof GetAppointmentsByIdResponses];
+
+export type PutAppointmentsByIdData = {
+  body: CreateOrUpdateAppointmentModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/appointments/{id}";
+};
+
+export type PutAppointmentsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PutAppointmentsByIdError =
+  PutAppointmentsByIdErrors[keyof PutAppointmentsByIdErrors];
+
+export type PutAppointmentsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutAppointmentsByIdResponse =
+  PutAppointmentsByIdResponses[keyof PutAppointmentsByIdResponses];
+
+export type GetAppointmentsByIdVisitsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/appointments/{id}/visits";
+};
+
+export type GetAppointmentsByIdVisitsErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetAppointmentsByIdVisitsError =
+  GetAppointmentsByIdVisitsErrors[keyof GetAppointmentsByIdVisitsErrors];
+
+export type GetAppointmentsByIdVisitsResponses = {
+  /**
+   * OK
+   */
+  200: Array<VisitModel>;
+};
+
+export type GetAppointmentsByIdVisitsResponse =
+  GetAppointmentsByIdVisitsResponses[keyof GetAppointmentsByIdVisitsResponses];
 
 export type GetDepartmentsData = {
   body?: never;
@@ -1061,6 +1295,156 @@ export type PutMaintenanceTypesByIdResponses = {
 export type PutMaintenanceTypesByIdResponse =
   PutMaintenanceTypesByIdResponses[keyof PutMaintenanceTypesByIdResponses];
 
+export type GetManufacturersData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/manufacturers";
+};
+
+export type GetManufacturersResponses = {
+  /**
+   * OK
+   */
+  200: Array<ManufacturerModel>;
+};
+
+export type GetManufacturersResponse =
+  GetManufacturersResponses[keyof GetManufacturersResponses];
+
+export type PostManufacturersData = {
+  body: CreateOrUpdateManufacturerModel;
+  path?: never;
+  query?: never;
+  url: "/manufacturers";
+};
+
+export type PostManufacturersResponses = {
+  /**
+   * Created
+   */
+  201: ManufacturerModel;
+};
+
+export type PostManufacturersResponse =
+  PostManufacturersResponses[keyof PostManufacturersResponses];
+
+export type DeleteManufacturersByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/manufacturers/{id}";
+};
+
+export type DeleteManufacturersByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteManufacturersByIdError =
+  DeleteManufacturersByIdErrors[keyof DeleteManufacturersByIdErrors];
+
+export type DeleteManufacturersByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteManufacturersByIdResponse =
+  DeleteManufacturersByIdResponses[keyof DeleteManufacturersByIdResponses];
+
+export type GetManufacturersByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/manufacturers/{id}";
+};
+
+export type GetManufacturersByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetManufacturersByIdError =
+  GetManufacturersByIdErrors[keyof GetManufacturersByIdErrors];
+
+export type GetManufacturersByIdResponses = {
+  /**
+   * OK
+   */
+  200: ManufacturerModel;
+};
+
+export type GetManufacturersByIdResponse =
+  GetManufacturersByIdResponses[keyof GetManufacturersByIdResponses];
+
+export type PutManufacturersByIdData = {
+  body: CreateOrUpdateManufacturerModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/manufacturers/{id}";
+};
+
+export type PutManufacturersByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PutManufacturersByIdError =
+  PutManufacturersByIdErrors[keyof PutManufacturersByIdErrors];
+
+export type PutManufacturersByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutManufacturersByIdResponse =
+  PutManufacturersByIdResponses[keyof PutManufacturersByIdResponses];
+
+export type GetManufacturersByIdProductsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/manufacturers/{id}/products";
+};
+
+export type GetManufacturersByIdProductsErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetManufacturersByIdProductsError =
+  GetManufacturersByIdProductsErrors[keyof GetManufacturersByIdProductsErrors];
+
+export type GetManufacturersByIdProductsResponses = {
+  /**
+   * OK
+   */
+  200: Array<ProductModel>;
+};
+
+export type GetManufacturersByIdProductsResponse =
+  GetManufacturersByIdProductsResponses[keyof GetManufacturersByIdProductsResponses];
+
 export type GetOrdersData = {
   body?: never;
   path?: never;
@@ -1181,6 +1565,146 @@ export type PutOrdersByIdResponses = {
 
 export type PutOrdersByIdResponse =
   PutOrdersByIdResponses[keyof PutOrdersByIdResponses];
+
+export type GetOrderItemsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/order-items";
+};
+
+export type GetOrderItemsResponses = {
+  /**
+   * OK
+   */
+  200: Array<OrderItemModel>;
+};
+
+export type GetOrderItemsResponse =
+  GetOrderItemsResponses[keyof GetOrderItemsResponses];
+
+export type PostOrderItemsData = {
+  body: CreateOrUpdateOrderItemModel;
+  path?: never;
+  query?: never;
+  url: "/order-items";
+};
+
+export type PostOrderItemsResponses = {
+  /**
+   * Created
+   */
+  201: OrderItemModel;
+};
+
+export type PostOrderItemsResponse =
+  PostOrderItemsResponses[keyof PostOrderItemsResponses];
+
+export type GetOrderItemsByOrderByOrderIdData = {
+  body?: never;
+  path: {
+    orderId: string;
+  };
+  query?: never;
+  url: "/order-items/by-order/{orderId}";
+};
+
+export type GetOrderItemsByOrderByOrderIdResponses = {
+  /**
+   * OK
+   */
+  200: Array<OrderItemModel>;
+};
+
+export type GetOrderItemsByOrderByOrderIdResponse =
+  GetOrderItemsByOrderByOrderIdResponses[keyof GetOrderItemsByOrderByOrderIdResponses];
+
+export type DeleteOrderItemsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/order-items/{id}";
+};
+
+export type DeleteOrderItemsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteOrderItemsByIdError =
+  DeleteOrderItemsByIdErrors[keyof DeleteOrderItemsByIdErrors];
+
+export type DeleteOrderItemsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteOrderItemsByIdResponse =
+  DeleteOrderItemsByIdResponses[keyof DeleteOrderItemsByIdResponses];
+
+export type GetOrderItemsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/order-items/{id}";
+};
+
+export type GetOrderItemsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetOrderItemsByIdError =
+  GetOrderItemsByIdErrors[keyof GetOrderItemsByIdErrors];
+
+export type GetOrderItemsByIdResponses = {
+  /**
+   * OK
+   */
+  200: OrderItemModel;
+};
+
+export type GetOrderItemsByIdResponse =
+  GetOrderItemsByIdResponses[keyof GetOrderItemsByIdResponses];
+
+export type PutOrderItemsByIdData = {
+  body: CreateOrUpdateOrderItemModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/order-items/{id}";
+};
+
+export type PutOrderItemsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PutOrderItemsByIdError =
+  PutOrderItemsByIdErrors[keyof PutOrderItemsByIdErrors];
+
+export type PutOrderItemsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutOrderItemsByIdResponse =
+  PutOrderItemsByIdResponses[keyof PutOrderItemsByIdResponses];
 
 export type GetPersonsData = {
   body?: never;
@@ -1311,34 +1835,34 @@ export type PutPersonsByIdResponses = {
 export type PutPersonsByIdResponse =
   PutPersonsByIdResponses[keyof PutPersonsByIdResponses];
 
-export type GetPersonsByIdItemsData = {
+export type GetPersonsByIdAssignmentsData = {
   body?: never;
   path: {
     id: string;
   };
   query?: never;
-  url: "/persons/{id}/items";
+  url: "/persons/{id}/assignments";
 };
 
-export type GetPersonsByIdItemsErrors = {
+export type GetPersonsByIdAssignmentsErrors = {
   /**
    * Not Found
    */
   404: ProblemDetails;
 };
 
-export type GetPersonsByIdItemsError =
-  GetPersonsByIdItemsErrors[keyof GetPersonsByIdItemsErrors];
+export type GetPersonsByIdAssignmentsError =
+  GetPersonsByIdAssignmentsErrors[keyof GetPersonsByIdAssignmentsErrors];
 
-export type GetPersonsByIdItemsResponses = {
+export type GetPersonsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: Array<ItemAssignmentHistoryModel>;
 };
 
-export type GetPersonsByIdItemsResponse =
-  GetPersonsByIdItemsResponses[keyof GetPersonsByIdItemsResponses];
+export type GetPersonsByIdAssignmentsResponse =
+  GetPersonsByIdAssignmentsResponses[keyof GetPersonsByIdAssignmentsResponses];
 
 export type GetProductsData = {
   body?: never;
@@ -1788,6 +2312,143 @@ export type GetStorageLocationsByIdItemsResponses = {
 export type GetStorageLocationsByIdItemsResponse =
   GetStorageLocationsByIdItemsResponses[keyof GetStorageLocationsByIdItemsResponses];
 
+export type GetTenantsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/tenants";
+};
+
+export type GetTenantsResponses = {
+  /**
+   * OK
+   */
+  200: Array<TenantModel>;
+};
+
+export type GetTenantsResponse = GetTenantsResponses[keyof GetTenantsResponses];
+
+export type PostTenantsData = {
+  body: CreateOrUpdateTenantModel;
+  path?: never;
+  query?: never;
+  url: "/tenants";
+};
+
+export type PostTenantsErrors = {
+  /**
+   * Conflict
+   */
+  409: ProblemDetails;
+};
+
+export type PostTenantsError = PostTenantsErrors[keyof PostTenantsErrors];
+
+export type PostTenantsResponses = {
+  /**
+   * Created
+   */
+  201: TenantModel;
+};
+
+export type PostTenantsResponse =
+  PostTenantsResponses[keyof PostTenantsResponses];
+
+export type DeleteTenantsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/tenants/{id}";
+};
+
+export type DeleteTenantsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+  /**
+   * Conflict
+   */
+  409: ProblemDetails;
+};
+
+export type DeleteTenantsByIdError =
+  DeleteTenantsByIdErrors[keyof DeleteTenantsByIdErrors];
+
+export type DeleteTenantsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteTenantsByIdResponse =
+  DeleteTenantsByIdResponses[keyof DeleteTenantsByIdResponses];
+
+export type GetTenantsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/tenants/{id}";
+};
+
+export type GetTenantsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetTenantsByIdError =
+  GetTenantsByIdErrors[keyof GetTenantsByIdErrors];
+
+export type GetTenantsByIdResponses = {
+  /**
+   * OK
+   */
+  200: TenantModel;
+};
+
+export type GetTenantsByIdResponse =
+  GetTenantsByIdResponses[keyof GetTenantsByIdResponses];
+
+export type PutTenantsByIdData = {
+  body: CreateOrUpdateTenantModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/tenants/{id}";
+};
+
+export type PutTenantsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+  /**
+   * Conflict
+   */
+  409: ProblemDetails;
+};
+
+export type PutTenantsByIdError =
+  PutTenantsByIdErrors[keyof PutTenantsByIdErrors];
+
+export type PutTenantsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutTenantsByIdResponse =
+  PutTenantsByIdResponses[keyof PutTenantsByIdResponses];
+
 export type GetUsersData = {
   body?: never;
   path?: never;
@@ -2002,3 +2663,310 @@ export type GetVariantsByIdItemsResponses = {
 
 export type GetVariantsByIdItemsResponse =
   GetVariantsByIdItemsResponses[keyof GetVariantsByIdItemsResponses];
+
+export type GetVisitItemsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/visit-items";
+};
+
+export type GetVisitItemsResponses = {
+  /**
+   * OK
+   */
+  200: Array<VisitItemModel>;
+};
+
+export type GetVisitItemsResponse =
+  GetVisitItemsResponses[keyof GetVisitItemsResponses];
+
+export type PostVisitItemsData = {
+  body: CreateOrUpdateVisitItemModel;
+  path?: never;
+  query?: never;
+  url: "/visit-items";
+};
+
+export type PostVisitItemsResponses = {
+  /**
+   * Created
+   */
+  201: VisitItemModel;
+};
+
+export type PostVisitItemsResponse =
+  PostVisitItemsResponses[keyof PostVisitItemsResponses];
+
+export type GetVisitItemsByVisitByVisitIdData = {
+  body?: never;
+  path: {
+    visitId: string;
+  };
+  query?: never;
+  url: "/visit-items/by-visit/{visitId}";
+};
+
+export type GetVisitItemsByVisitByVisitIdResponses = {
+  /**
+   * OK
+   */
+  200: Array<VisitItemModel>;
+};
+
+export type GetVisitItemsByVisitByVisitIdResponse =
+  GetVisitItemsByVisitByVisitIdResponses[keyof GetVisitItemsByVisitByVisitIdResponses];
+
+export type DeleteVisitItemsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visit-items/{id}";
+};
+
+export type DeleteVisitItemsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteVisitItemsByIdError =
+  DeleteVisitItemsByIdErrors[keyof DeleteVisitItemsByIdErrors];
+
+export type DeleteVisitItemsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteVisitItemsByIdResponse =
+  DeleteVisitItemsByIdResponses[keyof DeleteVisitItemsByIdResponses];
+
+export type GetVisitItemsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visit-items/{id}";
+};
+
+export type GetVisitItemsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetVisitItemsByIdError =
+  GetVisitItemsByIdErrors[keyof GetVisitItemsByIdErrors];
+
+export type GetVisitItemsByIdResponses = {
+  /**
+   * OK
+   */
+  200: VisitItemModel;
+};
+
+export type GetVisitItemsByIdResponse =
+  GetVisitItemsByIdResponses[keyof GetVisitItemsByIdResponses];
+
+export type PutVisitItemsByIdData = {
+  body: CreateOrUpdateVisitItemModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visit-items/{id}";
+};
+
+export type PutVisitItemsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PutVisitItemsByIdError =
+  PutVisitItemsByIdErrors[keyof PutVisitItemsByIdErrors];
+
+export type PutVisitItemsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutVisitItemsByIdResponse =
+  PutVisitItemsByIdResponses[keyof PutVisitItemsByIdResponses];
+
+export type GetVisitsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/visits";
+};
+
+export type GetVisitsResponses = {
+  /**
+   * OK
+   */
+  200: Array<VisitModel>;
+};
+
+export type GetVisitsResponse = GetVisitsResponses[keyof GetVisitsResponses];
+
+export type PostVisitsData = {
+  body: CreateOrUpdateVisitModel;
+  path?: never;
+  query?: never;
+  url: "/visits";
+};
+
+export type PostVisitsErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Conflict
+   */
+  409: ProblemDetails;
+};
+
+export type PostVisitsError = PostVisitsErrors[keyof PostVisitsErrors];
+
+export type PostVisitsResponses = {
+  /**
+   * Created
+   */
+  201: VisitModel;
+};
+
+export type PostVisitsResponse = PostVisitsResponses[keyof PostVisitsResponses];
+
+export type DeleteVisitsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visits/{id}";
+};
+
+export type DeleteVisitsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteVisitsByIdError =
+  DeleteVisitsByIdErrors[keyof DeleteVisitsByIdErrors];
+
+export type DeleteVisitsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteVisitsByIdResponse =
+  DeleteVisitsByIdResponses[keyof DeleteVisitsByIdResponses];
+
+export type GetVisitsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visits/{id}";
+};
+
+export type GetVisitsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetVisitsByIdError = GetVisitsByIdErrors[keyof GetVisitsByIdErrors];
+
+export type GetVisitsByIdResponses = {
+  /**
+   * OK
+   */
+  200: VisitModel;
+};
+
+export type GetVisitsByIdResponse =
+  GetVisitsByIdResponses[keyof GetVisitsByIdResponses];
+
+export type PutVisitsByIdData = {
+  body: CreateOrUpdateVisitModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visits/{id}";
+};
+
+export type PutVisitsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+  /**
+   * Conflict
+   */
+  409: ProblemDetails;
+};
+
+export type PutVisitsByIdError = PutVisitsByIdErrors[keyof PutVisitsByIdErrors];
+
+export type PutVisitsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutVisitsByIdResponse =
+  PutVisitsByIdResponses[keyof PutVisitsByIdResponses];
+
+export type GetVisitsByIdItemsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/visits/{id}/items";
+};
+
+export type GetVisitsByIdItemsErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetVisitsByIdItemsError =
+  GetVisitsByIdItemsErrors[keyof GetVisitsByIdItemsErrors];
+
+export type GetVisitsByIdItemsResponses = {
+  /**
+   * OK
+   */
+  200: Array<VisitItemModel>;
+};
+
+export type GetVisitsByIdItemsResponse =
+  GetVisitsByIdItemsResponses[keyof GetVisitsByIdItemsResponses];

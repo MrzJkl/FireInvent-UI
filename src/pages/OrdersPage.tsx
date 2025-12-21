@@ -12,48 +12,48 @@ import {
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { ProductFormDialog } from '@/features/products/ProductFormDialog';
-import { useProducts } from '@/features/products/useProducts';
-import { type ProductModel } from '@/api/types.gen';
+import { OrderFormDialog } from '@/features/orders/OrderFormDialog';
+import { useOrders } from '@/features/orders/useOrders';
+import { type OrderModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
 import { useAuthorization } from '@/auth/permissions';
 
-export default function ProductsPage() {
+export default function OrdersPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { canEditCatalog } = useAuthorization();
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<ProductModel | null>(null);
+  const [editingItem, setEditingItem] = useState<OrderModel | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<ProductModel | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<OrderModel | null>(null);
 
   const {
-    products,
-    isLoading,
+    orders,
+    initialLoading,
     isCreating,
     isUpdating,
     isDeleting,
     error,
-    createProduct,
-    updateProduct,
-    deleteProduct,
+    createOrder,
+    updateOrder,
+    deleteOrder,
     refetch,
-  } = useProducts();
+  } = useOrders();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
   }, [formOpen]);
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  if (isLoading) return <LoadingIndicator />;
+  if (initialLoading) return <LoadingIndicator />;
 
   const showActions = canEditCatalog;
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">{t('productPlural')}</h1>
+        <h1 className="text-2xl font-bold">{t('orderPlural')}</h1>
         {showActions && (
           <Button
             onClick={() => {
@@ -69,29 +69,29 @@ export default function ProductsPage() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('manufacturer')}</TableHead>
-            <TableHead>{t('productType')}</TableHead>
-            <TableHead>{t('description')}</TableHead>
-            <TableHead>{t('externalIdentifier')}</TableHead>
+            <TableHead>{t('orderIdentifier')}</TableHead>
+            <TableHead>{t('orderDate')}</TableHead>
+            <TableHead>{t('status')}</TableHead>
+            <TableHead>{t('deliveryDate')}</TableHead>
             {showActions && <TableHead>{t('actions')}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product) => (
+          {orders.map((order) => (
             <TableRow
-              key={product.id}
+              key={order.id}
               className="cursor-pointer hover:bg-muted/50"
-              onClick={() => navigate(`/app/products/${product.id}`)}
+              onClick={() => navigate(`/app/orders/${order.id}`)}
             >
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.manufacturer.name}</TableCell>
-              <TableCell>{product.type.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
+              <TableCell>{order.orderIdentifier || order.id}</TableCell>
               <TableCell>
-                {product.externalIdentifier || (
-                  <span className="text-muted-foreground italic">-</span>
-                )}
+                {new Date(order.orderDate).toLocaleDateString('de-DE')}
+              </TableCell>
+              <TableCell>{t(`orderStatus.${order.status}`)}</TableCell>
+              <TableCell>
+                {order.deliveryDate
+                  ? new Date(order.deliveryDate).toLocaleDateString('de-DE')
+                  : '–'}
               </TableCell>
               {showActions && (
                 <TableCell className="flex space-x-2">
@@ -100,7 +100,7 @@ export default function ProductsPage() {
                     variant="outline"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setEditingItem(product);
+                      setEditingItem(order);
                       setFormOpen(true);
                     }}
                   >
@@ -111,7 +111,7 @@ export default function ProductsPage() {
                     variant="destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setItemToDelete(product);
+                      setItemToDelete(order);
                       setConfirmOpen(true);
                     }}
                   >
@@ -125,44 +125,51 @@ export default function ProductsPage() {
       </Table>
 
       {showActions && (
-        <ProductFormDialog
+        <OrderFormDialog
           open={formOpen}
           mode={editingItem ? 'edit' : 'create'}
           initialValues={
             editingItem
               ? {
-                  name: editingItem.name,
-                  manufacturerId: editingItem.manufacturerId,
-                  description: editingItem.description ?? '',
-                  externalIdentifier: editingItem.externalIdentifier ?? '',
-                  typeId: editingItem.typeId,
+                  orderIdentifier: editingItem.orderIdentifier ?? '',
+                  orderDate: new Date(editingItem.orderDate)
+                    .toISOString()
+                    .substring(0, 10),
+                  status: editingItem.status,
+                  deliveryDate: editingItem.deliveryDate
+                    ? new Date(editingItem.deliveryDate)
+                        .toISOString()
+                        .substring(0, 10)
+                    : '',
                 }
               : undefined
           }
           loading={editingItem ? isUpdating : isCreating}
           onOpenChange={setFormOpen}
           labels={{
-            titleCreate: t('products.add'),
-            titleEdit: t('products.edit'),
-            name: t('name'),
-            manufacturer: t('manufacturer'),
-            description: t('description'),
-            externalIdentifier: t('externalIdentifier'),
-            productType: t('productType'),
+            titleCreate: t('orders.add'),
+            titleEdit: t('orders.edit'),
+            orderIdentifier: t('orderIdentifier'),
+            orderDate: t('orderDate'),
+            status: t('status'),
+            deliveryDate: t('deliveryDate'),
             cancel: t('cancel'),
             save: t('save'),
             add: t('add'),
           }}
           onSubmit={async (values) => {
             const payload = {
-              ...values,
-              description: values.description || undefined,
-              externalIdentifier: values.externalIdentifier || undefined,
+              orderIdentifier: values.orderIdentifier || undefined,
+              orderDate: new Date(values.orderDate),
+              status: values.status,
+              deliveryDate: values.deliveryDate
+                ? new Date(values.deliveryDate)
+                : undefined,
             };
             if (editingItem) {
-              await updateProduct(editingItem.id, payload);
+              await updateOrder(editingItem.id, payload);
             } else {
-              await createProduct(payload);
+              await createOrder(payload);
             }
             setFormOpen(false);
           }}
@@ -178,7 +185,7 @@ export default function ProductsPage() {
           }}
           title={t('confirmDeleteTitle')}
           description={t('confirmDeleteDescription', {
-            name: itemToDelete?.name ?? '',
+            name: itemToDelete?.orderIdentifier ?? itemToDelete?.id ?? '',
           })}
           confirmLabel={t('delete')}
           cancelLabel={t('cancel')}
@@ -186,7 +193,7 @@ export default function ProductsPage() {
           confirmDisabled={isDeleting}
           onConfirm={async () => {
             if (!itemToDelete) return;
-            await deleteProduct(itemToDelete.id);
+            await deleteOrder(itemToDelete.id);
             setConfirmOpen(false);
             setItemToDelete(null);
           }}

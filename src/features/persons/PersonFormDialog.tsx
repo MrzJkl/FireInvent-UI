@@ -17,8 +17,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useDepartments } from '@/features/departments/useDepartments';
 
 const schema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
   remarks: z.string().optional(),
   contactInfo: z.string().optional(),
   externalId: z.string().optional(),
@@ -81,6 +81,16 @@ export function PersonFormDialog({
 
   const selectedDepartmentIds = watch('departmentIds') || [];
 
+  const getValidationError = (field: string): string | undefined => {
+    if (field === 'firstName') {
+      return errors.firstName ? t('validationFirstNameRequired') : undefined;
+    }
+    if (field === 'lastName') {
+      return errors.lastName ? t('validationLastNameRequired') : undefined;
+    }
+    return undefined;
+  };
+
   useEffect(() => {
     if (open) {
       reset(
@@ -122,7 +132,7 @@ export function PersonFormDialog({
               <Input {...register('firstName')} />
               {errors.firstName ? (
                 <p className="text-sm text-red-500 mt-1">
-                  {errors.firstName.message}
+                  {getValidationError('firstName')}
                 </p>
               ) : null}
             </div>
@@ -131,7 +141,7 @@ export function PersonFormDialog({
               <Input {...register('lastName')} />
               {errors.lastName ? (
                 <p className="text-sm text-red-500 mt-1">
-                  {errors.lastName.message}
+                  {getValidationError('lastName')}
                 </p>
               ) : null}
             </div>
@@ -157,10 +167,10 @@ export function PersonFormDialog({
             <Label>{t('departmentPlural')}</Label>
             <div className="mt-2 space-y-2">
               {departmentsLoading ? (
-                <p className="text-sm text-muted-foreground">Loading...</p>
+                <p className="text-sm text-muted-foreground">{t('loading')}</p>
               ) : !departments.length ? (
                 <p className="text-sm text-muted-foreground">
-                  Keine Abteilungen
+                  {t('noDepartments')}
                 </p>
               ) : (
                 departments.map((d) => {

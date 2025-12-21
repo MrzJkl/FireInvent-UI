@@ -8,10 +8,21 @@ import keycloak from './auth/keycloak.ts';
 import { AuthGate } from './auth/AuthGate.tsx';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/theme-provider.tsx';
+import { useTranslation } from 'react-i18next';
 
 const keycloakEventLogger = (event: unknown, error: unknown) => {
   console.log('Keycloak event:', event, error);
 };
+
+function LoadingComponent() {
+  const { t } = useTranslation();
+  return (
+    <div className="h-screen w-screen flex flex-col items-center justify-center text-muted-foreground">
+      <div className="h-6 w-6 animate-spin mb-2" />
+      <span>{t('loading')}</span>
+    </div>
+  );
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -26,12 +37,7 @@ createRoot(document.getElementById('root')!).render(
         pkceMethod: 'S256',
       }}
       autoRefreshToken={true}
-      LoadingComponent={
-        <div className="h-screen w-screen flex flex-col items-center justify-center text-muted-foreground">
-          <div className="h-6 w-6 animate-spin mb-2" />
-          <span>Loading...</span>
-        </div>
-      }
+      LoadingComponent={<LoadingComponent />}
     >
       <ThemeProvider defaultTheme="system" storageKey="fireinvent-ui-theme">
         <AuthGate>

@@ -15,23 +15,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const schema = z.object({
-  name: z.string().min(1),
+  scheduledAt: z.string().min(1),
   description: z.string().optional(),
 });
 
-export type MaintenanceTypeFormValues = z.infer<typeof schema>;
+export type AppointmentFormValues = z.infer<typeof schema>;
 
-export type MaintenanceTypeFormDialogProps = {
+export type AppointmentFormDialogProps = {
   open: boolean;
   mode: 'create' | 'edit';
-  initialValues?: MaintenanceTypeFormValues;
+  initialValues?: AppointmentFormValues;
   loading?: boolean;
-  onSubmit: (values: MaintenanceTypeFormValues) => void | Promise<void>;
+  onSubmit: (values: AppointmentFormValues) => void | Promise<void>;
   onOpenChange: (open: boolean) => void;
   labels?: {
     titleCreate?: string;
     titleEdit?: string;
-    name?: string;
+    date?: string;
     description?: string;
     cancel?: string;
     save?: string;
@@ -39,7 +39,7 @@ export type MaintenanceTypeFormDialogProps = {
   };
 };
 
-export function MaintenanceTypeFormDialog({
+export function AppointmentFormDialog({
   open,
   mode,
   initialValues,
@@ -47,25 +47,30 @@ export function MaintenanceTypeFormDialog({
   onSubmit,
   onOpenChange,
   labels,
-}: MaintenanceTypeFormDialogProps) {
+}: AppointmentFormDialogProps) {
   const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<MaintenanceTypeFormValues>({
+  } = useForm<AppointmentFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: initialValues ?? { name: '', description: '' },
+    defaultValues: initialValues ?? {
+      scheduledAt: '',
+      description: '',
+    },
   });
-
-  const getValidationError = (): string => {
-    return t('validationNameRequired');
-  };
 
   useEffect(() => {
     if (open) {
-      reset(initialValues ?? { name: '', description: '' });
+      reset(
+        initialValues ?? {
+          scheduledAt: '',
+          description: '',
+        },
+      );
     }
   }, [open, initialValues, reset]);
 
@@ -75,33 +80,39 @@ export function MaintenanceTypeFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>
             {mode === 'edit'
-              ? (labels?.titleEdit ?? 'Edit Maintenance-Type')
-              : (labels?.titleCreate ?? 'Add new Maintenance-Type')}
+              ? (labels?.titleEdit ?? t('appointments.titleEdit'))
+              : (labels?.titleCreate ?? t('appointments.titleCreate'))}
           </DialogTitle>
           <DialogDescription>
             {mode === 'edit'
-              ? t('maintenanceTypes.descriptionEdit')
-              : t('maintenanceTypes.descriptionAdd')}
+              ? t('appointments.descriptionEdit')
+              : t('appointments.descriptionCreate')}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4 mt-2" onSubmit={submit}>
-          <div>
-            <Label>{labels?.name ?? 'Name'}</Label>
-            <Input {...register('name')} />
-            {errors.name ? (
-              <p className="text-sm text-red-500 mt-1">
-                {getValidationError()}
-              </p>
-            ) : null}
+          <div className="grid gap-4">
+            <div>
+              <Label>{labels?.date ?? t('appointmentDate')}</Label>
+              <Input type="datetime-local" {...register('scheduledAt')} />
+              {errors.scheduledAt ? (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.scheduledAt.message}
+                </p>
+              ) : null}
+            </div>
+
+            <div>
+              <Label>
+                {labels?.description ?? t('description')} (Optional)
+              </Label>
+              <Input {...register('description')} />
+            </div>
           </div>
-          <div>
-            <Label>{labels?.description ?? 'Description'}</Label>
-            <Input {...register('description')} />
-          </div>
+
           <div className="flex justify-end space-x-2 mt-4">
             <Button
               type="button"
@@ -109,12 +120,12 @@ export function MaintenanceTypeFormDialog({
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              {labels?.cancel ?? 'Cancel'}
+              {labels?.cancel ?? t('cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
               {mode === 'edit'
-                ? (labels?.save ?? 'Save')
-                : (labels?.add ?? 'Add')}
+                ? (labels?.save ?? t('save'))
+                : (labels?.add ?? t('add'))}
             </Button>
           </div>
         </form>

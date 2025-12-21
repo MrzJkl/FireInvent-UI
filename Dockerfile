@@ -28,7 +28,7 @@ ENV VITE_KEYCLOAK_REALM=${VITE_KEYCLOAK_REALM}
 ENV VITE_KEYCLOAK_CLIENT_ID=${VITE_KEYCLOAK_CLIENT_ID}
 
 # Build the application
-RUN npm run build
+RUN pnpm run build
 
 # Production stage
 FROM nginx:1.29-alpine

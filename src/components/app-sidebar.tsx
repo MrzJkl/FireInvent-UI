@@ -12,11 +12,16 @@ import {
   IconUserCircle,
   IconWashMachine,
   IconPlug,
+  IconBuilding,
+  IconChevronDown,
+  IconClipboardList,
+  IconCalendar,
 } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
 import { NavUser } from '@/components/nav-user';
+import { cn } from '@/lib/utils';
 import {
   Sidebar,
   SidebarContent,
@@ -28,6 +33,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Link } from 'react-router-dom';
 import { useAuthorization } from '@/auth/permissions';
+import { useTranslation } from 'react-i18next';
 
 const data = {
   user: {
@@ -37,8 +43,8 @@ const data = {
   },
   navMain: [
     {
-      title: 'Dashboard',
-      url: '#',
+      title: 'dashboard',
+      url: '/app/dashboard',
       icon: IconDashboard,
     },
     {
@@ -51,12 +57,27 @@ const data = {
       url: '/app/persons',
       icon: IconUser,
     },
+    {
+      title: 'orderPlural',
+      url: '/app/orders',
+      icon: IconClipboardList,
+    },
+    {
+      title: 'appointmentPlural',
+      url: '/app/appointments',
+      icon: IconCalendar,
+    },
   ],
-  navSecondary: [
+  masterData: [
     {
       title: 'productTypePlural',
       url: '/app/productTypes',
       icon: IconBrandProducthunt,
+    },
+    {
+      title: 'manufacturerPlural',
+      url: '/app/manufacturers',
+      icon: IconBuilding,
     },
     {
       title: 'maintenanceTypePlural',
@@ -73,6 +94,8 @@ const data = {
       url: '/app/storageLocations',
       icon: IconBuildingStore,
     },
+  ],
+  navSecondary: [
     {
       title: 'users.label',
       url: '/app/users',
@@ -88,6 +111,8 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { canAccessApiIntegrations, canAccessUsers } = useAuthorization();
+  const { t } = useTranslation();
+  const [masterOpen, setMasterOpen] = React.useState(true);
 
   const navSecondary = React.useMemo(
     () =>
@@ -122,6 +147,34 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
+        <SidebarMenu className="mt-2">
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              variant="outline"
+              className="justify-between"
+              onClick={() => setMasterOpen((o) => !o)}
+            >
+              <span>{t('masterData', { defaultValue: 'Stammdaten' })}</span>
+              <IconChevronDown
+                className={cn(
+                  'transition-transform',
+                  masterOpen ? 'rotate-0' : '-rotate-90',
+                )}
+              />
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          {masterOpen &&
+            data.masterData.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild>
+                  <Link to={item.url}>
+                    <item.icon />
+                    <span>{t(item.title)}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+        </SidebarMenu>
         <NavUser />
       </SidebarFooter>
     </Sidebar>

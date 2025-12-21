@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -19,6 +20,7 @@ import { useAuthorization } from '@/auth/permissions';
 
 export default function PersonsPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { canEditCatalog } = useAuthorization();
 
   const [formOpen, setFormOpen] = useState(false);
@@ -77,7 +79,11 @@ export default function PersonsPage() {
         </TableHeader>
         <TableBody>
           {persons.map((person) => (
-            <TableRow key={person.id}>
+            <TableRow
+              key={person.id}
+              className="cursor-pointer hover:bg-muted/50"
+              onClick={() => navigate(`/app/persons/${person.id}`)}
+            >
               <TableCell>{person.firstName}</TableCell>
               <TableCell>{person.lastName}</TableCell>
               <TableCell>{person.contactInfo}</TableCell>
@@ -88,7 +94,10 @@ export default function PersonsPage() {
                   : '-'}
               </TableCell>
               {showActions && (
-                <TableCell className="flex space-x-2">
+                <TableCell
+                  className="flex space-x-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <Button
                     size="sm"
                     variant="outline"

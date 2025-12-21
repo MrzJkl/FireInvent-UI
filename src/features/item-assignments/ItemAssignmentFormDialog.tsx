@@ -24,7 +24,7 @@ import { usePersons } from '@/features/persons/usePersons';
 import type { ItemAssignmentHistoryModel } from '@/api/types.gen';
 
 const schema = z.object({
-  personId: z.string().min(1, 'Person is required'),
+  personId: z.string().min(1),
   assignedFrom: z.string(),
   assignedUntil: z.string().optional(),
 });

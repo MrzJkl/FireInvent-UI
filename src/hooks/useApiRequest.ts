@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import keycloak from '@/auth/keycloak';
+import { useTranslation } from 'react-i18next';
 
 type ApiOptions = {
   successMessage?: string;
@@ -19,6 +20,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
   apiFn: T,
   defaultOptions: ApiOptions = {},
 ) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
 
@@ -47,7 +49,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
           keycloak.login({ redirectUri: window.location.href });
           return null;
         }
-        const errorMsg = res?.data?.message ?? 'Ein Fehler ist aufgetreten.';
+        const errorMsg = res?.data?.message ?? t('error.loadingFailed');
         const apiError: ApiError = {
           message: errorMsg,
           statusCode: status,
@@ -55,7 +57,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
         setError(apiError);
 
         if (merged.showError) {
-          toast.error(merged.errorMessage ?? `Fehler ${status}`, {
+          toast.error(merged.errorMessage ?? `${t('error')} ${status}`, {
             description: errorMsg,
           });
         }
@@ -63,7 +65,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       }
 
       if (merged.showSuccess) {
-        toast.success(merged.successMessage ?? 'Erfolgreich');
+        toast.success(merged.successMessage ?? t('success'));
       }
 
       return res?.data ?? res.data ?? null;
@@ -73,7 +75,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       const errorMsg =
         axiosError?.response?.data?.message ??
         axiosError?.message ??
-        'Unbekannter Fehler';
+        t('unknownError');
       const apiError: ApiError = {
         message: errorMsg,
         statusCode: axiosError?.response?.status,
@@ -85,7 +87,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
       setError(apiError);
 
       if (merged.showError) {
-        toast.error(merged.errorMessage ?? 'Fehler bei der API-Anfrage', {
+        toast.error(merged.errorMessage ?? t('error.loadingFailed'), {
           description: errorMsg,
         });
       }

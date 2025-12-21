@@ -8,10 +8,18 @@ import ItemDetailPage from '@/pages/ItemDetailPage';
 import MaintenanceTypesPage from '@/pages/MaintenanceTypesPage';
 import DepartmentsPage from '@/pages/DepartmentsPage';
 import PersonsPage from '@/pages/PersonsPage';
+import PersonDetailPage from '@/pages/PersonDetailPage';
 import UsersPage from '@/pages/UsersPage';
 import AppLayout from '@/layouts/AppLayout';
 import StorageLocationsPage from '@/pages/StorageLocationsPage';
+import StorageLocationDetailPage from '@/pages/StorageLocationDetailPage';
 import ApiIntegrationsPage from '@/pages/ApiIntegrationsPage';
+import ManufacturersPage from '@/pages/ManufacturersPage';
+import ManufacturerDetailPage from '@/pages/ManufacturerDetailPage';
+import OrdersPage from '@/pages/OrdersPage';
+import OrderDetailPage from '@/pages/OrderDetailPage';
+import { AppointmentsPage } from '@/pages/AppointmentsPage';
+import { AppointmentDetailPage } from '@/pages/AppointmentDetailPage';
 import { useAuthorization } from '@/auth/permissions';
 
 function GuardedRoute({
@@ -36,13 +44,27 @@ export function PrivateRoutes() {
       <Route element={<AppLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="manufacturers" element={<ManufacturersPage />} />
+        <Route path="manufacturers/:id" element={<ManufacturerDetailPage />} />
         <Route path="productTypes" element={<ProductTypesPage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:id" element={<ProductDetailPage />} />
         <Route path="items/:id" element={<ItemDetailPage />} />
         <Route path="persons" element={<PersonsPage />} />
+        <Route path="persons/:id" element={<PersonDetailPage />} />
         <Route path="departments" element={<DepartmentsPage />} />
         <Route path="storageLocations" element={<StorageLocationsPage />} />
+        <Route
+          path="storageLocations/:id"
+          element={<StorageLocationDetailPage />}
+        />
+        <Route path="orders" element={<OrdersPage />} />
+        <Route path="orders/:id" element={<OrderDetailPage />} />
+        <Route path="appointments" element={<AppointmentsPage />} />
+        <Route
+          path="appointments/:appointmentId"
+          element={<AppointmentDetailPage />}
+        />
         <Route path="maintenanceTypes" element={<MaintenanceTypesPage />} />
         <Route
           path="users"

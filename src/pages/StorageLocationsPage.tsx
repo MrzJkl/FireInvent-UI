@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -19,6 +20,7 @@ import { useAuthorization } from '@/auth/permissions';
 
 export default function StorageLocationsPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { canEditCatalog } = useAuthorization();
 
   const [formOpen, setFormOpen] = useState(false);
@@ -72,13 +74,17 @@ export default function StorageLocationsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('remarks') ?? 'Remarks'}</TableHead>
+            <TableHead>{t('remarks')}</TableHead>
             {showActions && <TableHead>{t('actions')}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
           {storageLocations.map((sl) => (
-            <TableRow key={sl.id}>
+            <TableRow
+              key={sl.id}
+              className="cursor-pointer hover:bg-muted/50"
+              onClick={() => navigate(`/app/storageLocations/${sl.id}`)}
+            >
               <TableCell>{sl.name}</TableCell>
               <TableCell>{sl.remarks}</TableCell>
               {showActions && (
@@ -86,7 +92,8 @@ export default function StorageLocationsPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setEditingItem(sl);
                       setFormOpen(true);
                     }}
@@ -96,7 +103,8 @@ export default function StorageLocationsPage() {
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setItemToDelete(sl);
                       setConfirmOpen(true);
                     }}
@@ -125,9 +133,9 @@ export default function StorageLocationsPage() {
               titleCreate: t('storageLocations.add'),
               titleEdit: t('storageLocations.edit'),
               name: t('name'),
-              remarks: t('remarks') ?? 'Remarks',
+              remarks: t('remarks'),
               cancel: t('cancel'),
-              save: t('save') ?? 'Save',
+              save: t('save'),
               add: t('add'),
             }}
             onSubmit={async (values) => {
@@ -146,7 +154,7 @@ export default function StorageLocationsPage() {
               setConfirmOpen(o);
               if (!o) setItemToDelete(null);
             }}
-            title={t('confirmDeleteTitle') ?? 'Delete item'}
+            title={t('confirmDeleteTitle')}
             description={
               t('confirmDeleteDescription', {
                 name: itemToDelete?.name ?? '',

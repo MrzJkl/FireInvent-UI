@@ -31,11 +31,11 @@ const conditionOptions = [
 ] as const;
 
 const schema = z.object({
-  variantId: z.string().min(1, 'Variant is required'),
+  variantId: z.string().min(1),
   identifier: z.string().optional(),
   storageLocationId: z.string().optional(),
   condition: z.enum(conditionOptions),
-  purchaseDate: z.string().min(1, 'Purchase date is required'),
+  purchaseDate: z.string().min(1),
   retirementDate: z.string().optional(),
 });
 
