@@ -12,9 +12,13 @@ import { useOrderDetail } from '@/features/orders/useOrderDetail';
 import { useTranslation } from 'react-i18next';
 import { IconArrowLeft, IconEdit } from '@tabler/icons-react';
 import { useAuthorization } from '@/auth/permissions';
-import { deleteOrderItemsById, putOrderItemsById, postOrderItems } from '@/api';
+import {
+  deleteOrderItemsById,
+  putOrderItemsById,
+  postOrderItems,
+  putOrdersById,
+} from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
-import type { OrderItemModel } from '@/api/types.gen';
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +35,8 @@ export default function OrderDetailPage() {
 
   const { order, items, initialLoading, error, refetch } = useOrderDetail(id);
 
+  const { callApi: updateOrder, loading: updatingOrder } =
+    useApiRequest(putOrdersById);
   const { callApi: createItem, loading: creatingItem } =
     useApiRequest(postOrderItems);
   const { callApi: updateItem, loading: updatingItem } =
@@ -237,18 +243,21 @@ export default function OrderDetailPage() {
             }}
             onOpenChange={setFormOpen}
             onSubmit={async (data) => {
-              const payload = {
-                orderIdentifier: data.orderIdentifier || undefined,
-                orderDate: new Date(data.orderDate),
-                status: data.status,
-                deliveryDate: data.deliveryDate
-                  ? new Date(data.deliveryDate)
-                  : undefined,
-              };
-              // TODO: implement actual update
-              setFormOpen(false);
+              await updateOrder({
+                path: { id: id! },
+                body: {
+                  orderIdentifier: data.orderIdentifier || null,
+                  orderDate: new Date(data.orderDate),
+                  status: data.status,
+                  deliveryDate: data.deliveryDate
+                    ? new Date(data.deliveryDate)
+                    : null,
+                },
+              });
               await refetch();
+              setFormOpen(false);
             }}
+            loading={updatingOrder}
             labels={{
               titleEdit: t('orders.edit'),
               orderIdentifier: t('orderIdentifier'),

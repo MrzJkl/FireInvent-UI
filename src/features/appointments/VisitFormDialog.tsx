@@ -11,7 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -20,37 +19,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { usePersons } from '@/features/persons/usePersons';
 
 const schema = z.object({
-  orderIdentifier: z.string().optional(),
-  orderDate: z.string().min(1, 'Order date is required'),
-  status: z.enum(['Draft', 'Submitted', 'Delivered', 'Completed']),
-  deliveryDate: z.string().optional(),
+  personId: z.string().min(1, 'Person is required'),
 });
 
-export type OrderFormValues = z.infer<typeof schema>;
+export type VisitFormValues = z.infer<typeof schema>;
 
-export type OrderFormDialogProps = {
+export type VisitFormDialogProps = {
   open: boolean;
   mode: 'create' | 'edit';
-  initialValues?: OrderFormValues;
+  appointmentId: string;
+  initialValues?: VisitFormValues;
   loading?: boolean;
-  onSubmit: (values: OrderFormValues) => void | Promise<void>;
+  onSubmit: (values: VisitFormValues) => void | Promise<void>;
   onOpenChange: (open: boolean) => void;
   labels?: {
     titleCreate?: string;
     titleEdit?: string;
-    orderIdentifier?: string;
-    orderDate?: string;
-    status?: string;
-    deliveryDate?: string;
+    person?: string;
     cancel?: string;
     save?: string;
     add?: string;
   };
 };
 
-export function OrderFormDialog({
+export function VisitFormDialog({
   open,
   mode,
   initialValues,
@@ -58,22 +53,19 @@ export function OrderFormDialog({
   onSubmit,
   onOpenChange,
   labels,
-}: OrderFormDialogProps) {
+}: VisitFormDialogProps) {
   const { t } = useTranslation();
+  const { persons, initialLoading: personsLoading } = usePersons();
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
     control,
-  } = useForm<OrderFormValues>({
+  } = useForm<VisitFormValues>({
     resolver: zodResolver(schema),
     defaultValues: initialValues ?? {
-      orderIdentifier: '',
-      orderDate: new Date().toISOString().substring(0, 10),
-      status: 'Draft',
-      deliveryDate: '',
+      personId: '',
     },
   });
 
@@ -81,10 +73,7 @@ export function OrderFormDialog({
     if (open) {
       reset(
         initialValues ?? {
-          orderIdentifier: '',
-          orderDate: new Date().toISOString().substring(0, 10),
-          status: 'Draft',
-          deliveryDate: '',
+          personId: '',
         },
       );
     }
@@ -100,56 +89,48 @@ export function OrderFormDialog({
         <DialogHeader>
           <DialogTitle>
             {mode === 'edit'
-              ? (labels?.titleEdit ?? 'Edit Order')
-              : (labels?.titleCreate ?? 'Add new Order')}
+              ? (labels?.titleEdit ?? t('visits.titleEdit'))
+              : (labels?.titleCreate ?? t('visits.titleCreate'))}
           </DialogTitle>
           <DialogDescription>
             {mode === 'edit'
-              ? t('orders.descriptionEdit')
-              : t('orders.descriptionAdd')}
+              ? t('visits.descriptionEdit')
+              : t('visits.descriptionCreate')}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4 mt-2" onSubmit={submit}>
           <div className="grid gap-4">
             <div>
-              <Label>{labels?.orderIdentifier ?? t('orderIdentifier')}</Label>
-              <Input {...register('orderIdentifier')} />
-            </div>
-            <div>
-              <Label>{labels?.orderDate ?? t('orderDate')}</Label>
-              <Input type="date" {...register('orderDate')} />
-              {errors.orderDate ? (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.orderDate.message}
-                </p>
-              ) : null}
-            </div>
-            <div>
-              <Label>{labels?.status ?? t('status')}</Label>
+              <Label>{labels?.person ?? t('person')}</Label>
               <Controller
-                name="status"
+                name="personId"
                 control={control}
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    disabled={personsLoading}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder={t('select')} />
                     </SelectTrigger>
                     <SelectContent>
-                      {['Draft', 'Submitted', 'Delivered', 'Completed'].map(
-                        (s) => (
-                          <SelectItem key={s} value={s}>
-                            {t(`orderStatus.${s}`)}
-                          </SelectItem>
-                        ),
-                      )}
+                      {persons.map((person) => (
+                        <SelectItem key={person.id} value={person.id}>
+                          {person.firstName && person.lastName
+                            ? `${person.firstName} ${person.lastName}`
+                            : person.contactInfo}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 )}
               />
-            </div>
-            <div>
-              <Label>{labels?.deliveryDate ?? t('deliveryDate')}</Label>
-              <Input type="date" {...register('deliveryDate')} />
+              {errors.personId ? (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.personId.message}
+                </p>
+              ) : null}
             </div>
           </div>
 

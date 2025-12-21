@@ -233,5 +233,37 @@
     "descriptionEdit": "Aktualisieren Sie die Details der Bestellposition.",
     "descriptionAdd": "Geben Sie die Details der neuen Bestellposition ein."
   },
-  "quantity": "Menge"
+  "quantity": "Menge",
+  "appointment": "Termin",
+  "appointmentPlural": "Termine",
+  "appointmentDate": "Termin-Datum",
+  "appointmentDetails": "Termin-Details",
+  "appointments": {
+    "titleEdit": "Termin bearbeiten",
+    "titleCreate": "Neuen Termin hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Termins.",
+    "descriptionCreate": "Geben Sie die Details des neuen Termins ein.",
+    "deleteConfirm": "Möchten Sie diesen Termin wirklich löschen?"
+  },
+  "visit": "Besuch",
+  "visitPlural": "Besuche",
+  "visitItem": "Besuchs-Position",
+  "visitItemPlural": "Besuchs-Positionen",
+  "visitItems": {
+    "titleEdit": "Besuchs-Position bearbeiten",
+    "titleCreate": "Besuchs-Position hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Besuchs-Position.",
+    "descriptionCreate": "Geben Sie die Details der neuen Besuchs-Position ein.",
+    "deleteConfirm": "Möchten Sie diese Besuchs-Position wirklich löschen?"
+  },
+  "visits": {
+    "titleEdit": "Besuch bearbeiten",
+    "titleCreate": "Neuen Besuch hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Besuchs.",
+    "descriptionCreate": "Geben Sie die Details des neuen Besuchs ein.",
+    "deleteConfirm": "Möchten Sie diesen Besuch wirklich löschen?"
+  },
+  "noData": "Keine Daten vorhanden",
+  "confirm": "Bestätigen",
+  "select": "Auswählen..."
 }

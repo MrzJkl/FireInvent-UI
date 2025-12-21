@@ -2,6 +2,7 @@
 
 import type {
   GetAppointmentsByIdResponse,
+  GetAppointmentsByIdVisitsResponse,
   GetAppointmentsResponse,
   GetAssignmentsByIdResponse,
   GetAssignmentsResponse,
@@ -54,6 +55,22 @@ export const getAppointmentsByIdResponseTransformer = async (
   data: any,
 ): Promise<GetAppointmentsByIdResponse> => {
   data = appointmentModelSchemaResponseTransformer(data);
+  return data;
+};
+
+const visitModelSchemaResponseTransformer = (data: any) => {
+  data.appointment = appointmentModelSchemaResponseTransformer(
+    data.appointment,
+  );
+  return data;
+};
+
+export const getAppointmentsByIdVisitsResponseTransformer = async (
+  data: any,
+): Promise<GetAppointmentsByIdVisitsResponse> => {
+  data = data.map((item: any) => {
+    return visitModelSchemaResponseTransformer(item);
+  });
   return data;
 };
 
@@ -248,13 +265,6 @@ export const getVariantsByIdItemsResponseTransformer = async (
   data = data.map((item: any) => {
     return itemModelSchemaResponseTransformer(item);
   });
-  return data;
-};
-
-const visitModelSchemaResponseTransformer = (data: any) => {
-  data.appointment = appointmentModelSchemaResponseTransformer(
-    data.appointment,
-  );
   return data;
 };
 

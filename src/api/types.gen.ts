@@ -520,6 +520,35 @@ export type PutAppointmentsByIdResponses = {
 export type PutAppointmentsByIdResponse =
   PutAppointmentsByIdResponses[keyof PutAppointmentsByIdResponses];
 
+export type GetAppointmentsByIdVisitsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/appointments/{id}/visits";
+};
+
+export type GetAppointmentsByIdVisitsErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetAppointmentsByIdVisitsError =
+  GetAppointmentsByIdVisitsErrors[keyof GetAppointmentsByIdVisitsErrors];
+
+export type GetAppointmentsByIdVisitsResponses = {
+  /**
+   * OK
+   */
+  200: Array<VisitModel>;
+};
+
+export type GetAppointmentsByIdVisitsResponse =
+  GetAppointmentsByIdVisitsResponses[keyof GetAppointmentsByIdVisitsResponses];
+
 export type GetDepartmentsData = {
   body?: never;
   path?: never;

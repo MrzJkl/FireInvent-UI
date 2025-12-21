@@ -231,5 +231,39 @@
     "descriptionEdit": "Update the order item details below.",
     "descriptionAdd": "Fill in the order item details below."
   },
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+  "appointment": "Appointment",
+  "appointmentPlural": "Appointments",
+  "appointmentDate": "Appointment Date",
+  "appointmentDetails": "Appointment Details",
+  "appointments": {
+    "titleEdit": "Edit Appointment",
+    "titleCreate": "Add new Appointment",
+    "descriptionEdit": "Update the appointment details below.",
+    "descriptionCreate": "Fill in the appointment details below.",
+    "deleteConfirm": "Are you sure you want to delete this appointment?"
+  },
+  "visit": "Visit",
+  "visitPlural": "Visits",
+  "visitItem": "Visit Item",
+  "visitItemPlural": "Visit Items",
+  "visitItems": {
+    "titleEdit": "Edit Visit Item",
+    "titleCreate": "Add Visit Item",
+    "descriptionEdit": "Update the visit item details below.",
+    "descriptionCreate": "Fill in the visit item details below.",
+    "deleteConfirm": "Are you sure you want to delete this visit item?"
+  },
+  "visits": {
+    "titleEdit": "Edit Visit",
+    "titleCreate": "Add new Visit",
+    "descriptionEdit": "Update the visit details below.",
+    "descriptionCreate": "Fill in the visit details below.",
+    "deleteConfirm": "Are you sure you want to delete this visit?"
+  },
+  "product": "Product",
+  "productPlural": "Products",
+  "noData": "No data available",
+  "confirm": "Confirm",
+  "select": "Select..."
 }

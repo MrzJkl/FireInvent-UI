@@ -4,6 +4,7 @@ import type { Client, Options as Options2, TDataShape } from "./client";
 import { client } from "./client.gen";
 import {
   getAppointmentsByIdResponseTransformer,
+  getAppointmentsByIdVisitsResponseTransformer,
   getAppointmentsResponseTransformer,
   getAssignmentsByIdResponseTransformer,
   getAssignmentsResponseTransformer,
@@ -90,6 +91,9 @@ import type {
   GetAppointmentsByIdData,
   GetAppointmentsByIdErrors,
   GetAppointmentsByIdResponses,
+  GetAppointmentsByIdVisitsData,
+  GetAppointmentsByIdVisitsErrors,
+  GetAppointmentsByIdVisitsResponses,
   GetAppointmentsData,
   GetAppointmentsResponses,
   GetAssignmentsByIdData,
@@ -535,6 +539,32 @@ export const putAppointmentsById = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List all visits for an appointment
+ *
+ * Returns all visits for a specific appointment.
+ */
+export const getAppointmentsByIdVisits = <ThrowOnError extends boolean = false>(
+  options: Options<GetAppointmentsByIdVisitsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetAppointmentsByIdVisitsResponses,
+    GetAppointmentsByIdVisitsErrors,
+    ThrowOnError
+  >({
+    responseTransformer: getAppointmentsByIdVisitsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/appointments/{id}/visits",
+    ...options,
   });
 };
 

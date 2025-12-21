@@ -15,6 +15,7 @@ import {
   IconBuilding,
   IconChevronDown,
   IconClipboardList,
+  IconCalendar,
 } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -60,6 +61,11 @@ const data = {
       title: 'orderPlural',
       url: '/app/orders',
       icon: IconClipboardList,
+    },
+    {
+      title: 'appointmentPlural',
+      url: '/app/appointments',
+      icon: IconCalendar,
     },
   ],
   masterData: [

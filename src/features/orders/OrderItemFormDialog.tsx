@@ -70,7 +70,6 @@ export function OrderItemFormDialog({
     formState: { errors },
     reset,
     control,
-    watch,
   } = useForm<OrderItemFormValues>({
     resolver: zodResolver(schema),
     defaultValues: initialValues ?? {
@@ -79,9 +78,6 @@ export function OrderItemFormDialog({
       quantity: '1',
     },
   });
-
-  const currentVariantId = watch('variantId');
-  const currentPersonId = watch('personId');
 
   useEffect(() => {
     if (open) {
@@ -176,7 +172,7 @@ export function OrderItemFormDialog({
                         <SelectItem key={person.id} value={person.id}>
                           {person.firstName && person.lastName
                             ? `${person.firstName} ${person.lastName}`
-                            : person.eMail}
+                            : person.contactInfo}
                         </SelectItem>
                       ))}
                     </SelectContent>
