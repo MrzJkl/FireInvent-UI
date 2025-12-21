@@ -84,7 +84,7 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
       // Load visit items for all visits
       if (visitsRes.length > 0) {
         const allVisitItems = await Promise.all(
-          visitsRes.map(async (visit) => {
+          visitsRes.map(async (visit: any) => {
             const itemsRes = await fetchVisitItemsApiRef.current({
               path: { id: visit.id },
             });

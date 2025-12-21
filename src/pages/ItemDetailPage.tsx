@@ -686,7 +686,7 @@ export default function ItemDetailPage() {
                 itemId: id!,
                 typeId: values.typeId,
                 performedAt: new Date(values.performedAt),
-                performedById: values.performedById || null,
+                performedById: values.performedById || "",
                 remarks: values.remarks || null,
               };
 

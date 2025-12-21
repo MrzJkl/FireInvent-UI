@@ -98,7 +98,7 @@ export default function DashboardPage() {
           upcoming.map(async (apt) => {
             try {
               const visitsRes = await getAppointmentsByIdVisits({
-                path: { id: apt.id },
+                path: { id: apt.id! },
               });
               return {
                 ...apt,
