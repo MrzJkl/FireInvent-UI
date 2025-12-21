@@ -12,11 +12,7 @@ import { useOrderDetail } from '@/features/orders/useOrderDetail';
 import { useTranslation } from 'react-i18next';
 import { IconArrowLeft, IconEdit } from '@tabler/icons-react';
 import { useAuthorization } from '@/auth/permissions';
-import {
-  deleteOrderItemsById,
-  putOrderItemsById,
-  postOrderItems,
-} from '@/api';
+import { deleteOrderItemsById, putOrderItemsById, postOrderItems } from '@/api';
 import { useApiRequest } from '@/hooks/useApiRequest';
 import type { OrderItemModel } from '@/api/types.gen';
 
@@ -275,9 +271,7 @@ export default function OrderDetailPage() {
             initialValues={
               editingItemId
                 ? (() => {
-                    const current = items.find(
-                      (it) => it.id === editingItemId,
-                    );
+                    const current = items.find((it) => it.id === editingItemId);
                     return current
                       ? {
                           variantId: current.variantId,
@@ -297,7 +291,10 @@ export default function OrderDetailPage() {
                 quantity: parseFloat(values.quantity),
               };
               if (editingItemId) {
-                await updateItem({ path: { id: editingItemId }, body: payload });
+                await updateItem({
+                  path: { id: editingItemId },
+                  body: payload,
+                });
               } else {
                 await createItem({ body: payload });
               }
@@ -325,8 +322,8 @@ export default function OrderDetailPage() {
             }}
             title={t('confirmDeleteTitle')}
             description={t('confirmDeleteDescription', {
-              name: items.find((it) => it.id === deleteItemId)?.variant?.name ??
-                '',
+              name:
+                items.find((it) => it.id === deleteItemId)?.variant?.name ?? '',
             })}
             confirmLabel={t('delete')}
             cancelLabel={t('cancel')}

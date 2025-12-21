@@ -55,8 +55,7 @@ export function useOrderDetail(orderId: string | undefined) {
     refetch();
   }, [refetch]);
 
-  const initialLoading =
-    (loadingOrder || loadingItems) && !order && !error;
+  const initialLoading = (loadingOrder || loadingItems) && !order && !error;
 
   return {
     order,

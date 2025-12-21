@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  getVariants,
-  type VariantModel,
-} from '@/api';
+import { getVariants, type VariantModel } from '@/api';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 
 export function useAllVariants() {
@@ -26,7 +23,8 @@ export function useAllVariants() {
       setVariants(res);
     } else {
       setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+        message:
+          'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
       });
     }
   }, []);

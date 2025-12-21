@@ -12,10 +12,10 @@ import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 export function useOrders() {
   const [items, setItems] = useState<OrderModel[]>([]);
   const [error, setError] = useState<ApiError | null>(null);
-  const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getOrders,
-    { showSuccess: false, showError: false },
-  );
+  const { callApi: fetchApi, loading: loadingList } = useApiRequest(getOrders, {
+    showSuccess: false,
+    showError: false,
+  });
   const { callApi: createApi, loading: creating } = useApiRequest(postOrders);
   const { callApi: updateApi, loading: updating } =
     useApiRequest(putOrdersById);
@@ -34,7 +34,8 @@ export function useOrders() {
       setItems(res);
     } else {
       setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+        message:
+          'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
       });
     }
   }, []);
