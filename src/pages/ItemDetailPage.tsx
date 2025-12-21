@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useKeycloak } from '@react-keycloak/web';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -36,6 +37,7 @@ export default function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { keycloak } = useKeycloak();
   const { canEditAssignments, canEditMaintenances, canEditCatalog } =
     useAuthorization();
   const canManageAssignments = canEditAssignments;
@@ -596,7 +598,7 @@ export default function ItemDetailPage() {
                 assignedUntil: values.assignedUntil
                   ? new Date(values.assignedUntil)
                   : undefined,
-                assignedById: null,
+                assignedById: keycloak.subject!,
               };
 
               if (editingAssignmentId) {

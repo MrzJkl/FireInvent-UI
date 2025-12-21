@@ -154,6 +154,7 @@ export type DepartmentModel = {
 export type ItemAssignmentHistoryModel = {
   id: string;
   person: PersonModel;
+  item: ItemModel;
   itemId: string;
   personId: string;
   assignedById: string;
@@ -1834,34 +1835,34 @@ export type PutPersonsByIdResponses = {
 export type PutPersonsByIdResponse =
   PutPersonsByIdResponses[keyof PutPersonsByIdResponses];
 
-export type GetPersonsByIdItemsData = {
+export type GetPersonsByIdAssignmentsData = {
   body?: never;
   path: {
     id: string;
   };
   query?: never;
-  url: "/persons/{id}/items";
+  url: "/persons/{id}/assignments";
 };
 
-export type GetPersonsByIdItemsErrors = {
+export type GetPersonsByIdAssignmentsErrors = {
   /**
    * Not Found
    */
   404: ProblemDetails;
 };
 
-export type GetPersonsByIdItemsError =
-  GetPersonsByIdItemsErrors[keyof GetPersonsByIdItemsErrors];
+export type GetPersonsByIdAssignmentsError =
+  GetPersonsByIdAssignmentsErrors[keyof GetPersonsByIdAssignmentsErrors];
 
-export type GetPersonsByIdItemsResponses = {
+export type GetPersonsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: Array<ItemAssignmentHistoryModel>;
 };
 
-export type GetPersonsByIdItemsResponse =
-  GetPersonsByIdItemsResponses[keyof GetPersonsByIdItemsResponses];
+export type GetPersonsByIdAssignmentsResponse =
+  GetPersonsByIdAssignmentsResponses[keyof GetPersonsByIdAssignmentsResponses];
 
 export type GetProductsData = {
   body?: never;

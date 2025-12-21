@@ -481,6 +481,7 @@ export const ItemAssignmentHistoryModelSchema = {
   required: [
     "id",
     "person",
+    "item",
     "itemId",
     "personId",
     "assignedById",
@@ -494,6 +495,9 @@ export const ItemAssignmentHistoryModelSchema = {
     },
     person: {
       $ref: "#/components/schemas/PersonModel",
+    },
+    item: {
+      $ref: "#/components/schemas/ItemModel",
     },
     itemId: {
       type: "string",

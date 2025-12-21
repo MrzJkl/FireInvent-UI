@@ -14,7 +14,7 @@ import type {
   GetMaintenancesResponse,
   GetOrdersByIdResponse,
   GetOrdersResponse,
-  GetPersonsByIdItemsResponse,
+  GetPersonsByIdAssignmentsResponse,
   GetStorageLocationsByIdItemsResponse,
   GetTenantsByIdResponse,
   GetTenantsResponse,
@@ -75,9 +75,18 @@ export const getAppointmentsByIdVisitsResponseTransformer = async (
 };
 
 const itemAssignmentHistoryModelSchemaResponseTransformer = (data: any) => {
+  data.item = itemModelSchemaResponseTransformer(data.item);
   data.assignedFrom = new Date(data.assignedFrom);
   if (data.assignedUntil) {
     data.assignedUntil = new Date(data.assignedUntil);
+  }
+  return data;
+};
+
+const itemModelSchemaResponseTransformer = (data: any) => {
+  data.purchaseDate = new Date(data.purchaseDate);
+  if (data.retirementDate) {
+    data.retirementDate = new Date(data.retirementDate);
   }
   return data;
 };
@@ -102,14 +111,6 @@ export const getAssignmentsByIdResponseTransformer = async (
   data: any,
 ): Promise<GetAssignmentsByIdResponse> => {
   data = itemAssignmentHistoryModelSchemaResponseTransformer(data);
-  return data;
-};
-
-const itemModelSchemaResponseTransformer = (data: any) => {
-  data.purchaseDate = new Date(data.purchaseDate);
-  if (data.retirementDate) {
-    data.retirementDate = new Date(data.retirementDate);
-  }
   return data;
 };
 
@@ -213,11 +214,11 @@ export const getOrdersByIdResponseTransformer = async (
   return data;
 };
 
-export const getPersonsByIdItemsResponseTransformer = async (
+export const getPersonsByIdAssignmentsResponseTransformer = async (
   data: any,
-): Promise<GetPersonsByIdItemsResponse> => {
+): Promise<GetPersonsByIdAssignmentsResponse> => {
   data = data.map((item: any) => {
-    return itemModelSchemaResponseTransformer(item);
+    return itemAssignmentHistoryModelSchemaResponseTransformer(item);
   });
   return data;
 };

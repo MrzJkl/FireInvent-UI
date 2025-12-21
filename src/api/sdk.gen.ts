@@ -16,7 +16,7 @@ import {
   getMaintenancesResponseTransformer,
   getOrdersByIdResponseTransformer,
   getOrdersResponseTransformer,
-  getPersonsByIdItemsResponseTransformer,
+  getPersonsByIdAssignmentsResponseTransformer,
   getStorageLocationsByIdItemsResponseTransformer,
   getTenantsByIdResponseTransformer,
   getTenantsResponseTransformer,
@@ -150,11 +150,11 @@ import type {
   GetOrdersByIdResponses,
   GetOrdersData,
   GetOrdersResponses,
+  GetPersonsByIdAssignmentsData,
+  GetPersonsByIdAssignmentsErrors,
+  GetPersonsByIdAssignmentsResponses,
   GetPersonsByIdData,
   GetPersonsByIdErrors,
-  GetPersonsByIdItemsData,
-  GetPersonsByIdItemsErrors,
-  GetPersonsByIdItemsResponses,
   GetPersonsByIdResponses,
   GetPersonsData,
   GetPersonsResponses,
@@ -1893,19 +1893,19 @@ export const putPersonsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * List all items assigned to a person
+ * List all assignments for a person
  *
- * Returns all items assigned to a specific person.
+ * Returns all assignments for a specific person.
  */
-export const getPersonsByIdItems = <ThrowOnError extends boolean = false>(
-  options: Options<GetPersonsByIdItemsData, ThrowOnError>,
+export const getPersonsByIdAssignments = <ThrowOnError extends boolean = false>(
+  options: Options<GetPersonsByIdAssignmentsData, ThrowOnError>,
 ) => {
   return (options.client ?? client).get<
-    GetPersonsByIdItemsResponses,
-    GetPersonsByIdItemsErrors,
+    GetPersonsByIdAssignmentsResponses,
+    GetPersonsByIdAssignmentsErrors,
     ThrowOnError
   >({
-    responseTransformer: getPersonsByIdItemsResponseTransformer,
+    responseTransformer: getPersonsByIdAssignmentsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1913,7 +1913,7 @@ export const getPersonsByIdItems = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/persons/{id}/items",
+    url: "/persons/{id}/assignments",
     ...options,
   });
 };
