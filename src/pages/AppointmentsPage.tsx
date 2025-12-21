@@ -112,11 +112,18 @@ export function AppointmentsPage() {
         </TableHeader>
         <TableBody>
           {appointments.map((appointment) => (
-            <TableRow key={appointment.id} onClick={() => handleRowClick(appointment.id!)} className="cursor-pointer">
+            <TableRow
+              key={appointment.id}
+              onClick={() => handleRowClick(appointment.id!)}
+              className="cursor-pointer"
+            >
               <TableCell>{formatDate(appointment.scheduledAt)}</TableCell>
               <TableCell>{appointment.description || '-'}</TableCell>
               {showActions && (
-                <TableCell className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
+                <TableCell
+                  className="flex space-x-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <Button
                     size="sm"
                     variant="outline"
