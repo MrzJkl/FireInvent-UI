@@ -15,6 +15,8 @@ import StorageLocationDetailPage from '@/pages/StorageLocationDetailPage';
 import ApiIntegrationsPage from '@/pages/ApiIntegrationsPage';
 import ManufacturersPage from '@/pages/ManufacturersPage';
 import ManufacturerDetailPage from '@/pages/ManufacturerDetailPage';
+import OrdersPage from '@/pages/OrdersPage';
+import OrderDetailPage from '@/pages/OrderDetailPage';
 import { useAuthorization } from '@/auth/permissions';
 
 function GuardedRoute({
@@ -52,6 +54,8 @@ export function PrivateRoutes() {
           path="storageLocations/:id"
           element={<StorageLocationDetailPage />}
         />
+        <Route path="orders" element={<OrdersPage />} />
+        <Route path="orders/:id" element={<OrderDetailPage />} />
         <Route path="maintenanceTypes" element={<MaintenanceTypesPage />} />
         <Route
           path="users"

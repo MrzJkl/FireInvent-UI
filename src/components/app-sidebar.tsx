@@ -14,6 +14,7 @@ import {
   IconPlug,
   IconBuilding,
   IconChevronDown,
+  IconClipboardList,
 } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -41,8 +42,8 @@ const data = {
   },
   navMain: [
     {
-      title: 'Dashboard',
-      url: '#',
+      title: 'dashboard',
+      url: '/app/dashboard',
       icon: IconDashboard,
     },
     {
@@ -54,6 +55,11 @@ const data = {
       title: 'personPlural',
       url: '/app/persons',
       icon: IconUser,
+    },
+    {
+      title: 'orderPlural',
+      url: '/app/orders',
+      icon: IconClipboardList,
     },
   ],
   masterData: [

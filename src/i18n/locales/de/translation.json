@@ -1,5 +1,6 @@
 {
   "welcome": "Willkommen bei FireInvent",
+  "dashboard": "Dashboard",
   "login": "Anmelden",
   "account": "Konto",
   "logout": "Abmelden",
@@ -206,5 +207,31 @@
   "details": "Details",
   "back": "Zurück",
   "view": "Anzeigen",
-  "noProductsFound": "Keine Produkte gefunden"
+  "noProductsFound": "Keine Produkte gefunden",
+  "order": "Bestellung",
+  "orderPlural": "Bestellungen",
+  "orderIdentifier": "Bestellnummer",
+  "orderDate": "Bestelldatum",
+  "deliveryDate": "Lieferdatum",
+  "orderStatus": {
+    "Draft": "Entwurf",
+    "Submitted": "Eingereicht",
+    "Delivered": "Geliefert",
+    "Completed": "Abgeschlossen"
+  },
+  "orders": {
+    "edit": "Bestellung bearbeiten",
+    "add": "Neue Bestellung hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Bestellung.",
+    "descriptionAdd": "Geben Sie die Details der neuen Bestellung ein."
+  },
+  "orderItems": {
+    "label": "Bestellpositionen",
+    "empty": "Keine Bestellpositionen vorhanden",
+    "edit": "Bestellposition bearbeiten",
+    "add": "Bestellposition hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Bestellposition.",
+    "descriptionAdd": "Geben Sie die Details der neuen Bestellposition ein."
+  },
+  "quantity": "Menge"
 }
