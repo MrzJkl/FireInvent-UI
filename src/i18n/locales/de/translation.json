@@ -245,14 +245,14 @@
   },
   "visit": "Besuch",
   "visitPlural": "Besuche",
-  "visitItem": "Besuchs-Position",
-  "visitItemPlural": "Besuchs-Positionen",
+  "visitItem": "Besuchsposition",
+  "visitItemPlural": "Besuchspositionen",
   "visitItems": {
-    "titleEdit": "Besuchs-Position bearbeiten",
-    "titleCreate": "Besuchs-Position hinzufügen",
-    "descriptionEdit": "Aktualisieren Sie die Details der Besuchs-Position.",
-    "descriptionCreate": "Geben Sie die Details der neuen Besuchs-Position ein.",
-    "deleteConfirm": "Möchten Sie diese Besuchs-Position wirklich löschen?"
+    "titleEdit": "Besuchsposition bearbeiten",
+    "titleCreate": "Besuchsposition hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details der Besuchsposition.",
+    "descriptionCreate": "Geben Sie die Details der neuen Besuchsposition ein.",
+    "deleteConfirm": "Möchten Sie diese Besuchsposition wirklich löschen?"
   },
   "visits": {
     "titleEdit": "Besuch bearbeiten",
