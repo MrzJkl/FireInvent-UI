@@ -2,8 +2,17 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getProducts, getVariants, getItems, getPersons } from '@/api';
+import {
+  getProducts,
+  getVariants,
+  getItems,
+  getPersons,
+  getOrders,
+  getAppointments,
+  getAppointmentsByIdVisits,
+} from '@/api';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { AppointmentModel } from '@/api/types.gen';
 
 interface DashboardStats {
   products: number;
@@ -11,6 +20,10 @@ interface DashboardStats {
   items: number;
   persons: number;
   orders: number;
+}
+
+interface AppointmentWithVisits extends AppointmentModel {
+  visitsCount: number;
 }
 
 export default function DashboardPage() {
@@ -23,17 +36,22 @@ export default function DashboardPage() {
     persons: 0,
     orders: 0,
   });
+  const [upcomingAppointments, setUpcomingAppointments] = useState<
+    AppointmentWithVisits[]
+  >([]);
   const [loading, setLoading] = useState(true);
+  const [appointmentsLoading, setAppointmentsLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [productsRes, variantsRes, itemsRes, personsRes] =
+        const [productsRes, variantsRes, itemsRes, personsRes, ordersRes] =
           await Promise.all([
             getProducts({}),
             getVariants({}),
             getItems({}),
             getPersons({}),
+            getOrders({}),
           ]);
 
         setStats({
@@ -41,7 +59,7 @@ export default function DashboardPage() {
           variants: variantsRes.data?.length ?? 0,
           items: itemsRes.data?.length ?? 0,
           persons: personsRes.data?.length ?? 0,
-          orders: 0,
+          orders: ordersRes.data?.length ?? 0,
         });
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
@@ -51,6 +69,59 @@ export default function DashboardPage() {
     };
 
     fetchStats();
+  }, []);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const appointmentsRes = await getAppointments({});
+        const appointments = appointmentsRes.data ?? [];
+
+        // Filter upcoming appointments (today or future)
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        const upcoming = appointments
+          .filter((apt) => {
+            const aptDate = new Date(apt.scheduledAt);
+            return aptDate >= now;
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.scheduledAt).getTime() -
+              new Date(b.scheduledAt).getTime()
+            );
+          })
+          .slice(0, 5); // Show next 5 appointments
+
+        // Fetch visits count for each appointment
+        const appointmentsWithVisits = await Promise.all(
+          upcoming.map(async (apt) => {
+            try {
+              const visitsRes = await getAppointmentsByIdVisits({
+                path: { id: apt.id },
+              });
+              return {
+                ...apt,
+                visitsCount: visitsRes.data?.length ?? 0,
+              };
+            } catch {
+              return {
+                ...apt,
+                visitsCount: 0,
+              };
+            }
+          }),
+        );
+
+        setUpcomingAppointments(appointmentsWithVisits);
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
+      } finally {
+        setAppointmentsLoading(false);
+      }
+    };
+
+    fetchAppointments();
   }, []);
 
   const cards = [
@@ -106,6 +177,70 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* Upcoming Appointments Section */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <Card className="sm:col-span-2">
+              <CardHeader>
+                <CardTitle>{t('appointmentPlural')}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {appointmentsLoading ? (
+                  <div className="space-y-2">
+                    <Skeleton className="h-16 w-full" />
+                    <Skeleton className="h-16 w-full" />
+                    <Skeleton className="h-16 w-full" />
+                  </div>
+                ) : upcomingAppointments.length === 0 ? (
+                  <p className="text-muted-foreground text-center py-8">
+                    {t('noData')}
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {upcomingAppointments.map((appointment) => (
+                      <Card
+                        key={appointment.id}
+                        className="cursor-pointer hover:bg-accent transition-colors"
+                        onClick={() =>
+                          navigate(`/app/appointments/${appointment.id}`)
+                        }
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <p className="font-medium">
+                                {appointment.description || t('appointment')}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {new Date(
+                                  appointment.scheduledAt,
+                                ).toLocaleDateString('de-DE', {
+                                  weekday: 'short',
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric',
+                                })}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="text-right">
+                                <p className="text-2xl font-bold">
+                                  {appointment.visitsCount}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {t('visitPlural')}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

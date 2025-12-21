@@ -80,6 +80,21 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
     });
     if (visitsRes) {
       setVisits(visitsRes);
+
+      // Load visit items for all visits
+      if (visitsRes.length > 0) {
+        const allVisitItems = await Promise.all(
+          visitsRes.map(async (visit) => {
+            const itemsRes = await fetchVisitItemsApiRef.current({
+              path: { id: visit.id },
+            });
+            return itemsRes || [];
+          }),
+        );
+        setVisitItems(allVisitItems.flat());
+      } else {
+        setVisitItems([]);
+      }
     } else {
       setError({
         message:
