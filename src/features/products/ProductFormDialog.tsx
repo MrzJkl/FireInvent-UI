@@ -21,11 +21,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useProductTypes } from '@/features/product-types/useProductTypes';
+import { useManufacturers } from '@/features/manufacturers/useManufacturers';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
-  manufacturer: z.string().min(1, 'Manufacturer is required'),
+  manufacturerId: z.string().min(1, 'Manufacturer is required'),
   description: z.string().optional(),
+  externalIdentifier: z.string().optional(),
   typeId: z.string().min(1, 'Product type is required'),
 });
 
@@ -44,6 +46,7 @@ export type ProductFormDialogProps = {
     name?: string;
     manufacturer?: string;
     description?: string;
+    externalIdentifier?: string;
     productType?: string;
     cancel?: string;
     save?: string;
@@ -62,6 +65,7 @@ export function ProductFormDialog({
 }: ProductFormDialogProps) {
   const { items: productTypes, initialLoading: loadingTypes } =
     useProductTypes();
+  const { manufacturers, isLoading: loadingManufacturers } = useManufacturers();
 
   const { t } = useTranslation();
 
@@ -75,8 +79,9 @@ export function ProductFormDialog({
     resolver: zodResolver(schema),
     defaultValues: initialValues ?? {
       name: '',
-      manufacturer: '',
+      manufacturerId: '',
       description: '',
+      externalIdentifier: '',
       typeId: '',
     },
   });
@@ -86,8 +91,9 @@ export function ProductFormDialog({
       reset(
         initialValues ?? {
           name: '',
-          manufacturer: '',
+          manufacturerId: '',
           description: '',
+          externalIdentifier: '',
           typeId: '',
         },
       );
@@ -126,10 +132,40 @@ export function ProductFormDialog({
             </div>
             <div>
               <Label>{labels?.manufacturer ?? 'Manufacturer'}</Label>
-              <Input {...register('manufacturer')} />
-              {errors.manufacturer ? (
+              <Controller
+                name="manufacturerId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    disabled={loadingManufacturers}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={
+                          loadingManufacturers
+                            ? 'Loading...'
+                            : 'Select manufacturer'
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {manufacturers.map((manufacturer) => (
+                        <SelectItem
+                          key={manufacturer.id}
+                          value={manufacturer.id}
+                        >
+                          {manufacturer.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.manufacturerId ? (
                 <p className="text-sm text-red-500 mt-1">
-                  {errors.manufacturer.message}
+                  {errors.manufacturerId.message}
                 </p>
               ) : null}
             </div>
@@ -175,6 +211,13 @@ export function ProductFormDialog({
             <Input {...register('description')} />
           </div>
 
+          <div>
+            <Label>
+              {labels?.externalIdentifier ?? t('externalIdentifier')}
+            </Label>
+            <Input {...register('externalIdentifier')} />
+          </div>
+
           <div className="flex justify-end space-x-2 mt-4">
             <Button
               type="button"
@@ -184,7 +227,10 @@ export function ProductFormDialog({
             >
               {labels?.cancel ?? 'Cancel'}
             </Button>
-            <Button type="submit" disabled={loading || loadingTypes}>
+            <Button
+              type="submit"
+              disabled={loading || loadingTypes || loadingManufacturers}
+            >
               {mode === 'edit'
                 ? (labels?.save ?? 'Save')
                 : (labels?.add ?? 'Add')}

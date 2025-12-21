@@ -14,6 +14,8 @@ import {
   getItemsById,
   getItemsByIdAssignments,
   getItemsByIdMaintenance,
+  putItemsById,
+  deleteItemsById,
   postAssignments,
   putAssignmentsById,
   deleteAssignmentsById,
@@ -28,14 +30,17 @@ import type {
   MaintenanceModel,
 } from '@/api/types.gen';
 import { useAuthorization } from '@/auth/permissions';
+import { ItemFormDialog } from '@/features/items/ItemFormDialog';
 
 export default function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { canEditAssignments, canEditMaintenances } = useAuthorization();
+  const { canEditAssignments, canEditMaintenances, canEditCatalog } =
+    useAuthorization();
   const canManageAssignments = canEditAssignments;
   const canManageMaintenances = canEditMaintenances;
+  const canManageItem = canEditCatalog;
 
   const [item, setItem] = useState<ItemModel | null>(null);
   const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>(
@@ -61,10 +66,17 @@ export default function ItemDetailPage() {
   );
   const [confirmMaintenanceOpen, setConfirmMaintenanceOpen] = useState(false);
 
+  const [itemFormOpen, setItemFormOpen] = useState(false);
+  const [confirmItemDeleteOpen, setConfirmItemDeleteOpen] = useState(false);
+
   const { callApi: fetchItem, loading: itemLoading } = useApiRequest(
     getItemsById,
     { showSuccess: false, showError: false },
   );
+  const { callApi: updateItemApi, loading: updatingItem } =
+    useApiRequest(putItemsById);
+  const { callApi: deleteItemApi, loading: deletingItem } =
+    useApiRequest(deleteItemsById);
   const { callApi: fetchAssignments, loading: assignmentsLoading } =
     useApiRequest(getItemsByIdAssignments, {
       showSuccess: false,
@@ -166,6 +178,11 @@ export default function ItemDetailPage() {
     );
   }
 
+  type ItemWithStorage = ItemModel & {
+    storageLocation?: { id: string; name?: string };
+  };
+  const storageLocation = (item as ItemWithStorage).storageLocation;
+
   return (
     <div className="p-4">
       {/* Header */}
@@ -177,10 +194,51 @@ export default function ItemDetailPage() {
           <div>
             <h1 className="text-2xl font-bold">{item.identifier || item.id}</h1>
             <p className="text-sm text-muted-foreground">
-              {item.variant?.product?.name} · {item.variant?.name}
+              {item.variant?.product ? (
+                <Button
+                  variant="link"
+                  className="h-auto p-0 text-sm"
+                  onClick={() =>
+                    navigate(`/app/products/${item.variant.product.id}`)
+                  }
+                >
+                  {item.variant.product.name}
+                </Button>
+              ) : (
+                '–'
+              )}
+              {' · '}
+              {item.variant ? (
+                <Button
+                  variant="link"
+                  className="h-auto p-0 text-sm"
+                  onClick={() =>
+                    navigate(
+                      `/app/products/${item.variant.productId}?variant=${item.variant.id}`,
+                    )
+                  }
+                >
+                  {item.variant.name}
+                </Button>
+              ) : (
+                '–'
+              )}
             </p>
           </div>
         </div>
+        {canManageItem && item && (
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setItemFormOpen(true)}>
+              {t('edit')}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => setConfirmItemDeleteOpen(true)}
+            >
+              {t('delete')}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Tabs */}
@@ -212,13 +270,43 @@ export default function ItemDetailPage() {
                 <div className="text-sm font-medium text-muted-foreground">
                   {t('product')}
                 </div>
-                <div className="mt-1">{item.variant?.product?.name || '–'}</div>
+                <div className="mt-1">
+                  {item.variant?.product ? (
+                    <Button
+                      variant="link"
+                      className="h-auto p-0"
+                      onClick={() =>
+                        navigate(`/app/products/${item.variant!.product.id}`)
+                      }
+                    >
+                      {item.variant.product.name}
+                    </Button>
+                  ) : (
+                    '–'
+                  )}
+                </div>
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
                   {t('variant')}
                 </div>
-                <div className="mt-1">{item.variant?.name || '–'}</div>
+                <div className="mt-1">
+                  {item.variant ? (
+                    <Button
+                      variant="link"
+                      className="h-auto p-0"
+                      onClick={() =>
+                        navigate(
+                          `/app/products/${item.variant!.productId}?variant=${item.variant!.id}`,
+                        )
+                      }
+                    >
+                      {item.variant.name}
+                    </Button>
+                  ) : (
+                    '–'
+                  )}
+                </div>
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
@@ -233,7 +321,19 @@ export default function ItemDetailPage() {
                   {t('storageLocation')}
                 </div>
                 <div className="mt-1">
-                  {item.storageLocationId || (
+                  {item.storageLocationId ? (
+                    <Button
+                      variant="link"
+                      className="h-auto p-0"
+                      onClick={() =>
+                        navigate(
+                          `/app/storageLocations/${item.storageLocationId}`,
+                        )
+                      }
+                    >
+                      {storageLocation?.name || item.storageLocationId}
+                    </Button>
+                  ) : (
                     <span className="text-muted-foreground italic">–</span>
                   )}
                 </div>
@@ -630,6 +730,73 @@ export default function ItemDetailPage() {
               await refetchMaintenances();
               setConfirmMaintenanceOpen(false);
               setDeleteMaintenanceId(null);
+            }}
+          />
+        </>
+      )}
+
+      {canManageItem && item && (
+        <>
+          <ItemFormDialog
+            open={itemFormOpen}
+            onOpenChange={(o) => setItemFormOpen(o)}
+            mode="edit"
+            variantId={item.variantId}
+            initialValues={{
+              variantId: item.variantId,
+              identifier: item.identifier ?? '',
+              storageLocationId: item.storageLocationId ?? undefined,
+              condition: item.condition,
+              purchaseDate: new Date(item.purchaseDate)
+                .toISOString()
+                .substring(0, 10),
+              retirementDate: item.retirementDate
+                ? new Date(item.retirementDate).toISOString().substring(0, 10)
+                : undefined,
+            }}
+            loading={updatingItem}
+            onSubmit={async (values) => {
+              const payload = {
+                variantId: item.variantId,
+                identifier: values.identifier || undefined,
+                storageLocationId: values.storageLocationId || undefined,
+                condition: values.condition,
+                purchaseDate: new Date(values.purchaseDate + 'T00:00:00'),
+                retirementDate: values.retirementDate
+                  ? new Date(values.retirementDate + 'T00:00:00')
+                  : undefined,
+              };
+              await updateItemApi({ path: { id: item.id }, body: payload });
+              await refetchData();
+              setItemFormOpen(false);
+            }}
+            labels={{
+              titleEdit: t('edit'),
+              identifier: t('identifier'),
+              storageLocation: t('storageLocation'),
+              condition: t('condition'),
+              purchaseDate: t('purchaseDate'),
+              retirementDate: t('retirementDate'),
+              cancel: t('cancel'),
+              save: t('save'),
+            }}
+          />
+
+          <ConfirmDialog
+            open={confirmItemDeleteOpen}
+            onOpenChange={(o) => setConfirmItemDeleteOpen(o)}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name: item.identifier || item.id,
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deletingItem}
+            onConfirm={async () => {
+              await deleteItemApi({ path: { id: item.id } });
+              setConfirmItemDeleteOpen(false);
+              navigate('/app/products/' + item.variant.productId);
             }}
           />
         </>

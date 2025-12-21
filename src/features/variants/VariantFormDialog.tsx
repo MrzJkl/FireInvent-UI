@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label';
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
   additionalSpecs: z.string().optional(),
+  externalIdentifier: z.string().optional(),
 });
 
 export type VariantFormValues = z.infer<typeof schema>;
@@ -33,6 +34,7 @@ export type VariantFormDialogProps = {
     titleEdit?: string;
     name?: string;
     additionalSpecs?: string;
+    externalIdentifier?: string;
     cancel?: string;
     save?: string;
     add?: string;
@@ -60,6 +62,7 @@ export function VariantFormDialog({
     defaultValues: initialValues ?? {
       name: '',
       additionalSpecs: '',
+      externalIdentifier: '',
     },
   });
 
@@ -69,6 +72,7 @@ export function VariantFormDialog({
         initialValues ?? {
           name: '',
           additionalSpecs: '',
+          externalIdentifier: '',
         },
       );
     }
@@ -101,6 +105,18 @@ export function VariantFormDialog({
             {errors.name && (
               <p className="text-sm text-destructive">{errors.name.message}</p>
             )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="externalIdentifier">
+              {labels?.externalIdentifier || t('externalIdentifier')}
+            </Label>
+            <Input
+              id="externalIdentifier"
+              {...register('externalIdentifier')}
+            />
+            <p className="text-xs text-muted-foreground">
+              {t('externalIdentifierVariantHint')}
+            </p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="additionalSpecs">

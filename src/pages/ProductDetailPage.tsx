@@ -127,7 +127,23 @@ export default function ProductDetailPage() {
           <div>
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="text-sm text-muted-foreground">
-              {product.type.name} · {product.manufacturer}
+              <Button
+                variant="link"
+                className="h-auto p-0 text-sm"
+                onClick={() => navigate('/app/productTypes')}
+              >
+                {product.type.name}
+              </Button>
+              {' · '}
+              <Button
+                variant="link"
+                className="h-auto p-0 text-sm"
+                onClick={() =>
+                  navigate(`/app/manufacturers/${product.manufacturerId}`)
+                }
+              >
+                {product.manufacturer.name}
+              </Button>
             </p>
           </div>
         </div>
@@ -167,13 +183,41 @@ export default function ProductDetailPage() {
                 <div className="text-sm font-medium text-muted-foreground">
                   {t('manufacturer')}
                 </div>
-                <div className="mt-1">{product.manufacturer}</div>
+                <div className="mt-1">
+                  <Button
+                    variant="link"
+                    className="h-auto p-0"
+                    onClick={() =>
+                      navigate(`/app/manufacturers/${product.manufacturerId}`)
+                    }
+                  >
+                    {product.manufacturer.name}
+                  </Button>
+                </div>
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
                   {t('productType')}
                 </div>
-                <div className="mt-1">{product.type.name}</div>
+                <div className="mt-1">
+                  <Button
+                    variant="link"
+                    className="h-auto p-0"
+                    onClick={() => navigate('/app/productTypes')}
+                  >
+                    {product.type.name}
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <div className="text-sm font-medium text-muted-foreground">
+                  {t('externalIdentifier')}
+                </div>
+                <div className="mt-1">
+                  {product.externalIdentifier || (
+                    <span className="text-muted-foreground italic">-</span>
+                  )}
+                </div>
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
@@ -220,6 +264,10 @@ export default function ProductDetailPage() {
                     const variantItems = items.filter(
                       (it) => it.variantId === v.id,
                     );
+                    const effectiveExternalIdentifier =
+                      v.externalIdentifier ?? product.externalIdentifier;
+                    const isInherited =
+                      !v.externalIdentifier && !!product.externalIdentifier;
                     return (
                       <div key={v.id} className="rounded border">
                         <div className="flex items-start justify-between p-3">
@@ -243,6 +291,15 @@ export default function ProductDetailPage() {
                             </Button>
                             <div className="space-y-1">
                               <p className="font-medium">{v.name}</p>
+                              {effectiveExternalIdentifier ? (
+                                <p className="text-xs text-muted-foreground">
+                                  {t('externalIdentifier')}:{' '}
+                                  {effectiveExternalIdentifier}
+                                  {isInherited
+                                    ? ` (${t('inheritedFromProduct')})`
+                                    : ''}
+                                </p>
+                              ) : null}
                               <p className="text-xs text-muted-foreground">
                                 {(v.additionalSpecs || '–') +
                                   ' · ' +
@@ -374,12 +431,18 @@ export default function ProductDetailPage() {
             mode="edit"
             initialValues={{
               name: product.name,
-              manufacturer: product.manufacturer,
+              manufacturerId: product.manufacturerId,
               description: product.description ?? '',
+              externalIdentifier: product.externalIdentifier ?? '',
               typeId: product.typeId,
             }}
             onSubmit={async (data) => {
-              await updateProduct(product.id, data);
+              const payload = {
+                ...data,
+                description: data.description || undefined,
+                externalIdentifier: data.externalIdentifier || undefined,
+              };
+              await updateProduct(product.id, payload);
               setFormOpen(false);
             }}
           />
@@ -402,6 +465,7 @@ export default function ProductDetailPage() {
                       ? {
                           name: current.name,
                           additionalSpecs: current.additionalSpecs ?? '',
+                          externalIdentifier: current.externalIdentifier ?? '',
                         }
                       : undefined;
                   })()
@@ -409,10 +473,15 @@ export default function ProductDetailPage() {
             }
             loading={editingVariantId ? updatingVariant : creatingVariant}
             onSubmit={async (values) => {
+              const payload = {
+                ...values,
+                additionalSpecs: values.additionalSpecs || undefined,
+                externalIdentifier: values.externalIdentifier || undefined,
+              };
               if (editingVariantId) {
-                await updateVariant(editingVariantId, values);
+                await updateVariant(editingVariantId, payload);
               } else {
-                await createVariant(values);
+                await createVariant(payload);
               }
               setVariantFormOpen(false);
               setEditingVariantId(null);

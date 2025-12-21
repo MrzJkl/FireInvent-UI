@@ -35,6 +35,25 @@ export const ApiIntegrationModelSchema = {
   },
 } as const;
 
+export const AppointmentModelSchema = {
+  required: ["scheduledAt"],
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    scheduledAt: {
+      type: "string",
+      format: "date-time",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
 export const CreateApiIntegrationModelSchema = {
   required: ["name"],
   type: "object",
@@ -46,6 +65,21 @@ export const CreateApiIntegrationModelSchema = {
     },
     description: {
       maxLength: 500,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
+export const CreateOrUpdateAppointmentModelSchema = {
+  required: ["scheduledAt"],
+  type: "object",
+  properties: {
+    scheduledAt: {
+      type: "string",
+      format: "date-time",
+    },
+    description: {
+      maxLength: 2000,
       type: ["null", "string"],
     },
   },
@@ -67,7 +101,7 @@ export const CreateOrUpdateDepartmentModelSchema = {
 } as const;
 
 export const CreateOrUpdateItemAssignmentHistoryModelSchema = {
-  required: ["itemId", "personId", "assignedFrom"],
+  required: ["itemId", "personId", "assignedById", "assignedFrom"],
   type: "object",
   properties: {
     itemId: {
@@ -78,6 +112,10 @@ export const CreateOrUpdateItemAssignmentHistoryModelSchema = {
       type: "string",
       format: "uuid",
     },
+    assignedById: {
+      type: "string",
+      format: "uuid",
+    },
     assignedFrom: {
       type: "string",
       format: "date-time",
@@ -85,10 +123,6 @@ export const CreateOrUpdateItemAssignmentHistoryModelSchema = {
     assignedUntil: {
       type: ["null", "string"],
       format: "date-time",
-    },
-    assignedById: {
-      type: ["null", "string"],
-      format: "uuid",
     },
   },
 } as const;
@@ -124,7 +158,7 @@ export const CreateOrUpdateItemModelSchema = {
 } as const;
 
 export const CreateOrUpdateMaintenanceModelSchema = {
-  required: ["itemId", "performedAt", "typeId"],
+  required: ["itemId", "performedAt", "typeId", "performedById"],
   type: "object",
   properties: {
     itemId: {
@@ -144,7 +178,7 @@ export const CreateOrUpdateMaintenanceModelSchema = {
       type: ["null", "string"],
     },
     performedById: {
-      type: ["null", "string"],
+      type: "string",
       format: "uuid",
     },
   },
@@ -165,6 +199,53 @@ export const CreateOrUpdateMaintenanceTypeModelSchema = {
   },
 } as const;
 
+export const CreateOrUpdateManufacturerModelSchema = {
+  required: ["name"],
+  type: "object",
+  properties: {
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
+    street: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    city: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    postalCode: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    houseNumber: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    country: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    website: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    phoneNumber: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    email: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
 export const CreateOrUpdateOrderItemModelSchema = {
   required: ["orderId", "variantId", "quantity"],
   type: "object",
@@ -177,6 +258,10 @@ export const CreateOrUpdateOrderItemModelSchema = {
       type: "string",
       format: "uuid",
     },
+    personId: {
+      type: ["null", "string"],
+      format: "uuid",
+    },
     quantity: {
       pattern: "^-?(?:0|[1-9]\\d*)$",
       type: ["integer", "string"],
@@ -186,7 +271,7 @@ export const CreateOrUpdateOrderItemModelSchema = {
 } as const;
 
 export const CreateOrUpdateOrderModelSchema = {
-  required: ["orderDate", "status", "items"],
+  required: ["orderDate", "status"],
   type: "object",
   properties: {
     orderIdentifier: {
@@ -199,12 +284,6 @@ export const CreateOrUpdateOrderModelSchema = {
     },
     status: {
       $ref: "#/components/schemas/OrderStatus",
-    },
-    items: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/CreateOrUpdateOrderItemModel",
-      },
     },
     deliveryDate: {
       type: ["null", "string"],
@@ -248,19 +327,23 @@ export const CreateOrUpdatePersonModelSchema = {
 } as const;
 
 export const CreateOrUpdateProductModelSchema = {
-  required: ["name", "manufacturer", "typeId"],
+  required: ["name", "manufacturerId", "typeId"],
   type: "object",
   properties: {
     name: {
       maxLength: 255,
       type: "string",
     },
-    manufacturer: {
-      maxLength: 255,
+    manufacturerId: {
       type: "string",
+      format: "uuid",
     },
     description: {
       maxLength: 2000,
+      type: ["null", "string"],
+    },
+    externalIdentifier: {
+      maxLength: 255,
       type: ["null", "string"],
     },
     typeId: {
@@ -300,6 +383,21 @@ export const CreateOrUpdateStorageLocationModelSchema = {
   },
 } as const;
 
+export const CreateOrUpdateTenantModelSchema = {
+  required: ["name"],
+  type: "object",
+  properties: {
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
 export const CreateOrUpdateVariantModelSchema = {
   required: ["productId", "name"],
   type: "object",
@@ -315,6 +413,47 @@ export const CreateOrUpdateVariantModelSchema = {
     additionalSpecs: {
       maxLength: 2000,
       type: ["null", "string"],
+    },
+    externalIdentifier: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
+export const CreateOrUpdateVisitItemModelSchema = {
+  required: ["visitId", "productId", "quantity"],
+  type: "object",
+  properties: {
+    visitId: {
+      type: "string",
+      format: "uuid",
+    },
+    productId: {
+      type: "string",
+      format: "uuid",
+    },
+    quantity: {
+      maximum: 2147483647,
+      minimum: 1,
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      format: "int32",
+    },
+  },
+} as const;
+
+export const CreateOrUpdateVisitModelSchema = {
+  required: ["appointmentId", "personId"],
+  type: "object",
+  properties: {
+    appointmentId: {
+      type: "string",
+      format: "uuid",
+    },
+    personId: {
+      type: "string",
+      format: "uuid",
     },
   },
 } as const;
@@ -339,7 +478,14 @@ export const DepartmentModelSchema = {
 } as const;
 
 export const ItemAssignmentHistoryModelSchema = {
-  required: ["id", "person", "itemId", "personId", "assignedFrom"],
+  required: [
+    "id",
+    "person",
+    "itemId",
+    "personId",
+    "assignedById",
+    "assignedFrom",
+  ],
   type: "object",
   properties: {
     id: {
@@ -349,21 +495,15 @@ export const ItemAssignmentHistoryModelSchema = {
     person: {
       $ref: "#/components/schemas/PersonModel",
     },
-    assignedBy: {
-      oneOf: [
-        {
-          type: "null",
-        },
-        {
-          $ref: "#/components/schemas/UserModel",
-        },
-      ],
-    },
     itemId: {
       type: "string",
       format: "uuid",
     },
     personId: {
+      type: "string",
+      format: "uuid",
+    },
+    assignedById: {
       type: "string",
       format: "uuid",
     },
@@ -374,10 +514,6 @@ export const ItemAssignmentHistoryModelSchema = {
     assignedUntil: {
       type: ["null", "string"],
       format: "date-time",
-    },
-    assignedById: {
-      type: ["null", "string"],
-      format: "uuid",
     },
   },
 } as const;
@@ -396,6 +532,16 @@ export const ItemModelSchema = {
     },
     variant: {
       $ref: "#/components/schemas/VariantModel",
+    },
+    storageLocation: {
+      oneOf: [
+        {
+          type: "null",
+        },
+        {
+          $ref: "#/components/schemas/StorageLocationModel",
+        },
+      ],
     },
     variantId: {
       type: "string",
@@ -424,7 +570,7 @@ export const ItemModelSchema = {
 } as const;
 
 export const MaintenanceModelSchema = {
-  required: ["id", "type", "itemId", "performedAt", "typeId"],
+  required: ["id", "type", "itemId", "performedAt", "typeId", "performedById"],
   type: "object",
   properties: {
     id: {
@@ -461,7 +607,7 @@ export const MaintenanceModelSchema = {
       type: ["null", "string"],
     },
     performedById: {
-      type: ["null", "string"],
+      type: "string",
       format: "uuid",
     },
   },
@@ -486,6 +632,57 @@ export const MaintenanceTypeModelSchema = {
   },
 } as const;
 
+export const ManufacturerModelSchema = {
+  required: ["id", "name"],
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 2000,
+      type: ["null", "string"],
+    },
+    street: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    city: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    postalCode: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    houseNumber: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    country: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    website: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    phoneNumber: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+    email: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
 export const OrderItemModelSchema = {
   required: ["id", "variant", "orderId", "variantId", "quantity"],
   type: "object",
@@ -497,12 +694,26 @@ export const OrderItemModelSchema = {
     variant: {
       $ref: "#/components/schemas/VariantModel",
     },
+    person: {
+      oneOf: [
+        {
+          type: "null",
+        },
+        {
+          $ref: "#/components/schemas/PersonModel",
+        },
+      ],
+    },
     orderId: {
       type: "string",
       format: "uuid",
     },
     variantId: {
       type: "string",
+      format: "uuid",
+    },
+    personId: {
+      type: ["null", "string"],
       format: "uuid",
     },
     quantity: {
@@ -514,18 +725,12 @@ export const OrderItemModelSchema = {
 } as const;
 
 export const OrderModelSchema = {
-  required: ["id", "items", "orderDate", "status"],
+  required: ["id", "orderDate", "status"],
   type: "object",
   properties: {
     id: {
       type: "string",
       format: "uuid",
-    },
-    items: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/OrderItemModel",
-      },
     },
     orderIdentifier: {
       maxLength: 255,
@@ -617,7 +822,7 @@ export const ProblemDetailsSchema = {
 } as const;
 
 export const ProductModelSchema = {
-  required: ["id", "type", "name", "manufacturer", "typeId"],
+  required: ["id", "type", "manufacturer", "name", "manufacturerId", "typeId"],
   type: "object",
   properties: {
     id: {
@@ -627,16 +832,23 @@ export const ProductModelSchema = {
     type: {
       $ref: "#/components/schemas/ProductTypeModel",
     },
+    manufacturer: {
+      $ref: "#/components/schemas/ManufacturerModel",
+    },
     name: {
       maxLength: 255,
       type: "string",
     },
-    manufacturer: {
-      maxLength: 255,
+    manufacturerId: {
       type: "string",
+      format: "uuid",
     },
     description: {
       maxLength: 2000,
+      type: ["null", "string"],
+    },
+    externalIdentifier: {
+      maxLength: 255,
       type: ["null", "string"],
     },
     typeId: {
@@ -684,6 +896,29 @@ export const StorageLocationModelSchema = {
   },
 } as const;
 
+export const TenantModelSchema = {
+  required: ["id", "createdAt", "name"],
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    createdAt: {
+      type: "string",
+      format: "date-time",
+    },
+    name: {
+      maxLength: 255,
+      type: "string",
+    },
+    description: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
 export const UserModelSchema = {
   required: ["id", "eMail"],
   type: "object",
@@ -726,6 +961,64 @@ export const VariantModelSchema = {
     additionalSpecs: {
       maxLength: 2000,
       type: ["null", "string"],
+    },
+    externalIdentifier: {
+      maxLength: 255,
+      type: ["null", "string"],
+    },
+  },
+} as const;
+
+export const VisitItemModelSchema = {
+  required: ["id", "product", "visitId", "productId", "quantity"],
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    product: {
+      $ref: "#/components/schemas/ProductModel",
+    },
+    visitId: {
+      type: "string",
+      format: "uuid",
+    },
+    productId: {
+      type: "string",
+      format: "uuid",
+    },
+    quantity: {
+      maximum: 2147483647,
+      minimum: 1,
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      format: "int32",
+    },
+  },
+} as const;
+
+export const VisitModelSchema = {
+  required: ["id", "appointment", "person", "appointmentId", "personId"],
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+    },
+    appointment: {
+      $ref: "#/components/schemas/AppointmentModel",
+    },
+    person: {
+      $ref: "#/components/schemas/PersonModel",
+    },
+    appointmentId: {
+      type: "string",
+      format: "uuid",
+    },
+    personId: {
+      type: "string",
+      format: "uuid",
     },
   },
 } as const;

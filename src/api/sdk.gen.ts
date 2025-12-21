@@ -3,6 +3,8 @@
 import type { Client, Options as Options2, TDataShape } from "./client";
 import { client } from "./client.gen";
 import {
+  getAppointmentsByIdResponseTransformer,
+  getAppointmentsResponseTransformer,
   getAssignmentsByIdResponseTransformer,
   getAssignmentsResponseTransformer,
   getItemsByIdAssignmentsResponseTransformer,
@@ -15,16 +17,26 @@ import {
   getOrdersResponseTransformer,
   getPersonsByIdItemsResponseTransformer,
   getStorageLocationsByIdItemsResponseTransformer,
+  getTenantsByIdResponseTransformer,
+  getTenantsResponseTransformer,
   getVariantsByIdItemsResponseTransformer,
+  getVisitsByIdResponseTransformer,
+  getVisitsResponseTransformer,
+  postAppointmentsResponseTransformer,
   postAssignmentsResponseTransformer,
   postItemsResponseTransformer,
   postMaintenancesResponseTransformer,
   postOrdersResponseTransformer,
+  postTenantsResponseTransformer,
+  postVisitsResponseTransformer,
 } from "./transformers.gen";
 import type {
   DeleteApiIntegrationsByClientIdData,
   DeleteApiIntegrationsByClientIdErrors,
   DeleteApiIntegrationsByClientIdResponses,
+  DeleteAppointmentsByIdData,
+  DeleteAppointmentsByIdErrors,
+  DeleteAppointmentsByIdResponses,
   DeleteAssignmentsByIdData,
   DeleteAssignmentsByIdErrors,
   DeleteAssignmentsByIdResponses,
@@ -40,6 +52,12 @@ import type {
   DeleteMaintenanceTypesByIdData,
   DeleteMaintenanceTypesByIdErrors,
   DeleteMaintenanceTypesByIdResponses,
+  DeleteManufacturersByIdData,
+  DeleteManufacturersByIdErrors,
+  DeleteManufacturersByIdResponses,
+  DeleteOrderItemsByIdData,
+  DeleteOrderItemsByIdErrors,
+  DeleteOrderItemsByIdResponses,
   DeleteOrdersByIdData,
   DeleteOrdersByIdErrors,
   DeleteOrdersByIdResponses,
@@ -55,11 +73,25 @@ import type {
   DeleteStorageLocationsByIdData,
   DeleteStorageLocationsByIdErrors,
   DeleteStorageLocationsByIdResponses,
+  DeleteTenantsByIdData,
+  DeleteTenantsByIdErrors,
+  DeleteTenantsByIdResponses,
   DeleteVariantsByIdData,
   DeleteVariantsByIdErrors,
   DeleteVariantsByIdResponses,
+  DeleteVisitItemsByIdData,
+  DeleteVisitItemsByIdErrors,
+  DeleteVisitItemsByIdResponses,
+  DeleteVisitsByIdData,
+  DeleteVisitsByIdErrors,
+  DeleteVisitsByIdResponses,
   GetApiIntegrationsData,
   GetApiIntegrationsResponses,
+  GetAppointmentsByIdData,
+  GetAppointmentsByIdErrors,
+  GetAppointmentsByIdResponses,
+  GetAppointmentsData,
+  GetAppointmentsResponses,
   GetAssignmentsByIdData,
   GetAssignmentsByIdErrors,
   GetAssignmentsByIdResponses,
@@ -94,6 +126,21 @@ import type {
   GetMaintenanceTypesByIdResponses,
   GetMaintenanceTypesData,
   GetMaintenanceTypesResponses,
+  GetManufacturersByIdData,
+  GetManufacturersByIdErrors,
+  GetManufacturersByIdProductsData,
+  GetManufacturersByIdProductsErrors,
+  GetManufacturersByIdProductsResponses,
+  GetManufacturersByIdResponses,
+  GetManufacturersData,
+  GetManufacturersResponses,
+  GetOrderItemsByIdData,
+  GetOrderItemsByIdErrors,
+  GetOrderItemsByIdResponses,
+  GetOrderItemsByOrderByOrderIdData,
+  GetOrderItemsByOrderByOrderIdResponses,
+  GetOrderItemsData,
+  GetOrderItemsResponses,
   GetOrdersByIdData,
   GetOrdersByIdErrors,
   GetOrdersByIdResponses,
@@ -128,6 +175,11 @@ import type {
   GetStorageLocationsByIdResponses,
   GetStorageLocationsData,
   GetStorageLocationsResponses,
+  GetTenantsByIdData,
+  GetTenantsByIdErrors,
+  GetTenantsByIdResponses,
+  GetTenantsData,
+  GetTenantsResponses,
   GetUsersByIdData,
   GetUsersByIdErrors,
   GetUsersByIdResponses,
@@ -141,9 +193,26 @@ import type {
   GetVariantsByIdResponses,
   GetVariantsData,
   GetVariantsResponses,
+  GetVisitItemsByIdData,
+  GetVisitItemsByIdErrors,
+  GetVisitItemsByIdResponses,
+  GetVisitItemsByVisitByVisitIdData,
+  GetVisitItemsByVisitByVisitIdResponses,
+  GetVisitItemsData,
+  GetVisitItemsResponses,
+  GetVisitsByIdData,
+  GetVisitsByIdErrors,
+  GetVisitsByIdItemsData,
+  GetVisitsByIdItemsErrors,
+  GetVisitsByIdItemsResponses,
+  GetVisitsByIdResponses,
+  GetVisitsData,
+  GetVisitsResponses,
   PostApiIntegrationsData,
   PostApiIntegrationsErrors,
   PostApiIntegrationsResponses,
+  PostAppointmentsData,
+  PostAppointmentsResponses,
   PostAssignmentsData,
   PostAssignmentsErrors,
   PostAssignmentsResponses,
@@ -157,6 +226,10 @@ import type {
   PostMaintenancesResponses,
   PostMaintenanceTypesData,
   PostMaintenanceTypesResponses,
+  PostManufacturersData,
+  PostManufacturersResponses,
+  PostOrderItemsData,
+  PostOrderItemsResponses,
   PostOrdersData,
   PostOrdersResponses,
   PostPersonsData,
@@ -170,9 +243,20 @@ import type {
   PostStorageLocationsData,
   PostStorageLocationsErrors,
   PostStorageLocationsResponses,
+  PostTenantsData,
+  PostTenantsErrors,
+  PostTenantsResponses,
   PostVariantsData,
   PostVariantsErrors,
   PostVariantsResponses,
+  PostVisitItemsData,
+  PostVisitItemsResponses,
+  PostVisitsData,
+  PostVisitsErrors,
+  PostVisitsResponses,
+  PutAppointmentsByIdData,
+  PutAppointmentsByIdErrors,
+  PutAppointmentsByIdResponses,
   PutAssignmentsByIdData,
   PutAssignmentsByIdErrors,
   PutAssignmentsByIdResponses,
@@ -188,6 +272,12 @@ import type {
   PutMaintenanceTypesByIdData,
   PutMaintenanceTypesByIdErrors,
   PutMaintenanceTypesByIdResponses,
+  PutManufacturersByIdData,
+  PutManufacturersByIdErrors,
+  PutManufacturersByIdResponses,
+  PutOrderItemsByIdData,
+  PutOrderItemsByIdErrors,
+  PutOrderItemsByIdResponses,
   PutOrdersByIdData,
   PutOrdersByIdErrors,
   PutOrdersByIdResponses,
@@ -203,9 +293,18 @@ import type {
   PutStorageLocationsByIdData,
   PutStorageLocationsByIdErrors,
   PutStorageLocationsByIdResponses,
+  PutTenantsByIdData,
+  PutTenantsByIdErrors,
+  PutTenantsByIdResponses,
   PutVariantsByIdData,
   PutVariantsByIdErrors,
   PutVariantsByIdResponses,
+  PutVisitItemsByIdData,
+  PutVisitItemsByIdErrors,
+  PutVisitItemsByIdResponses,
+  PutVisitsByIdData,
+  PutVisitsByIdErrors,
+  PutVisitsByIdResponses,
 } from "./types.gen";
 
 export type Options<
@@ -302,6 +401,140 @@ export const deleteApiIntegrationsByClientId = <
     ],
     url: "/api-integrations/{clientId}",
     ...options,
+  });
+};
+
+/**
+ * List all appointments
+ *
+ * Returns a list of all appointments.
+ */
+export const getAppointments = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAppointmentsData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetAppointmentsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: getAppointmentsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/appointments",
+    ...options,
+  });
+};
+
+/**
+ * Create a new appointment
+ *
+ * Creates a new appointment.
+ */
+export const postAppointments = <ThrowOnError extends boolean = false>(
+  options: Options<PostAppointmentsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostAppointmentsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: postAppointmentsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/appointments",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete an appointment
+ *
+ * Deletes an appointment by its unique ID. This will also delete all associated visits and visit items.
+ */
+export const deleteAppointmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAppointmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteAppointmentsByIdResponses,
+    DeleteAppointmentsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/appointments/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Get appointment by ID
+ *
+ * Returns an appointment by its unique ID.
+ */
+export const getAppointmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAppointmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetAppointmentsByIdResponses,
+    GetAppointmentsByIdErrors,
+    ThrowOnError
+  >({
+    responseTransformer: getAppointmentsByIdResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/appointments/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Update an appointment
+ *
+ * Updates an existing appointment.
+ */
+export const putAppointmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutAppointmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).put<
+    PutAppointmentsByIdResponses,
+    PutAppointmentsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/appointments/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1049,6 +1282,164 @@ export const putMaintenanceTypesById = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * List all manufacturers
+ *
+ * Returns a list of all manufacturers.
+ */
+export const getManufacturers = <ThrowOnError extends boolean = false>(
+  options?: Options<GetManufacturersData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetManufacturersResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/manufacturers",
+    ...options,
+  });
+};
+
+/**
+ * Create a new manufacturer
+ *
+ * Creates a new manufacturer.
+ */
+export const postManufacturers = <ThrowOnError extends boolean = false>(
+  options: Options<PostManufacturersData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostManufacturersResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/manufacturers",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a manufacturer
+ *
+ * Deletes a manufacturer by its unique ID.
+ */
+export const deleteManufacturersById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteManufacturersByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteManufacturersByIdResponses,
+    DeleteManufacturersByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/manufacturers/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Get manufacturer by ID
+ *
+ * Returns a manufacturer by its unique ID.
+ */
+export const getManufacturersById = <ThrowOnError extends boolean = false>(
+  options: Options<GetManufacturersByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetManufacturersByIdResponses,
+    GetManufacturersByIdErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/manufacturers/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Update a manufacturer
+ *
+ * Updates an existing manufacturer.
+ */
+export const putManufacturersById = <ThrowOnError extends boolean = false>(
+  options: Options<PutManufacturersByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).put<
+    PutManufacturersByIdResponses,
+    PutManufacturersByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/manufacturers/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all products for a manufacturer
+ *
+ * Returns all products for a specific manufacturer.
+ */
+export const getManufacturersByIdProducts = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetManufacturersByIdProductsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetManufacturersByIdProductsResponses,
+    GetManufacturersByIdProductsErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/manufacturers/{id}/products",
+    ...options,
+  });
+};
+
+/**
  * List all orders
  *
  * Returns a list of all orders.
@@ -1174,6 +1565,164 @@ export const putOrdersById = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/orders/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all order items
+ *
+ * Returns a list of all order items.
+ */
+export const getOrderItems = <ThrowOnError extends boolean = false>(
+  options?: Options<GetOrderItemsData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetOrderItemsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/order-items",
+    ...options,
+  });
+};
+
+/**
+ * Create a new order item
+ *
+ * Creates a new order item.
+ */
+export const postOrderItems = <ThrowOnError extends boolean = false>(
+  options: Options<PostOrderItemsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostOrderItemsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/order-items",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List order items by order ID
+ *
+ * Returns a list of order items for a specific order.
+ */
+export const getOrderItemsByOrderByOrderId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetOrderItemsByOrderByOrderIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetOrderItemsByOrderByOrderIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/order-items/by-order/{orderId}",
+    ...options,
+  });
+};
+
+/**
+ * Delete an order item
+ *
+ * Deletes an order item by its unique ID.
+ */
+export const deleteOrderItemsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteOrderItemsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteOrderItemsByIdResponses,
+    DeleteOrderItemsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/order-items/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Get order item by ID
+ *
+ * Returns an order item by its unique ID.
+ */
+export const getOrderItemsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetOrderItemsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetOrderItemsByIdResponses,
+    GetOrderItemsByIdErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/order-items/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Update an order item
+ *
+ * Updates an existing order item.
+ */
+export const putOrderItemsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutOrderItemsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).put<
+    PutOrderItemsByIdResponses,
+    PutOrderItemsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/order-items/{id}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -1788,6 +2337,140 @@ export const getStorageLocationsByIdItems = <
 };
 
 /**
+ * List all tenants (System Admin)
+ *
+ * Returns a list of all tenants in the system. Only accessible to system administrators.
+ */
+export const getTenants = <ThrowOnError extends boolean = false>(
+  options?: Options<GetTenantsData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetTenantsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: getTenantsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/tenants",
+    ...options,
+  });
+};
+
+/**
+ * Create a new tenant (System Admin)
+ *
+ * Creates a new tenant with a unique realm and name. Only accessible to system administrators.
+ */
+export const postTenants = <ThrowOnError extends boolean = false>(
+  options: Options<PostTenantsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostTenantsResponses,
+    PostTenantsErrors,
+    ThrowOnError
+  >({
+    responseTransformer: postTenantsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/tenants",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a tenant (System Admin)
+ *
+ * Deletes a tenant by its unique ID. Only accessible to system administrators.
+ */
+export const deleteTenantsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteTenantsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteTenantsByIdResponses,
+    DeleteTenantsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/tenants/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Get tenant by ID (System Admin)
+ *
+ * Returns a tenant by its unique ID. Only accessible to system administrators.
+ */
+export const getTenantsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetTenantsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetTenantsByIdResponses,
+    GetTenantsByIdErrors,
+    ThrowOnError
+  >({
+    responseTransformer: getTenantsByIdResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/tenants/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Update a tenant (System Admin)
+ *
+ * Updates an existing tenant. Only accessible to system administrators.
+ */
+export const putTenantsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutTenantsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).put<
+    PutTenantsByIdResponses,
+    PutTenantsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/tenants/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
  * List all users
  *
  * Returns a list of all users.
@@ -1990,6 +2673,323 @@ export const getVariantsByIdItems = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/variants/{id}/items",
+    ...options,
+  });
+};
+
+/**
+ * List all visit items
+ *
+ * Returns a list of all visit items.
+ */
+export const getVisitItems = <ThrowOnError extends boolean = false>(
+  options?: Options<GetVisitItemsData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetVisitItemsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visit-items",
+    ...options,
+  });
+};
+
+/**
+ * Create a new visit item
+ *
+ * Creates a new visit item.
+ */
+export const postVisitItems = <ThrowOnError extends boolean = false>(
+  options: Options<PostVisitItemsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostVisitItemsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visit-items",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List visit items by visit ID
+ *
+ * Returns a list of visit items for a specific visit.
+ */
+export const getVisitItemsByVisitByVisitId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetVisitItemsByVisitByVisitIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetVisitItemsByVisitByVisitIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visit-items/by-visit/{visitId}",
+    ...options,
+  });
+};
+
+/**
+ * Delete a visit item
+ *
+ * Deletes a visit item by its unique ID.
+ */
+export const deleteVisitItemsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteVisitItemsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteVisitItemsByIdResponses,
+    DeleteVisitItemsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visit-items/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Get visit item by ID
+ *
+ * Returns a visit item by its unique ID.
+ */
+export const getVisitItemsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetVisitItemsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetVisitItemsByIdResponses,
+    GetVisitItemsByIdErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visit-items/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Update a visit item
+ *
+ * Updates an existing visit item.
+ */
+export const putVisitItemsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutVisitItemsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).put<
+    PutVisitItemsByIdResponses,
+    PutVisitItemsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visit-items/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all visits
+ *
+ * Returns a list of all visits.
+ */
+export const getVisits = <ThrowOnError extends boolean = false>(
+  options?: Options<GetVisitsData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetVisitsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: getVisitsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visits",
+    ...options,
+  });
+};
+
+/**
+ * Create a new visit
+ *
+ * Creates a new visit. A person can only have one visit per appointment.
+ */
+export const postVisits = <ThrowOnError extends boolean = false>(
+  options: Options<PostVisitsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostVisitsResponses,
+    PostVisitsErrors,
+    ThrowOnError
+  >({
+    responseTransformer: postVisitsResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visits",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a visit
+ *
+ * Deletes a visit by its unique ID. This will also delete all associated visit items.
+ */
+export const deleteVisitsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteVisitsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).delete<
+    DeleteVisitsByIdResponses,
+    DeleteVisitsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visits/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Get visit by ID
+ *
+ * Returns a visit by its unique ID.
+ */
+export const getVisitsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetVisitsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetVisitsByIdResponses,
+    GetVisitsByIdErrors,
+    ThrowOnError
+  >({
+    responseTransformer: getVisitsByIdResponseTransformer,
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visits/{id}",
+    ...options,
+  });
+};
+
+/**
+ * Update a visit
+ *
+ * Updates an existing visit. The combination of appointment and person must remain unique.
+ */
+export const putVisitsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutVisitsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? client).put<
+    PutVisitsByIdResponses,
+    PutVisitsByIdErrors,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visits/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all items for a visit
+ *
+ * Returns all items associated with a specific visit.
+ */
+export const getVisitsByIdItems = <ThrowOnError extends boolean = false>(
+  options: Options<GetVisitsByIdItemsData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetVisitsByIdItemsResponses,
+    GetVisitsByIdItemsErrors,
+    ThrowOnError
+  >({
+    responseType: "json",
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/visits/{id}/items",
     ...options,
   });
 };

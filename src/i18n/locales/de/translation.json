@@ -7,6 +7,7 @@
   "name": "Name",
   "description": "Beschreibung",
   "manufacturer": "Hersteller",
+  "manufacturerPlural": "Hersteller",
   "cancel": "Abbrechen",
   "actions": "Aktionen",
   "edit": "Bearbeiten",
@@ -27,6 +28,14 @@
     "add": "Neues Produkt hinzufügen",
     "descriptionEdit": "Aktualisieren Sie die Details des Produkts.",
     "descriptionAdd": "Geben Sie die Details des neuen Produkts ein."
+  },
+  "manufacturers": {
+    "edit": "Hersteller bearbeiten",
+    "add": "Neuen Hersteller hinzufügen",
+    "descriptionEdit": "Aktualisieren Sie die Details des Herstellers.",
+    "descriptionAdd": "Geben Sie die Details des neuen Herstellers ein.",
+    "addDescription": "Geben Sie die Details des neuen Herstellers ein.",
+    "editDescription": "Aktualisieren Sie die Details des Herstellers."
   },
   "maintenanceType": "Wartungstyp",
   "maintenanceTypePlural": "Wartungstypen",
@@ -53,6 +62,9 @@
   "lastName": "Nachname",
   "contactInfo": "Kontaktinfo",
   "externalId": "Externe ID",
+  "externalIdentifier": "Artikelnummer",
+  "externalIdentifierVariantHint": "Leer lassen, um die Artikelnummer des Produkts zu übernehmen.",
+  "inheritedFromProduct": "vom Produkt übernommen",
   "person": "Person",
   "personPlural": "Personen",
   "department": "Abteilung",
@@ -180,5 +192,19 @@
     "loadingFailed": "Daten konnten nicht geladen werden",
     "statusCode": "Statuscode",
     "retry": "Erneut versuchen"
-  }
+  },
+  "street": "Straße",
+  "houseNumber": "Hausnummer",
+  "postalCode": "Postleitzahl",
+  "city": "Stadt",
+  "country": "Land",
+  "website": "Website",
+  "phoneNumber": "Telefon",
+  "email": "E-Mail",
+  "address": "Adresse",
+  "contact": "Kontakt",
+  "details": "Details",
+  "back": "Zurück",
+  "view": "Anzeigen",
+  "noProductsFound": "Keine Produkte gefunden"
 }

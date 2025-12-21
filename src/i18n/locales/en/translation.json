@@ -7,6 +7,7 @@
   "name": "Name",
   "description": "Description",
   "manufacturer": "Manufacturer",
+  "manufacturerPlural": "Manufacturers",
   "cancel": "Cancel",
   "actions": "Actions",
   "edit": "Edit",
@@ -25,6 +26,14 @@
     "add": "Add new Product",
     "descriptionEdit": "Update the product details below.",
     "descriptionAdd": "Fill in the product details below."
+  },
+  "manufacturers": {
+    "edit": "Edit Manufacturer",
+    "add": "Add new Manufacturer",
+    "descriptionEdit": "Update the manufacturer details below.",
+    "descriptionAdd": "Fill in the manufacturer details below.",
+    "addDescription": "Fill in the manufacturer details below.",
+    "editDescription": "Update the manufacturer details below."
   },
   "maintenanceType": "Maintenance Type",
   "maintenanceTypePlural": "Maintenance Types",
@@ -51,6 +60,9 @@
   "lastName": "Last Name",
   "contactInfo": "Contact Info",
   "externalId": "External ID",
+  "externalIdentifier": "Article Number",
+  "externalIdentifierVariantHint": "Leave empty to inherit the product's article number.",
+  "inheritedFromProduct": "inherited from product",
   "person": "Person",
   "personPlural": "Persons",
   "department": "Department",
@@ -178,5 +190,19 @@
     "loadingFailed": "Failed to load data",
     "statusCode": "Status code",
     "retry": "Retry"
-  }
+  },
+  "street": "Street",
+  "houseNumber": "House Number",
+  "postalCode": "Postal Code",
+  "city": "City",
+  "country": "Country",
+  "website": "Website",
+  "phoneNumber": "Phone Number",
+  "email": "Email",
+  "address": "Address",
+  "contact": "Contact",
+  "details": "Details",
+  "back": "Back",
+  "view": "View",
+  "noProductsFound": "No products found"
 }

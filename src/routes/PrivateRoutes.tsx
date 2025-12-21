@@ -11,7 +11,10 @@ import PersonsPage from '@/pages/PersonsPage';
 import UsersPage from '@/pages/UsersPage';
 import AppLayout from '@/layouts/AppLayout';
 import StorageLocationsPage from '@/pages/StorageLocationsPage';
+import StorageLocationDetailPage from '@/pages/StorageLocationDetailPage';
 import ApiIntegrationsPage from '@/pages/ApiIntegrationsPage';
+import ManufacturersPage from '@/pages/ManufacturersPage';
+import ManufacturerDetailPage from '@/pages/ManufacturerDetailPage';
 import { useAuthorization } from '@/auth/permissions';
 
 function GuardedRoute({
@@ -36,6 +39,8 @@ export function PrivateRoutes() {
       <Route element={<AppLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="manufacturers" element={<ManufacturersPage />} />
+        <Route path="manufacturers/:id" element={<ManufacturerDetailPage />} />
         <Route path="productTypes" element={<ProductTypesPage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:id" element={<ProductDetailPage />} />
@@ -43,6 +48,10 @@ export function PrivateRoutes() {
         <Route path="persons" element={<PersonsPage />} />
         <Route path="departments" element={<DepartmentsPage />} />
         <Route path="storageLocations" element={<StorageLocationsPage />} />
+        <Route
+          path="storageLocations/:id"
+          element={<StorageLocationDetailPage />}
+        />
         <Route path="maintenanceTypes" element={<MaintenanceTypesPage />} />
         <Route
           path="users"

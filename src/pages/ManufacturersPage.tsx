@@ -12,34 +12,38 @@ import {
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { ProductFormDialog } from '@/features/products/ProductFormDialog';
-import { useProducts } from '@/features/products/useProducts';
-import { type ProductModel } from '@/api/types.gen';
+import { ManufacturerFormDialog } from '@/features/manufacturers/ManufacturerFormDialog';
+import { useManufacturers } from '@/features/manufacturers/useManufacturers';
+import { type ManufacturerModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
 import { useAuthorization } from '@/auth/permissions';
 
-export default function ProductsPage() {
+export default function ManufacturersPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { canEditCatalog } = useAuthorization();
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<ProductModel | null>(null);
+  const [editingItem, setEditingItem] = useState<ManufacturerModel | null>(
+    null,
+  );
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<ProductModel | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<ManufacturerModel | null>(
+    null,
+  );
 
   const {
-    products,
+    manufacturers,
     isLoading,
     isCreating,
     isUpdating,
     isDeleting,
     error,
-    createProduct,
-    updateProduct,
-    deleteProduct,
+    createManufacturer,
+    updateManufacturer,
+    deleteManufacturer,
     refetch,
-  } = useProducts();
+  } = useManufacturers();
 
   useEffect(() => {
     if (!formOpen) setEditingItem(null);
@@ -53,7 +57,7 @@ export default function ProductsPage() {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">{t('productPlural')}</h1>
+        <h1 className="text-2xl font-bold">{t('manufacturerPlural')}</h1>
         {showActions && (
           <Button
             onClick={() => {
@@ -70,29 +74,25 @@ export default function ProductsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('manufacturer')}</TableHead>
-            <TableHead>{t('productType')}</TableHead>
-            <TableHead>{t('description')}</TableHead>
-            <TableHead>{t('externalIdentifier')}</TableHead>
+            <TableHead>{t('city')}</TableHead>
+            <TableHead>{t('country')}</TableHead>
+            <TableHead>{t('email')}</TableHead>
+            <TableHead>{t('phoneNumber')}</TableHead>
             {showActions && <TableHead>{t('actions')}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product) => (
+          {manufacturers.map((manufacturer) => (
             <TableRow
-              key={product.id}
+              key={manufacturer.id}
               className="cursor-pointer hover:bg-muted/50"
-              onClick={() => navigate(`/app/products/${product.id}`)}
+              onClick={() => navigate(`/app/manufacturers/${manufacturer.id}`)}
             >
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.manufacturer.name}</TableCell>
-              <TableCell>{product.type.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>
-                {product.externalIdentifier || (
-                  <span className="text-muted-foreground italic">-</span>
-                )}
-              </TableCell>
+              <TableCell className="font-medium">{manufacturer.name}</TableCell>
+              <TableCell>{manufacturer.city || '-'}</TableCell>
+              <TableCell>{manufacturer.country || '-'}</TableCell>
+              <TableCell>{manufacturer.email || '-'}</TableCell>
+              <TableCell>{manufacturer.phoneNumber || '-'}</TableCell>
               {showActions && (
                 <TableCell className="flex space-x-2">
                   <Button
@@ -100,7 +100,7 @@ export default function ProductsPage() {
                     variant="outline"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setEditingItem(product);
+                      setEditingItem(manufacturer);
                       setFormOpen(true);
                     }}
                   >
@@ -111,7 +111,7 @@ export default function ProductsPage() {
                     variant="destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setItemToDelete(product);
+                      setItemToDelete(manufacturer);
                       setConfirmOpen(true);
                     }}
                   >
@@ -125,44 +125,32 @@ export default function ProductsPage() {
       </Table>
 
       {showActions && (
-        <ProductFormDialog
+        <ManufacturerFormDialog
           open={formOpen}
           mode={editingItem ? 'edit' : 'create'}
           initialValues={
             editingItem
               ? {
                   name: editingItem.name,
-                  manufacturerId: editingItem.manufacturerId,
                   description: editingItem.description ?? '',
-                  externalIdentifier: editingItem.externalIdentifier ?? '',
-                  typeId: editingItem.typeId,
+                  street: editingItem.street ?? '',
+                  houseNumber: editingItem.houseNumber ?? '',
+                  postalCode: editingItem.postalCode ?? '',
+                  city: editingItem.city ?? '',
+                  country: editingItem.country ?? '',
+                  website: editingItem.website ?? '',
+                  phoneNumber: editingItem.phoneNumber ?? '',
+                  email: editingItem.email ?? '',
                 }
               : undefined
           }
           loading={editingItem ? isUpdating : isCreating}
           onOpenChange={setFormOpen}
-          labels={{
-            titleCreate: t('products.add'),
-            titleEdit: t('products.edit'),
-            name: t('name'),
-            manufacturer: t('manufacturer'),
-            description: t('description'),
-            externalIdentifier: t('externalIdentifier'),
-            productType: t('productType'),
-            cancel: t('cancel'),
-            save: t('save'),
-            add: t('add'),
-          }}
           onSubmit={async (values) => {
-            const payload = {
-              ...values,
-              description: values.description || undefined,
-              externalIdentifier: values.externalIdentifier || undefined,
-            };
             if (editingItem) {
-              await updateProduct(editingItem.id, payload);
+              await updateManufacturer(editingItem.id, values);
             } else {
-              await createProduct(payload);
+              await createManufacturer(values);
             }
             setFormOpen(false);
           }}
@@ -186,7 +174,7 @@ export default function ProductsPage() {
           confirmDisabled={isDeleting}
           onConfirm={async () => {
             if (!itemToDelete) return;
-            await deleteProduct(itemToDelete.id);
+            await deleteManufacturer(itemToDelete.id);
             setConfirmOpen(false);
             setItemToDelete(null);
           }}
