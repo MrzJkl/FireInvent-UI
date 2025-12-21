@@ -74,7 +74,7 @@ export default function StorageLocationsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('remarks') ?? 'Remarks'}</TableHead>
+            <TableHead>{t('remarks')}</TableHead>
             {showActions && <TableHead>{t('actions')}</TableHead>}
           </TableRow>
         </TableHeader>
@@ -133,9 +133,9 @@ export default function StorageLocationsPage() {
               titleCreate: t('storageLocations.add'),
               titleEdit: t('storageLocations.edit'),
               name: t('name'),
-              remarks: t('remarks') ?? 'Remarks',
+              remarks: t('remarks'),
               cancel: t('cancel'),
-              save: t('save') ?? 'Save',
+              save: t('save'),
               add: t('add'),
             }}
             onSubmit={async (values) => {
@@ -154,7 +154,7 @@ export default function StorageLocationsPage() {
               setConfirmOpen(o);
               if (!o) setItemToDelete(null);
             }}
-            title={t('confirmDeleteTitle') ?? 'Delete item'}
+            title={t('confirmDeleteTitle')}
             description={
               t('confirmDeleteDescription', {
                 name: itemToDelete?.name ?? '',

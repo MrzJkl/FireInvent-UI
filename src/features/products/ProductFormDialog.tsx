@@ -24,11 +24,11 @@ import { useProductTypes } from '@/features/product-types/useProductTypes';
 import { useManufacturers } from '@/features/manufacturers/useManufacturers';
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  manufacturerId: z.string().min(1, 'Manufacturer is required'),
+  name: z.string().min(1),
+  manufacturerId: z.string().min(1),
   description: z.string().optional(),
   externalIdentifier: z.string().optional(),
-  typeId: z.string().min(1, 'Product type is required'),
+  typeId: z.string().min(1),
 });
 
 export type ProductFormValues = z.infer<typeof schema>;

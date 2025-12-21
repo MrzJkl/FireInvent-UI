@@ -144,7 +144,7 @@ export default function ProductTypesPage() {
               setConfirmOpen(o);
               if (!o) setItemToDelete(null);
             }}
-            title={t('confirmDeleteTitle') ?? 'Delete item'}
+            title={t('confirmDeleteTitle')}}
             description={
               t('confirmDeleteDescription', {
                 name: itemToDelete?.name ?? '',

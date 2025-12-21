@@ -169,11 +169,12 @@ function ManufacturerDetailContent({ id }: { id: string }) {
 
 export default function ManufacturerDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
 
   if (!id) {
     return (
       <ErrorState
-        error={{ message: 'Manufacturer ID not provided' }}
+        error={{ message: t('manufacturerIdRequired') }}
         onRetry={() => {}}
       />
     );

@@ -24,9 +24,9 @@ import { useAllVariants } from '@/features/variants/useAllVariants';
 import { usePersons } from '@/features/persons/usePersons';
 
 const schema = z.object({
-  variantId: z.string().min(1, 'Variant is required'),
+  variantId: z.string().min(1),
   personId: z.string().optional(),
-  quantity: z.string().min(1, 'Quantity is required'),
+  quantity: z.string().min(1),
 });
 
 export type OrderItemFormValues = z.infer<typeof schema>;

@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const schema = z.object({
-  scheduledAt: z.string().min(1, 'Date is required'),
+  scheduledAt: z.string().min(1),
   description: z.string().optional(),
 });
 

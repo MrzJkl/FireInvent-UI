@@ -23,7 +23,7 @@ import {
 
 const schema = z.object({
   orderIdentifier: z.string().optional(),
-  orderDate: z.string().min(1, 'Order date is required'),
+  orderDate: z.string().min(1),
   status: z.enum(['Draft', 'Submitted', 'Delivered', 'Completed']),
   deliveryDate: z.string().optional(),
 });

@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
+  name: z.string().min(1),
   description: z.string().optional(),
   street: z.string().optional(),
   houseNumber: z.string().optional(),
@@ -121,8 +121,8 @@ export function ManufacturerFormDialog({
           </DialogTitle>
           <DialogDescription>
             {mode === 'create'
-              ? t('manufacturers.addDescription')
-              : t('manufacturers.editDescription')}
+              ? t('manufacturers.descriptionAdd')
+              : t('manufacturers.descriptionEdit')}
           </DialogDescription>
         </DialogHeader>
 

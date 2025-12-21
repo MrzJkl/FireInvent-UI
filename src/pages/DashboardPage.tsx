@@ -65,7 +65,7 @@ export default function DashboardPage() {
       onClick: () => navigate('/app/products'),
     },
     {
-      title: 'Orders',
+      title: t('orderPlural'),
       value: stats.orders,
       onClick: () => {},
     },

@@ -22,7 +22,7 @@ import {
 import { usePersons } from '@/features/persons/usePersons';
 
 const schema = z.object({
-  personId: z.string().min(1, 'Person is required'),
+  personId: z.string().min(1),
 });
 
 export type VisitFormValues = z.infer<typeof schema>;

@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
+  name: z.string().min(1),
   description: z.string().optional(),
 });
 
@@ -59,6 +59,10 @@ export function MaintenanceTypeFormDialog({
     defaultValues: initialValues ?? { name: '', description: '' },
   });
 
+  const getValidationError = (): string => {
+    return t('validationNameRequired');
+  };
+
   useEffect(() => {
     if (open) {
       reset(initialValues ?? { name: '', description: '' });
@@ -89,7 +93,9 @@ export function MaintenanceTypeFormDialog({
             <Label>{labels?.name ?? 'Name'}</Label>
             <Input {...register('name')} />
             {errors.name ? (
-              <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>
+              <p className="text-sm text-red-500 mt-1">
+                {getValidationError()}
+              </p>
             ) : null}
           </div>
           <div>

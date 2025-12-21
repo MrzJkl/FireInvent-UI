@@ -100,11 +100,13 @@ export default function ProductDetailPage() {
       <div className="flex h-full items-center justify-center p-8">
         <Card>
           <CardHeader>
-            <CardTitle>{t('product')} nicht gefunden</CardTitle>
+            <CardTitle>
+              {t('product')} {t('notFound')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Button onClick={() => navigate('/app/products')}>
-              {t('productPlural')} anzeigen
+              {t('productPlural')} {t('view')}
             </Button>
           </CardContent>
         </Card>
@@ -170,7 +172,7 @@ export default function ProductDetailPage() {
         <TabsContent value="product" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Produktdetails</CardTitle>
+              <CardTitle>{t('product')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -255,7 +257,7 @@ export default function ProductDetailPage() {
                 <LoadingIndicator />
               ) : variants.length === 0 ? (
                 <div className="flex h-24 items-center justify-center text-muted-foreground">
-                  {t('variantPlural')} leer
+                  {t('variantPlural')} {t('empty')}
                 </div>
               ) : (
                 <div className="space-y-2">

@@ -23,8 +23,8 @@ import {
 import { useProducts } from '@/features/products/useProducts';
 
 const schema = z.object({
-  productId: z.string().min(1, 'Product is required'),
-  quantity: z.string().min(1, 'Quantity is required'),
+  productId: z.string().min(1),
+  quantity: z.string().min(1),
 });
 
 export type VisitItemFormValues = z.infer<typeof schema>;

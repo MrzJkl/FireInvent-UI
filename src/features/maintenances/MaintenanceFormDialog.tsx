@@ -24,7 +24,7 @@ import { useMaintenanceTypes } from '@/features/maintenance-types/useMaintenance
 import { useUsers } from '@/hooks/useUsers';
 
 const schema = z.object({
-  typeId: z.string().min(1, 'Maintenance type is required'),
+  typeId: z.string().min(1),
   performedAt: z.string(),
   performedById: z.string().optional(),
   remarks: z.string().optional(),
@@ -73,6 +73,10 @@ export function MaintenanceFormDialog({
 
   const currentTypeId = watch('typeId');
   const currentPerformedById = watch('performedById');
+
+  const getValidationError = (): string => {
+    return t('validationMaintenanceTypeRequired');
+  };
 
   useEffect(() => {
     if (open) {
@@ -123,7 +127,7 @@ export function MaintenanceFormDialog({
             </Select>
             {errors.typeId && (
               <p className="text-sm text-destructive mt-1">
-                {errors.typeId.message}
+                {getValidationError()}
               </p>
             )}
           </div>
@@ -139,13 +143,17 @@ export function MaintenanceFormDialog({
           </div>
 
           <div>
-            <Label>{t('maintenances.performedBy')} ({t('optional')})</Label>
+            <Label>
+              {t('maintenances.performedBy')} ({t('optional')})
+            </Label>
             <Select
               value={currentPerformedById}
               onValueChange={(v) => setValue('performedById', v)}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t('maintenances.noUserSelected') as string} />
+                <SelectValue
+                  placeholder={t('maintenances.noUserSelected') as string}
+                />
               </SelectTrigger>
               <SelectContent>
                 {usersLoading
@@ -168,7 +176,10 @@ export function MaintenanceFormDialog({
 
           <div>
             <Label>{t('maintenances.remarks')}</Label>
-            <Input {...register('remarks')} placeholder={t('optional') as string} />
+            <Input
+              {...register('remarks')}
+              placeholder={t('optional') as string}
+            />
             {errors.remarks && (
               <p className="text-sm text-destructive mt-1">
                 {errors.remarks.message}

@@ -86,7 +86,9 @@ export default function StorageLocationDetailPage() {
       <div className="flex h-full items-center justify-center p-8">
         <Card>
           <CardHeader>
-            <CardTitle>{t('storageLocation')} nicht gefunden</CardTitle>
+            <CardTitle>
+              {t('storageLocation')} {t('notFound')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Button onClick={() => navigate('/app/storageLocations')}>
@@ -136,7 +138,7 @@ export default function StorageLocationDetailPage() {
 
       <Tabs defaultValue="details" className="w-full">
         <TabsList>
-          <TabsTrigger value="details">{t('details') ?? 'Details'}</TabsTrigger>
+          <TabsTrigger value="details">{t('details')}</TabsTrigger>
           <TabsTrigger value="items">{t('items.label')}</TabsTrigger>
         </TabsList>
 
@@ -154,7 +156,7 @@ export default function StorageLocationDetailPage() {
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
-                  {t('remarks') ?? 'Remarks'}
+                  {t('remarks')}
                 </div>
                 <div className="mt-1">
                   {storageLocation.remarks || (
@@ -264,9 +266,9 @@ export default function StorageLocationDetailPage() {
             labels={{
               titleEdit: t('storageLocations.edit'),
               name: t('name'),
-              remarks: t('remarks') ?? 'Remarks',
+              remarks: t('remarks'),
               cancel: t('cancel'),
-              save: t('save') ?? 'Save',
+              save: t('save'),
             }}
             onSubmit={async (values) => {
               const payload = {
