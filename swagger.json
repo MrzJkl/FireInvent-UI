@@ -17,6 +17,13 @@
         ],
         "summary": "Create API integration",
         "description": "Creates a new API integration with confidential client credentials. The credentials are shown only once.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -111,6 +118,13 @@
         ],
         "summary": "List API integrations",
         "description": "Returns a list of all API integrations. Client secrets are not included.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -165,6 +179,11 @@
               "minLength": 1,
               "type": "string"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -206,6 +225,13 @@
         ],
         "summary": "List all appointments",
         "description": "Returns a list of all appointments.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -249,6 +275,13 @@
         ],
         "summary": "Create a new appointment",
         "description": "Creates a new appointment.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -314,6 +347,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -379,6 +417,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -447,6 +490,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -497,6 +545,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -564,6 +617,13 @@
         ],
         "summary": "List all departments",
         "description": "Returns a list of all departments.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -607,6 +667,13 @@
         ],
         "summary": "Create a new department",
         "description": "Creates a new department.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -672,6 +739,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -737,6 +809,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -805,6 +882,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -855,6 +937,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -922,6 +1009,13 @@
         ],
         "summary": "List all item assignments",
         "description": "Returns a list of all item assignment histories.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -965,6 +1059,13 @@
         ],
         "summary": "Create a new assignment",
         "description": "Creates a new item assignment history.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1070,6 +1171,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1135,6 +1241,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -1243,6 +1354,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1284,6 +1400,13 @@
         ],
         "summary": "List all items",
         "description": "Returns a list of all items.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1327,6 +1450,13 @@
         ],
         "summary": "Create a new item",
         "description": "Creates a new item.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1432,6 +1562,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1497,6 +1632,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -1605,6 +1745,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1655,6 +1800,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1731,6 +1881,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1798,6 +1953,13 @@
         ],
         "summary": "List all maintenances",
         "description": "Returns a list of all maintenance records.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1841,6 +2003,13 @@
         ],
         "summary": "Create a new maintenance",
         "description": "Creates a new maintenance record.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1926,6 +2095,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1991,6 +2165,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2079,6 +2258,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2120,6 +2304,13 @@
         ],
         "summary": "List all maintenanceTypes",
         "description": "Returns a list of all maintenanceTypes.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2163,6 +2354,13 @@
         ],
         "summary": "Create a new maintenanceType",
         "description": "Creates a new maintenanceType.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2228,6 +2426,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2293,6 +2496,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2361,6 +2569,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2402,6 +2615,13 @@
         ],
         "summary": "List all manufacturers",
         "description": "Returns a list of all manufacturers.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2445,6 +2665,13 @@
         ],
         "summary": "Create a new manufacturer",
         "description": "Creates a new manufacturer.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2510,6 +2737,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2575,6 +2807,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2643,6 +2880,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2693,6 +2935,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2760,6 +3007,13 @@
         ],
         "summary": "List all orders",
         "description": "Returns a list of all orders.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2803,6 +3057,13 @@
         ],
         "summary": "Create a new order",
         "description": "Creates a new order.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2868,6 +3129,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2933,6 +3199,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3021,6 +3292,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3062,6 +3338,13 @@
         ],
         "summary": "List all order items",
         "description": "Returns a list of all order items.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3105,6 +3388,13 @@
         ],
         "summary": "Create a new order item",
         "description": "Creates a new order item.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3170,6 +3460,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3226,6 +3521,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3291,6 +3591,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3359,6 +3664,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3400,6 +3710,13 @@
         ],
         "summary": "List all persons",
         "description": "Returns a list of all persons.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3443,6 +3760,13 @@
         ],
         "summary": "Create a new person",
         "description": "Creates a new person entry.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3528,6 +3852,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3593,6 +3922,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3661,6 +3995,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3711,6 +4050,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3778,6 +4122,13 @@
         ],
         "summary": "List all products",
         "description": "Returns a list of all products.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3821,6 +4172,13 @@
         ],
         "summary": "Create a new product",
         "description": "Creates a new product.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3906,6 +4264,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3971,6 +4334,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4059,6 +4427,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4109,6 +4482,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4176,6 +4554,13 @@
         ],
         "summary": "List all productTypes",
         "description": "Returns a list of all productTypes.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4219,6 +4604,13 @@
         ],
         "summary": "Create a new productType",
         "description": "Creates a new productType.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4284,6 +4676,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4349,6 +4746,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4417,6 +4819,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4458,6 +4865,13 @@
         ],
         "summary": "List all storage locations",
         "description": "Returns a list of all storage locations.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4501,6 +4915,13 @@
         ],
         "summary": "Create a new storage location",
         "description": "Creates a new storage location.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4586,6 +5007,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4651,6 +5077,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4739,6 +5170,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4789,6 +5225,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4856,6 +5297,13 @@
         ],
         "summary": "List all tenants (System Admin)",
         "description": "Returns a list of all tenants in the system. Only accessible to system administrators.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4899,6 +5347,13 @@
         ],
         "summary": "Create a new tenant (System Admin)",
         "description": "Creates a new tenant with a unique realm and name. Only accessible to system administrators.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4984,6 +5439,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5049,6 +5509,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5137,6 +5602,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5198,6 +5668,13 @@
         ],
         "summary": "List all users",
         "description": "Returns a list of all users.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5252,6 +5729,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5310,6 +5792,13 @@
         ],
         "summary": "List all variants",
         "description": "Returns a list of all variants.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5353,6 +5842,13 @@
         ],
         "summary": "Create a new variant",
         "description": "Creates a new variant.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -5458,6 +5954,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5523,6 +6024,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5631,6 +6137,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5681,6 +6192,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5748,6 +6264,13 @@
         ],
         "summary": "List all visit items",
         "description": "Returns a list of all visit items.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5791,6 +6314,13 @@
         ],
         "summary": "Create a new visit item",
         "description": "Creates a new visit item.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -5856,6 +6386,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5912,6 +6447,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5977,6 +6517,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6045,6 +6590,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6086,6 +6636,13 @@
         ],
         "summary": "List all visits",
         "description": "Returns a list of all visits.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -6129,6 +6686,13 @@
         ],
         "summary": "Create a new visit",
         "description": "Creates a new visit. A person can only have one visit per appointment.",
+        "parameters": [
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -6234,6 +6798,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6299,6 +6868,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6407,6 +6981,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6457,6 +7036,11 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Tenant-ID",
+            "in": "header",
+            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -7873,6 +8457,12 @@
             "format": "uuid"
           }
         }
+      }
+    },
+    "headers": {
+      "X-Resolved-Tenant-ID": {
+        "description": "The resolved Tenant-ID from JWT. Clarifies the Tenant-Context of the response.",
+        "required": true
       }
     },
     "securitySchemes": {
