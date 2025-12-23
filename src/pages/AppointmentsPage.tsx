@@ -159,9 +159,9 @@ export function AppointmentsPage() {
             initialValues={
               editingAppointment
                 ? {
-                    scheduledAt: new Date(editingAppointment.scheduledAt)
-                      .toISOString()
-                      .slice(0, 16),
+                    scheduledAt: new Date(
+                      editingAppointment.scheduledAt,
+                    ).toISOString(),
                     description: editingAppointment.description || '',
                   }
                 : undefined

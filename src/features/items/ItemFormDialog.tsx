@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -21,6 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
+import { DatePicker } from '@/components/ui/date-picker';
 
 const conditionOptions = [
   'New',
@@ -74,11 +76,12 @@ export function ItemFormDialog({
   labels,
   variantId,
 }: ItemFormDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
   const { items: locations, initialLoading: locationsLoading } =
     useStorageLocations();
 
-  const { register, handleSubmit, reset, setValue, watch } =
+  const { register, handleSubmit, reset, setValue, watch, control } =
     useForm<ItemFormValues>({
       resolver: zodResolver(schema),
       defaultValues: initialValues ?? {
@@ -179,13 +182,35 @@ export function ItemFormDialog({
           </div>
 
           <div>
-            <Label>{labels?.purchaseDate ?? t('purchaseDate')}</Label>
-            <Input type="date" {...register('purchaseDate')} />
+            <Controller
+              name="purchaseDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={labels?.purchaseDate ?? t('purchaseDate')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
           </div>
 
           <div>
-            <Label>{labels?.retirementDate ?? t('retirementDate')}</Label>
-            <Input type="date" {...register('retirementDate')} />
+            <Controller
+              name="retirementDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={labels?.retirementDate ?? t('retirementDate')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
           </div>
 
           <div className="flex justify-end gap-2">

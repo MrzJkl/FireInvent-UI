@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { DateTimePicker } from '@/components/ui/date-time-picker';
 
 const schema = z.object({
   scheduledAt: z.string().min(1),
@@ -48,11 +50,13 @@ export function AppointmentFormDialog({
   onOpenChange,
   labels,
 }: AppointmentFormDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm<AppointmentFormValues>({
@@ -96,8 +100,20 @@ export function AppointmentFormDialog({
         <form className="space-y-4 mt-2" onSubmit={submit}>
           <div className="grid gap-4">
             <div>
-              <Label>{labels?.date ?? t('appointmentDate')}</Label>
-              <Input type="datetime-local" {...register('scheduledAt')} />
+              <Controller
+                name="scheduledAt"
+                control={control}
+                render={({ field }) => (
+                  <DateTimePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    locale={locale}
+                    dateLabel={labels?.date ?? t('appointmentDate')}
+                    timeLabel={t('time')}
+                    placeholder={t('selectDate')}
+                  />
+                )}
+              />
               {errors.scheduledAt ? (
                 <p className="text-sm text-red-500 mt-1">
                   {errors.scheduledAt.message}

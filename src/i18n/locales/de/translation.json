@@ -236,6 +236,8 @@
   "appointmentPlural": "Termine",
   "appointmentDate": "Termin-Datum",
   "appointmentDetails": "Termin-Details",
+  "time": "Uhrzeit",
+  "selectDate": "Datum wählen",
   "appointments": {
     "titleEdit": "Termin bearbeiten",
     "titleCreate": "Neuen Termin hinzufügen",

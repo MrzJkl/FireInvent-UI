@@ -118,11 +118,11 @@ export const CreateOrUpdateItemAssignmentHistoryModelSchema = {
     },
     assignedFrom: {
       type: "string",
-      format: "date-time",
+      format: "date",
     },
     assignedUntil: {
       type: ["null", "string"],
-      format: "date-time",
+      format: "date",
     },
   },
 } as const;
@@ -148,11 +148,11 @@ export const CreateOrUpdateItemModelSchema = {
     },
     purchaseDate: {
       type: "string",
-      format: "date-time",
+      format: "date",
     },
     retirementDate: {
       type: ["null", "string"],
-      format: "date-time",
+      format: "date",
     },
   },
 } as const;
@@ -280,14 +280,14 @@ export const CreateOrUpdateOrderModelSchema = {
     },
     orderDate: {
       type: "string",
-      format: "date-time",
+      format: "date",
     },
     status: {
       $ref: "#/components/schemas/OrderStatus",
     },
     deliveryDate: {
       type: ["null", "string"],
-      format: "date-time",
+      format: "date",
     },
   },
 } as const;
@@ -308,8 +308,8 @@ export const CreateOrUpdatePersonModelSchema = {
       maxLength: 2000,
       type: ["null", "string"],
     },
-    contactInfo: {
-      maxLength: 2000,
+    eMail: {
+      maxLength: 255,
       type: ["null", "string"],
     },
     externalId: {
@@ -513,11 +513,11 @@ export const ItemAssignmentHistoryModelSchema = {
     },
     assignedFrom: {
       type: "string",
-      format: "date-time",
+      format: "date",
     },
     assignedUntil: {
       type: ["null", "string"],
-      format: "date-time",
+      format: "date",
     },
   },
 } as const;
@@ -564,11 +564,11 @@ export const ItemModelSchema = {
     },
     purchaseDate: {
       type: "string",
-      format: "date-time",
+      format: "date",
     },
     retirementDate: {
       type: ["null", "string"],
-      format: "date-time",
+      format: "date",
     },
   },
 } as const;
@@ -742,14 +742,14 @@ export const OrderModelSchema = {
     },
     orderDate: {
       type: "string",
-      format: "date-time",
+      format: "date",
     },
     status: {
       $ref: "#/components/schemas/OrderStatus",
     },
     deliveryDate: {
       type: ["null", "string"],
-      format: "date-time",
+      format: "date",
     },
   },
 } as const;
@@ -784,8 +784,8 @@ export const PersonModelSchema = {
       maxLength: 2000,
       type: ["null", "string"],
     },
-    contactInfo: {
-      maxLength: 2000,
+    eMail: {
+      maxLength: 255,
       type: ["null", "string"],
     },
     externalId: {

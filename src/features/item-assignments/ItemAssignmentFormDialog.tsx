@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/select';
 import { usePersons } from '@/features/persons/usePersons';
 import type { ItemAssignmentHistoryModel } from '@/api/types.gen';
+import { DatePicker } from '@/components/ui/date-picker';
 
 const schema = z.object({
   personId: z.string().min(1),
@@ -53,16 +54,17 @@ export function ItemAssignmentFormDialog({
   onSubmit,
   onOpenChange,
 }: ItemAssignmentFormDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
   const { persons, initialLoading: personsLoading } = usePersons();
 
   const {
-    register,
     handleSubmit,
     reset,
     setValue,
     watch,
     setError,
+    control,
     formState: { errors },
   } = useForm<AssignmentFormValues>({
     resolver: zodResolver(schema),
@@ -164,8 +166,19 @@ export function ItemAssignmentFormDialog({
           </div>
 
           <div>
-            <Label>{t('itemAssignments.assignedFrom')}</Label>
-            <Input type="date" {...register('assignedFrom')} />
+            <Controller
+              name="assignedFrom"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={t('itemAssignments.assignedFrom')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
             {errors.assignedFrom && (
               <p className="text-sm text-destructive mt-1">
                 {errors.assignedFrom.message}
@@ -174,8 +187,19 @@ export function ItemAssignmentFormDialog({
           </div>
 
           <div>
-            <Label>{t('itemAssignments.assignedUntil')}</Label>
-            <Input type="date" {...register('assignedUntil')} />
+            <Controller
+              name="assignedUntil"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={t('itemAssignments.assignedUntil')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
             {errors.assignedUntil && (
               <p className="text-sm text-destructive mt-1">
                 {errors.assignedUntil.message}

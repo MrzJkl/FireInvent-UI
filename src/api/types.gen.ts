@@ -99,7 +99,7 @@ export type CreateOrUpdatePersonModel = {
   firstName: string;
   lastName: string;
   remarks?: null | string;
-  contactInfo?: null | string;
+  eMail?: null | string;
   externalId?: null | string;
   departmentIds?: Array<string>;
 };
@@ -248,7 +248,7 @@ export type PersonModel = {
   firstName: string;
   lastName: string;
   remarks?: null | string;
-  contactInfo?: null | string;
+  eMail?: null | string;
   externalId?: null | string;
   departmentIds?: Array<string>;
 };

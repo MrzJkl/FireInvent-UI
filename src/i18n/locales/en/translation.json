@@ -234,6 +234,8 @@
   "appointmentPlural": "Appointments",
   "appointmentDate": "Appointment Date",
   "appointmentDetails": "Appointment Details",
+  "time": "Time",
+  "selectDate": "Select date",
   "appointments": {
     "titleEdit": "Edit Appointment",
     "titleCreate": "Add new Appointment",

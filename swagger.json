@@ -7251,14 +7251,14 @@
           },
           "assignedFrom": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "assignedUntil": {
             "type": [
               "null",
               "string"
             ],
-            "format": "date-time"
+            "format": "date"
           }
         }
       },
@@ -7293,14 +7293,14 @@
           },
           "purchaseDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "retirementDate": {
             "type": [
               "null",
               "string"
             ],
-            "format": "date-time"
+            "format": "date"
           }
         }
       },
@@ -7481,7 +7481,7 @@
           },
           "orderDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "status": {
             "$ref": "#/components/schemas/OrderStatus"
@@ -7491,7 +7491,7 @@
               "null",
               "string"
             ],
-            "format": "date-time"
+            "format": "date"
           }
         }
       },
@@ -7517,8 +7517,8 @@
               "string"
             ]
           },
-          "contactInfo": {
-            "maxLength": 2000,
+          "eMail": {
+            "maxLength": 255,
             "type": [
               "null",
               "string"
@@ -7769,14 +7769,14 @@
           },
           "assignedFrom": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "assignedUntil": {
             "type": [
               "null",
               "string"
             ],
-            "format": "date-time"
+            "format": "date"
           }
         }
       },
@@ -7839,14 +7839,14 @@
           },
           "purchaseDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "retirementDate": {
             "type": [
               "null",
               "string"
             ],
-            "format": "date-time"
+            "format": "date"
           }
         }
       },
@@ -8080,7 +8080,7 @@
           },
           "orderDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "status": {
             "$ref": "#/components/schemas/OrderStatus"
@@ -8090,7 +8090,7 @@
               "null",
               "string"
             ],
-            "format": "date-time"
+            "format": "date"
           }
         }
       },
@@ -8136,8 +8136,8 @@
               "string"
             ]
           },
-          "contactInfo": {
-            "maxLength": 2000,
+          "eMail": {
+            "maxLength": 255,
             "type": [
               "null",
               "string"

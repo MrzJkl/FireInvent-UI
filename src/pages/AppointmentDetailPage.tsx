@@ -78,12 +78,12 @@ export function AppointmentDetailPage() {
   const getPersonName = (
     firstName?: string | null,
     lastName?: string | null,
-    contactInfo?: string | null,
+    eMail?: string | null,
   ) => {
     if (firstName && lastName) {
       return `${firstName} ${lastName}`;
     }
-    return contactInfo || '-';
+    return eMail || '-';
   };
 
   const handleCreateVisit = async (values: VisitFormValues) => {
@@ -276,7 +276,7 @@ export function AppointmentDetailPage() {
                                 {getPersonName(
                                   visit.person?.firstName,
                                   visit.person?.lastName,
-                                  visit.person?.contactInfo,
+                                  visit.person?.eMail,
                                 )}
                               </p>
                               <p className="text-xs text-muted-foreground">
@@ -399,9 +399,7 @@ export function AppointmentDetailPage() {
         initialValues={
           appointment
             ? {
-                scheduledAt: new Date(appointment.scheduledAt)
-                  .toISOString()
-                  .slice(0, 16),
+                scheduledAt: new Date(appointment.scheduledAt).toISOString(),
                 description: appointment.description || '',
               }
             : undefined
