@@ -13,6 +13,10 @@
   "actions": "Aktionen",
   "edit": "Bearbeiten",
   "delete": "Löschen",
+  "status": "Status",
+  "yes": "Ja",
+  "no": "Nein",
+  "loadingData": "Daten werden geladen...",
   "productType": "Produkttyp",
   "productTypePlural": "Produkttypen",
   "product": "Produkt",
@@ -81,6 +85,7 @@
     "descriptionAdd": "Geben Sie die Details der neuen Person ein."
   },
   "confirmDeleteTitle": "Löschen bestätigen",
+  "confirmDelete": "Löschen bestätigen",
   "confirmDeleteDescription": "Möchten Sie \"{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "variant": "Variante",
   "variantPlural": "Varianten",
@@ -98,7 +103,8 @@
   "items": {
     "label": "Exemplare",
     "descriptionEdit": "Aktualisieren Sie die Details des Exemplars.",
-    "descriptionAdd": "Geben Sie die Details des neuen Exemplars ein."
+    "descriptionAdd": "Geben Sie die Details des neuen Exemplars ein.",
+    "isDemoItem": "Ist ein Demo-Exemplar"
   },
   "identifier": "Kennung",
   "condition": "Zustand",
@@ -115,6 +121,7 @@
     "label": "Zuweisungen",
     "description": "Verlauf der Zuweisungen dieses Exemplars",
     "empty": "Keine Zuweisungen vorhanden",
+    "assignmentType": "Zuweisungstyp",
     "active": "Aktiv",
     "returned": "Zurückgegeben",
     "assignedFrom": "Zugewiesen von",
@@ -188,6 +195,7 @@
     "descriptionPlaceholder": "Optionale Beschreibung der Integration"
   },
   "error": {
+    "label": "Fehler",
     "loadingFailed": "Daten konnten nicht geladen werden",
     "statusCode": "Statuscode",
     "retry": "Erneut versuchen"
@@ -271,7 +279,6 @@
   "loading": "Wird geladen...",
   "noDepartments": "Keine Abteilungen",
   "success": "Erfolgreich",
-  "error": "Fehler",
   "unknownError": "Unbekannter Fehler",
   "quantity": "Menge",
   "person": "Person",

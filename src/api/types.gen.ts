@@ -21,7 +21,7 @@ export type ApiIntegrationModel = {
 
 export type AppointmentModel = {
   id?: string;
-  scheduledAt: Date;
+  scheduledAt: string;
   description?: null | string;
 };
 
@@ -31,7 +31,7 @@ export type CreateApiIntegrationModel = {
 };
 
 export type CreateOrUpdateAppointmentModel = {
-  scheduledAt: Date;
+  scheduledAt: string;
   description?: null | string;
 };
 
@@ -51,22 +51,22 @@ export type CreateOrUpdateItemAssignmentHistoryModel = {
    */
   storageLocationId?: null | string;
   assignedById: string;
-  assignedFrom: Date;
-  assignedUntil?: null | Date;
+  assignedFrom: string;
+  assignedUntil?: null | string;
 };
 
 export type CreateOrUpdateItemModel = {
   variantId: string;
   identifier?: null | string;
   condition: ItemCondition;
-  purchaseDate: Date;
+  purchaseDate: string;
   isDemoItem: boolean;
-  retirementDate?: null | Date;
+  retirementDate?: null | string;
 };
 
 export type CreateOrUpdateMaintenanceModel = {
   itemId: string;
-  performedAt: Date;
+  performedAt: string;
   typeId: string;
   remarks?: null | string;
   performedById: string;
@@ -99,9 +99,9 @@ export type CreateOrUpdateOrderItemModel = {
 
 export type CreateOrUpdateOrderModel = {
   orderIdentifier?: null | string;
-  orderDate: Date;
+  orderDate: string;
   status: OrderStatus;
-  deliveryDate?: null | Date;
+  deliveryDate?: null | string;
 };
 
 export type CreateOrUpdatePersonModel = {
@@ -156,9 +156,9 @@ export type CreateOrUpdateVisitModel = {
 
 export type DepartmentModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   description?: null | string;
@@ -169,9 +169,9 @@ export type ItemAssignmentHistoryModel = {
   person?: null | PersonModel;
   storageLocation?: null | StorageLocationModel;
   item: ItemModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   itemId: string;
   /**
@@ -183,8 +183,8 @@ export type ItemAssignmentHistoryModel = {
    */
   storageLocationId?: null | string;
   assignedById: string;
-  assignedFrom: Date;
-  assignedUntil?: null | Date;
+  assignedFrom: string;
+  assignedUntil?: null | string;
 };
 
 export const ItemCondition = {
@@ -200,28 +200,28 @@ export type ItemCondition = (typeof ItemCondition)[keyof typeof ItemCondition];
 export type ItemModel = {
   id: string;
   variant: VariantModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   variantId: string;
   identifier?: null | string;
   condition: ItemCondition;
-  purchaseDate: Date;
+  purchaseDate: string;
   isDemoItem: boolean;
-  retirementDate?: null | Date;
+  retirementDate?: null | string;
 };
 
 export type MaintenanceModel = {
   id: string;
   performedBy?: null | UserModel;
   type: MaintenanceTypeModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   itemId: string;
-  performedAt: Date;
+  performedAt: string;
   typeId: string;
   remarks?: null | string;
   performedById: string;
@@ -229,9 +229,9 @@ export type MaintenanceModel = {
 
 export type MaintenanceTypeModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   description?: null | string;
@@ -239,9 +239,9 @@ export type MaintenanceTypeModel = {
 
 export type ManufacturerModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   description?: null | string;
@@ -259,9 +259,9 @@ export type OrderItemModel = {
   id: string;
   variant: VariantModel;
   person?: null | PersonModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   orderId: string;
   variantId: string;
@@ -271,14 +271,14 @@ export type OrderItemModel = {
 
 export type OrderModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   orderIdentifier?: null | string;
-  orderDate: Date;
+  orderDate: string;
   status: OrderStatus;
-  deliveryDate?: null | Date;
+  deliveryDate?: null | string;
 };
 
 export const OrderStatus = {
@@ -293,9 +293,9 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 export type PersonModel = {
   id: string;
   departments: Array<DepartmentModel>;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   firstName: string;
   lastName: string;
@@ -317,9 +317,9 @@ export type ProductModel = {
   id: string;
   type: ProductTypeModel;
   manufacturer: ManufacturerModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   manufacturerId: string;
@@ -330,9 +330,9 @@ export type ProductModel = {
 
 export type ProductTypeModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   description?: null | string;
@@ -340,9 +340,9 @@ export type ProductTypeModel = {
 
 export type StorageLocationModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   remarks?: null | string;
@@ -350,9 +350,9 @@ export type StorageLocationModel = {
 
 export type TenantModel = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   name: string;
   description?: null | string;
@@ -368,9 +368,9 @@ export type UserModel = {
 export type VariantModel = {
   id: string;
   product: ProductModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   productId: string;
   name: string;
@@ -381,9 +381,9 @@ export type VariantModel = {
 export type VisitItemModel = {
   id: string;
   product: ProductModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   visitId: string;
   productId: string;
@@ -394,9 +394,9 @@ export type VisitModel = {
   id: string;
   appointment: AppointmentModel;
   person: PersonModel;
-  createdAt: Date;
+  createdAt: string;
   createdById: string;
-  modifiedAt?: null | Date;
+  modifiedAt?: null | string;
   modifiedById?: null | string;
   appointmentId: string;
   personId: string;

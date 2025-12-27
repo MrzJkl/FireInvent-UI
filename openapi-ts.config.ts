@@ -13,8 +13,10 @@ export default defineConfig({
     },
     '@hey-api/schemas',
     {
-      dates: true,
       name: '@hey-api/transformers',
+      // Treat OpenAPI format "date" as strings so we can send YYYY-MM-DD
+      // and avoid timezone shifts breaking .NET DateOnly parsing.
+      dates: false,
     },
     {
       enums: 'javascript',

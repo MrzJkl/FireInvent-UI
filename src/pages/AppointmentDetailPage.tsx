@@ -140,8 +140,8 @@ export function AppointmentDetailPage() {
     setEditingVisitItem(null);
   };
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleString('de-DE', {
+  const formatDate = (dateIso: string) => {
+    return new Date(dateIso).toLocaleString('de-DE', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -153,7 +153,7 @@ export function AppointmentDetailPage() {
   const handleUpdateAppointment = async (values: AppointmentFormValues) => {
     if (!appointmentId) return;
     await updateAppointment(appointmentId, {
-      scheduledAt: new Date(values.scheduledAt),
+      scheduledAt: values.scheduledAt,
       description: values.description || undefined,
     });
     setAppointmentFormOpen(false);

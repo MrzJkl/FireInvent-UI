@@ -590,10 +590,8 @@ export default function ItemDetailPage() {
                   values.assignmentType === 'storageLocation'
                     ? values.storageLocationId
                     : undefined,
-                assignedFrom: new Date(values.assignedFrom),
-                assignedUntil: values.assignedUntil
-                  ? new Date(values.assignedUntil)
-                  : undefined,
+                assignedFrom: values.assignedFrom,
+                assignedUntil: values.assignedUntil || undefined,
                 assignedById: keycloak.subject!,
               };
 
@@ -687,7 +685,7 @@ export default function ItemDetailPage() {
               const payload = {
                 itemId: id!,
                 typeId: values.typeId,
-                performedAt: new Date(values.performedAt),
+                performedAt: values.performedAt,
                 performedById: values.performedById || '',
                 remarks: values.remarks || null,
               };
@@ -764,11 +762,9 @@ export default function ItemDetailPage() {
                 variantId: item.variantId,
                 identifier: values.identifier || undefined,
                 condition: values.condition,
-                purchaseDate: new Date(values.purchaseDate + 'T00:00:00'),
+                purchaseDate: values.purchaseDate,
                 isDemoItem: values.isDemoItem,
-                retirementDate: values.retirementDate
-                  ? new Date(values.retirementDate + 'T00:00:00')
-                  : undefined,
+                retirementDate: values.retirementDate || undefined,
               };
               await updateItemApi({ path: { id: item.id }, body: payload });
               await refetchData();

@@ -13,6 +13,10 @@
   "actions": "Actions",
   "edit": "Edit",
   "delete": "Delete",
+  "status": "Status",
+  "yes": "Yes",
+  "no": "No",
+  "loadingData": "Loading data...",
   "save": "Save",
   "productType": "Product-Type",
   "productTypePlural": "Product-Types",
@@ -79,6 +83,7 @@
     "descriptionAdd": "Fill in the person details below."
   },
   "confirmDeleteTitle": "Confirm deletion",
+  "confirmDelete": "Confirm deletion",
   "confirmDeleteDescription": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
   "variant": "Variant",
   "variantPlural": "Variants",
@@ -96,7 +101,8 @@
   "items": {
     "label": "Items",
     "descriptionEdit": "Update the item details below.",
-    "descriptionAdd": "Fill in the item details below."
+    "descriptionAdd": "Fill in the item details below.",
+    "isDemoItem": "Is a demo item"
   },
   "identifier": "Identifier",
   "condition": "Condition",
@@ -113,6 +119,7 @@
     "label": "Assignments",
     "description": "Assignment history for this item",
     "empty": "No assignments available",
+    "assignmentType": "Assignment Type",
     "active": "Active",
     "returned": "Returned",
     "assignedFrom": "Assigned from",
@@ -186,6 +193,7 @@
     "descriptionPlaceholder": "Optional description of the integration"
   },
   "error": {
+    "label": "Error",
     "loadingFailed": "Failed to load data",
     "statusCode": "Status code",
     "retry": "Retry"
@@ -271,7 +279,6 @@
   "loading": "Loading...",
   "noDepartments": "No departments",
   "success": "Success",
-  "error": "Error",
   "unknownError": "Unknown error",
   "quantity": "Quantity",
   "person": "Person",

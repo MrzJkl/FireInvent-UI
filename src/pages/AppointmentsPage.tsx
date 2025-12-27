@@ -48,9 +48,8 @@ export function AppointmentsPage() {
   >(null);
 
   const handleCreate = async (values: AppointmentFormValues) => {
-    const dateObj = new Date(values.scheduledAt);
     await createAppointment({
-      scheduledAt: dateObj,
+      scheduledAt: values.scheduledAt,
       description: values.description || undefined,
     });
     setFormOpen(false);
@@ -58,9 +57,8 @@ export function AppointmentsPage() {
 
   const handleEdit = async (values: AppointmentFormValues) => {
     if (!editingAppointment) return;
-    const dateObj = new Date(values.scheduledAt);
     await updateAppointment(editingAppointment.id!, {
-      scheduledAt: dateObj,
+      scheduledAt: values.scheduledAt,
       description: values.description || undefined,
     });
     setFormOpen(false);
@@ -71,8 +69,8 @@ export function AppointmentsPage() {
     navigate(`/app/appointments/${appointmentId}`);
   };
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleString('de-DE', {
+  const formatDate = (dateIso: string) => {
+    return new Date(dateIso).toLocaleString('de-DE', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',

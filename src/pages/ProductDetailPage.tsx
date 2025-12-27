@@ -561,13 +561,11 @@ export default function ProductDetailPage() {
                 variantId: values.variantId,
                 identifier: values.identifier || undefined,
                 condition: values.condition,
-                purchaseDate: values.purchaseDate
-                  ? new Date(values.purchaseDate + 'T00:00:00')
-                  : new Date(),
+                purchaseDate:
+                  values.purchaseDate ||
+                  new Date().toISOString().substring(0, 10),
                 isDemoItem: values.isDemoItem,
-                retirementDate: values.retirementDate
-                  ? new Date(values.retirementDate + 'T00:00:00')
-                  : undefined,
+                retirementDate: values.retirementDate || undefined,
               };
               if (editingItemId) {
                 await updateItem(editingItemId, payload);
