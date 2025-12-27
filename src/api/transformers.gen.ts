@@ -6,27 +6,63 @@ import type {
   GetAppointmentsResponse,
   GetAssignmentsByIdResponse,
   GetAssignmentsResponse,
+  GetDepartmentsByIdPersonsResponse,
+  GetDepartmentsByIdResponse,
+  GetDepartmentsResponse,
   GetItemsByIdAssignmentsResponse,
   GetItemsByIdMaintenanceResponse,
   GetItemsByIdResponse,
   GetItemsResponse,
   GetMaintenancesByIdResponse,
   GetMaintenancesResponse,
+  GetMaintenanceTypesByIdResponse,
+  GetMaintenanceTypesResponse,
+  GetManufacturersByIdProductsResponse,
+  GetManufacturersByIdResponse,
+  GetManufacturersResponse,
+  GetOrderItemsByIdResponse,
+  GetOrderItemsByOrderByOrderIdResponse,
+  GetOrderItemsResponse,
   GetOrdersByIdResponse,
   GetOrdersResponse,
   GetPersonsByIdAssignmentsResponse,
-  GetStorageLocationsByIdItemsResponse,
+  GetPersonsByIdResponse,
+  GetPersonsResponse,
+  GetProductsByIdResponse,
+  GetProductsByIdVariantsResponse,
+  GetProductsResponse,
+  GetProductTypesByIdResponse,
+  GetProductTypesResponse,
+  GetStorageLocationsByIdAssignmentsResponse,
+  GetStorageLocationsByIdResponse,
+  GetStorageLocationsResponse,
   GetTenantsByIdResponse,
   GetTenantsResponse,
   GetVariantsByIdItemsResponse,
+  GetVariantsByIdResponse,
+  GetVariantsResponse,
+  GetVisitItemsByIdResponse,
+  GetVisitItemsByVisitByVisitIdResponse,
+  GetVisitItemsResponse,
+  GetVisitsByIdItemsResponse,
   GetVisitsByIdResponse,
   GetVisitsResponse,
   PostAppointmentsResponse,
   PostAssignmentsResponse,
+  PostDepartmentsResponse,
   PostItemsResponse,
   PostMaintenancesResponse,
+  PostMaintenanceTypesResponse,
+  PostManufacturersResponse,
+  PostOrderItemsResponse,
   PostOrdersResponse,
+  PostPersonsResponse,
+  PostProductsResponse,
+  PostProductTypesResponse,
+  PostStorageLocationsResponse,
   PostTenantsResponse,
+  PostVariantsResponse,
+  PostVisitItemsResponse,
   PostVisitsResponse,
 } from "./types.gen";
 
@@ -62,6 +98,30 @@ const visitModelSchemaResponseTransformer = (data: any) => {
   data.appointment = appointmentModelSchemaResponseTransformer(
     data.appointment,
   );
+  data.person = personModelSchemaResponseTransformer(data.person);
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+const personModelSchemaResponseTransformer = (data: any) => {
+  data.departments = data.departments.map((item: any) => {
+    return departmentModelSchemaResponseTransformer(item);
+  });
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+const departmentModelSchemaResponseTransformer = (data: any) => {
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   return data;
 };
 
@@ -74,8 +134,52 @@ export const getAppointmentsByIdVisitsResponseTransformer = async (
   return data;
 };
 
+export const getDepartmentsResponseTransformer = async (
+  data: any,
+): Promise<GetDepartmentsResponse> => {
+  data = data.map((item: any) => {
+    return departmentModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postDepartmentsResponseTransformer = async (
+  data: any,
+): Promise<PostDepartmentsResponse> => {
+  data = departmentModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getDepartmentsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetDepartmentsByIdResponse> => {
+  data = departmentModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getDepartmentsByIdPersonsResponseTransformer = async (
+  data: any,
+): Promise<GetDepartmentsByIdPersonsResponse> => {
+  data = data.map((item: any) => {
+    return personModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
 const itemAssignmentHistoryModelSchemaResponseTransformer = (data: any) => {
+  if (data.person) {
+    data.person = personModelSchemaResponseTransformer(data.person);
+  }
+  if (data.storageLocation) {
+    data.storageLocation = storageLocationModelSchemaResponseTransformer(
+      data.storageLocation,
+    );
+  }
   data.item = itemModelSchemaResponseTransformer(data.item);
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   data.assignedFrom = new Date(data.assignedFrom);
   if (data.assignedUntil) {
     data.assignedUntil = new Date(data.assignedUntil);
@@ -83,10 +187,60 @@ const itemAssignmentHistoryModelSchemaResponseTransformer = (data: any) => {
   return data;
 };
 
+const storageLocationModelSchemaResponseTransformer = (data: any) => {
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
 const itemModelSchemaResponseTransformer = (data: any) => {
+  data.variant = variantModelSchemaResponseTransformer(data.variant);
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   data.purchaseDate = new Date(data.purchaseDate);
   if (data.retirementDate) {
     data.retirementDate = new Date(data.retirementDate);
+  }
+  return data;
+};
+
+const variantModelSchemaResponseTransformer = (data: any) => {
+  data.product = productModelSchemaResponseTransformer(data.product);
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+const productModelSchemaResponseTransformer = (data: any) => {
+  data.type = productTypeModelSchemaResponseTransformer(data.type);
+  data.manufacturer = manufacturerModelSchemaResponseTransformer(
+    data.manufacturer,
+  );
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+const productTypeModelSchemaResponseTransformer = (data: any) => {
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+const manufacturerModelSchemaResponseTransformer = (data: any) => {
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
   }
   return data;
 };
@@ -147,7 +301,20 @@ export const getItemsByIdAssignmentsResponseTransformer = async (
 };
 
 const maintenanceModelSchemaResponseTransformer = (data: any) => {
+  data.type = maintenanceTypeModelSchemaResponseTransformer(data.type);
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   data.performedAt = new Date(data.performedAt);
+  return data;
+};
+
+const maintenanceTypeModelSchemaResponseTransformer = (data: any) => {
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   return data;
 };
 
@@ -183,7 +350,66 @@ export const getMaintenancesByIdResponseTransformer = async (
   return data;
 };
 
+export const getMaintenanceTypesResponseTransformer = async (
+  data: any,
+): Promise<GetMaintenanceTypesResponse> => {
+  data = data.map((item: any) => {
+    return maintenanceTypeModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postMaintenanceTypesResponseTransformer = async (
+  data: any,
+): Promise<PostMaintenanceTypesResponse> => {
+  data = maintenanceTypeModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getMaintenanceTypesByIdResponseTransformer = async (
+  data: any,
+): Promise<GetMaintenanceTypesByIdResponse> => {
+  data = maintenanceTypeModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getManufacturersResponseTransformer = async (
+  data: any,
+): Promise<GetManufacturersResponse> => {
+  data = data.map((item: any) => {
+    return manufacturerModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postManufacturersResponseTransformer = async (
+  data: any,
+): Promise<PostManufacturersResponse> => {
+  data = manufacturerModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getManufacturersByIdResponseTransformer = async (
+  data: any,
+): Promise<GetManufacturersByIdResponse> => {
+  data = manufacturerModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getManufacturersByIdProductsResponseTransformer = async (
+  data: any,
+): Promise<GetManufacturersByIdProductsResponse> => {
+  data = data.map((item: any) => {
+    return productModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
 const orderModelSchemaResponseTransformer = (data: any) => {
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   data.orderDate = new Date(data.orderDate);
   if (data.deliveryDate) {
     data.deliveryDate = new Date(data.deliveryDate);
@@ -214,6 +440,73 @@ export const getOrdersByIdResponseTransformer = async (
   return data;
 };
 
+const orderItemModelSchemaResponseTransformer = (data: any) => {
+  data.variant = variantModelSchemaResponseTransformer(data.variant);
+  if (data.person) {
+    data.person = personModelSchemaResponseTransformer(data.person);
+  }
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+export const getOrderItemsResponseTransformer = async (
+  data: any,
+): Promise<GetOrderItemsResponse> => {
+  data = data.map((item: any) => {
+    return orderItemModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postOrderItemsResponseTransformer = async (
+  data: any,
+): Promise<PostOrderItemsResponse> => {
+  data = orderItemModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getOrderItemsByOrderByOrderIdResponseTransformer = async (
+  data: any,
+): Promise<GetOrderItemsByOrderByOrderIdResponse> => {
+  data = data.map((item: any) => {
+    return orderItemModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const getOrderItemsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetOrderItemsByIdResponse> => {
+  data = orderItemModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getPersonsResponseTransformer = async (
+  data: any,
+): Promise<GetPersonsResponse> => {
+  data = data.map((item: any) => {
+    return personModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postPersonsResponseTransformer = async (
+  data: any,
+): Promise<PostPersonsResponse> => {
+  data = personModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getPersonsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetPersonsByIdResponse> => {
+  data = personModelSchemaResponseTransformer(data);
+  return data;
+};
+
 export const getPersonsByIdAssignmentsResponseTransformer = async (
   data: any,
 ): Promise<GetPersonsByIdAssignmentsResponse> => {
@@ -223,17 +516,98 @@ export const getPersonsByIdAssignmentsResponseTransformer = async (
   return data;
 };
 
-export const getStorageLocationsByIdItemsResponseTransformer = async (
+export const getProductsResponseTransformer = async (
   data: any,
-): Promise<GetStorageLocationsByIdItemsResponse> => {
+): Promise<GetProductsResponse> => {
   data = data.map((item: any) => {
-    return itemModelSchemaResponseTransformer(item);
+    return productModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postProductsResponseTransformer = async (
+  data: any,
+): Promise<PostProductsResponse> => {
+  data = productModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getProductsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetProductsByIdResponse> => {
+  data = productModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getProductsByIdVariantsResponseTransformer = async (
+  data: any,
+): Promise<GetProductsByIdVariantsResponse> => {
+  data = data.map((item: any) => {
+    return variantModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const getProductTypesResponseTransformer = async (
+  data: any,
+): Promise<GetProductTypesResponse> => {
+  data = data.map((item: any) => {
+    return productTypeModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postProductTypesResponseTransformer = async (
+  data: any,
+): Promise<PostProductTypesResponse> => {
+  data = productTypeModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getProductTypesByIdResponseTransformer = async (
+  data: any,
+): Promise<GetProductTypesByIdResponse> => {
+  data = productTypeModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getStorageLocationsResponseTransformer = async (
+  data: any,
+): Promise<GetStorageLocationsResponse> => {
+  data = data.map((item: any) => {
+    return storageLocationModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postStorageLocationsResponseTransformer = async (
+  data: any,
+): Promise<PostStorageLocationsResponse> => {
+  data = storageLocationModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getStorageLocationsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetStorageLocationsByIdResponse> => {
+  data = storageLocationModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getStorageLocationsByIdAssignmentsResponseTransformer = async (
+  data: any,
+): Promise<GetStorageLocationsByIdAssignmentsResponse> => {
+  data = data.map((item: any) => {
+    return itemAssignmentHistoryModelSchemaResponseTransformer(item);
   });
   return data;
 };
 
 const tenantModelSchemaResponseTransformer = (data: any) => {
   data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
   return data;
 };
 
@@ -260,12 +634,76 @@ export const getTenantsByIdResponseTransformer = async (
   return data;
 };
 
+export const getVariantsResponseTransformer = async (
+  data: any,
+): Promise<GetVariantsResponse> => {
+  data = data.map((item: any) => {
+    return variantModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postVariantsResponseTransformer = async (
+  data: any,
+): Promise<PostVariantsResponse> => {
+  data = variantModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getVariantsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetVariantsByIdResponse> => {
+  data = variantModelSchemaResponseTransformer(data);
+  return data;
+};
+
 export const getVariantsByIdItemsResponseTransformer = async (
   data: any,
 ): Promise<GetVariantsByIdItemsResponse> => {
   data = data.map((item: any) => {
     return itemModelSchemaResponseTransformer(item);
   });
+  return data;
+};
+
+const visitItemModelSchemaResponseTransformer = (data: any) => {
+  data.product = productModelSchemaResponseTransformer(data.product);
+  data.createdAt = new Date(data.createdAt);
+  if (data.modifiedAt) {
+    data.modifiedAt = new Date(data.modifiedAt);
+  }
+  return data;
+};
+
+export const getVisitItemsResponseTransformer = async (
+  data: any,
+): Promise<GetVisitItemsResponse> => {
+  data = data.map((item: any) => {
+    return visitItemModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postVisitItemsResponseTransformer = async (
+  data: any,
+): Promise<PostVisitItemsResponse> => {
+  data = visitItemModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getVisitItemsByVisitByVisitIdResponseTransformer = async (
+  data: any,
+): Promise<GetVisitItemsByVisitByVisitIdResponse> => {
+  data = data.map((item: any) => {
+    return visitItemModelSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const getVisitItemsByIdResponseTransformer = async (
+  data: any,
+): Promise<GetVisitItemsByIdResponse> => {
+  data = visitItemModelSchemaResponseTransformer(data);
   return data;
 };
 
@@ -289,5 +727,14 @@ export const getVisitsByIdResponseTransformer = async (
   data: any,
 ): Promise<GetVisitsByIdResponse> => {
   data = visitModelSchemaResponseTransformer(data);
+  return data;
+};
+
+export const getVisitsByIdItemsResponseTransformer = async (
+  data: any,
+): Promise<GetVisitsByIdItemsResponse> => {
+  data = data.map((item: any) => {
+    return visitItemModelSchemaResponseTransformer(item);
+  });
   return data;
 };

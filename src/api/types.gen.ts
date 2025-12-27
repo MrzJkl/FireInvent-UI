@@ -5,16 +5,18 @@ export type ClientOptions = {
 };
 
 export type ApiIntegrationCredentialsModel = {
+  id: string;
   clientId: string;
   clientSecret: string;
   name: string;
 };
 
 export type ApiIntegrationModel = {
+  id: string;
   clientId: string;
+  enabled?: boolean;
   name: string;
   description?: null | string;
-  enabled?: boolean;
 };
 
 export type AppointmentModel = {
@@ -40,7 +42,14 @@ export type CreateOrUpdateDepartmentModel = {
 
 export type CreateOrUpdateItemAssignmentHistoryModel = {
   itemId: string;
-  personId: string;
+  /**
+   * Items can be assigned to either a person or a storage location. Only one of these must be set.
+   */
+  personId?: null | string;
+  /**
+   * Items can be assigned to either a person or a storage location. Only one of these must be set.
+   */
+  storageLocationId?: null | string;
   assignedById: string;
   assignedFrom: Date;
   assignedUntil?: null | Date;
@@ -49,9 +58,9 @@ export type CreateOrUpdateItemAssignmentHistoryModel = {
 export type CreateOrUpdateItemModel = {
   variantId: string;
   identifier?: null | string;
-  storageLocationId?: null | string;
   condition: ItemCondition;
   purchaseDate: Date;
+  isDemoItem: boolean;
   retirementDate?: null | Date;
 };
 
@@ -147,16 +156,32 @@ export type CreateOrUpdateVisitModel = {
 
 export type DepartmentModel = {
   id: string;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   description?: null | string;
 };
 
 export type ItemAssignmentHistoryModel = {
   id: string;
-  person: PersonModel;
+  person?: null | PersonModel;
+  storageLocation?: null | StorageLocationModel;
   item: ItemModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   itemId: string;
-  personId: string;
+  /**
+   * Items can be assigned to either a person or a storage location. Only one of these must be set.
+   */
+  personId?: null | string;
+  /**
+   * Items can be assigned to either a person or a storage location. Only one of these must be set.
+   */
+  storageLocationId?: null | string;
   assignedById: string;
   assignedFrom: Date;
   assignedUntil?: null | Date;
@@ -175,12 +200,15 @@ export type ItemCondition = (typeof ItemCondition)[keyof typeof ItemCondition];
 export type ItemModel = {
   id: string;
   variant: VariantModel;
-  storageLocation?: null | StorageLocationModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   variantId: string;
   identifier?: null | string;
-  storageLocationId?: null | string;
   condition: ItemCondition;
   purchaseDate: Date;
+  isDemoItem: boolean;
   retirementDate?: null | Date;
 };
 
@@ -188,6 +216,10 @@ export type MaintenanceModel = {
   id: string;
   performedBy?: null | UserModel;
   type: MaintenanceTypeModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   itemId: string;
   performedAt: Date;
   typeId: string;
@@ -197,12 +229,20 @@ export type MaintenanceModel = {
 
 export type MaintenanceTypeModel = {
   id: string;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   description?: null | string;
 };
 
 export type ManufacturerModel = {
   id: string;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   description?: null | string;
   street?: null | string;
@@ -219,6 +259,10 @@ export type OrderItemModel = {
   id: string;
   variant: VariantModel;
   person?: null | PersonModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   orderId: string;
   variantId: string;
   personId?: null | string;
@@ -227,6 +271,10 @@ export type OrderItemModel = {
 
 export type OrderModel = {
   id: string;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   orderIdentifier?: null | string;
   orderDate: Date;
   status: OrderStatus;
@@ -245,6 +293,10 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 export type PersonModel = {
   id: string;
   departments: Array<DepartmentModel>;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   firstName: string;
   lastName: string;
   remarks?: null | string;
@@ -265,6 +317,10 @@ export type ProductModel = {
   id: string;
   type: ProductTypeModel;
   manufacturer: ManufacturerModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   manufacturerId: string;
   description?: null | string;
@@ -274,12 +330,20 @@ export type ProductModel = {
 
 export type ProductTypeModel = {
   id: string;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   description?: null | string;
 };
 
 export type StorageLocationModel = {
   id: string;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   remarks?: null | string;
 };
@@ -287,6 +351,9 @@ export type StorageLocationModel = {
 export type TenantModel = {
   id: string;
   createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   name: string;
   description?: null | string;
 };
@@ -301,6 +368,10 @@ export type UserModel = {
 export type VariantModel = {
   id: string;
   product: ProductModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   productId: string;
   name: string;
   additionalSpecs?: null | string;
@@ -310,6 +381,10 @@ export type VariantModel = {
 export type VisitItemModel = {
   id: string;
   product: ProductModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   visitId: string;
   productId: string;
   quantity: number | string;
@@ -319,6 +394,10 @@ export type VisitModel = {
   id: string;
   appointment: AppointmentModel;
   person: PersonModel;
+  createdAt: Date;
+  createdById: string;
+  modifiedAt?: null | Date;
+  modifiedById?: null | string;
   appointmentId: string;
   personId: string;
 };
@@ -327,7 +406,7 @@ export type GetApiIntegrationsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -350,7 +429,7 @@ export type PostApiIntegrationsData = {
   body: CreateApiIntegrationModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -383,46 +462,46 @@ export type PostApiIntegrationsResponses = {
 export type PostApiIntegrationsResponse =
   PostApiIntegrationsResponses[keyof PostApiIntegrationsResponses];
 
-export type DeleteApiIntegrationsByClientIdData = {
+export type DeleteApiIntegrationsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
   path: {
-    clientId: string;
+    id: string;
   };
   query?: never;
-  url: "/api-integrations/{clientId}";
+  url: "/api-integrations/{id}";
 };
 
-export type DeleteApiIntegrationsByClientIdErrors = {
+export type DeleteApiIntegrationsByIdErrors = {
   /**
    * Not Found
    */
   404: ProblemDetails;
 };
 
-export type DeleteApiIntegrationsByClientIdError =
-  DeleteApiIntegrationsByClientIdErrors[keyof DeleteApiIntegrationsByClientIdErrors];
+export type DeleteApiIntegrationsByIdError =
+  DeleteApiIntegrationsByIdErrors[keyof DeleteApiIntegrationsByIdErrors];
 
-export type DeleteApiIntegrationsByClientIdResponses = {
+export type DeleteApiIntegrationsByIdResponses = {
   /**
    * No Content
    */
   204: void;
 };
 
-export type DeleteApiIntegrationsByClientIdResponse =
-  DeleteApiIntegrationsByClientIdResponses[keyof DeleteApiIntegrationsByClientIdResponses];
+export type DeleteApiIntegrationsByIdResponse =
+  DeleteApiIntegrationsByIdResponses[keyof DeleteApiIntegrationsByIdResponses];
 
 export type GetAppointmentsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -445,7 +524,7 @@ export type PostAppointmentsData = {
   body: CreateOrUpdateAppointmentModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -468,7 +547,7 @@ export type DeleteAppointmentsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -503,7 +582,7 @@ export type GetAppointmentsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -538,7 +617,7 @@ export type PutAppointmentsByIdData = {
   body: CreateOrUpdateAppointmentModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -573,7 +652,7 @@ export type GetAppointmentsByIdVisitsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -608,7 +687,7 @@ export type GetDepartmentsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -631,7 +710,7 @@ export type PostDepartmentsData = {
   body: CreateOrUpdateDepartmentModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -654,7 +733,7 @@ export type DeleteDepartmentsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -689,7 +768,7 @@ export type GetDepartmentsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -724,7 +803,7 @@ export type PutDepartmentsByIdData = {
   body: CreateOrUpdateDepartmentModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -759,7 +838,7 @@ export type GetDepartmentsByIdPersonsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -794,7 +873,7 @@ export type GetAssignmentsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -817,7 +896,7 @@ export type PostAssignmentsData = {
   body: CreateOrUpdateItemAssignmentHistoryModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -854,7 +933,7 @@ export type DeleteAssignmentsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -889,7 +968,7 @@ export type GetAssignmentsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -924,7 +1003,7 @@ export type PutAssignmentsByIdData = {
   body: CreateOrUpdateItemAssignmentHistoryModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -967,7 +1046,7 @@ export type GetItemsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -989,7 +1068,7 @@ export type PostItemsData = {
   body: CreateOrUpdateItemModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1024,7 +1103,7 @@ export type DeleteItemsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1059,7 +1138,7 @@ export type GetItemsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1093,7 +1172,7 @@ export type PutItemsByIdData = {
   body: CreateOrUpdateItemModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1135,7 +1214,7 @@ export type GetItemsByIdAssignmentsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1170,7 +1249,7 @@ export type GetItemsByIdMaintenanceData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1205,7 +1284,7 @@ export type GetMaintenancesData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1228,7 +1307,7 @@ export type PostMaintenancesData = {
   body: CreateOrUpdateMaintenanceModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1261,7 +1340,7 @@ export type DeleteMaintenancesByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1296,7 +1375,7 @@ export type GetMaintenancesByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1331,7 +1410,7 @@ export type PutMaintenancesByIdData = {
   body: CreateOrUpdateMaintenanceModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1370,7 +1449,7 @@ export type GetMaintenanceTypesData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1393,7 +1472,7 @@ export type PostMaintenanceTypesData = {
   body: CreateOrUpdateMaintenanceTypeModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1416,7 +1495,7 @@ export type DeleteMaintenanceTypesByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1451,7 +1530,7 @@ export type GetMaintenanceTypesByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1486,7 +1565,7 @@ export type PutMaintenanceTypesByIdData = {
   body: CreateOrUpdateMaintenanceTypeModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1521,7 +1600,7 @@ export type GetManufacturersData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1544,7 +1623,7 @@ export type PostManufacturersData = {
   body: CreateOrUpdateManufacturerModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1567,7 +1646,7 @@ export type DeleteManufacturersByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1602,7 +1681,7 @@ export type GetManufacturersByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1637,7 +1716,7 @@ export type PutManufacturersByIdData = {
   body: CreateOrUpdateManufacturerModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1672,7 +1751,7 @@ export type GetManufacturersByIdProductsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1707,7 +1786,7 @@ export type GetOrdersData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1729,7 +1808,7 @@ export type PostOrdersData = {
   body: CreateOrUpdateOrderModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1751,7 +1830,7 @@ export type DeleteOrdersByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1786,7 +1865,7 @@ export type GetOrdersByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1820,7 +1899,7 @@ export type PutOrdersByIdData = {
   body: CreateOrUpdateOrderModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1858,7 +1937,7 @@ export type GetOrderItemsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1881,7 +1960,7 @@ export type PostOrderItemsData = {
   body: CreateOrUpdateOrderItemModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1904,7 +1983,7 @@ export type GetOrderItemsByOrderByOrderIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1929,7 +2008,7 @@ export type DeleteOrderItemsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1964,7 +2043,7 @@ export type GetOrderItemsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -1999,7 +2078,7 @@ export type PutOrderItemsByIdData = {
   body: CreateOrUpdateOrderItemModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2034,7 +2113,7 @@ export type GetPersonsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2056,7 +2135,7 @@ export type PostPersonsData = {
   body: CreateOrUpdatePersonModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2088,7 +2167,7 @@ export type DeletePersonsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2123,7 +2202,7 @@ export type GetPersonsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2158,7 +2237,7 @@ export type PutPersonsByIdData = {
   body: CreateOrUpdatePersonModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2193,7 +2272,7 @@ export type GetPersonsByIdAssignmentsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2228,7 +2307,7 @@ export type GetProductsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2251,7 +2330,7 @@ export type PostProductsData = {
   body: CreateOrUpdateProductModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2283,7 +2362,7 @@ export type DeleteProductsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2318,7 +2397,7 @@ export type GetProductsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2353,7 +2432,7 @@ export type PutProductsByIdData = {
   body: CreateOrUpdateProductModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2392,7 +2471,7 @@ export type GetProductsByIdVariantsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2427,7 +2506,7 @@ export type GetProductTypesData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2450,7 +2529,7 @@ export type PostProductTypesData = {
   body: CreateOrUpdateProductTypeModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2473,7 +2552,7 @@ export type DeleteProductTypesByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2508,7 +2587,7 @@ export type GetProductTypesByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2543,7 +2622,7 @@ export type PutProductTypesByIdData = {
   body: CreateOrUpdateProductTypeModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2578,7 +2657,7 @@ export type GetStorageLocationsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2601,7 +2680,7 @@ export type PostStorageLocationsData = {
   body: CreateOrUpdateStorageLocationModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2634,7 +2713,7 @@ export type DeleteStorageLocationsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2669,7 +2748,7 @@ export type GetStorageLocationsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2704,7 +2783,7 @@ export type PutStorageLocationsByIdData = {
   body: CreateOrUpdateStorageLocationModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2739,11 +2818,11 @@ export type PutStorageLocationsByIdResponses = {
 export type PutStorageLocationsByIdResponse =
   PutStorageLocationsByIdResponses[keyof PutStorageLocationsByIdResponses];
 
-export type GetStorageLocationsByIdItemsData = {
+export type GetStorageLocationsByIdAssignmentsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2751,34 +2830,34 @@ export type GetStorageLocationsByIdItemsData = {
     id: string;
   };
   query?: never;
-  url: "/storage-locations/{id}/items";
+  url: "/storage-locations/{id}/assignments";
 };
 
-export type GetStorageLocationsByIdItemsErrors = {
+export type GetStorageLocationsByIdAssignmentsErrors = {
   /**
    * Not Found
    */
   404: ProblemDetails;
 };
 
-export type GetStorageLocationsByIdItemsError =
-  GetStorageLocationsByIdItemsErrors[keyof GetStorageLocationsByIdItemsErrors];
+export type GetStorageLocationsByIdAssignmentsError =
+  GetStorageLocationsByIdAssignmentsErrors[keyof GetStorageLocationsByIdAssignmentsErrors];
 
-export type GetStorageLocationsByIdItemsResponses = {
+export type GetStorageLocationsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: Array<ItemAssignmentHistoryModel>;
 };
 
-export type GetStorageLocationsByIdItemsResponse =
-  GetStorageLocationsByIdItemsResponses[keyof GetStorageLocationsByIdItemsResponses];
+export type GetStorageLocationsByIdAssignmentsResponse =
+  GetStorageLocationsByIdAssignmentsResponses[keyof GetStorageLocationsByIdAssignmentsResponses];
 
 export type GetTenantsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2800,7 +2879,7 @@ export type PostTenantsData = {
   body: CreateOrUpdateTenantModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2832,7 +2911,7 @@ export type DeleteTenantsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2871,7 +2950,7 @@ export type GetTenantsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2906,7 +2985,7 @@ export type PutTenantsByIdData = {
   body: CreateOrUpdateTenantModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2945,7 +3024,7 @@ export type GetUsersData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -2967,7 +3046,7 @@ export type GetUsersByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3001,7 +3080,7 @@ export type GetVariantsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3024,7 +3103,7 @@ export type PostVariantsData = {
   body: CreateOrUpdateVariantModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3060,7 +3139,7 @@ export type DeleteVariantsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3095,7 +3174,7 @@ export type GetVariantsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3130,7 +3209,7 @@ export type PutVariantsByIdData = {
   body: CreateOrUpdateVariantModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3173,7 +3252,7 @@ export type GetVariantsByIdItemsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3208,7 +3287,7 @@ export type GetVisitItemsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3231,7 +3310,7 @@ export type PostVisitItemsData = {
   body: CreateOrUpdateVisitItemModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3254,7 +3333,7 @@ export type GetVisitItemsByVisitByVisitIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3279,7 +3358,7 @@ export type DeleteVisitItemsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3314,7 +3393,7 @@ export type GetVisitItemsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3349,7 +3428,7 @@ export type PutVisitItemsByIdData = {
   body: CreateOrUpdateVisitItemModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3384,7 +3463,7 @@ export type GetVisitsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3406,7 +3485,7 @@ export type PostVisitsData = {
   body: CreateOrUpdateVisitModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3441,7 +3520,7 @@ export type DeleteVisitsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3476,7 +3555,7 @@ export type GetVisitsByIdData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3510,7 +3589,7 @@ export type PutVisitsByIdData = {
   body: CreateOrUpdateVisitModel;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };
@@ -3552,7 +3631,7 @@ export type GetVisitsByIdItemsData = {
   body?: never;
   headers?: {
     /**
-     * Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
+     * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
      */
     "X-Tenant-ID"?: unknown;
   };

@@ -21,8 +21,8 @@ import {
   SelectItem,
   SelectValue,
 } from '@/components/ui/select';
-import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
 import { DatePicker } from '@/components/ui/date-picker';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const conditionOptions = [
   'New',
@@ -35,9 +35,9 @@ const conditionOptions = [
 const schema = z.object({
   variantId: z.string().min(1),
   identifier: z.string().optional(),
-  storageLocationId: z.string().optional(),
   condition: z.enum(conditionOptions),
   purchaseDate: z.string().min(1),
+  isDemoItem: z.boolean(),
   retirementDate: z.string().optional(),
 });
 
@@ -56,9 +56,9 @@ export type ItemFormDialogProps = {
     titleEdit?: string;
     variant?: string;
     identifier?: string;
-    storageLocation?: string;
     condition?: string;
     purchaseDate?: string;
+    isDemoItem?: string;
     retirementDate?: string;
     cancel?: string;
     save?: string;
@@ -78,8 +78,6 @@ export function ItemFormDialog({
 }: ItemFormDialogProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'de' ? de : enUS;
-  const { items: locations, initialLoading: locationsLoading } =
-    useStorageLocations();
 
   const { register, handleSubmit, reset, setValue, watch, control } =
     useForm<ItemFormValues>({
@@ -87,15 +85,15 @@ export function ItemFormDialog({
       defaultValues: initialValues ?? {
         variantId: variantId ?? '',
         identifier: '',
-        storageLocationId: undefined,
         condition: 'New',
         purchaseDate: new Date().toISOString().substring(0, 10),
+        isDemoItem: false,
         retirementDate: undefined,
       },
     });
 
   const currentCondition = watch('condition');
-  const currentStorageLocationId = watch('storageLocationId');
+  const isDemoItem = watch('isDemoItem');
 
   useEffect(() => {
     if (open) {
@@ -103,9 +101,9 @@ export function ItemFormDialog({
         initialValues ?? {
           variantId: variantId ?? '',
           identifier: '',
-          storageLocationId: undefined,
           condition: 'New',
           purchaseDate: new Date().toISOString().substring(0, 10),
+          isDemoItem: false,
           retirementDate: undefined,
         },
       );
@@ -139,25 +137,15 @@ export function ItemFormDialog({
             <Input {...register('identifier')} />
           </div>
 
-          <div>
-            <Label>{labels?.storageLocation ?? t('storageLocation')}</Label>
-            <Select
-              value={currentStorageLocationId}
-              onValueChange={(v) => setValue('storageLocationId', v)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t('select') as string} />
-              </SelectTrigger>
-              <SelectContent>
-                {locationsLoading
-                  ? null
-                  : locations.map((loc) => (
-                      <SelectItem key={loc.id} value={loc.id}>
-                        {loc.name}
-                      </SelectItem>
-                    ))}
-              </SelectContent>
-            </Select>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="isDemoItem"
+              checked={isDemoItem}
+              onCheckedChange={(checked) => setValue('isDemoItem', !!checked)}
+            />
+            <Label htmlFor="isDemoItem" className="cursor-pointer">
+              {labels?.isDemoItem ?? t('items.isDemoItem')}
+            </Label>
           </div>
 
           <div>

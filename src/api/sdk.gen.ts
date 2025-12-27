@@ -8,33 +8,69 @@ import {
   getAppointmentsResponseTransformer,
   getAssignmentsByIdResponseTransformer,
   getAssignmentsResponseTransformer,
+  getDepartmentsByIdPersonsResponseTransformer,
+  getDepartmentsByIdResponseTransformer,
+  getDepartmentsResponseTransformer,
   getItemsByIdAssignmentsResponseTransformer,
   getItemsByIdMaintenanceResponseTransformer,
   getItemsByIdResponseTransformer,
   getItemsResponseTransformer,
   getMaintenancesByIdResponseTransformer,
   getMaintenancesResponseTransformer,
+  getMaintenanceTypesByIdResponseTransformer,
+  getMaintenanceTypesResponseTransformer,
+  getManufacturersByIdProductsResponseTransformer,
+  getManufacturersByIdResponseTransformer,
+  getManufacturersResponseTransformer,
+  getOrderItemsByIdResponseTransformer,
+  getOrderItemsByOrderByOrderIdResponseTransformer,
+  getOrderItemsResponseTransformer,
   getOrdersByIdResponseTransformer,
   getOrdersResponseTransformer,
   getPersonsByIdAssignmentsResponseTransformer,
-  getStorageLocationsByIdItemsResponseTransformer,
+  getPersonsByIdResponseTransformer,
+  getPersonsResponseTransformer,
+  getProductsByIdResponseTransformer,
+  getProductsByIdVariantsResponseTransformer,
+  getProductsResponseTransformer,
+  getProductTypesByIdResponseTransformer,
+  getProductTypesResponseTransformer,
+  getStorageLocationsByIdAssignmentsResponseTransformer,
+  getStorageLocationsByIdResponseTransformer,
+  getStorageLocationsResponseTransformer,
   getTenantsByIdResponseTransformer,
   getTenantsResponseTransformer,
   getVariantsByIdItemsResponseTransformer,
+  getVariantsByIdResponseTransformer,
+  getVariantsResponseTransformer,
+  getVisitItemsByIdResponseTransformer,
+  getVisitItemsByVisitByVisitIdResponseTransformer,
+  getVisitItemsResponseTransformer,
+  getVisitsByIdItemsResponseTransformer,
   getVisitsByIdResponseTransformer,
   getVisitsResponseTransformer,
   postAppointmentsResponseTransformer,
   postAssignmentsResponseTransformer,
+  postDepartmentsResponseTransformer,
   postItemsResponseTransformer,
   postMaintenancesResponseTransformer,
+  postMaintenanceTypesResponseTransformer,
+  postManufacturersResponseTransformer,
+  postOrderItemsResponseTransformer,
   postOrdersResponseTransformer,
+  postPersonsResponseTransformer,
+  postProductsResponseTransformer,
+  postProductTypesResponseTransformer,
+  postStorageLocationsResponseTransformer,
   postTenantsResponseTransformer,
+  postVariantsResponseTransformer,
+  postVisitItemsResponseTransformer,
   postVisitsResponseTransformer,
 } from "./transformers.gen";
 import type {
-  DeleteApiIntegrationsByClientIdData,
-  DeleteApiIntegrationsByClientIdErrors,
-  DeleteApiIntegrationsByClientIdResponses,
+  DeleteApiIntegrationsByIdData,
+  DeleteApiIntegrationsByIdErrors,
+  DeleteApiIntegrationsByIdResponses,
   DeleteAppointmentsByIdData,
   DeleteAppointmentsByIdErrors,
   DeleteAppointmentsByIdResponses,
@@ -171,11 +207,11 @@ import type {
   GetProductTypesByIdResponses,
   GetProductTypesData,
   GetProductTypesResponses,
+  GetStorageLocationsByIdAssignmentsData,
+  GetStorageLocationsByIdAssignmentsErrors,
+  GetStorageLocationsByIdAssignmentsResponses,
   GetStorageLocationsByIdData,
   GetStorageLocationsByIdErrors,
-  GetStorageLocationsByIdItemsData,
-  GetStorageLocationsByIdItemsErrors,
-  GetStorageLocationsByIdItemsResponses,
   GetStorageLocationsByIdResponses,
   GetStorageLocationsData,
   GetStorageLocationsResponses,
@@ -387,14 +423,12 @@ export const postApiIntegrations = <ThrowOnError extends boolean = false>(
  *
  * Deletes an API integration and revokes all access. This action cannot be undone.
  */
-export const deleteApiIntegrationsByClientId = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteApiIntegrationsByClientIdData, ThrowOnError>,
+export const deleteApiIntegrationsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiIntegrationsByIdData, ThrowOnError>,
 ) => {
   return (options.client ?? client).delete<
-    DeleteApiIntegrationsByClientIdResponses,
-    DeleteApiIntegrationsByClientIdErrors,
+    DeleteApiIntegrationsByIdResponses,
+    DeleteApiIntegrationsByIdErrors,
     ThrowOnError
   >({
     security: [
@@ -403,7 +437,7 @@ export const deleteApiIntegrationsByClientId = <
         type: "http",
       },
     ],
-    url: "/api-integrations/{clientId}",
+    url: "/api-integrations/{id}",
     ...options,
   });
 };
@@ -581,6 +615,7 @@ export const getDepartments = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getDepartmentsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -606,6 +641,7 @@ export const postDepartments = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: postDepartmentsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -659,6 +695,7 @@ export const getDepartmentsById = <ThrowOnError extends boolean = false>(
     GetDepartmentsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getDepartmentsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -712,6 +749,7 @@ export const getDepartmentsByIdPersons = <ThrowOnError extends boolean = false>(
     GetDepartmentsByIdPersonsErrors,
     ThrowOnError
   >({
+    responseTransformer: getDepartmentsByIdPersonsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1191,6 +1229,7 @@ export const getMaintenanceTypes = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getMaintenanceTypesResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1216,6 +1255,7 @@ export const postMaintenanceTypes = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: postMaintenanceTypesResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1271,6 +1311,7 @@ export const getMaintenanceTypesById = <ThrowOnError extends boolean = false>(
     GetMaintenanceTypesByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getMaintenanceTypesByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1324,6 +1365,7 @@ export const getManufacturers = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getManufacturersResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1349,6 +1391,7 @@ export const postManufacturers = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: postManufacturersResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1402,6 +1445,7 @@ export const getManufacturersById = <ThrowOnError extends boolean = false>(
     GetManufacturersByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getManufacturersByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1457,6 +1501,7 @@ export const getManufacturersByIdProducts = <
     GetManufacturersByIdProductsErrors,
     ThrowOnError
   >({
+    responseTransformer: getManufacturersByIdProductsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1616,6 +1661,7 @@ export const getOrderItems = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getOrderItemsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1641,6 +1687,7 @@ export const postOrderItems = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: postOrderItemsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1672,6 +1719,7 @@ export const getOrderItemsByOrderByOrderId = <
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getOrderItemsByOrderByOrderIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1721,6 +1769,7 @@ export const getOrderItemsById = <ThrowOnError extends boolean = false>(
     GetOrderItemsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getOrderItemsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1774,6 +1823,7 @@ export const getPersons = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getPersonsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1799,6 +1849,7 @@ export const postPersons = <ThrowOnError extends boolean = false>(
     PostPersonsErrors,
     ThrowOnError
   >({
+    responseTransformer: postPersonsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1852,6 +1903,7 @@ export const getPersonsById = <ThrowOnError extends boolean = false>(
     GetPersonsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getPersonsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1931,6 +1983,7 @@ export const getProducts = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getProductsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -1956,6 +2009,7 @@ export const postProducts = <ThrowOnError extends boolean = false>(
     PostProductsErrors,
     ThrowOnError
   >({
+    responseTransformer: postProductsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2009,6 +2063,7 @@ export const getProductsById = <ThrowOnError extends boolean = false>(
     GetProductsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getProductsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2062,6 +2117,7 @@ export const getProductsByIdVariants = <ThrowOnError extends boolean = false>(
     GetProductsByIdVariantsErrors,
     ThrowOnError
   >({
+    responseTransformer: getProductsByIdVariantsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2087,6 +2143,7 @@ export const getProductTypes = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getProductTypesResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2112,6 +2169,7 @@ export const postProductTypes = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: postProductTypesResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2165,6 +2223,7 @@ export const getProductTypesById = <ThrowOnError extends boolean = false>(
     GetProductTypesByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getProductTypesByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2218,6 +2277,7 @@ export const getStorageLocations = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getStorageLocationsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2243,6 +2303,7 @@ export const postStorageLocations = <ThrowOnError extends boolean = false>(
     PostStorageLocationsErrors,
     ThrowOnError
   >({
+    responseTransformer: postStorageLocationsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2298,6 +2359,7 @@ export const getStorageLocationsById = <ThrowOnError extends boolean = false>(
     GetStorageLocationsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getStorageLocationsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2339,21 +2401,21 @@ export const putStorageLocationsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * List all items for a storage location
+ * List all assignments for a storage location
  *
- * Returns all items assigned to a storage location.
+ * Returns all assignments for a specific storage location.
  */
-export const getStorageLocationsByIdItems = <
+export const getStorageLocationsByIdAssignments = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<GetStorageLocationsByIdItemsData, ThrowOnError>,
+  options: Options<GetStorageLocationsByIdAssignmentsData, ThrowOnError>,
 ) => {
   return (options.client ?? client).get<
-    GetStorageLocationsByIdItemsResponses,
-    GetStorageLocationsByIdItemsErrors,
+    GetStorageLocationsByIdAssignmentsResponses,
+    GetStorageLocationsByIdAssignmentsErrors,
     ThrowOnError
   >({
-    responseTransformer: getStorageLocationsByIdItemsResponseTransformer,
+    responseTransformer: getStorageLocationsByIdAssignmentsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2361,7 +2423,7 @@ export const getStorageLocationsByIdItems = <
         type: "http",
       },
     ],
-    url: "/storage-locations/{id}/items",
+    url: "/storage-locations/{id}/assignments",
     ...options,
   });
 };
@@ -2563,6 +2625,7 @@ export const getVariants = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getVariantsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2588,6 +2651,7 @@ export const postVariants = <ThrowOnError extends boolean = false>(
     PostVariantsErrors,
     ThrowOnError
   >({
+    responseTransformer: postVariantsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2641,6 +2705,7 @@ export const getVariantsById = <ThrowOnError extends boolean = false>(
     GetVariantsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getVariantsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2720,6 +2785,7 @@ export const getVisitItems = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getVisitItemsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2745,6 +2811,7 @@ export const postVisitItems = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseTransformer: postVisitItemsResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2776,6 +2843,7 @@ export const getVisitItemsByVisitByVisitId = <
     unknown,
     ThrowOnError
   >({
+    responseTransformer: getVisitItemsByVisitByVisitIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -2825,6 +2893,7 @@ export const getVisitItemsById = <ThrowOnError extends boolean = false>(
     GetVisitItemsByIdErrors,
     ThrowOnError
   >({
+    responseTransformer: getVisitItemsByIdResponseTransformer,
     responseType: "json",
     security: [
       {
@@ -3012,6 +3081,7 @@ export const getVisitsByIdItems = <ThrowOnError extends boolean = false>(
     GetVisitsByIdItemsErrors,
     ThrowOnError
   >({
+    responseTransformer: getVisitsByIdItemsResponseTransformer,
     responseType: "json",
     security: [
       {

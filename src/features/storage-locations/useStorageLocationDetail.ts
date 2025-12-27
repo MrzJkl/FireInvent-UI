@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   getStorageLocationsById,
-  getStorageLocationsByIdItems,
-  type ItemModel,
+  getStorageLocationsByIdAssignments,
+  type ItemAssignmentHistoryModel,
   type StorageLocationModel,
 } from '@/api';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
@@ -12,25 +12,25 @@ export function useStorageLocationDetail(
 ) {
   const [storageLocation, setStorageLocation] =
     useState<StorageLocationModel | null>(null);
-  const [items, setItems] = useState<ItemModel[]>([]);
+  const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>([]);
   const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: fetchLocation, loading: loadingLocation } = useApiRequest(
     getStorageLocationsById,
     { showSuccess: false, showError: false },
   );
-  const { callApi: fetchItems, loading: loadingItems } = useApiRequest(
-    getStorageLocationsByIdItems,
+  const { callApi: fetchAssignments, loading: loadingAssignments } = useApiRequest(
+    getStorageLocationsByIdAssignments,
     { showSuccess: false, showError: false },
   );
 
   const fetchLocationRef = useRef(fetchLocation);
-  const fetchItemsRef = useRef(fetchItems);
+  const fetchAssignmentsRef = useRef(fetchAssignments);
 
   useEffect(() => {
     fetchLocationRef.current = fetchLocation;
-    fetchItemsRef.current = fetchItems;
-  }, [fetchLocation, fetchItems]);
+    fetchAssignmentsRef.current = fetchAssignments;
+  }, [fetchLocation, fetchAssignments]);
 
   const refetch = useCallback(async () => {
     if (!storageLocationId) return;
@@ -39,12 +39,12 @@ export function useStorageLocationDetail(
       const locationRes = await fetchLocationRef.current({
         path: { id: storageLocationId },
       });
-      const itemsRes = await fetchItemsRef.current({
+      const assignmentsRes = await fetchAssignmentsRef.current({
         path: { id: storageLocationId },
       });
 
       if (locationRes) setStorageLocation(locationRes);
-      if (itemsRes) setItems(itemsRes);
+      if (assignmentsRes) setAssignments(assignmentsRes);
 
       if (!locationRes) {
         setError({ message: 'Lagerort konnte nicht geladen werden.' });
@@ -59,13 +59,13 @@ export function useStorageLocationDetail(
   }, [refetch]);
 
   const initialLoading =
-    (loadingLocation || loadingItems) && !storageLocation && !error;
+    (loadingLocation || loadingAssignments) && !storageLocation && !error;
 
   return {
     storageLocation,
-    items,
+    assignments,
     initialLoading,
-    isLoading: loadingLocation || loadingItems,
+    isLoading: loadingLocation || loadingAssignments,
     error,
     refetch,
   };

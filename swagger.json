@@ -21,7 +21,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -122,7 +122,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -163,7 +163,7 @@
         ]
       }
     },
-    "/api-integrations/{clientId}": {
+    "/api-integrations/{id}": {
       "delete": {
         "tags": [
           "ApiIntegrations"
@@ -172,18 +172,18 @@
         "description": "Deletes an API integration and revokes all access. This action cannot be undone.",
         "parameters": [
           {
-            "name": "clientId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "minLength": 1,
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -229,7 +229,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -279,7 +279,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -351,7 +351,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -421,7 +421,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -494,7 +494,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -549,7 +549,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -621,7 +621,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -671,7 +671,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -743,7 +743,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -813,7 +813,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -886,7 +886,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -941,7 +941,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1013,7 +1013,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1063,7 +1063,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -1175,7 +1175,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1245,7 +1245,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -1358,7 +1358,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1404,7 +1404,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1454,7 +1454,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -1566,7 +1566,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1636,7 +1636,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -1749,7 +1749,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1804,7 +1804,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1885,7 +1885,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -1957,7 +1957,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2007,7 +2007,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2099,7 +2099,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2169,7 +2169,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2262,7 +2262,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2308,7 +2308,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2358,7 +2358,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2430,7 +2430,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2500,7 +2500,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2573,7 +2573,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2619,7 +2619,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2669,7 +2669,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2741,7 +2741,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2811,7 +2811,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -2884,7 +2884,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -2939,7 +2939,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3011,7 +3011,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3061,7 +3061,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3133,7 +3133,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3203,7 +3203,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3296,7 +3296,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3342,7 +3342,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3392,7 +3392,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3464,7 +3464,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3525,7 +3525,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3595,7 +3595,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3668,7 +3668,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3714,7 +3714,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3764,7 +3764,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3856,7 +3856,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -3926,7 +3926,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -3999,7 +3999,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4054,7 +4054,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4126,7 +4126,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4176,7 +4176,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4268,7 +4268,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4338,7 +4338,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4431,7 +4431,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4486,7 +4486,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4558,7 +4558,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4608,7 +4608,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4680,7 +4680,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4750,7 +4750,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -4823,7 +4823,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4869,7 +4869,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -4919,7 +4919,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5011,7 +5011,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5081,7 +5081,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5174,7 +5174,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5209,13 +5209,13 @@
         ]
       }
     },
-    "/storage-locations/{id}/items": {
+    "/storage-locations/{id}/assignments": {
       "get": {
         "tags": [
           "StorageLocations"
         ],
-        "summary": "List all items for a storage location",
-        "description": "Returns all items assigned to a storage location.",
+        "summary": "List all assignments for a storage location",
+        "description": "Returns all assignments for a specific storage location.",
         "parameters": [
           {
             "name": "id",
@@ -5229,7 +5229,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5240,7 +5240,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ItemModel"
+                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
                   }
                 }
               },
@@ -5248,7 +5248,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ItemModel"
+                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
                   }
                 }
               },
@@ -5256,7 +5256,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ItemModel"
+                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
                   }
                 }
               }
@@ -5301,7 +5301,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5351,7 +5351,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5443,7 +5443,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5513,7 +5513,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5606,7 +5606,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5672,7 +5672,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5733,7 +5733,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5796,7 +5796,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -5846,7 +5846,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -5958,7 +5958,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6028,7 +6028,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6141,7 +6141,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6196,7 +6196,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6268,7 +6268,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6318,7 +6318,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6390,7 +6390,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6451,7 +6451,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6521,7 +6521,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6594,7 +6594,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6640,7 +6640,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6690,7 +6690,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6802,7 +6802,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -6872,7 +6872,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "requestBody": {
@@ -6985,7 +6985,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -7040,7 +7040,7 @@
           {
             "name": "X-Tenant-ID",
             "in": "header",
-            "description": "Tenant-ID (Required if multiple organzations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
+            "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
         "responses": {
@@ -7106,12 +7106,17 @@
     "schemas": {
       "ApiIntegrationCredentialsModel": {
         "required": [
+          "id",
           "clientId",
           "clientSecret",
           "name"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "clientId": {
             "type": "string"
           },
@@ -7125,25 +7130,33 @@
       },
       "ApiIntegrationModel": {
         "required": [
+          "id",
           "clientId",
           "name"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "clientId": {
+            "maxLength": 255,
             "type": "string"
           },
+          "enabled": {
+            "type": "boolean"
+          },
           "name": {
+            "maxLength": 255,
             "type": "string"
           },
           "description": {
+            "maxLength": 255,
             "type": [
               "null",
               "string"
             ]
-          },
-          "enabled": {
-            "type": "boolean"
           }
         }
       },
@@ -7177,12 +7190,11 @@
         "type": "object",
         "properties": {
           "name": {
-            "maxLength": 100,
-            "minLength": 1,
+            "maxLength": 255,
             "type": "string"
           },
           "description": {
-            "maxLength": 500,
+            "maxLength": 255,
             "type": [
               "null",
               "string"
@@ -7231,7 +7243,6 @@
       "CreateOrUpdateItemAssignmentHistoryModel": {
         "required": [
           "itemId",
-          "personId",
           "assignedById",
           "assignedFrom"
         ],
@@ -7242,7 +7253,19 @@
             "format": "uuid"
           },
           "personId": {
-            "type": "string",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Items can be assigned to either a person or a storage location. Only one of these must be set.",
+            "format": "uuid"
+          },
+          "storageLocationId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Items can be assigned to either a person or a storage location. Only one of these must be set.",
             "format": "uuid"
           },
           "assignedById": {
@@ -7266,7 +7289,8 @@
         "required": [
           "variantId",
           "condition",
-          "purchaseDate"
+          "purchaseDate",
+          "isDemoItem"
         ],
         "type": "object",
         "properties": {
@@ -7281,19 +7305,15 @@
               "string"
             ]
           },
-          "storageLocationId": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "uuid"
-          },
           "condition": {
             "$ref": "#/components/schemas/ItemCondition"
           },
           "purchaseDate": {
             "type": "string",
             "format": "date"
+          },
+          "isDemoItem": {
+            "type": "boolean"
           },
           "retirementDate": {
             "type": [
@@ -7712,12 +7732,36 @@
       "DepartmentModel": {
         "required": [
           "id",
+          "createdAt",
+          "createdById",
           "name"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
           },
           "name": {
@@ -7736,10 +7780,10 @@
       "ItemAssignmentHistoryModel": {
         "required": [
           "id",
-          "person",
           "item",
+          "createdAt",
+          "createdById",
           "itemId",
-          "personId",
           "assignedById",
           "assignedFrom"
         ],
@@ -7750,17 +7794,70 @@
             "format": "uuid"
           },
           "person": {
-            "$ref": "#/components/schemas/PersonModel"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "Items can be assigned to either a person or a storage location. Only one of these must be set.",
+                "$ref": "#/components/schemas/PersonModel"
+              }
+            ]
+          },
+          "storageLocation": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "Items can be assigned to either a person or a storage location. Only one of these must be set.",
+                "$ref": "#/components/schemas/StorageLocationModel"
+              }
+            ]
           },
           "item": {
             "$ref": "#/components/schemas/ItemModel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "itemId": {
             "type": "string",
             "format": "uuid"
           },
           "personId": {
-            "type": "string",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Items can be assigned to either a person or a storage location. Only one of these must be set.",
+            "format": "uuid"
+          },
+          "storageLocationId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Items can be assigned to either a person or a storage location. Only one of these must be set.",
             "format": "uuid"
           },
           "assignedById": {
@@ -7793,9 +7890,12 @@
         "required": [
           "id",
           "variant",
+          "createdAt",
+          "createdById",
           "variantId",
           "condition",
-          "purchaseDate"
+          "purchaseDate",
+          "isDemoItem"
         ],
         "type": "object",
         "properties": {
@@ -7806,15 +7906,27 @@
           "variant": {
             "$ref": "#/components/schemas/VariantModel"
           },
-          "storageLocation": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/StorageLocationModel"
-              }
-            ]
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "variantId": {
             "type": "string",
@@ -7827,19 +7939,15 @@
               "string"
             ]
           },
-          "storageLocationId": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "uuid"
-          },
           "condition": {
             "$ref": "#/components/schemas/ItemCondition"
           },
           "purchaseDate": {
             "type": "string",
             "format": "date"
+          },
+          "isDemoItem": {
+            "type": "boolean"
           },
           "retirementDate": {
             "type": [
@@ -7854,6 +7962,8 @@
         "required": [
           "id",
           "type",
+          "createdAt",
+          "createdById",
           "itemId",
           "performedAt",
           "typeId",
@@ -7877,6 +7987,28 @@
           },
           "type": {
             "$ref": "#/components/schemas/MaintenanceTypeModel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "itemId": {
             "type": "string",
@@ -7906,12 +8038,36 @@
       "MaintenanceTypeModel": {
         "required": [
           "id",
+          "createdAt",
+          "createdById",
           "name"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
           },
           "name": {
@@ -7930,12 +8086,36 @@
       "ManufacturerModel": {
         "required": [
           "id",
+          "createdAt",
+          "createdById",
           "name"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
           },
           "name": {
@@ -8011,6 +8191,8 @@
         "required": [
           "id",
           "variant",
+          "createdAt",
+          "createdById",
           "orderId",
           "variantId",
           "quantity"
@@ -8033,6 +8215,28 @@
                 "$ref": "#/components/schemas/PersonModel"
               }
             ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "orderId": {
             "type": "string",
@@ -8062,6 +8266,8 @@
       "OrderModel": {
         "required": [
           "id",
+          "createdAt",
+          "createdById",
           "orderDate",
           "status"
         ],
@@ -8069,6 +8275,28 @@
         "properties": {
           "id": {
             "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
           },
           "orderIdentifier": {
@@ -8106,6 +8334,8 @@
         "required": [
           "id",
           "departments",
+          "createdAt",
+          "createdById",
           "firstName",
           "lastName"
         ],
@@ -8120,6 +8350,28 @@
             "items": {
               "$ref": "#/components/schemas/DepartmentModel"
             }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "firstName": {
             "maxLength": 255,
@@ -8202,6 +8454,8 @@
           "id",
           "type",
           "manufacturer",
+          "createdAt",
+          "createdById",
           "name",
           "manufacturerId",
           "typeId"
@@ -8217,6 +8471,28 @@
           },
           "manufacturer": {
             "$ref": "#/components/schemas/ManufacturerModel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "name": {
             "maxLength": 255,
@@ -8249,12 +8525,36 @@
       "ProductTypeModel": {
         "required": [
           "id",
+          "createdAt",
+          "createdById",
           "name"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
           },
           "name": {
@@ -8273,12 +8573,36 @@
       "StorageLocationModel": {
         "required": [
           "id",
+          "createdAt",
+          "createdById",
           "name"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
             "format": "uuid"
           },
           "name": {
@@ -8298,6 +8622,7 @@
         "required": [
           "id",
           "createdAt",
+          "createdById",
           "name"
         ],
         "type": "object",
@@ -8309,6 +8634,24 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "name": {
             "maxLength": 255,
@@ -8355,6 +8698,8 @@
         "required": [
           "id",
           "product",
+          "createdAt",
+          "createdById",
           "productId",
           "name"
         ],
@@ -8366,6 +8711,28 @@
           },
           "product": {
             "$ref": "#/components/schemas/ProductModel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "productId": {
             "type": "string",
@@ -8395,6 +8762,8 @@
         "required": [
           "id",
           "product",
+          "createdAt",
+          "createdById",
           "visitId",
           "productId",
           "quantity"
@@ -8407,6 +8776,28 @@
           },
           "product": {
             "$ref": "#/components/schemas/ProductModel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "visitId": {
             "type": "string",
@@ -8433,6 +8824,8 @@
           "id",
           "appointment",
           "person",
+          "createdAt",
+          "createdById",
           "appointmentId",
           "personId"
         ],
@@ -8447,6 +8840,28 @@
           },
           "person": {
             "$ref": "#/components/schemas/PersonModel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modifiedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "modifiedById": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
           },
           "appointmentId": {
             "type": "string",
