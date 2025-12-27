@@ -12,17 +12,20 @@ export function useStorageLocationDetail(
 ) {
   const [storageLocation, setStorageLocation] =
     useState<StorageLocationModel | null>(null);
-  const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>([]);
+  const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>(
+    [],
+  );
   const [error, setError] = useState<ApiError | null>(null);
 
   const { callApi: fetchLocation, loading: loadingLocation } = useApiRequest(
     getStorageLocationsById,
     { showSuccess: false, showError: false },
   );
-  const { callApi: fetchAssignments, loading: loadingAssignments } = useApiRequest(
-    getStorageLocationsByIdAssignments,
-    { showSuccess: false, showError: false },
-  );
+  const { callApi: fetchAssignments, loading: loadingAssignments } =
+    useApiRequest(getStorageLocationsByIdAssignments, {
+      showSuccess: false,
+      showError: false,
+    });
 
   const fetchLocationRef = useRef(fetchLocation);
   const fetchAssignmentsRef = useRef(fetchAssignments);
