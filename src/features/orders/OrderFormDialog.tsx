@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
 
 const schema = z.object({
   orderIdentifier: z.string().optional(),
@@ -59,7 +61,8 @@ export function OrderFormDialog({
   onOpenChange,
   labels,
 }: OrderFormDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
 
   const {
     register,
@@ -116,8 +119,19 @@ export function OrderFormDialog({
               <Input {...register('orderIdentifier')} />
             </div>
             <div>
-              <Label>{labels?.orderDate ?? t('orderDate')}</Label>
-              <Input type="date" {...register('orderDate')} />
+              <Controller
+                name="orderDate"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    locale={locale}
+                    dateLabel={labels?.orderDate ?? t('orderDate')}
+                    placeholder={t('selectDate')}
+                  />
+                )}
+              />
               {errors.orderDate ? (
                 <p className="text-sm text-red-500 mt-1">
                   {errors.orderDate.message}
@@ -148,8 +162,19 @@ export function OrderFormDialog({
               />
             </div>
             <div>
-              <Label>{labels?.deliveryDate ?? t('deliveryDate')}</Label>
-              <Input type="date" {...register('deliveryDate')} />
+              <Controller
+                name="deliveryDate"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    locale={locale}
+                    dateLabel={labels?.deliveryDate ?? t('deliveryDate')}
+                    placeholder={t('selectDate')}
+                  />
+                )}
+              />
             </div>
           </div>
 

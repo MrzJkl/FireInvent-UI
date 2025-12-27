@@ -20,7 +20,7 @@ const schema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   remarks: z.string().optional(),
-  contactInfo: z.string().optional(),
+  eMail: z.string().email().optional().or(z.literal('')),
   externalId: z.string().optional(),
   departmentIds: z.array(z.string()).optional(),
 });
@@ -40,7 +40,7 @@ export type PersonFormDialogProps = {
     firstName?: string;
     lastName?: string;
     remarks?: string;
-    contactInfo?: string;
+    email?: string;
     externalId?: string;
     cancel?: string;
     save?: string;
@@ -73,7 +73,7 @@ export function PersonFormDialog({
       firstName: '',
       lastName: '',
       remarks: '',
-      contactInfo: '',
+      eMail: '',
       externalId: '',
       departmentIds: [],
     },
@@ -98,7 +98,7 @@ export function PersonFormDialog({
           firstName: '',
           lastName: '',
           remarks: '',
-          contactInfo: '',
+          eMail: '',
           externalId: '',
           departmentIds: [],
         },
@@ -149,8 +149,8 @@ export function PersonFormDialog({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label>{labels?.contactInfo ?? 'Contact Info'}</Label>
-              <Input {...register('contactInfo')} />
+              <Label>{labels?.email ?? t('email')}</Label>
+              <Input type="email" {...register('eMail')} />
             </div>
             <div>
               <Label>{labels?.externalId ?? 'External ID'}</Label>

@@ -34,6 +34,13 @@ import {
 import { Link } from 'react-router-dom';
 import { useAuthorization } from '@/auth/permissions';
 import { useTranslation } from 'react-i18next';
+import { useTenant } from '@/auth/tenant';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const data = {
   user: {
@@ -113,6 +120,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { canAccessApiIntegrations, canAccessUsers } = useAuthorization();
   const { t } = useTranslation();
   const [masterOpen, setMasterOpen] = React.useState(true);
+  const { organizations, selectedTenantId, setSelectedTenantId } = useTenant();
+  const selectedOrg = React.useMemo(
+    () => organizations.find((o) => o.id === selectedTenantId),
+    [organizations, selectedTenantId],
+  );
 
   const navSecondary = React.useMemo(
     () =>
@@ -140,6 +152,40 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          {organizations.length > 0 && (
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    variant="outline"
+                    className="justify-between"
+                  >
+                    <span>
+                      {selectedOrg?.key ||
+                        t('tenant.select', {
+                          defaultValue: 'Tenant auswählen',
+                        })}
+                    </span>
+                    <IconChevronDown className="transition-transform rotate-0" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  className="w-[--sidebar-width]"
+                >
+                  {organizations.map((org) => (
+                    <DropdownMenuItem
+                      key={org.id}
+                      onClick={() => setSelectedTenantId(org.id)}
+                    >
+                      <IconBuilding className="mr-2" />
+                      <span>{org.key}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>

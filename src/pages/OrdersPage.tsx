@@ -160,11 +160,9 @@ export default function OrdersPage() {
           onSubmit={async (values) => {
             const payload = {
               orderIdentifier: values.orderIdentifier || undefined,
-              orderDate: new Date(values.orderDate),
+              orderDate: values.orderDate,
               status: values.status,
-              deliveryDate: values.deliveryDate
-                ? new Date(values.deliveryDate)
-                : undefined,
+              deliveryDate: values.deliveryDate || undefined,
             };
             if (editingItem) {
               await updateOrder(editingItem.id, payload);

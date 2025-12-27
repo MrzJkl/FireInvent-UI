@@ -57,7 +57,7 @@ export function useApiRequest<T extends (...args: any[]) => Promise<any>>(
         setError(apiError);
 
         if (merged.showError) {
-          toast.error(merged.errorMessage ?? `${t('error')} ${status}`, {
+          toast.error(merged.errorMessage ?? `${t('error.label')} ${status}`, {
             description: errorMsg,
           });
         }

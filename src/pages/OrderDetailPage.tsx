@@ -247,11 +247,9 @@ export default function OrderDetailPage() {
                 path: { id: id! },
                 body: {
                   orderIdentifier: data.orderIdentifier || null,
-                  orderDate: new Date(data.orderDate),
+                  orderDate: data.orderDate,
                   status: data.status,
-                  deliveryDate: data.deliveryDate
-                    ? new Date(data.deliveryDate)
-                    : null,
+                  deliveryDate: data.deliveryDate || null,
                 },
               });
               await refetch();

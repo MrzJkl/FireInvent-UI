@@ -104,7 +104,7 @@ export default function ApiIntegrationsPage() {
             </TableHeader>
             <TableBody>
               {integrations.map((integration) => (
-                <TableRow key={integration.clientId}>
+                <TableRow key={integration.id}>
                   <TableCell className="font-medium">
                     {integration.name}
                   </TableCell>
@@ -187,7 +187,7 @@ export default function ApiIntegrationsPage() {
           confirmDisabled={deleting}
           onConfirm={async () => {
             if (!itemToDelete) return;
-            await deleteItem(itemToDelete.clientId);
+            await deleteItem(itemToDelete.id);
             setConfirmOpen(false);
             setItemToDelete(null);
           }}

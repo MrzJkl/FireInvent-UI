@@ -211,14 +211,12 @@ export default function PersonDetailPage() {
                   <div className="mt-1">{person.externalId}</div>
                 </div>
               )}
-              {person.contactInfo && (
+              {person.eMail && (
                 <div>
                   <div className="text-sm font-medium text-muted-foreground">
-                    Kontaktinformationen
+                    E-Mail
                   </div>
-                  <div className="mt-1 whitespace-pre-wrap">
-                    {person.contactInfo}
-                  </div>
+                  <div className="mt-1 whitespace-pre-wrap">{person.eMail}</div>
                 </div>
               )}
               {person.departments && person.departments.length > 0 && (
@@ -421,7 +419,7 @@ export default function PersonDetailPage() {
             firstName: person.firstName,
             lastName: person.lastName,
             remarks: person.remarks ?? '',
-            contactInfo: person.contactInfo ?? '',
+            eMail: person.eMail ?? '',
             externalId: person.externalId ?? '',
             departmentIds:
               person.departmentIds ??
@@ -433,7 +431,7 @@ export default function PersonDetailPage() {
             titleEdit: 'Person bearbeiten',
             firstName: 'Vorname',
             lastName: 'Nachname',
-            contactInfo: 'Kontaktinformationen',
+            email: 'E-Mail',
             externalId: 'Externe ID',
             remarks: 'Bemerkungen',
             cancel: t('cancel'),

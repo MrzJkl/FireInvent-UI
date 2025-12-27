@@ -71,7 +71,7 @@ export default function PersonsPage() {
           <TableRow>
             <TableHead>{t('firstName')}</TableHead>
             <TableHead>{t('lastName')}</TableHead>
-            <TableHead>{t('contactInfo')}</TableHead>
+            <TableHead>{t('email')}</TableHead>
             <TableHead>{t('externalId')}</TableHead>
             <TableHead>{t('departmentPlural')}</TableHead>
             {showActions && <TableHead>{t('actions')}</TableHead>}
@@ -86,7 +86,7 @@ export default function PersonsPage() {
             >
               <TableCell>{person.firstName}</TableCell>
               <TableCell>{person.lastName}</TableCell>
-              <TableCell>{person.contactInfo}</TableCell>
+              <TableCell>{person.eMail}</TableCell>
               <TableCell>{person.externalId}</TableCell>
               <TableCell>
                 {person.departments?.length
@@ -136,7 +136,7 @@ export default function PersonsPage() {
                     firstName: editingItem.firstName,
                     lastName: editingItem.lastName,
                     remarks: editingItem.remarks ?? '',
-                    contactInfo: editingItem.contactInfo ?? '',
+                    eMail: editingItem.eMail ?? '',
                     externalId: editingItem.externalId ?? '',
                     departmentIds:
                       (editingItem.departmentIds &&
@@ -153,7 +153,7 @@ export default function PersonsPage() {
               titleEdit: t('persons.edit'),
               firstName: t('firstName'),
               lastName: t('lastName'),
-              contactInfo: t('contactInfo'),
+              email: t('email'),
               externalId: t('externalId'),
               remarks: t('remarks'),
               cancel: t('cancel'),
