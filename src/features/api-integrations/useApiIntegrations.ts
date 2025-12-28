@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 import {
-  deleteApiIntegrationsByClientId,
+  deleteApiIntegrationsById,
   getApiIntegrations,
   postApiIntegrations,
   type ApiIntegrationModel,
@@ -20,7 +20,7 @@ export function useApiIntegrations() {
   const { callApi: createApi, loading: creating } =
     useApiRequest(postApiIntegrations);
   const { callApi: deleteApi, loading: deleting } = useApiRequest(
-    deleteApiIntegrationsByClientId,
+    deleteApiIntegrationsById,
   );
 
   const fetchApiRef = useRef(fetchApi);
@@ -58,8 +58,8 @@ export function useApiIntegrations() {
   );
 
   const deleteItem = useCallback(
-    async (clientId: string) => {
-      const res = await deleteApi({ path: { clientId } });
+    async (id: string) => {
+      const res = await deleteApi({ path: { id } });
       await refetch();
       return res;
     },

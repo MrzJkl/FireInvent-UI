@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/select';
 import { useMaintenanceTypes } from '@/features/maintenance-types/useMaintenanceTypes';
 import { useUsers } from '@/hooks/useUsers';
+import { DateTimePicker } from '@/components/ui/date-time-picker';
 
 const schema = z.object({
   typeId: z.string().min(1),
@@ -49,7 +51,8 @@ export function MaintenanceFormDialog({
   onSubmit,
   onOpenChange,
 }: MaintenanceFormDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
   const { items: maintenanceTypes, initialLoading: typesLoading } =
     useMaintenanceTypes();
   const { users, initialLoading: usersLoading } = useUsers();
@@ -60,6 +63,7 @@ export function MaintenanceFormDialog({
     reset,
     setValue,
     watch,
+    control,
     formState: { errors },
   } = useForm<MaintenanceFormValues>({
     resolver: zodResolver(schema),
@@ -133,8 +137,20 @@ export function MaintenanceFormDialog({
           </div>
 
           <div>
-            <Label>{t('maintenances.performedAt')}</Label>
-            <Input type="date" {...register('performedAt')} />
+            <Controller
+              name="performedAt"
+              control={control}
+              render={({ field }) => (
+                <DateTimePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={t('maintenances.performedAt')}
+                  timeLabel={t('time')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
             {errors.performedAt && (
               <p className="text-sm text-destructive mt-1">
                 {errors.performedAt.message}

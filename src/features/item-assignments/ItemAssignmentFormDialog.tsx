@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -21,13 +21,31 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { usePersons } from '@/features/persons/usePersons';
+import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
 import type { ItemAssignmentHistoryModel } from '@/api/types.gen';
+import { DatePicker } from '@/components/ui/date-picker';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-const schema = z.object({
-  personId: z.string().min(1),
-  assignedFrom: z.string(),
-  assignedUntil: z.string().optional(),
-});
+const schema = z
+  .object({
+    assignmentType: z.enum(['person', 'storageLocation']),
+    personId: z.string().optional(),
+    storageLocationId: z.string().optional(),
+    assignedFrom: z.string(),
+    assignedUntil: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.assignmentType === 'person') return !!data.personId;
+      if (data.assignmentType === 'storageLocation')
+        return !!data.storageLocationId;
+      return false;
+    },
+    {
+      message: 'Either person or storage location must be selected',
+      path: ['assignmentType'],
+    },
+  );
 
 export type AssignmentFormValues = z.infer<typeof schema>;
 
@@ -53,27 +71,34 @@ export function ItemAssignmentFormDialog({
   onSubmit,
   onOpenChange,
 }: ItemAssignmentFormDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
   const { persons, initialLoading: personsLoading } = usePersons();
+  const { items: locations, initialLoading: locationsLoading } =
+    useStorageLocations();
 
   const {
-    register,
     handleSubmit,
     reset,
     setValue,
     watch,
     setError,
+    control,
     formState: { errors },
   } = useForm<AssignmentFormValues>({
     resolver: zodResolver(schema),
     defaultValues: initialValues ?? {
+      assignmentType: 'person',
       personId: '',
+      storageLocationId: undefined,
       assignedFrom: new Date().toISOString().substring(0, 10),
       assignedUntil: undefined,
     },
   });
 
+  const assignmentType = watch('assignmentType');
   const currentPersonId = watch('personId');
+  const currentStorageLocationId = watch('storageLocationId');
   const assignedFrom = watch('assignedFrom');
   const assignedUntil = watch('assignedUntil');
 
@@ -81,7 +106,9 @@ export function ItemAssignmentFormDialog({
     if (open) {
       reset(
         initialValues ?? {
+          assignmentType: 'person',
           personId: '',
+          storageLocationId: undefined,
           assignedFrom: new Date().toISOString().substring(0, 10),
           assignedUntil: undefined,
         },
@@ -138,34 +165,109 @@ export function ItemAssignmentFormDialog({
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div>
-            <Label>{t('person')}</Label>
-            <Select
-              value={currentPersonId}
-              onValueChange={(v) => setValue('personId', v)}
+            <Label>{t('itemAssignments.assignmentType')}</Label>
+            <RadioGroup
+              value={assignmentType}
+              onValueChange={(value: string) =>
+                setValue(
+                  'assignmentType',
+                  value as 'person' | 'storageLocation',
+                )
+              }
             >
-              <SelectTrigger>
-                <SelectValue placeholder={t('select') as string} />
-              </SelectTrigger>
-              <SelectContent>
-                {personsLoading
-                  ? null
-                  : persons.map((person) => (
-                      <SelectItem key={person.id} value={person.id}>
-                        {person.firstName} {person.lastName}
-                      </SelectItem>
-                    ))}
-              </SelectContent>
-            </Select>
-            {errors.personId && (
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="person" id="person" />
+                <Label htmlFor="person" className="cursor-pointer font-normal">
+                  {t('person')}
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="storageLocation" id="storageLocation" />
+                <Label
+                  htmlFor="storageLocation"
+                  className="cursor-pointer font-normal"
+                >
+                  {t('storageLocation')}
+                </Label>
+              </div>
+            </RadioGroup>
+            {errors.assignmentType && (
               <p className="text-sm text-destructive mt-1">
-                {errors.personId.message}
+                {errors.assignmentType.message}
               </p>
             )}
           </div>
 
+          {assignmentType === 'person' && (
+            <div>
+              <Label>{t('person')}</Label>
+              <Select
+                value={currentPersonId}
+                onValueChange={(v) => setValue('personId', v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={t('select') as string} />
+                </SelectTrigger>
+                <SelectContent>
+                  {personsLoading
+                    ? null
+                    : persons.map((person) => (
+                        <SelectItem key={person.id} value={person.id}>
+                          {person.firstName} {person.lastName}
+                        </SelectItem>
+                      ))}
+                </SelectContent>
+              </Select>
+              {errors.personId && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.personId.message}
+                </p>
+              )}
+            </div>
+          )}
+
+          {assignmentType === 'storageLocation' && (
+            <div>
+              <Label>{t('storageLocation')}</Label>
+              <Select
+                value={currentStorageLocationId}
+                onValueChange={(v) => setValue('storageLocationId', v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={t('select') as string} />
+                </SelectTrigger>
+                <SelectContent>
+                  {locationsLoading
+                    ? null
+                    : locations.map((location) => (
+                        <SelectItem key={location.id} value={location.id}>
+                          {location.name}
+                        </SelectItem>
+                      ))}
+                </SelectContent>
+              </Select>
+              {errors.storageLocationId && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.storageLocationId.message}
+                </p>
+              )}
+            </div>
+          )}
+
           <div>
-            <Label>{t('itemAssignments.assignedFrom')}</Label>
-            <Input type="date" {...register('assignedFrom')} />
+            <Controller
+              name="assignedFrom"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={t('itemAssignments.assignedFrom')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
             {errors.assignedFrom && (
               <p className="text-sm text-destructive mt-1">
                 {errors.assignedFrom.message}
@@ -174,8 +276,19 @@ export function ItemAssignmentFormDialog({
           </div>
 
           <div>
-            <Label>{t('itemAssignments.assignedUntil')}</Label>
-            <Input type="date" {...register('assignedUntil')} />
+            <Controller
+              name="assignedUntil"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={t('itemAssignments.assignedUntil')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
             {errors.assignedUntil && (
               <p className="text-sm text-destructive mt-1">
                 {errors.assignedUntil.message}

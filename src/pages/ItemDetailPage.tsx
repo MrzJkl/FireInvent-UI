@@ -180,11 +180,6 @@ export default function ItemDetailPage() {
     );
   }
 
-  type ItemWithStorage = ItemModel & {
-    storageLocation?: { id: string; name?: string };
-  };
-  const storageLocation = (item as ItemWithStorage).storageLocation;
-
   return (
     <div className="p-4">
       {/* Header */}
@@ -320,24 +315,10 @@ export default function ItemDetailPage() {
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
-                  {t('storageLocation')}
+                  {t('items.isDemoItem')}
                 </div>
                 <div className="mt-1">
-                  {item.storageLocationId ? (
-                    <Button
-                      variant="link"
-                      className="h-auto p-0"
-                      onClick={() =>
-                        navigate(
-                          `/app/storageLocations/${item.storageLocationId}`,
-                        )
-                      }
-                    >
-                      {storageLocation?.name || item.storageLocationId}
-                    </Button>
-                  ) : (
-                    <span className="text-muted-foreground italic">–</span>
-                  )}
+                  {item.isDemoItem ? t('yes') : t('no')}
                 </div>
               </div>
               <div>
@@ -398,7 +379,11 @@ export default function ItemDetailPage() {
                         <p className="font-medium">
                           {assignment.person
                             ? `${assignment.person.firstName} ${assignment.person.lastName}`
-                            : `Person ID: ${assignment.personId}`}
+                            : assignment.storageLocation
+                              ? assignment.storageLocation.name
+                              : assignment.personId
+                                ? `Person ID: ${assignment.personId}`
+                                : `Storage Location ID: ${assignment.storageLocationId}`}
                         </p>
                         <div className="flex items-center gap-2">
                           <span
@@ -574,7 +559,11 @@ export default function ItemDetailPage() {
                     );
                     if (!current) return undefined;
                     return {
-                      personId: current.personId,
+                      assignmentType: current.personId
+                        ? ('person' as const)
+                        : ('storageLocation' as const),
+                      personId: current.personId || undefined,
+                      storageLocationId: current.storageLocationId || undefined,
                       assignedFrom: new Date(current.assignedFrom)
                         .toISOString()
                         .substring(0, 10),
@@ -593,11 +582,16 @@ export default function ItemDetailPage() {
             onSubmit={async (values) => {
               const payload = {
                 itemId: id!,
-                personId: values.personId,
-                assignedFrom: new Date(values.assignedFrom),
-                assignedUntil: values.assignedUntil
-                  ? new Date(values.assignedUntil)
-                  : undefined,
+                personId:
+                  values.assignmentType === 'person'
+                    ? values.personId
+                    : undefined,
+                storageLocationId:
+                  values.assignmentType === 'storageLocation'
+                    ? values.storageLocationId
+                    : undefined,
+                assignedFrom: values.assignedFrom,
+                assignedUntil: values.assignedUntil || undefined,
                 assignedById: keycloak.subject!,
               };
 
@@ -630,9 +624,15 @@ export default function ItemDetailPage() {
                   (a) => a.id === deleteAssignmentId,
                 );
                 if (!assignment) return '';
-                return assignment.person
-                  ? `${assignment.person.firstName} ${assignment.person.lastName}`
-                  : assignment.personId;
+                if (assignment.person) {
+                  return `${assignment.person.firstName} ${assignment.person.lastName}`;
+                }
+                if (assignment.storageLocation) {
+                  return assignment.storageLocation.name;
+                }
+                return (
+                  assignment.personId || assignment.storageLocationId || ''
+                );
               })(),
             })}
             confirmLabel={t('delete')}
@@ -685,8 +685,8 @@ export default function ItemDetailPage() {
               const payload = {
                 itemId: id!,
                 typeId: values.typeId,
-                performedAt: new Date(values.performedAt),
-                performedById: values.performedById || "",
+                performedAt: values.performedAt,
+                performedById: values.performedById || '',
                 remarks: values.remarks || null,
               };
 
@@ -747,11 +747,11 @@ export default function ItemDetailPage() {
             initialValues={{
               variantId: item.variantId,
               identifier: item.identifier ?? '',
-              storageLocationId: item.storageLocationId ?? undefined,
               condition: item.condition,
               purchaseDate: new Date(item.purchaseDate)
                 .toISOString()
                 .substring(0, 10),
+              isDemoItem: item.isDemoItem ?? false,
               retirementDate: item.retirementDate
                 ? new Date(item.retirementDate).toISOString().substring(0, 10)
                 : undefined,
@@ -761,12 +761,10 @@ export default function ItemDetailPage() {
               const payload = {
                 variantId: item.variantId,
                 identifier: values.identifier || undefined,
-                storageLocationId: values.storageLocationId || undefined,
                 condition: values.condition,
-                purchaseDate: new Date(values.purchaseDate + 'T00:00:00'),
-                retirementDate: values.retirementDate
-                  ? new Date(values.retirementDate + 'T00:00:00')
-                  : undefined,
+                purchaseDate: values.purchaseDate,
+                isDemoItem: values.isDemoItem,
+                retirementDate: values.retirementDate || undefined,
               };
               await updateItemApi({ path: { id: item.id }, body: payload });
               await refetchData();
@@ -775,9 +773,9 @@ export default function ItemDetailPage() {
             labels={{
               titleEdit: t('edit'),
               identifier: t('identifier'),
-              storageLocation: t('storageLocation'),
               condition: t('condition'),
               purchaseDate: t('purchaseDate'),
+              isDemoItem: t('items.isDemoItem'),
               retirementDate: t('retirementDate'),
               cancel: t('cancel'),
               save: t('save'),

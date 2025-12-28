@@ -32,8 +32,12 @@ export default function StorageLocationDetailPage() {
     deleteStorageLocationsById,
   );
 
-  const { storageLocation, items, initialLoading, error, refetch } =
+  const { storageLocation, assignments, initialLoading, error, refetch } =
     useStorageLocationDetail(id);
+
+  const items = useMemo(() => {
+    return assignments.map((a) => a.item).filter((i) => i != null);
+  }, [assignments]);
 
   const grouped = useMemo(() => {
     const productMap = new Map<

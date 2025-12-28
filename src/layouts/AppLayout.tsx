@@ -3,8 +3,10 @@ import { SiteHeader } from '@/components/site-header';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
 import { Outlet } from 'react-router-dom';
+import { useTenant } from '@/auth/tenant';
 
 export default function AppLayout() {
+  const { selectedTenantId } = useTenant();
   return (
     <SidebarProvider
       style={
@@ -18,7 +20,10 @@ export default function AppLayout() {
       <SidebarInset>
         <SiteHeader />
         <main className="flex flex-1 flex-col">
-          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">
+          <div
+            key={selectedTenantId || 'no-tenant'}
+            className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6"
+          >
             <Outlet />
           </div>
         </main>

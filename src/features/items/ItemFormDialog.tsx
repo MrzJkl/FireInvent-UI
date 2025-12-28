@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { de, enUS } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,7 +21,8 @@ import {
   SelectItem,
   SelectValue,
 } from '@/components/ui/select';
-import { useStorageLocations } from '@/features/storage-locations/useStorageLocations';
+import { DatePicker } from '@/components/ui/date-picker';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const conditionOptions = [
   'New',
@@ -33,9 +35,9 @@ const conditionOptions = [
 const schema = z.object({
   variantId: z.string().min(1),
   identifier: z.string().optional(),
-  storageLocationId: z.string().optional(),
   condition: z.enum(conditionOptions),
   purchaseDate: z.string().min(1),
+  isDemoItem: z.boolean(),
   retirementDate: z.string().optional(),
 });
 
@@ -54,9 +56,9 @@ export type ItemFormDialogProps = {
     titleEdit?: string;
     variant?: string;
     identifier?: string;
-    storageLocation?: string;
     condition?: string;
     purchaseDate?: string;
+    isDemoItem?: string;
     retirementDate?: string;
     cancel?: string;
     save?: string;
@@ -74,25 +76,24 @@ export function ItemFormDialog({
   labels,
   variantId,
 }: ItemFormDialogProps) {
-  const { t } = useTranslation();
-  const { items: locations, initialLoading: locationsLoading } =
-    useStorageLocations();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : enUS;
 
-  const { register, handleSubmit, reset, setValue, watch } =
+  const { register, handleSubmit, reset, setValue, watch, control } =
     useForm<ItemFormValues>({
       resolver: zodResolver(schema),
       defaultValues: initialValues ?? {
         variantId: variantId ?? '',
         identifier: '',
-        storageLocationId: undefined,
         condition: 'New',
         purchaseDate: new Date().toISOString().substring(0, 10),
+        isDemoItem: false,
         retirementDate: undefined,
       },
     });
 
   const currentCondition = watch('condition');
-  const currentStorageLocationId = watch('storageLocationId');
+  const isDemoItem = watch('isDemoItem');
 
   useEffect(() => {
     if (open) {
@@ -100,9 +101,9 @@ export function ItemFormDialog({
         initialValues ?? {
           variantId: variantId ?? '',
           identifier: '',
-          storageLocationId: undefined,
           condition: 'New',
           purchaseDate: new Date().toISOString().substring(0, 10),
+          isDemoItem: false,
           retirementDate: undefined,
         },
       );
@@ -136,25 +137,15 @@ export function ItemFormDialog({
             <Input {...register('identifier')} />
           </div>
 
-          <div>
-            <Label>{labels?.storageLocation ?? t('storageLocation')}</Label>
-            <Select
-              value={currentStorageLocationId}
-              onValueChange={(v) => setValue('storageLocationId', v)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t('select') as string} />
-              </SelectTrigger>
-              <SelectContent>
-                {locationsLoading
-                  ? null
-                  : locations.map((loc) => (
-                      <SelectItem key={loc.id} value={loc.id}>
-                        {loc.name}
-                      </SelectItem>
-                    ))}
-              </SelectContent>
-            </Select>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="isDemoItem"
+              checked={isDemoItem}
+              onCheckedChange={(checked) => setValue('isDemoItem', !!checked)}
+            />
+            <Label htmlFor="isDemoItem" className="cursor-pointer">
+              {labels?.isDemoItem ?? t('items.isDemoItem')}
+            </Label>
           </div>
 
           <div>
@@ -179,13 +170,35 @@ export function ItemFormDialog({
           </div>
 
           <div>
-            <Label>{labels?.purchaseDate ?? t('purchaseDate')}</Label>
-            <Input type="date" {...register('purchaseDate')} />
+            <Controller
+              name="purchaseDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={labels?.purchaseDate ?? t('purchaseDate')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
           </div>
 
           <div>
-            <Label>{labels?.retirementDate ?? t('retirementDate')}</Label>
-            <Input type="date" {...register('retirementDate')} />
+            <Controller
+              name="retirementDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  locale={locale}
+                  dateLabel={labels?.retirementDate ?? t('retirementDate')}
+                  placeholder={t('selectDate')}
+                />
+              )}
+            />
           </div>
 
           <div className="flex justify-end gap-2">

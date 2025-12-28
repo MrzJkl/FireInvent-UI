@@ -530,13 +530,13 @@ export default function ProductDetailPage() {
                     return {
                       variantId: current.variantId,
                       identifier: current.identifier ?? '',
-                      storageLocationId: current.storageLocationId ?? undefined,
                       condition: current.condition,
                       purchaseDate: current.purchaseDate
                         ? new Date(current.purchaseDate)
                             .toISOString()
                             .substring(0, 10)
                         : new Date().toISOString().substring(0, 10),
+                      isDemoItem: current.isDemoItem ?? false,
                       retirementDate: current.retirementDate
                         ? new Date(current.retirementDate)
                             .toISOString()
@@ -548,9 +548,9 @@ export default function ProductDetailPage() {
                   ? {
                       variantId: createForVariantId,
                       identifier: '',
-                      storageLocationId: undefined,
                       condition: 'New' as const,
                       purchaseDate: new Date().toISOString().substring(0, 10),
+                      isDemoItem: false,
                       retirementDate: undefined,
                     }
                   : undefined
@@ -560,14 +560,12 @@ export default function ProductDetailPage() {
               const payload = {
                 variantId: values.variantId,
                 identifier: values.identifier || undefined,
-                storageLocationId: values.storageLocationId || undefined,
                 condition: values.condition,
-                purchaseDate: values.purchaseDate
-                  ? new Date(values.purchaseDate + 'T00:00:00')
-                  : new Date(),
-                retirementDate: values.retirementDate
-                  ? new Date(values.retirementDate + 'T00:00:00')
-                  : undefined,
+                purchaseDate:
+                  values.purchaseDate ||
+                  new Date().toISOString().substring(0, 10),
+                isDemoItem: values.isDemoItem,
+                retirementDate: values.retirementDate || undefined,
               };
               if (editingItemId) {
                 await updateItem(editingItemId, payload);

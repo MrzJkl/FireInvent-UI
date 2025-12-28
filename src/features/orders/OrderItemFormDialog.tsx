@@ -172,7 +172,7 @@ export function OrderItemFormDialog({
                         <SelectItem key={person.id} value={person.id}>
                           {person.firstName && person.lastName
                             ? `${person.firstName} ${person.lastName}`
-                            : person.contactInfo}
+                            : person.eMail}
                         </SelectItem>
                       ))}
                     </SelectContent>
