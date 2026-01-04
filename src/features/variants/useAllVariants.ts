@@ -1,43 +1,60 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { getVariants, type VariantModel } from '@/api';
-import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
+import {
+  getVariantsPaginated,
+  postVariants,
+  putVariantsById,
+  deleteVariantsById,
+  type CreateOrUpdateVariantModel,
+  type VariantModel,
+} from '@/api';
+import { useCrudList } from '@/hooks/useCrudList';
 
 export function useAllVariants() {
-  const [variants, setVariants] = useState<VariantModel[]>([]);
-  const [error, setError] = useState<ApiError | null>(null);
+  const {
+    items,
+    state,
+    error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
+    create,
+    update,
+    delete: deleteItem,
+    refetch,
+  } = useCrudList<
+    VariantModel,
+    CreateOrUpdateVariantModel,
+    CreateOrUpdateVariantModel
+  >(getVariantsPaginated, postVariants, putVariantsById, deleteVariantsById);
 
-  const { callApi: listApi, loading: initialLoading } = useApiRequest(
-    getVariants,
-    { showSuccess: false, showError: false },
-  );
-
-  const listApiRef = useRef(listApi);
-  useEffect(() => {
-    listApiRef.current = listApi;
-  }, [listApi]);
-
-  const refetch = useCallback(async () => {
-    setError(null);
-    const res = await listApiRef.current({});
-    if (res) {
-      setVariants(res);
-    } else {
-      setError({
-        message:
-          'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const createVariant = (body: CreateOrUpdateVariantModel) => create(body);
+  const updateVariant = (id: string, body: CreateOrUpdateVariantModel) =>
+    update(id, body);
+  const deleteVariant = (id: string) => deleteItem(id);
 
   return {
-    variants,
+    variants: items,
+    state,
     error,
-    initialLoading,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
+    createVariant,
+    updateVariant,
+    deleteVariant,
     refetch,
   };
 }

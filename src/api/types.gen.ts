@@ -290,21 +290,6 @@ export const OrderStatus = {
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
-export type PagedQuery = {
-  /**
-   * Page number (starting from 1)
-   */
-  page?: number | string;
-  /**
-   * Page size (number of items per page)
-   */
-  pageSize?: number | string;
-  /**
-   * Search term for filtering results. Case insensitive.
-   */
-  searchTerm?: null | string;
-};
-
 export type PagedResultOfAppointmentModel = {
   /**
    * Items of the current page.
@@ -881,7 +866,7 @@ export type DeleteApiIntegrationsByIdResponse =
   DeleteApiIntegrationsByIdResponses[keyof DeleteApiIntegrationsByIdResponses];
 
 export type GetAppointmentsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -889,7 +874,20 @@ export type GetAppointmentsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/appointments";
 };
 
@@ -1032,7 +1030,7 @@ export type PutAppointmentsByIdResponse =
   PutAppointmentsByIdResponses[keyof PutAppointmentsByIdResponses];
 
 export type GetAppointmentsByIdVisitsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1042,7 +1040,20 @@ export type GetAppointmentsByIdVisitsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/appointments/{id}/visits";
 };
 
@@ -1067,7 +1078,7 @@ export type GetAppointmentsByIdVisitsResponse =
   GetAppointmentsByIdVisitsResponses[keyof GetAppointmentsByIdVisitsResponses];
 
 export type GetDepartmentsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1075,7 +1086,20 @@ export type GetDepartmentsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/departments";
 };
 
@@ -1218,7 +1242,7 @@ export type PutDepartmentsByIdResponse =
   PutDepartmentsByIdResponses[keyof PutDepartmentsByIdResponses];
 
 export type GetDepartmentsByIdPersonsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1228,7 +1252,20 @@ export type GetDepartmentsByIdPersonsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/departments/{id}/persons";
 };
 
@@ -1253,7 +1290,7 @@ export type GetDepartmentsByIdPersonsResponse =
   GetDepartmentsByIdPersonsResponses[keyof GetDepartmentsByIdPersonsResponses];
 
 export type GetAssignmentsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1261,7 +1298,20 @@ export type GetAssignmentsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/assignments";
 };
 
@@ -1426,7 +1476,7 @@ export type PutAssignmentsByIdResponse =
   PutAssignmentsByIdResponses[keyof PutAssignmentsByIdResponses];
 
 export type GetItemsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1434,7 +1484,20 @@ export type GetItemsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/items";
 };
 
@@ -1594,7 +1657,7 @@ export type PutItemsByIdResponse =
   PutItemsByIdResponses[keyof PutItemsByIdResponses];
 
 export type GetItemsByIdAssignmentsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1604,7 +1667,20 @@ export type GetItemsByIdAssignmentsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/items/{id}/assignments";
 };
 
@@ -1629,7 +1705,7 @@ export type GetItemsByIdAssignmentsResponse =
   GetItemsByIdAssignmentsResponses[keyof GetItemsByIdAssignmentsResponses];
 
 export type GetItemsByIdMaintenanceData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1639,7 +1715,20 @@ export type GetItemsByIdMaintenanceData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/items/{id}/maintenance";
 };
 
@@ -1664,7 +1753,7 @@ export type GetItemsByIdMaintenanceResponse =
   GetItemsByIdMaintenanceResponses[keyof GetItemsByIdMaintenanceResponses];
 
 export type GetMaintenancesData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1672,7 +1761,20 @@ export type GetMaintenancesData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/maintenances";
 };
 
@@ -1829,7 +1931,7 @@ export type PutMaintenancesByIdResponse =
   PutMaintenancesByIdResponses[keyof PutMaintenancesByIdResponses];
 
 export type GetMaintenanceTypesData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1837,7 +1939,20 @@ export type GetMaintenanceTypesData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/maintenance-types";
 };
 
@@ -1980,7 +2095,7 @@ export type PutMaintenanceTypesByIdResponse =
   PutMaintenanceTypesByIdResponses[keyof PutMaintenanceTypesByIdResponses];
 
 export type GetManufacturersData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1988,7 +2103,20 @@ export type GetManufacturersData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/manufacturers";
 };
 
@@ -2131,7 +2259,7 @@ export type PutManufacturersByIdResponse =
   PutManufacturersByIdResponses[keyof PutManufacturersByIdResponses];
 
 export type GetManufacturersByIdProductsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2141,7 +2269,20 @@ export type GetManufacturersByIdProductsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/manufacturers/{id}/products";
 };
 
@@ -2166,7 +2307,7 @@ export type GetManufacturersByIdProductsResponse =
   GetManufacturersByIdProductsResponses[keyof GetManufacturersByIdProductsResponses];
 
 export type GetOrdersData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2174,7 +2315,20 @@ export type GetOrdersData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/orders";
 };
 
@@ -2317,7 +2471,7 @@ export type PutOrdersByIdResponse =
   PutOrdersByIdResponses[keyof PutOrdersByIdResponses];
 
 export type GetOrderItemsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2325,7 +2479,20 @@ export type GetOrderItemsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/order-items";
 };
 
@@ -2363,7 +2530,7 @@ export type PostOrderItemsResponse =
   PostOrderItemsResponses[keyof PostOrderItemsResponses];
 
 export type GetOrderItemsByOrderByOrderIdData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2373,7 +2540,20 @@ export type GetOrderItemsByOrderByOrderIdData = {
   path: {
     orderId: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/order-items/by-order/{orderId}";
 };
 
@@ -2493,7 +2673,7 @@ export type PutOrderItemsByIdResponse =
   PutOrderItemsByIdResponses[keyof PutOrderItemsByIdResponses];
 
 export type GetPersonsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2501,7 +2681,20 @@ export type GetPersonsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/persons";
 };
 
@@ -2652,7 +2845,7 @@ export type PutPersonsByIdResponse =
   PutPersonsByIdResponses[keyof PutPersonsByIdResponses];
 
 export type GetPersonsByIdAssignmentsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2662,7 +2855,20 @@ export type GetPersonsByIdAssignmentsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/persons/{id}/assignments";
 };
 
@@ -2687,7 +2893,7 @@ export type GetPersonsByIdAssignmentsResponse =
   GetPersonsByIdAssignmentsResponses[keyof GetPersonsByIdAssignmentsResponses];
 
 export type GetProductsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2695,7 +2901,20 @@ export type GetProductsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/products";
 };
 
@@ -2851,7 +3070,7 @@ export type PutProductsByIdResponse =
   PutProductsByIdResponses[keyof PutProductsByIdResponses];
 
 export type GetProductsByIdVariantsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2861,7 +3080,20 @@ export type GetProductsByIdVariantsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/products/{id}/variants";
 };
 
@@ -2886,7 +3118,7 @@ export type GetProductsByIdVariantsResponse =
   GetProductsByIdVariantsResponses[keyof GetProductsByIdVariantsResponses];
 
 export type GetProductTypesData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2894,7 +3126,20 @@ export type GetProductTypesData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/product-types";
 };
 
@@ -3037,7 +3282,7 @@ export type PutProductTypesByIdResponse =
   PutProductTypesByIdResponses[keyof PutProductTypesByIdResponses];
 
 export type GetStorageLocationsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3045,7 +3290,20 @@ export type GetStorageLocationsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/storage-locations";
 };
 
@@ -3202,7 +3460,7 @@ export type PutStorageLocationsByIdResponse =
   PutStorageLocationsByIdResponses[keyof PutStorageLocationsByIdResponses];
 
 export type GetStorageLocationsByIdAssignmentsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3212,7 +3470,20 @@ export type GetStorageLocationsByIdAssignmentsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/storage-locations/{id}/assignments";
 };
 
@@ -3460,7 +3731,7 @@ export type GetUsersByIdResponse =
   GetUsersByIdResponses[keyof GetUsersByIdResponses];
 
 export type GetVariantsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3468,7 +3739,20 @@ export type GetVariantsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/variants";
 };
 
@@ -3632,7 +3916,7 @@ export type PutVariantsByIdResponse =
   PutVariantsByIdResponses[keyof PutVariantsByIdResponses];
 
 export type GetVariantsByIdItemsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3642,7 +3926,20 @@ export type GetVariantsByIdItemsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/variants/{id}/items";
 };
 
@@ -3667,7 +3964,7 @@ export type GetVariantsByIdItemsResponse =
   GetVariantsByIdItemsResponses[keyof GetVariantsByIdItemsResponses];
 
 export type GetVisitItemsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3675,7 +3972,20 @@ export type GetVisitItemsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visit-items";
 };
 
@@ -3713,7 +4023,7 @@ export type PostVisitItemsResponse =
   PostVisitItemsResponses[keyof PostVisitItemsResponses];
 
 export type GetVisitItemsVisitByVisitIdData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3723,7 +4033,20 @@ export type GetVisitItemsVisitByVisitIdData = {
   path: {
     visitId: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visit-items/visit/{visitId}";
 };
 
@@ -3843,7 +4166,7 @@ export type PutVisitItemsByIdResponse =
   PutVisitItemsByIdResponses[keyof PutVisitItemsByIdResponses];
 
 export type GetVisitsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3851,7 +4174,20 @@ export type GetVisitsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visits";
 };
 
@@ -4011,7 +4347,7 @@ export type PutVisitsByIdResponse =
   PutVisitsByIdResponses[keyof PutVisitsByIdResponses];
 
 export type GetVisitsByIdItemsData = {
-  body: PagedQuery;
+  body?: never;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -4021,7 +4357,20 @@ export type GetVisitsByIdItemsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visits/{id}/items";
 };
 

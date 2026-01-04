@@ -1,90 +1,59 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  getProducts,
+  getProductsPaginated,
   postProducts,
   putProductsById,
   deleteProductsById,
   type CreateOrUpdateProductModel,
   type ProductModel,
 } from '@/api';
-import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
+import { useCrudList } from '@/hooks/useCrudList';
 
 export function useProducts() {
-  const [items, setItems] = useState<ProductModel[]>([]);
-  const [error, setError] = useState<ApiError | null>(null);
-  const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getProducts,
-    { showSuccess: false, showError: false },
-  );
-  const { callApi: createApi, loading: creating } = useApiRequest(postProducts);
-  const { callApi: updateApi, loading: updating } =
-    useApiRequest(putProductsById);
-  const { callApi: deleteApi, loading: deleting } =
-    useApiRequest(deleteProductsById);
+  const {
+    items,
+    state,
+    error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
+    create,
+    update,
+    delete: deleteItem,
+    refetch,
+  } = useCrudList<
+    ProductModel,
+    CreateOrUpdateProductModel,
+    CreateOrUpdateProductModel
+  >(getProductsPaginated, postProducts, putProductsById, deleteProductsById, {
+    initialPageSize: 20,
+  });
 
-  const fetchApiRef = useRef(fetchApi);
-  useEffect(() => {
-    fetchApiRef.current = fetchApi;
-  }, [fetchApi]);
-
-  const refetch = useCallback(async () => {
-    setError(null);
-    const res = await fetchApiRef.current({});
-    if (res) {
-      setItems(res);
-    } else {
-      setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const createProduct = useCallback(
-    async (body: CreateOrUpdateProductModel) => {
-      const res = await createApi({ body: body });
-      await refetch();
-      return res;
-    },
-    [createApi, refetch],
-  );
-
-  const updateProduct = useCallback(
-    async (id: string, body: CreateOrUpdateProductModel) => {
-      const res = await updateApi({
-        path: { id },
-        body: body,
-      });
-      await refetch();
-      return res;
-    },
-    [updateApi, refetch],
-  );
-
-  const deleteProduct = useCallback(
-    async (id: string) => {
-      const res = await deleteApi({ path: { id } });
-      await refetch();
-      return res;
-    },
-    [deleteApi, refetch],
-  );
-
-  const initialLoading = loadingList && items.length === 0 && !error;
+  const createProduct = (body: CreateOrUpdateProductModel) => create(body);
+  const updateProduct = (id: string, body: CreateOrUpdateProductModel) =>
+    update(id, body);
+  const deleteProduct = (id: string) => deleteItem(id);
 
   return {
     products: items,
-    initialLoading,
-    loadingList,
-    isLoading: loadingList,
-    isCreating: creating,
-    isUpdating: updating,
-    isDeleting: deleting,
+    state,
     error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
     createProduct,
     updateProduct,
     deleteProduct,

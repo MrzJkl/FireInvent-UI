@@ -296,5 +296,12 @@
   "validationPersonRequired": "Person is required",
   "validationPurchaseDateRequired": "Purchase date is required",
   "validationDateRequired": "Date is required",
-  "validationProductRequired": "Product is required"
+  "validationProductRequired": "Product is required",
+  "search": "Search",
+  "noResults": "No data",
+  "rowsPerPage": "Elements per page",
+  "page": "Page",
+  "of": "of",
+  "previous": "Previous",
+  "next": "Next"
 }

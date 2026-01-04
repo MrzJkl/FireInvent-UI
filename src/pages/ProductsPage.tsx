@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -30,7 +38,8 @@ export default function ProductsPage() {
 
   const {
     products,
-    isLoading,
+    state,
+    isInitialLoading,
     isCreating,
     isUpdating,
     isDeleting,
@@ -39,6 +48,10 @@ export default function ProductsPage() {
     updateProduct,
     deleteProduct,
     refetch,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setSearchTerm,
   } = useProducts();
 
   useEffect(() => {
@@ -46,7 +59,7 @@ export default function ProductsPage() {
   }, [formOpen]);
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  if (isLoading) return <LoadingIndicator />;
+  if (isInitialLoading) return <LoadingIndicator />;
 
   const showActions = canEditCatalog;
 
@@ -66,63 +79,132 @@ export default function ProductsPage() {
         )}
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('manufacturer')}</TableHead>
-            <TableHead>{t('productType')}</TableHead>
-            <TableHead>{t('description')}</TableHead>
-            <TableHead>{t('externalIdentifier')}</TableHead>
-            {showActions && <TableHead>{t('actions')}</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {products.map((product) => (
-            <TableRow
-              key={product.id}
-              className="cursor-pointer hover:bg-muted/50"
-              onClick={() => navigate(`/app/products/${product.id}`)}
-            >
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.manufacturer.name}</TableCell>
-              <TableCell>{product.type.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>
-                {product.externalIdentifier || (
-                  <span className="text-muted-foreground italic">-</span>
-                )}
-              </TableCell>
-              {showActions && (
-                <TableCell className="flex space-x-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditingItem(product);
-                      setFormOpen(true);
-                    }}
-                  >
-                    {t('edit')}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setItemToDelete(product);
-                      setConfirmOpen(true);
-                    }}
-                  >
-                    {t('delete')}
-                  </Button>
-                </TableCell>
-              )}
+      <div className="mb-4 flex items-center gap-4">
+        <Input
+          placeholder={t('search') + '...'}
+          className="max-w-sm"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div className="text-sm text-muted-foreground">
+          {state.totalItems} {t('productPlural')}
+        </div>
+      </div>
+
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('manufacturer')}</TableHead>
+              <TableHead>{t('productType')}</TableHead>
+              <TableHead>{t('description')}</TableHead>
+              <TableHead>{t('externalIdentifier')}</TableHead>
+              {showActions && <TableHead>{t('actions')}</TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {products.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={showActions ? 6 : 5}
+                  className="h-24 text-center"
+                >
+                  {t('noResults')}
+                </TableCell>
+              </TableRow>
+            ) : (
+              products.map((product) => (
+                <TableRow
+                  key={product.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/app/products/${product.id}`)}
+                >
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.manufacturer.name}</TableCell>
+                  <TableCell>{product.type.name}</TableCell>
+                  <TableCell>{product.description}</TableCell>
+                  <TableCell>
+                    {product.externalIdentifier || (
+                      <span className="text-muted-foreground italic">-</span>
+                    )}
+                  </TableCell>
+                  {showActions && (
+                    <TableCell className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditingItem(product);
+                          setFormOpen(true);
+                        }}
+                      >
+                        {t('edit')}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setItemToDelete(product);
+                          setConfirmOpen(true);
+                        }}
+                      >
+                        {t('delete')}
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="flex items-center justify-between py-4">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium">{t('rowsPerPage')}</p>
+          <Select
+            value={state.pageSize.toString()}
+            onValueChange={(value) => setPageSize(Number(value))}
+          >
+            <SelectTrigger className="h-8 w-17.5">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 50].map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-sm font-medium">
+            {t('page')} {state.page} {t('of')} {state.totalPages || 1}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={previousPage}
+              disabled={state.page <= 1}
+            >
+              {t('previous')}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={nextPage}
+              disabled={state.page >= (state.totalPages || 1)}
+            >
+              {t('next')}
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {showActions && (
         <ProductFormDialog

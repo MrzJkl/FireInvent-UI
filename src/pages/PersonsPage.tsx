@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -30,15 +38,20 @@ export default function PersonsPage() {
 
   const {
     persons,
-    initialLoading,
-    creating,
-    updating,
-    deleting,
+    state,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
     error,
     createPerson,
     updatePerson,
     deletePerson,
     refetch,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setSearchTerm,
   } = usePersons();
 
   useEffect(() => {
@@ -46,7 +59,7 @@ export default function PersonsPage() {
   }, [formOpen]);
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  if (initialLoading) return <LoadingIndicator />;
+  if (isInitialLoading) return <LoadingIndicator />;
 
   const showActions = canEditCatalog;
 
@@ -66,64 +79,133 @@ export default function PersonsPage() {
         )}
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t('firstName')}</TableHead>
-            <TableHead>{t('lastName')}</TableHead>
-            <TableHead>{t('email')}</TableHead>
-            <TableHead>{t('externalId')}</TableHead>
-            <TableHead>{t('departmentPlural')}</TableHead>
-            {showActions && <TableHead>{t('actions')}</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {persons.map((person) => (
-            <TableRow
-              key={person.id}
-              className="cursor-pointer hover:bg-muted/50"
-              onClick={() => navigate(`/app/persons/${person.id}`)}
-            >
-              <TableCell>{person.firstName}</TableCell>
-              <TableCell>{person.lastName}</TableCell>
-              <TableCell>{person.eMail}</TableCell>
-              <TableCell>{person.externalId}</TableCell>
-              <TableCell>
-                {person.departments?.length
-                  ? person.departments.map((d) => d.name).join(', ')
-                  : '-'}
-              </TableCell>
-              {showActions && (
-                <TableCell
-                  className="flex space-x-2"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => {
-                      setEditingItem(person);
-                      setFormOpen(true);
-                    }}
-                  >
-                    {t('edit')}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => {
-                      setItemToDelete(person);
-                      setConfirmOpen(true);
-                    }}
-                  >
-                    {t('delete')}
-                  </Button>
-                </TableCell>
-              )}
+      <div className="mb-4 flex items-center gap-4">
+        <Input
+          placeholder={t('search') + '...'}
+          className="max-w-sm"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div className="text-sm text-muted-foreground">
+          {state.totalItems} {t('personPlural')}
+        </div>
+      </div>
+
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t('firstName')}</TableHead>
+              <TableHead>{t('lastName')}</TableHead>
+              <TableHead>{t('email')}</TableHead>
+              <TableHead>{t('externalId')}</TableHead>
+              <TableHead>{t('departmentPlural')}</TableHead>
+              {showActions && <TableHead>{t('actions')}</TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {persons.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={showActions ? 6 : 5}
+                  className="h-24 text-center"
+                >
+                  {t('noResults')}
+                </TableCell>
+              </TableRow>
+            ) : (
+              persons.map((person) => (
+                <TableRow
+                  key={person.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/app/persons/${person.id}`)}
+                >
+                  <TableCell>{person.firstName}</TableCell>
+                  <TableCell>{person.lastName}</TableCell>
+                  <TableCell>{person.eMail}</TableCell>
+                  <TableCell>{person.externalId}</TableCell>
+                  <TableCell>
+                    {person.departments?.length
+                      ? person.departments.map((d) => d.name).join(', ')
+                      : '-'}
+                  </TableCell>
+                  {showActions && (
+                    <TableCell
+                      className="flex space-x-2"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setEditingItem(person);
+                          setFormOpen(true);
+                        }}
+                      >
+                        {t('edit')}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          setItemToDelete(person);
+                          setConfirmOpen(true);
+                        }}
+                      >
+                        {t('delete')}
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="flex items-center justify-between py-4">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium">{t('rowsPerPage')}</p>
+          <Select
+            value={state.pageSize.toString()}
+            onValueChange={(value) => setPageSize(Number(value))}
+          >
+            <SelectTrigger className="h-8 w-17.5">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 50].map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-sm font-medium">
+            {t('page')} {state.page} {t('of')} {state.totalPages || 1}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={previousPage}
+              disabled={state.page <= 1}
+            >
+              {t('previous')}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={nextPage}
+              disabled={state.page >= (state.totalPages || 1)}
+            >
+              {t('next')}
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {showActions && (
         <>
@@ -146,7 +228,7 @@ export default function PersonsPage() {
                   }
                 : undefined
             }
-            loading={editingItem ? updating : creating}
+            loading={editingItem ? isUpdating : isCreating}
             onOpenChange={setFormOpen}
             labels={{
               titleCreate: t('persons.add'),
@@ -184,7 +266,7 @@ export default function PersonsPage() {
             confirmLabel={t('delete')}
             cancelLabel={t('cancel')}
             confirmVariant="destructive"
-            confirmDisabled={deleting}
+            confirmDisabled={isDeleting}
             onConfirm={async () => {
               if (!itemToDelete) return;
               await deletePerson(itemToDelete.id);

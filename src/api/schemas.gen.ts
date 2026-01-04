@@ -947,30 +947,6 @@ export const OrderStatusSchema = {
   enum: ["Draft", "Submitted", "Delivered", "Completed"],
 } as const;
 
-export const PagedQuerySchema = {
-  type: "object",
-  properties: {
-    page: {
-      pattern: "^-?(?:0|[1-9]\\d*)$",
-      type: ["integer", "string"],
-      description: "Page number (starting from 1)",
-      format: "int32",
-      default: 1,
-    },
-    pageSize: {
-      pattern: "^-?(?:0|[1-9]\\d*)$",
-      type: ["integer", "string"],
-      description: "Page size (number of items per page)",
-      format: "int32",
-      default: 20,
-    },
-    searchTerm: {
-      type: ["null", "string"],
-      description: "Search term for filtering results. Case insensitive.",
-    },
-  },
-} as const;
-
 export const PagedResultOfAppointmentModelSchema = {
   type: "object",
   properties: {
