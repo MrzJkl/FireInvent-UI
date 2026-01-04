@@ -47,7 +47,12 @@ export function useStorageLocationDetail(
       });
 
       if (locationRes) setStorageLocation(locationRes);
-      if (assignmentsRes) setAssignments(assignmentsRes);
+      
+      if (assignmentsRes) {
+        // Handle both array (old) and PagedResult (new) formats
+        const assignmentsArray = Array.isArray(assignmentsRes) ? assignmentsRes : (assignmentsRes?.items || []);
+        setAssignments(assignmentsArray);
+      }
 
       if (!locationRes) {
         setError({ message: 'Lagerort konnte nicht geladen werden.' });
