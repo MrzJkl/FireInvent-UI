@@ -58,7 +58,7 @@ export function VisitItemFormDialog({
   labels,
 }: VisitItemFormDialogProps) {
   const { t } = useTranslation();
-  const { products, initialLoading: productsLoading } = useProducts();
+  const { products, isInitialLoading: productsLoading } = useProducts();
 
   const {
     register,

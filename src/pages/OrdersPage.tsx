@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -30,7 +38,8 @@ export default function OrdersPage() {
 
   const {
     orders,
-    initialLoading,
+    state,
+    isInitialLoading,
     isCreating,
     isUpdating,
     isDeleting,
@@ -39,6 +48,10 @@ export default function OrdersPage() {
     updateOrder,
     deleteOrder,
     refetch,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setSearchTerm,
   } = useOrders();
 
   useEffect(() => {
@@ -46,7 +59,7 @@ export default function OrdersPage() {
   }, [formOpen]);
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  if (initialLoading) return <LoadingIndicator />;
+  if (isInitialLoading) return <LoadingIndicator />;
 
   const showActions = canEditCatalog;
 
@@ -66,63 +79,132 @@ export default function OrdersPage() {
         )}
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t('orderIdentifier')}</TableHead>
-            <TableHead>{t('orderDate')}</TableHead>
-            <TableHead>{t('status')}</TableHead>
-            <TableHead>{t('deliveryDate')}</TableHead>
-            {showActions && <TableHead>{t('actions')}</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {orders.map((order) => (
-            <TableRow
-              key={order.id}
-              className="cursor-pointer hover:bg-muted/50"
-              onClick={() => navigate(`/app/orders/${order.id}`)}
-            >
-              <TableCell>{order.orderIdentifier || order.id}</TableCell>
-              <TableCell>
-                {new Date(order.orderDate).toLocaleDateString('de-DE')}
-              </TableCell>
-              <TableCell>{t(`orderStatus.${order.status}`)}</TableCell>
-              <TableCell>
-                {order.deliveryDate
-                  ? new Date(order.deliveryDate).toLocaleDateString('de-DE')
-                  : '–'}
-              </TableCell>
-              {showActions && (
-                <TableCell className="flex space-x-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditingItem(order);
-                      setFormOpen(true);
-                    }}
-                  >
-                    {t('edit')}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setItemToDelete(order);
-                      setConfirmOpen(true);
-                    }}
-                  >
-                    {t('delete')}
-                  </Button>
-                </TableCell>
-              )}
+      <div className="mb-4 flex items-center gap-4">
+        <Input
+          placeholder={t('search') + '...'}
+          className="max-w-sm"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div className="text-sm text-muted-foreground">
+          {state.totalItems} {t('orderPlural')}
+        </div>
+      </div>
+
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t('orderIdentifier')}</TableHead>
+              <TableHead>{t('orderDate')}</TableHead>
+              <TableHead>{t('status')}</TableHead>
+              <TableHead>{t('deliveryDate')}</TableHead>
+              {showActions && <TableHead>{t('actions')}</TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {orders.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={showActions ? 5 : 4}
+                  className="h-24 text-center"
+                >
+                  {t('noResults')}
+                </TableCell>
+              </TableRow>
+            ) : (
+              orders.map((order) => (
+                <TableRow
+                  key={order.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/app/orders/${order.id}`)}
+                >
+                  <TableCell>{order.orderIdentifier || order.id}</TableCell>
+                  <TableCell>
+                    {new Date(order.orderDate).toLocaleDateString('de-DE')}
+                  </TableCell>
+                  <TableCell>{t(`orderStatus.${order.status}`)}</TableCell>
+                  <TableCell>
+                    {order.deliveryDate
+                      ? new Date(order.deliveryDate).toLocaleDateString('de-DE')
+                      : '–'}
+                  </TableCell>
+                  {showActions && (
+                    <TableCell className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditingItem(order);
+                          setFormOpen(true);
+                        }}
+                      >
+                        {t('edit')}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setItemToDelete(order);
+                          setConfirmOpen(true);
+                        }}
+                      >
+                        {t('delete')}
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="flex items-center justify-between py-4">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium">{t('rowsPerPage')}</p>
+          <Select
+            value={state.pageSize.toString()}
+            onValueChange={(value) => setPageSize(Number(value))}
+          >
+            <SelectTrigger className="h-8 w-17.5">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 50].map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-sm font-medium">
+            {t('page')} {state.page} {t('of')} {state.totalPages || 1}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={previousPage}
+              disabled={state.page <= 1}
+            >
+              {t('previous')}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={nextPage}
+              disabled={state.page >= (state.totalPages || 1)}
+            >
+              {t('next')}
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {showActions && (
         <OrderFormDialog

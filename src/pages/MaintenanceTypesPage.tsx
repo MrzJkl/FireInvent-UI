@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -32,15 +40,20 @@ export default function MaintenanceTypesPage() {
 
   const {
     items: maintenanceTypes,
-    initialLoading,
-    creating,
-    updating,
-    deleting,
+    state,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
     error,
     createItem,
     updateItem,
     deleteItem,
     refetch,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setSearchTerm,
   } = useMaintenanceTypes();
 
   useEffect(() => {
@@ -48,7 +61,7 @@ export default function MaintenanceTypesPage() {
   }, [formOpen]);
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  if (initialLoading) return <LoadingIndicator message={t('loadingData')} />;
+  if (isInitialLoading) return <LoadingIndicator />;
 
   const showActions = canEditMaintenanceTypes;
 
@@ -68,47 +81,116 @@ export default function MaintenanceTypesPage() {
         )}
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t('name')}</TableHead>
-            <TableHead>{t('description')}</TableHead>
-            {showActions && <TableHead>{t('actions')}</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {maintenanceTypes.map((mt) => (
-            <TableRow key={mt.id}>
-              <TableCell>{mt.name}</TableCell>
-              <TableCell>{mt.description}</TableCell>
-              {showActions && (
-                <TableCell className="flex space-x-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => {
-                      setEditingItem(mt);
-                      setFormOpen(true);
-                    }}
-                  >
-                    {t('edit')}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => {
-                      setItemToDelete(mt);
-                      setConfirmOpen(true);
-                    }}
-                  >
-                    {t('delete')}
-                  </Button>
-                </TableCell>
-              )}
+      <div className="mb-4 flex items-center gap-4">
+        <Input
+          placeholder={t('search') + '...'}
+          className="max-w-sm"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div className="text-sm text-muted-foreground">
+          {state.totalItems} {t('maintenanceTypePlural')}
+        </div>
+      </div>
+
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('description')}</TableHead>
+              {showActions && <TableHead>{t('actions')}</TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {maintenanceTypes.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={showActions ? 3 : 2}
+                  className="h-24 text-center"
+                >
+                  {t('noResults')}
+                </TableCell>
+              </TableRow>
+            ) : (
+              maintenanceTypes.map((mt) => (
+                <TableRow key={mt.id}>
+                  <TableCell>{mt.name}</TableCell>
+                  <TableCell>{mt.description}</TableCell>
+                  {showActions && (
+                    <TableCell className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setEditingItem(mt);
+                          setFormOpen(true);
+                        }}
+                      >
+                        {t('edit')}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          setItemToDelete(mt);
+                          setConfirmOpen(true);
+                        }}
+                      >
+                        {t('delete')}
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="flex items-center justify-between py-4">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium">{t('rowsPerPage')}</p>
+          <Select
+            value={state.pageSize.toString()}
+            onValueChange={(value) => setPageSize(Number(value))}
+          >
+            <SelectTrigger className="h-8 w-17.5">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 50].map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-sm font-medium">
+            {t('page')} {state.page} {t('of')} {state.totalPages || 1}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={previousPage}
+              disabled={state.page <= 1}
+            >
+              {t('previous')}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={nextPage}
+              disabled={state.page >= (state.totalPages || 1)}
+            >
+              {t('next')}
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {showActions && (
         <>
@@ -119,7 +201,7 @@ export default function MaintenanceTypesPage() {
               name: editingItem?.name ?? '',
               description: editingItem?.description ?? '',
             }}
-            loading={editingItem ? updating : creating}
+            loading={editingItem ? isUpdating : isCreating}
             onOpenChange={setFormOpen}
             labels={{
               titleCreate: t('maintenanceTypes.add'),
@@ -156,7 +238,7 @@ export default function MaintenanceTypesPage() {
             confirmLabel={t('delete')}
             cancelLabel={t('cancel')}
             confirmVariant="destructive"
-            confirmDisabled={deleting}
+            confirmDisabled={isDeleting}
             onConfirm={async () => {
               if (!itemToDelete) return;
               await deleteItem(itemToDelete.id);

@@ -1,8 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ErrorState } from '@/components/ErrorState';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
@@ -11,11 +27,12 @@ import { useTranslation } from 'react-i18next';
 import { IconArrowLeft } from '@tabler/icons-react';
 import {
   getPersonsById,
-  getPersonsByIdAssignments,
+  getPersonsByIdAssignmentsPaginated,
   putPersonsById,
   deletePersonsById,
 } from '@/api';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
+import { useCrudList } from '@/hooks/useCrudList';
 import type { PersonModel, ItemAssignmentHistoryModel } from '@/api/types.gen';
 import { useAuthorization } from '@/auth/permissions';
 
@@ -27,9 +44,6 @@ export default function PersonDetailPage() {
   const canManagePerson = canEditCatalog;
 
   const [person, setPerson] = useState<PersonModel | null>(null);
-  const [assignments, setAssignments] = useState<ItemAssignmentHistoryModel[]>(
-    [],
-  );
   const [error, setError] = useState<ApiError | null>(null);
   const [personFormOpen, setPersonFormOpen] = useState(false);
   const [confirmPersonDeleteOpen, setConfirmPersonDeleteOpen] = useState(false);
@@ -42,11 +56,53 @@ export default function PersonDetailPage() {
     useApiRequest(putPersonsById);
   const { callApi: deletePersonApi, loading: deletingPerson } =
     useApiRequest(deletePersonsById);
-  const { callApi: fetchAssignments, loading: assignmentsLoading } =
-    useApiRequest(getPersonsByIdAssignments, {
-      showSuccess: false,
-      showError: false,
-    });
+
+  // Assignments list with pagination
+  const listFn = useMemo(
+    () =>
+      (
+        params: Partial<{
+          page?: number;
+          pageSize?: number;
+          searchTerm?: string | null;
+        }>,
+      ) => {
+        if (!id) {
+          return Promise.resolve({
+            data: {
+              items: [],
+              page: 1,
+              pageSize: 20,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          });
+        }
+        return getPersonsByIdAssignmentsPaginated(id, params);
+      },
+    [id],
+  );
+
+  const {
+    items: assignments,
+    state,
+    isInitialLoading: assignmentsLoading,
+    error: assignmentsError,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setSearchTerm,
+    refetch: refetchAssignments,
+  } = useCrudList<ItemAssignmentHistoryModel, never, never>(
+    listFn,
+    // Dummy functions since we don't create/update/delete from this page
+    async () => ({ data: null }),
+    async () => ({ data: null }),
+    async () => ({ data: null }),
+    {
+      initialPageSize: 20,
+    },
+  );
 
   useEffect(() => {
     if (!id) return;
@@ -62,9 +118,6 @@ export default function PersonDetailPage() {
         return;
       }
       setPerson(personData);
-
-      const assignmentsData = await fetchAssignments({ path: { id } });
-      if (assignmentsData) setAssignments(assignmentsData);
     };
 
     loadData();
@@ -83,9 +136,7 @@ export default function PersonDetailPage() {
       return;
     }
     setPerson(personData);
-
-    const assignmentsData = await fetchAssignments({ path: { id } });
-    if (assignmentsData) setAssignments(assignmentsData);
+    refetchAssignments();
   };
 
   const handleUpdatePerson = async (body: {
@@ -115,6 +166,9 @@ export default function PersonDetailPage() {
   const initialLoading = personLoading && !person && !error;
 
   if (error) return <ErrorState error={error} onRetry={refetchData} />;
+  if (assignmentsError && assignmentsError.message) {
+    return <ErrorState error={assignmentsError} onRetry={refetchAssignments} />;
+  }
   if (initialLoading) return <LoadingIndicator />;
 
   if (!person) {
@@ -131,10 +185,6 @@ export default function PersonDetailPage() {
       </div>
     );
   }
-
-  // Separate active and expired assignments
-  const activeAssignments = assignments.filter((a) => !a.assignedUntil);
-  const expiredAssignments = assignments.filter((a) => a.assignedUntil);
 
   return (
     <div className="p-4">
@@ -174,14 +224,7 @@ export default function PersonDetailPage() {
       <Tabs defaultValue="details" className="w-full">
         <TabsList>
           <TabsTrigger value="details">Details</TabsTrigger>
-          <TabsTrigger value="assignments">
-            Zuweisungen
-            {activeAssignments.length > 0 && (
-              <span className="ml-2 rounded-full bg-primary px-2 py-0.5 text-xs text-primary-foreground">
-                {activeAssignments.length}
-              </span>
-            )}
-          </TabsTrigger>
+          <TabsTrigger value="assignments">Zuweisungen</TabsTrigger>
         </TabsList>
 
         {/* Details Tab */}
@@ -252,159 +295,179 @@ export default function PersonDetailPage() {
 
         {/* Assignments Tab */}
         <TabsContent value="assignments" className="mt-6">
-          <div className="space-y-6">
-            {/* Active Assignments */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-2">
-                    Aktive Zuweisungen
-                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-sm font-normal text-green-800 dark:bg-green-900 dark:text-green-200">
-                      {activeAssignments.length}
-                    </span>
-                  </CardTitle>
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-4">
+                <CardTitle>Zuweisungen</CardTitle>
+                <div className="text-sm text-muted-foreground">
+                  {state.totalItems}{' '}
+                  {state.totalItems === 1 ? 'Zuweisung' : 'Zuweisungen'}
                 </div>
-              </CardHeader>
-              <CardContent>
-                {assignmentsLoading ? (
-                  <LoadingIndicator />
-                ) : activeAssignments.length === 0 ? (
-                  <div className="flex h-24 items-center justify-center text-muted-foreground">
-                    Keine aktiven Zuweisungen
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {activeAssignments.map((assignment) => (
-                      <div
-                        key={assignment.id}
-                        className="rounded border border-green-200 bg-green-50/50 p-4 dark:border-green-900 dark:bg-green-950/20"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1 space-y-2">
-                            <div className="flex items-center gap-2">
-                              <p className="font-medium">
-                                {assignment.item.identifier ||
-                                  `Item ID: ${assignment.itemId}`}
-                              </p>
-                              <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-200">
-                                Aktiv
-                              </span>
-                            </div>
-                            {assignment.item.variant?.product && (
-                              <p className="text-sm text-muted-foreground">
-                                {assignment.item.variant.product.name}
-                                {assignment.item.variant && (
-                                  <>
-                                    {' · '}
-                                    {assignment.item.variant.name}
-                                  </>
-                                )}
-                              </p>
-                            )}
-                            <p className="text-sm text-muted-foreground">
-                              Zugewiesen seit:{' '}
+              </div>
+            </CardHeader>
+            <CardContent>
+              {/* Search */}
+              <div className="mb-4">
+                <Input
+                  placeholder={t('search')}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="max-w-sm"
+                />
+              </div>
+
+              {/* Table */}
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
+                      <TableHead>Produkt / Variante</TableHead>
+                      <TableHead>Von</TableHead>
+                      <TableHead>Bis</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Aktionen</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {assignmentsLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={6} className="h-24 text-center">
+                          <LoadingIndicator />
+                        </TableCell>
+                      </TableRow>
+                    ) : assignments.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={6} className="h-24 text-center">
+                          <div className="flex flex-col items-center justify-center text-muted-foreground">
+                            <p>{t('noResults')}</p>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      assignments.map((assignment) => {
+                        const isActive = !assignment.assignedUntil;
+                        return (
+                          <TableRow
+                            key={assignment.id}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() =>
+                              navigate(`/app/items/${assignment.itemId}`)
+                            }
+                          >
+                            <TableCell className="font-medium">
+                              {assignment.item.identifier || (
+                                <span className="text-muted-foreground italic">
+                                  {assignment.itemId.substring(0, 8)}
+                                </span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {assignment.item.variant?.product ? (
+                                <div className="space-y-0.5">
+                                  <div>
+                                    {assignment.item.variant.product.name}
+                                  </div>
+                                  {assignment.item.variant && (
+                                    <div className="text-xs text-muted-foreground">
+                                      {assignment.item.variant.name}
+                                    </div>
+                                  )}
+                                </div>
+                              ) : (
+                                <span className="text-muted-foreground">-</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
                               {new Date(
                                 assignment.assignedFrom,
                               ).toLocaleDateString('de-DE')}
-                            </p>
-                          </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              navigate(`/app/items/${assignment.itemId}`)
-                            }
-                          >
-                            Details
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Expired Assignments */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  Abgelaufene Zuweisungen
-                  <span className="rounded-full bg-muted px-2 py-0.5 text-sm font-normal text-muted-foreground">
-                    {expiredAssignments.length}
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {assignmentsLoading ? (
-                  <LoadingIndicator />
-                ) : expiredAssignments.length === 0 ? (
-                  <div className="flex h-24 items-center justify-center text-muted-foreground">
-                    Keine abgelaufenen Zuweisungen
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {expiredAssignments.map((assignment) => (
-                      <div
-                        key={assignment.id}
-                        className="rounded border bg-muted/30 p-4"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1 space-y-2">
-                            <div className="flex items-center gap-2">
-                              <p className="font-medium">
-                                {assignment.item.identifier ||
-                                  `Item ID: ${assignment.itemId}`}
-                              </p>
-                              <span className="rounded bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-                                Abgelaufen
-                              </span>
-                            </div>
-                            {assignment.item.variant?.product && (
-                              <p className="text-sm text-muted-foreground">
-                                {assignment.item.variant.product.name}
-                                {assignment.item.variant && (
-                                  <>
-                                    {' · '}
-                                    {assignment.item.variant.name}
-                                  </>
-                                )}
-                              </p>
-                            )}
-                            <div className="flex gap-4 text-sm text-muted-foreground">
-                              <p>
-                                Von:{' '}
-                                {new Date(
-                                  assignment.assignedFrom,
-                                ).toLocaleDateString('de-DE')}
-                              </p>
-                              {assignment.assignedUntil && (
-                                <p>
-                                  Bis:{' '}
-                                  {new Date(
+                            </TableCell>
+                            <TableCell>
+                              {assignment.assignedUntil
+                                ? new Date(
                                     assignment.assignedUntil,
-                                  ).toLocaleDateString('de-DE')}
-                                </p>
+                                  ).toLocaleDateString('de-DE')
+                                : '-'}
+                            </TableCell>
+                            <TableCell>
+                              {isActive ? (
+                                <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-200">
+                                  Aktiv
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
+                                  Abgelaufen
+                                </span>
                               )}
-                            </div>
-                          </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              navigate(`/app/items/${assignment.itemId}`)
-                            }
-                          >
-                            Details
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/app/items/${assignment.itemId}`);
+                                }}
+                              >
+                                Details
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Pagination */}
+              {!assignmentsLoading && assignments.length > 0 && (
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {t('rowsPerPage')}:
+                    </span>
+                    <Select
+                      value={state.pageSize.toString()}
+                      onValueChange={(value) => setPageSize(Number(value))}
+                    >
+                      <SelectTrigger className="h-8 w-17.5">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[10, 20, 30, 50].map((size) => (
+                          <SelectItem key={size} value={size.toString()}>
+                            {size}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {t('page')} {state.page} {t('of')} {state.totalPages}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={previousPage}
+                      disabled={state.page <= 1}
+                    >
+                      {t('previous')}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={nextPage}
+                      disabled={state.page >= state.totalPages}
+                    >
+                      {t('next')}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
 

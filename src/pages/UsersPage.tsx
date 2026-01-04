@@ -17,7 +17,7 @@ export default function UsersPage() {
   const { users, initialLoading, error, refetch } = useUsers();
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
-  
+
   if (initialLoading) return <LoadingIndicator />;
 
   return (
@@ -42,7 +42,10 @@ export default function UsersPage() {
         <TableBody>
           {users.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={3} className="text-center text-muted-foreground">
+              <TableCell
+                colSpan={3}
+                className="text-center text-muted-foreground"
+              >
                 {t('users.empty')}
               </TableCell>
             </TableRow>
@@ -51,13 +54,7 @@ export default function UsersPage() {
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.eMail}</TableCell>
                 <TableCell>
-                  {user.firstName && user.lastName ? (
-                    `${user.firstName} ${user.lastName}`
-                  ) : (
-                    <span className="text-muted-foreground italic">
-                      {t('users.noName')}
-                    </span>
-                  )}
+                  {user.firstName} {user.lastName}
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline" className="font-mono text-xs">

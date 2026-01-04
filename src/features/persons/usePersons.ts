@@ -1,89 +1,59 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  getPersons,
+  getPersonsPaginated,
   postPersons,
   putPersonsById,
   deletePersonsById,
   type CreateOrUpdatePersonModel,
   type PersonModel,
 } from '@/api';
-import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
+import { useCrudList } from '@/hooks/useCrudList';
 
 export function usePersons() {
-  const [items, setItems] = useState<PersonModel[]>([]);
-  const [error, setError] = useState<ApiError | null>(null);
-  const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getPersons,
-    { showSuccess: false, showError: false },
-  );
-  const { callApi: createApi, loading: creating } = useApiRequest(postPersons);
-  const { callApi: updateApi, loading: updating } =
-    useApiRequest(putPersonsById);
-  const { callApi: deleteApi, loading: deleting } =
-    useApiRequest(deletePersonsById);
+  const {
+    items,
+    state,
+    error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
+    create,
+    update,
+    delete: deleteItem,
+    refetch,
+  } = useCrudList<
+    PersonModel,
+    CreateOrUpdatePersonModel,
+    CreateOrUpdatePersonModel
+  >(getPersonsPaginated, postPersons, putPersonsById, deletePersonsById, {
+    initialPageSize: 20,
+  });
 
-  const fetchApiRef = useRef(fetchApi);
-  useEffect(() => {
-    fetchApiRef.current = fetchApi;
-  }, [fetchApi]);
-
-  const refetch = useCallback(async () => {
-    setError(null);
-    const res = await fetchApiRef.current({});
-    if (res) {
-      setItems(res);
-    } else {
-      setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const createPerson = useCallback(
-    async (body: CreateOrUpdatePersonModel) => {
-      const res = await createApi({ body: body });
-      await refetch();
-      return res;
-    },
-    [createApi, refetch],
-  );
-
-  const updatePerson = useCallback(
-    async (id: string, body: CreateOrUpdatePersonModel) => {
-      const res = await updateApi({
-        path: { id },
-        body: body,
-      });
-      await refetch();
-      return res;
-    },
-    [updateApi, refetch],
-  );
-
-  const deletePerson = useCallback(
-    async (id: string) => {
-      const res = await deleteApi({ path: { id } });
-      await refetch();
-      return res;
-    },
-    [deleteApi, refetch],
-  );
-
-  const initialLoading = loadingList && items.length === 0 && !error;
+  const createPerson = (body: CreateOrUpdatePersonModel) => create(body);
+  const updatePerson = (id: string, body: CreateOrUpdatePersonModel) =>
+    update(id, body);
+  const deletePerson = (id: string) => deleteItem(id);
 
   return {
     persons: items,
-    initialLoading,
-    loadingList,
-    creating,
-    updating,
-    deleting,
+    state,
     error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
     createPerson,
     updatePerson,
     deletePerson,

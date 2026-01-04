@@ -55,7 +55,7 @@ export function VisitFormDialog({
   labels,
 }: VisitFormDialogProps) {
   const { t } = useTranslation();
-  const { persons, initialLoading: personsLoading } = usePersons();
+  const { persons, isInitialLoading: personsLoading } = usePersons();
 
   const {
     handleSubmit,

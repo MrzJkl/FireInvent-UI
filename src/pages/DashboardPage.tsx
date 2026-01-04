@@ -47,19 +47,19 @@ export default function DashboardPage() {
       try {
         const [productsRes, variantsRes, itemsRes, personsRes, ordersRes] =
           await Promise.all([
-            getProducts({}),
-            getVariants({}),
-            getItems({}),
-            getPersons({}),
-            getOrders({}),
+            getProducts({ query: { Page: 1, PageSize: 1 } }),
+            getVariants({ query: { Page: 1, PageSize: 1 } }),
+            getItems({ query: { Page: 1, PageSize: 1 } }),
+            getPersons({ query: { Page: 1, PageSize: 1 } }),
+            getOrders({ query: { Page: 1, PageSize: 1 } }),
           ]);
 
         setStats({
-          products: productsRes.data?.length ?? 0,
-          variants: variantsRes.data?.length ?? 0,
-          items: itemsRes.data?.length ?? 0,
-          persons: personsRes.data?.length ?? 0,
-          orders: ordersRes.data?.length ?? 0,
+          products: Number(productsRes.data?.totalItems ?? 0),
+          variants: Number(variantsRes.data?.totalItems ?? 0),
+          items: Number(itemsRes.data?.totalItems ?? 0),
+          persons: Number(personsRes.data?.totalItems ?? 0),
+          orders: Number(ordersRes.data?.totalItems ?? 0),
         });
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
@@ -74,8 +74,10 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const appointmentsRes = await getAppointments({});
-        const appointments = appointmentsRes.data ?? [];
+        const appointmentsRes = await getAppointments({
+          query: { Page: 1, PageSize: 100 }, // Load next 100 to have enough for filtering
+        });
+        const appointments = appointmentsRes.data?.items ?? [];
 
         // Filter upcoming appointments (today or future)
         const now = new Date();
@@ -99,10 +101,11 @@ export default function DashboardPage() {
             try {
               const visitsRes = await getAppointmentsByIdVisits({
                 path: { id: apt.id! },
+                query: { Page: 1, PageSize: 1 }, // Only need totalItems
               });
               return {
                 ...apt,
-                visitsCount: visitsRes.data?.length ?? 0,
+                visitsCount: Number(visitsRes.data?.totalItems ?? 0),
               };
             } catch {
               return {

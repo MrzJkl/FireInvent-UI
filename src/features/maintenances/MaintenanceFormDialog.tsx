@@ -53,7 +53,7 @@ export function MaintenanceFormDialog({
 }: MaintenanceFormDialogProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'de' ? de : enUS;
-  const { items: maintenanceTypes, initialLoading: typesLoading } =
+  const { items: maintenanceTypes, isInitialLoading: typesLoading } =
     useMaintenanceTypes();
   const { users, initialLoading: usersLoading } = useUsers();
 

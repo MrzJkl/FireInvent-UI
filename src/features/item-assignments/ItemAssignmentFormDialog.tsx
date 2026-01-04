@@ -73,8 +73,8 @@ export function ItemAssignmentFormDialog({
 }: ItemAssignmentFormDialogProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'de' ? de : enUS;
-  const { persons, initialLoading: personsLoading } = usePersons();
-  const { items: locations, initialLoading: locationsLoading } =
+  const { persons, isInitialLoading: personsLoading } = usePersons();
+  const { items: locations, isInitialLoading: locationsLoading } =
     useStorageLocations();
 
   const {

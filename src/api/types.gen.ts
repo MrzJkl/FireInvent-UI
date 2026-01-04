@@ -290,6 +290,374 @@ export const OrderStatus = {
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
+export type PagedResultOfAppointmentModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<AppointmentModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfDepartmentModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<DepartmentModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfItemAssignmentHistoryModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ItemAssignmentHistoryModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfItemModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ItemModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfMaintenanceModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<MaintenanceModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfMaintenanceTypeModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<MaintenanceTypeModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfManufacturerModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ManufacturerModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfOrderItemModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<OrderItemModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfOrderModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<OrderModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfPersonModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<PersonModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfProductModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ProductModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfProductTypeModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ProductTypeModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfStorageLocationModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<StorageLocationModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfVariantModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<VariantModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfVisitItemModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<VisitItemModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfVisitModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<VisitModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
 export type PersonModel = {
   id: string;
   departments: Array<DepartmentModel>;
@@ -360,7 +728,7 @@ export type TenantModel = {
 
 export type UserModel = {
   id: string;
-  eMail: string;
+  eMail?: null | string;
   firstName?: null | string;
   lastName?: null | string;
 };
@@ -506,7 +874,20 @@ export type GetAppointmentsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/appointments";
 };
 
@@ -514,7 +895,7 @@ export type GetAppointmentsResponses = {
   /**
    * OK
    */
-  200: Array<AppointmentModel>;
+  200: PagedResultOfAppointmentModel;
 };
 
 export type GetAppointmentsResponse =
@@ -659,7 +1040,20 @@ export type GetAppointmentsByIdVisitsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/appointments/{id}/visits";
 };
 
@@ -677,7 +1071,7 @@ export type GetAppointmentsByIdVisitsResponses = {
   /**
    * OK
    */
-  200: Array<VisitModel>;
+  200: PagedResultOfVisitModel;
 };
 
 export type GetAppointmentsByIdVisitsResponse =
@@ -692,7 +1086,20 @@ export type GetDepartmentsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/departments";
 };
 
@@ -700,7 +1107,7 @@ export type GetDepartmentsResponses = {
   /**
    * OK
    */
-  200: Array<DepartmentModel>;
+  200: PagedResultOfDepartmentModel;
 };
 
 export type GetDepartmentsResponse =
@@ -845,7 +1252,20 @@ export type GetDepartmentsByIdPersonsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/departments/{id}/persons";
 };
 
@@ -863,7 +1283,7 @@ export type GetDepartmentsByIdPersonsResponses = {
   /**
    * OK
    */
-  200: Array<PersonModel>;
+  200: PagedResultOfPersonModel;
 };
 
 export type GetDepartmentsByIdPersonsResponse =
@@ -878,7 +1298,20 @@ export type GetAssignmentsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/assignments";
 };
 
@@ -886,7 +1319,7 @@ export type GetAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetAssignmentsResponse =
@@ -1051,7 +1484,20 @@ export type GetItemsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/items";
 };
 
@@ -1059,7 +1505,7 @@ export type GetItemsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: PagedResultOfItemModel;
 };
 
 export type GetItemsResponse = GetItemsResponses[keyof GetItemsResponses];
@@ -1221,7 +1667,20 @@ export type GetItemsByIdAssignmentsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/items/{id}/assignments";
 };
 
@@ -1239,7 +1698,7 @@ export type GetItemsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetItemsByIdAssignmentsResponse =
@@ -1256,7 +1715,20 @@ export type GetItemsByIdMaintenanceData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/items/{id}/maintenance";
 };
 
@@ -1274,7 +1746,7 @@ export type GetItemsByIdMaintenanceResponses = {
   /**
    * OK
    */
-  200: Array<MaintenanceModel>;
+  200: PagedResultOfMaintenanceModel;
 };
 
 export type GetItemsByIdMaintenanceResponse =
@@ -1289,7 +1761,20 @@ export type GetMaintenancesData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/maintenances";
 };
 
@@ -1297,7 +1782,7 @@ export type GetMaintenancesResponses = {
   /**
    * OK
    */
-  200: Array<MaintenanceModel>;
+  200: PagedResultOfMaintenanceModel;
 };
 
 export type GetMaintenancesResponse =
@@ -1454,7 +1939,20 @@ export type GetMaintenanceTypesData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/maintenance-types";
 };
 
@@ -1462,7 +1960,7 @@ export type GetMaintenanceTypesResponses = {
   /**
    * OK
    */
-  200: Array<MaintenanceTypeModel>;
+  200: PagedResultOfMaintenanceTypeModel;
 };
 
 export type GetMaintenanceTypesResponse =
@@ -1605,7 +2103,20 @@ export type GetManufacturersData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/manufacturers";
 };
 
@@ -1613,7 +2124,7 @@ export type GetManufacturersResponses = {
   /**
    * OK
    */
-  200: Array<ManufacturerModel>;
+  200: PagedResultOfManufacturerModel;
 };
 
 export type GetManufacturersResponse =
@@ -1758,7 +2269,20 @@ export type GetManufacturersByIdProductsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/manufacturers/{id}/products";
 };
 
@@ -1776,7 +2300,7 @@ export type GetManufacturersByIdProductsResponses = {
   /**
    * OK
    */
-  200: Array<ProductModel>;
+  200: PagedResultOfProductModel;
 };
 
 export type GetManufacturersByIdProductsResponse =
@@ -1791,7 +2315,20 @@ export type GetOrdersData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/orders";
 };
 
@@ -1799,7 +2336,7 @@ export type GetOrdersResponses = {
   /**
    * OK
    */
-  200: Array<OrderModel>;
+  200: PagedResultOfOrderModel;
 };
 
 export type GetOrdersResponse = GetOrdersResponses[keyof GetOrdersResponses];
@@ -1942,7 +2479,20 @@ export type GetOrderItemsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/order-items";
 };
 
@@ -1950,7 +2500,7 @@ export type GetOrderItemsResponses = {
   /**
    * OK
    */
-  200: Array<OrderItemModel>;
+  200: PagedResultOfOrderItemModel;
 };
 
 export type GetOrderItemsResponse =
@@ -1990,7 +2540,20 @@ export type GetOrderItemsByOrderByOrderIdData = {
   path: {
     orderId: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/order-items/by-order/{orderId}";
 };
 
@@ -1998,7 +2561,7 @@ export type GetOrderItemsByOrderByOrderIdResponses = {
   /**
    * OK
    */
-  200: Array<OrderItemModel>;
+  200: PagedResultOfOrderItemModel;
 };
 
 export type GetOrderItemsByOrderByOrderIdResponse =
@@ -2118,7 +2681,20 @@ export type GetPersonsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/persons";
 };
 
@@ -2126,7 +2702,7 @@ export type GetPersonsResponses = {
   /**
    * OK
    */
-  200: Array<PersonModel>;
+  200: PagedResultOfPersonModel;
 };
 
 export type GetPersonsResponse = GetPersonsResponses[keyof GetPersonsResponses];
@@ -2279,7 +2855,20 @@ export type GetPersonsByIdAssignmentsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/persons/{id}/assignments";
 };
 
@@ -2297,7 +2886,7 @@ export type GetPersonsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetPersonsByIdAssignmentsResponse =
@@ -2312,7 +2901,20 @@ export type GetProductsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/products";
 };
 
@@ -2320,7 +2922,7 @@ export type GetProductsResponses = {
   /**
    * OK
    */
-  200: Array<ProductModel>;
+  200: PagedResultOfProductModel;
 };
 
 export type GetProductsResponse =
@@ -2478,7 +3080,20 @@ export type GetProductsByIdVariantsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/products/{id}/variants";
 };
 
@@ -2496,7 +3111,7 @@ export type GetProductsByIdVariantsResponses = {
   /**
    * OK
    */
-  200: Array<VariantModel>;
+  200: PagedResultOfVariantModel;
 };
 
 export type GetProductsByIdVariantsResponse =
@@ -2511,7 +3126,20 @@ export type GetProductTypesData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/product-types";
 };
 
@@ -2519,7 +3147,7 @@ export type GetProductTypesResponses = {
   /**
    * OK
    */
-  200: Array<ProductTypeModel>;
+  200: PagedResultOfProductTypeModel;
 };
 
 export type GetProductTypesResponse =
@@ -2662,7 +3290,20 @@ export type GetStorageLocationsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/storage-locations";
 };
 
@@ -2670,7 +3311,7 @@ export type GetStorageLocationsResponses = {
   /**
    * OK
    */
-  200: Array<StorageLocationModel>;
+  200: PagedResultOfStorageLocationModel;
 };
 
 export type GetStorageLocationsResponse =
@@ -2829,7 +3470,20 @@ export type GetStorageLocationsByIdAssignmentsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/storage-locations/{id}/assignments";
 };
 
@@ -2847,7 +3501,7 @@ export type GetStorageLocationsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetStorageLocationsByIdAssignmentsResponse =
@@ -3085,7 +3739,20 @@ export type GetVariantsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/variants";
 };
 
@@ -3093,7 +3760,7 @@ export type GetVariantsResponses = {
   /**
    * OK
    */
-  200: Array<VariantModel>;
+  200: PagedResultOfVariantModel;
 };
 
 export type GetVariantsResponse =
@@ -3259,7 +3926,20 @@ export type GetVariantsByIdItemsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/variants/{id}/items";
 };
 
@@ -3277,7 +3957,7 @@ export type GetVariantsByIdItemsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: PagedResultOfItemModel;
 };
 
 export type GetVariantsByIdItemsResponse =
@@ -3292,7 +3972,20 @@ export type GetVisitItemsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visit-items";
 };
 
@@ -3300,7 +3993,7 @@ export type GetVisitItemsResponses = {
   /**
    * OK
    */
-  200: Array<VisitItemModel>;
+  200: PagedResultOfVisitItemModel;
 };
 
 export type GetVisitItemsResponse =
@@ -3329,7 +4022,7 @@ export type PostVisitItemsResponses = {
 export type PostVisitItemsResponse =
   PostVisitItemsResponses[keyof PostVisitItemsResponses];
 
-export type GetVisitItemsByVisitByVisitIdData = {
+export type GetVisitItemsVisitByVisitIdData = {
   body?: never;
   headers?: {
     /**
@@ -3340,19 +4033,32 @@ export type GetVisitItemsByVisitByVisitIdData = {
   path: {
     visitId: string;
   };
-  query?: never;
-  url: "/visit-items/by-visit/{visitId}";
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
+  url: "/visit-items/visit/{visitId}";
 };
 
-export type GetVisitItemsByVisitByVisitIdResponses = {
+export type GetVisitItemsVisitByVisitIdResponses = {
   /**
    * OK
    */
-  200: Array<VisitItemModel>;
+  200: PagedResultOfVisitItemModel;
 };
 
-export type GetVisitItemsByVisitByVisitIdResponse =
-  GetVisitItemsByVisitByVisitIdResponses[keyof GetVisitItemsByVisitByVisitIdResponses];
+export type GetVisitItemsVisitByVisitIdResponse =
+  GetVisitItemsVisitByVisitIdResponses[keyof GetVisitItemsVisitByVisitIdResponses];
 
 export type DeleteVisitItemsByIdData = {
   body?: never;
@@ -3468,7 +4174,20 @@ export type GetVisitsData = {
     "X-Tenant-ID"?: unknown;
   };
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visits";
 };
 
@@ -3476,7 +4195,7 @@ export type GetVisitsResponses = {
   /**
    * OK
    */
-  200: Array<VisitModel>;
+  200: PagedResultOfVisitModel;
 };
 
 export type GetVisitsResponse = GetVisitsResponses[keyof GetVisitsResponses];
@@ -3638,7 +4357,20 @@ export type GetVisitsByIdItemsData = {
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number (starting from 1)
+     */
+    Page?: number | string;
+    /**
+     * Page size (number of items per page)
+     */
+    PageSize?: number | string;
+    /**
+     * Search term for filtering results. Case insensitive.
+     */
+    SearchTerm?: string;
+  };
   url: "/visits/{id}/items";
 };
 
@@ -3656,7 +4388,7 @@ export type GetVisitsByIdItemsResponses = {
   /**
    * OK
    */
-  200: Array<VisitItemModel>;
+  200: PagedResultOfVisitItemModel;
 };
 
 export type GetVisitsByIdItemsResponse =

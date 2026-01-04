@@ -21,49 +21,54 @@ import {
 import { Input } from '@/components/ui/input';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ErrorState } from '@/components/ErrorState';
+import { VariantFormDialog } from '@/features/variants/VariantFormDialog';
+import { ItemFormDialog } from '@/features/items/ItemFormDialog';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { OrderFormDialog } from '@/features/orders/OrderFormDialog';
-import { OrderItemFormDialog } from '@/features/orders/OrderItemFormDialog';
 import { useTranslation } from 'react-i18next';
 import { IconArrowLeft, IconEdit } from '@tabler/icons-react';
 import { useAuthorization } from '@/auth/permissions';
-import {
-  getOrdersById,
-  getOrderItemsByOrderByOrderIdPaginated,
-  deleteOrderItemsById,
-  putOrderItemsById,
-  postOrderItems,
-  putOrdersById,
-  type OrderModel,
-  type OrderItemModel,
-  type CreateOrUpdateOrderItemModel,
-} from '@/api';
-import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
+import { useApiRequest } from '@/hooks/useApiRequest';
 import { useCrudList } from '@/hooks/useCrudList';
+import {
+  getVariantsById,
+  getVariantsByIdItemsPaginated,
+  putVariantsById,
+  deleteVariantsById,
+  postItems,
+  putItemsById,
+  deleteItemsById,
+  type VariantModel,
+  type ItemModel,
+  type CreateOrUpdateVariantModel,
+  type CreateOrUpdateItemModel,
+} from '@/api';
 
-export default function OrderDetailPage() {
+export default function VariantDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { canEditCatalog } = useAuthorization();
   const canManage = canEditCatalog;
 
-  const [order, setOrder] = useState<OrderModel | null>(null);
-  const [error, setError] = useState<ApiError | null>(null);
+  const [variant, setVariant] = useState<VariantModel | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [itemFormOpen, setItemFormOpen] = useState(false);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const [confirmItemOpen, setConfirmItemOpen] = useState(false);
+  const [confirmVariantDeleteOpen, setConfirmVariantDeleteOpen] =
+    useState(false);
 
-  const { callApi: fetchOrder, loading: orderLoading } = useApiRequest(
-    getOrdersById,
+  const { callApi: fetchVariant, loading: variantLoading } = useApiRequest(
+    getVariantsById,
     { showSuccess: false, showError: false },
   );
-  const { callApi: updateOrder, loading: updatingOrder } =
-    useApiRequest(putOrdersById);
+  const { callApi: updateVariantApi, loading: updatingVariant } =
+    useApiRequest(putVariantsById);
+  const { callApi: deleteVariantApi, loading: deletingVariant } =
+    useApiRequest(deleteVariantsById);
 
-  // Order items list with pagination
+  // Items list with pagination
   const listFn = useMemo(
     () =>
       (
@@ -84,7 +89,7 @@ export default function OrderDetailPage() {
             },
           });
         }
-        return getOrderItemsByOrderByOrderIdPaginated(id, params);
+        return getVariantsByIdItemsPaginated(id, params);
       },
     [id],
   );
@@ -105,59 +110,71 @@ export default function OrderDetailPage() {
     setPageSize,
     setSearchTerm,
     refetch: refetchItems,
-  } = useCrudList<
-    OrderItemModel,
-    CreateOrUpdateOrderItemModel,
-    CreateOrUpdateOrderItemModel
-  >(listFn, postOrderItems, putOrderItemsById, deleteOrderItemsById, {
-    initialPageSize: 20,
-  });
+  } = useCrudList<ItemModel, CreateOrUpdateItemModel, CreateOrUpdateItemModel>(
+    listFn,
+    postItems,
+    putItemsById,
+    deleteItemsById,
+    {
+      initialPageSize: 20,
+    },
+  );
 
   useEffect(() => {
     if (!id) return;
-    const loadOrder = async () => {
-      setError(null);
-      const res = await fetchOrder({ path: { id } });
+    const loadVariant = async () => {
+      const res = await fetchVariant({ path: { id } });
       if (res) {
-        setOrder(res);
-      } else {
-        setError({ message: 'Bestellung konnte nicht geladen werden.' });
+        setVariant(res);
       }
     };
-    loadOrder();
+    loadVariant();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  useEffect(() => {
-    if (!itemFormOpen) setEditingItemId(null);
-  }, [itemFormOpen]);
-
-  const refetchData = async () => {
-    if (!id) return;
-    setError(null);
-    const res = await fetchOrder({ path: { id } });
+  const handleUpdateVariant = async (
+    data: Omit<CreateOrUpdateVariantModel, 'productId'>,
+  ) => {
+    if (!variant || !id) return;
+    const payload = {
+      ...data,
+      productId: variant.productId,
+      additionalSpecs: data.additionalSpecs || undefined,
+      externalIdentifier: data.externalIdentifier || undefined,
+    };
+    const res = await updateVariantApi({
+      path: { id },
+      body: payload as CreateOrUpdateVariantModel,
+    });
     if (res) {
-      setOrder(res);
+      setVariant(res);
+      setFormOpen(false);
     }
-    refetchItems();
   };
 
-  if (error) return <ErrorState error={error} onRetry={refetchData} />;
+  const handleDeleteVariant = async () => {
+    if (!id || !variant) return;
+    await deleteVariantApi({ path: { id } });
+    navigate(`/app/products/${variant.productId}`);
+  };
+
+  if (variantLoading) return <LoadingIndicator />;
   if (itemsError && itemsError.message) {
     return <ErrorState error={itemsError} onRetry={refetchItems} />;
   }
-  if (orderLoading) return <LoadingIndicator />;
 
-  if (!order) {
+  if (!variant) {
     return (
       <div className="flex h-full items-center justify-center p-8">
         <Card>
           <CardHeader>
-            <CardTitle>{t('order')} nicht gefunden</CardTitle>
+            <CardTitle>
+              {t('variant')} {t('notFound')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate('/app/orders')}>
-              {t('orderPlural')}
+            <Button onClick={() => navigate('/app/products')}>
+              {t('productPlural')} {t('view')}
             </Button>
           </CardContent>
         </Card>
@@ -167,110 +184,134 @@ export default function OrderDetailPage() {
 
   return (
     <div className="p-4">
+      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => navigate('/app/orders')}
+            onClick={() => navigate(`/app/products/${variant.productId}`)}
           >
             <IconArrowLeft className="size-5" />
           </Button>
           <div>
-            <h1 className="text-2xl font-bold">
-              {order.orderIdentifier || order.id}
-            </h1>
+            <h1 className="text-2xl font-bold">{variant.name}</h1>
             <p className="text-sm text-muted-foreground">
-              {new Date(order.orderDate).toLocaleDateString('de-DE')} ·{' '}
-              {t(`orderStatus.${order.status}`)}
+              <Button
+                variant="link"
+                className="h-auto p-0 text-sm"
+                onClick={() => navigate(`/app/products/${variant.productId}`)}
+              >
+                {variant.product.name}
+              </Button>
             </p>
           </div>
         </div>
         {canManage && (
-          <Button
-            variant="outline"
-            onClick={() => setFormOpen(true)}
-            className="gap-2"
-          >
-            <IconEdit className="size-4" />
-            {t('edit')}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setFormOpen(true)}
+              className="gap-2"
+            >
+              <IconEdit className="size-4" />
+              {t('edit')}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => setConfirmVariantDeleteOpen(true)}
+            >
+              {t('delete')}
+            </Button>
+          </div>
         )}
       </div>
 
-      <Tabs defaultValue="details" className="w-full">
+      {/* Tabs */}
+      <Tabs defaultValue="variant" className="w-full">
         <TabsList>
-          <TabsTrigger value="details">{t('details')}</TabsTrigger>
-          <TabsTrigger value="items">{t('orderItems.label')}</TabsTrigger>
+          <TabsTrigger value="variant">{t('variant')}</TabsTrigger>
+          <TabsTrigger value="items">{t('items.label')}</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="details" className="mt-6">
+        {/* Variant Tab */}
+        <TabsContent value="variant" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('details')}</CardTitle>
+              <CardTitle>{t('variant')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
-                  {t('orderIdentifier')}
+                  {t('name')}
+                </div>
+                <div className="mt-1">{variant.name}</div>
+              </div>
+              <div>
+                <div className="text-sm font-medium text-muted-foreground">
+                  {t('product')}
                 </div>
                 <div className="mt-1">
-                  {order.orderIdentifier || (
-                    <span className="text-muted-foreground italic">–</span>
+                  <Button
+                    variant="link"
+                    className="h-auto p-0"
+                    onClick={() =>
+                      navigate(`/app/products/${variant.productId}`)
+                    }
+                  >
+                    {variant.product.name}
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <div className="text-sm font-medium text-muted-foreground">
+                  {t('additionalSpecs')}
+                </div>
+                <div className="mt-1">
+                  {variant.additionalSpecs || (
+                    <span className="text-muted-foreground italic">-</span>
                   )}
                 </div>
               </div>
               <div>
                 <div className="text-sm font-medium text-muted-foreground">
-                  {t('orderDate')}
+                  {t('externalIdentifier')}
                 </div>
                 <div className="mt-1">
-                  {new Date(order.orderDate).toLocaleDateString('de-DE')}
+                  {variant.externalIdentifier || (
+                    <span className="text-muted-foreground italic">
+                      {variant.product.externalIdentifier
+                        ? `${variant.product.externalIdentifier} (${t('inheritedFromProduct')})`
+                        : '-'}
+                    </span>
+                  )}
                 </div>
               </div>
-              <div>
-                <div className="text-sm font-medium text-muted-foreground">
-                  {t('status')}
-                </div>
-                <div className="mt-1">{t(`orderStatus.${order.status}`)}</div>
-              </div>
-              {order.deliveryDate && (
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">
-                    {t('deliveryDate')}
-                  </div>
-                  <div className="mt-1">
-                    {new Date(order.deliveryDate).toLocaleDateString('de-DE')}
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
         </TabsContent>
 
+        {/* Items Tab */}
         <TabsContent value="items" className="mt-6">
           <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <CardTitle>{t('orderItems.label')}</CardTitle>
-                  <div className="text-sm text-muted-foreground">
-                    {state.totalItems}{' '}
-                    {state.totalItems === 1 ? 'Position' : 'Positionen'}
-                  </div>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center gap-4">
+                <CardTitle>{t('items.label')}</CardTitle>
+                <div className="text-sm text-muted-foreground">
+                  {state.totalItems} {t('items.label')}
                 </div>
-                {canManage && (
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      setEditingItemId(null);
-                      setItemFormOpen(true);
-                    }}
-                  >
-                    {t('add')}
-                  </Button>
-                )}
               </div>
+              {canManage && (
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setEditingItemId(null);
+                    setItemFormOpen(true);
+                  }}
+                >
+                  {t('add')}
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
               {/* Search */}
@@ -287,11 +328,14 @@ export default function OrderDetailPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Produkt / Variante</TableHead>
-                      <TableHead>Menge</TableHead>
-                      <TableHead>Person</TableHead>
+                      <TableHead>{t('identifier')}</TableHead>
+                      <TableHead>{t('condition')}</TableHead>
+                      <TableHead>{t('purchaseDate')}</TableHead>
+                      <TableHead>{t('items.isDemoItem')}</TableHead>
                       {canManage && (
-                        <TableHead className="text-right">Aktionen</TableHead>
+                        <TableHead className="text-right">
+                          {t('actions')}
+                        </TableHead>
                       )}
                     </TableRow>
                   </TableHeader>
@@ -299,7 +343,7 @@ export default function OrderDetailPage() {
                     {itemsLoading ? (
                       <TableRow>
                         <TableCell
-                          colSpan={canManage ? 4 : 3}
+                          colSpan={canManage ? 5 : 4}
                           className="h-24 text-center"
                         >
                           <LoadingIndicator />
@@ -308,7 +352,7 @@ export default function OrderDetailPage() {
                     ) : items.length === 0 ? (
                       <TableRow>
                         <TableCell
-                          colSpan={canManage ? 4 : 3}
+                          colSpan={canManage ? 5 : 4}
                           className="h-24 text-center"
                         >
                           <div className="flex flex-col items-center justify-center text-muted-foreground">
@@ -318,34 +362,26 @@ export default function OrderDetailPage() {
                       </TableRow>
                     ) : (
                       items.map((item) => (
-                        <TableRow key={item.id} className="hover:bg-muted/50">
+                        <TableRow
+                          key={item.id}
+                          className="cursor-pointer hover:bg-muted/50"
+                          onClick={() => navigate(`/app/items/${item.id}`)}
+                        >
                           <TableCell className="font-medium">
-                            {item.variant?.product && item.variant ? (
-                              <div className="space-y-0.5">
-                                <div>{item.variant.product.name}</div>
-                                <div className="text-xs text-muted-foreground">
-                                  {item.variant.name}
-                                </div>
-                              </div>
-                            ) : (
-                              <span className="text-muted-foreground">-</span>
+                            {item.identifier || (
+                              <span className="text-muted-foreground italic">
+                                {item.id.substring(0, 8)}
+                              </span>
                             )}
                           </TableCell>
-                          <TableCell>{item.quantity}</TableCell>
+                          <TableCell>{item.condition}</TableCell>
                           <TableCell>
-                            {item.person ? (
-                              <Button
-                                variant="link"
-                                className="h-auto p-0 text-sm"
-                                onClick={() =>
-                                  navigate(`/app/persons/${item.personId}`)
-                                }
-                              >
-                                {item.person.firstName} {item.person.lastName}
-                              </Button>
-                            ) : (
-                              <span className="text-muted-foreground">-</span>
-                            )}
+                            {item.purchaseDate
+                              ? new Date(item.purchaseDate).toLocaleDateString()
+                              : '-'}
+                          </TableCell>
+                          <TableCell>
+                            {item.isDemoItem ? t('yes') : t('no')}
                           </TableCell>
                           {canManage && (
                             <TableCell className="text-right">
@@ -353,7 +389,8 @@ export default function OrderDetailPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => {
+                                  onClick={(e) => {
+                                    e.stopPropagation();
                                     setEditingItemId(item.id);
                                     setItemFormOpen(true);
                                   }}
@@ -363,7 +400,8 @@ export default function OrderDetailPage() {
                                 <Button
                                   size="sm"
                                   variant="destructive"
-                                  onClick={() => {
+                                  onClick={(e) => {
+                                    e.stopPropagation();
                                     setDeleteItemId(item.id);
                                     setConfirmItemOpen(true);
                                   }}
@@ -433,74 +471,86 @@ export default function OrderDetailPage() {
 
       {canManage && (
         <>
-          <OrderFormDialog
+          {/* Variant Edit Dialog */}
+          <VariantFormDialog
             open={formOpen}
+            onOpenChange={setFormOpen}
             mode="edit"
             initialValues={{
-              orderIdentifier: order.orderIdentifier ?? '',
-              orderDate: new Date(order.orderDate)
-                .toISOString()
-                .substring(0, 10),
-              status: order.status,
-              deliveryDate: order.deliveryDate
-                ? new Date(order.deliveryDate).toISOString().substring(0, 10)
-                : '',
+              name: variant.name,
+              additionalSpecs: variant.additionalSpecs ?? '',
+              externalIdentifier: variant.externalIdentifier ?? '',
             }}
-            onOpenChange={setFormOpen}
-            onSubmit={async (data) => {
-              await updateOrder({
-                path: { id: id! },
-                body: {
-                  orderIdentifier: data.orderIdentifier || null,
-                  orderDate: data.orderDate,
-                  status: data.status,
-                  deliveryDate: data.deliveryDate || null,
-                },
-              });
-              await refetchData();
-              setFormOpen(false);
-            }}
-            loading={updatingOrder}
-            labels={{
-              titleEdit: t('orders.edit'),
-              orderIdentifier: t('orderIdentifier'),
-              orderDate: t('orderDate'),
-              status: t('status'),
-              deliveryDate: t('deliveryDate'),
-              cancel: t('cancel'),
-              save: t('save'),
-            }}
+            loading={updatingVariant}
+            onSubmit={handleUpdateVariant}
           />
 
-          <OrderItemFormDialog
+          {/* Variant Delete Confirm */}
+          <ConfirmDialog
+            open={confirmVariantDeleteOpen}
+            onOpenChange={setConfirmVariantDeleteOpen}
+            title={t('confirmDeleteTitle')}
+            description={t('confirmDeleteDescription', {
+              name: variant.name,
+            })}
+            confirmLabel={t('delete')}
+            cancelLabel={t('cancel')}
+            confirmVariant="destructive"
+            confirmDisabled={deletingVariant}
+            onConfirm={handleDeleteVariant}
+          />
+
+          {/* Item Form Dialog */}
+          <ItemFormDialog
             open={itemFormOpen}
             onOpenChange={(o) => {
               setItemFormOpen(o);
               if (!o) setEditingItemId(null);
             }}
-            orderId={id!}
             mode={editingItemId ? 'edit' : 'create'}
+            variantId={variant.id}
             initialValues={
               editingItemId
                 ? (() => {
                     const current = items.find((it) => it.id === editingItemId);
-                    return current
-                      ? {
-                          variantId: current.variantId,
-                          personId: current.personId || undefined,
-                          quantity: String(current.quantity),
-                        }
-                      : undefined;
+                    if (!current) return undefined;
+                    return {
+                      variantId: current.variantId,
+                      identifier: current.identifier ?? '',
+                      condition: current.condition,
+                      purchaseDate: current.purchaseDate
+                        ? new Date(current.purchaseDate)
+                            .toISOString()
+                            .substring(0, 10)
+                        : new Date().toISOString().substring(0, 10),
+                      isDemoItem: current.isDemoItem ?? false,
+                      retirementDate: current.retirementDate
+                        ? new Date(current.retirementDate)
+                            .toISOString()
+                            .substring(0, 10)
+                        : undefined,
+                    };
                   })()
-                : undefined
+                : {
+                    variantId: variant.id,
+                    identifier: '',
+                    condition: 'New' as const,
+                    purchaseDate: new Date().toISOString().substring(0, 10),
+                    isDemoItem: false,
+                    retirementDate: undefined,
+                  }
             }
             loading={editingItemId ? updatingItem : creatingItem}
             onSubmit={async (values) => {
               const payload = {
-                orderId: id!,
                 variantId: values.variantId,
-                personId: values.personId || null,
-                quantity: parseFloat(values.quantity),
+                identifier: values.identifier || undefined,
+                condition: values.condition,
+                purchaseDate:
+                  values.purchaseDate ||
+                  new Date().toISOString().substring(0, 10),
+                isDemoItem: values.isDemoItem,
+                retirementDate: values.retirementDate || undefined,
               };
               if (editingItemId) {
                 await updateItem(editingItemId, payload);
@@ -510,18 +560,9 @@ export default function OrderDetailPage() {
               setItemFormOpen(false);
               setEditingItemId(null);
             }}
-            labels={{
-              titleCreate: t('orderItems.add'),
-              titleEdit: t('orderItems.edit'),
-              variant: t('variant'),
-              person: t('person'),
-              quantity: t('quantity'),
-              cancel: t('cancel'),
-              save: t('save'),
-              add: t('add'),
-            }}
           />
 
+          {/* Item Delete Confirm */}
           <ConfirmDialog
             open={confirmItemOpen}
             onOpenChange={(o) => {
@@ -531,7 +572,7 @@ export default function OrderDetailPage() {
             title={t('confirmDeleteTitle')}
             description={t('confirmDeleteDescription', {
               name:
-                items.find((it) => it.id === deleteItemId)?.variant?.name ?? '',
+                items.find((it) => it.id === deleteItemId)?.identifier ?? '',
             })}
             confirmLabel={t('delete')}
             cancelLabel={t('cancel')}

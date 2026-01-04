@@ -171,10 +171,10 @@ import type {
   GetVisitItemsByIdData,
   GetVisitItemsByIdErrors,
   GetVisitItemsByIdResponses,
-  GetVisitItemsByVisitByVisitIdData,
-  GetVisitItemsByVisitByVisitIdResponses,
   GetVisitItemsData,
   GetVisitItemsResponses,
+  GetVisitItemsVisitByVisitIdData,
+  GetVisitItemsVisitByVisitIdResponses,
   GetVisitsByIdData,
   GetVisitsByIdErrors,
   GetVisitsByIdItemsData,
@@ -690,7 +690,7 @@ export const getDepartmentsByIdPersons = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * List all item assignments
+ * List all item assignment histories
  *
  * Returns a list of all item assignment histories.
  */
@@ -2711,13 +2711,13 @@ export const postVisitItems = <ThrowOnError extends boolean = false>(
  *
  * Returns a list of visit items for a specific visit.
  */
-export const getVisitItemsByVisitByVisitId = <
+export const getVisitItemsVisitByVisitId = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<GetVisitItemsByVisitByVisitIdData, ThrowOnError>,
+  options: Options<GetVisitItemsVisitByVisitIdData, ThrowOnError>,
 ) => {
   return (options.client ?? client).get<
-    GetVisitItemsByVisitByVisitIdResponses,
+    GetVisitItemsVisitByVisitIdResponses,
     unknown,
     ThrowOnError
   >({
@@ -2728,7 +2728,7 @@ export const getVisitItemsByVisitByVisitId = <
         type: "http",
       },
     ],
-    url: "/visit-items/by-visit/{visitId}",
+    url: "/visit-items/visit/{visitId}",
     ...options,
   });
 };

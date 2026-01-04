@@ -1,93 +1,67 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 import {
   deleteMaintenancesById,
-  getMaintenances,
+  getMaintenancesPaginated,
   postMaintenances,
   putMaintenancesById,
   type CreateOrUpdateMaintenanceModel,
   type MaintenanceModel,
 } from '@/api';
+import { useCrudList } from '@/hooks/useCrudList';
 
 export function useMaintenances() {
-  const [items, setItems] = useState<MaintenanceModel[]>([]);
-  const [error, setError] = useState<ApiError | null>(null);
-
-  const { callApi: fetchApi, loading: loadingList } = useApiRequest(
-    getMaintenances,
-    { showSuccess: false, showError: false },
-  );
-  const { callApi: createApi, loading: creating } =
-    useApiRequest(postMaintenances);
-  const { callApi: updateApi, loading: updating } = useApiRequest(
+  const {
+    items,
+    state,
+    error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
+    create,
+    update,
+    delete: deleteItem,
+    refetch,
+  } = useCrudList<
+    MaintenanceModel,
+    CreateOrUpdateMaintenanceModel,
+    CreateOrUpdateMaintenanceModel
+  >(
+    getMaintenancesPaginated,
+    postMaintenances,
     putMaintenancesById,
-  );
-  const { callApi: deleteApi, loading: deleting } = useApiRequest(
     deleteMaintenancesById,
   );
 
-  const fetchApiRef = useRef(fetchApi);
-  useEffect(() => {
-    fetchApiRef.current = fetchApi;
-  }, [fetchApi]);
-
-  const refetch = useCallback(async () => {
-    setError(null);
-    const res = await fetchApiRef.current({});
-    if (res) {
-      setItems(res);
-    } else {
-      setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const createItem = useCallback(
-    async (body: CreateOrUpdateMaintenanceModel) => {
-      const res = await createApi({ body });
-      await refetch();
-      return res;
-    },
-    [createApi, refetch],
-  );
-
-  const updateItem = useCallback(
-    async (id: string, body: CreateOrUpdateMaintenanceModel) => {
-      const res = await updateApi({ path: { id }, body });
-      await refetch();
-      return res;
-    },
-    [updateApi, refetch],
-  );
-
-  const deleteItem = useCallback(
-    async (id: string) => {
-      const res = await deleteApi({ path: { id } });
-      await refetch();
-      return res;
-    },
-    [deleteApi, refetch],
-  );
-
-  const initialLoading = loadingList && items.length === 0 && !error;
+  const createMaintenance = (body: CreateOrUpdateMaintenanceModel) =>
+    create(body);
+  const updateMaintenance = (
+    id: string,
+    body: CreateOrUpdateMaintenanceModel,
+  ) => update(id, body);
 
   return {
-    items,
-    initialLoading,
-    loadingList,
-    creating,
-    updating,
-    deleting,
+    maintenances: items,
+    state,
     error,
+    isLoading,
+    isInitialLoading,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    goToPage,
+    setPageSize,
+    nextPage,
+    previousPage,
+    setSearchTerm,
+    createMaintenance,
+    updateMaintenance,
+    deleteMaintenance: deleteItem,
     refetch,
-    createItem,
-    updateItem,
-    deleteItem,
   };
 }

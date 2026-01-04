@@ -296,5 +296,12 @@
   "validationPersonRequired": "Person ist erforderlich",
   "validationPurchaseDateRequired": "Kaufdatum ist erforderlich",
   "validationDateRequired": "Datum ist erforderlich",
-  "validationProductRequired": "Produkt ist erforderlich"
+  "validationProductRequired": "Produkt ist erforderlich",
+  "search": "Suchen",
+  "noResults": "Keine Daten",
+  "rowsPerPage": "Elemente pro Seite",
+  "page": "Seite",
+  "of": "von",
+  "previous": "Zurück",
+  "next": "Weiter"
 }

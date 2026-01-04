@@ -10,6 +10,7 @@ const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
 const ProductTypesPage = lazy(() => import('@/pages/ProductTypesPage'));
 const ProductsPage = lazy(() => import('@/pages/ProductsPage'));
 const ProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
+const VariantDetailPage = lazy(() => import('@/pages/VariantDetailPage'));
 const ItemDetailPage = lazy(() => import('@/pages/ItemDetailPage'));
 const MaintenanceTypesPage = lazy(() => import('@/pages/MaintenanceTypesPage'));
 const DepartmentsPage = lazy(() => import('@/pages/DepartmentsPage'));
@@ -75,6 +76,7 @@ export function PrivateRoutes() {
           <Route path="productTypes" element={<ProductTypesPage />} />
           <Route path="products" element={<ProductsPage />} />
           <Route path="products/:id" element={<ProductDetailPage />} />
+          <Route path="variants/:id" element={<VariantDetailPage />} />
           <Route path="items/:id" element={<ItemDetailPage />} />
           <Route path="persons" element={<PersonsPage />} />
           <Route path="persons/:id" element={<PersonDetailPage />} />

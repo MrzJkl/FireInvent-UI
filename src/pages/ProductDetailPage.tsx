@@ -3,23 +3,32 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { ErrorState } from '@/components/ErrorState';
 import { ProductFormDialog } from '@/features/products/ProductFormDialog';
 import { useVariants } from '@/features/variants/useVariants';
 import { VariantFormDialog } from '@/features/variants/VariantFormDialog';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { useItems } from '@/features/items/useItems';
-import { ItemFormDialog } from '@/features/items/ItemFormDialog';
 import { useProducts } from '@/features/products/useProducts';
 import { type ProductModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
-import {
-  IconArrowLeft,
-  IconEdit,
-  IconChevronDown,
-  IconChevronRight,
-} from '@tabler/icons-react';
+import { IconArrowLeft, IconEdit } from '@tabler/icons-react';
 import { useAuthorization } from '@/auth/permissions';
 
 export default function ProductDetailPage() {
@@ -43,9 +52,11 @@ export default function ProductDetailPage() {
     error: productsError,
     refetch: refetchProducts,
   } = useProducts();
+
   const {
     variants,
-    isLoading: variantsLoading,
+    state,
+    isInitialLoading: variantsLoading,
     isCreating: creatingVariant,
     isUpdating: updatingVariant,
     isDeleting: deletingVariant,
@@ -53,32 +64,11 @@ export default function ProductDetailPage() {
     createVariant,
     updateVariant,
     deleteVariant,
-    refetch: refetchVariants,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setSearchTerm,
   } = useVariants(id);
-
-  const {
-    items,
-    isLoading: itemsLoading,
-    isCreating: creatingItem,
-    isUpdating: updatingItem,
-    isDeleting: deletingItem,
-    error: itemsError,
-    createItem,
-    updateItem,
-    deleteItem,
-    refetch: refetchItems,
-  } = useItems(id, variants);
-
-  const [itemFormOpen, setItemFormOpen] = useState(false);
-  const [editingItemId, setEditingItemId] = useState<string | null>(null);
-  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
-  const [confirmItemOpen, setConfirmItemOpen] = useState(false);
-  const [expandedVariants, setExpandedVariants] = useState<
-    Record<string, boolean>
-  >({});
-  const [createForVariantId, setCreateForVariantId] = useState<string | null>(
-    null,
-  );
 
   useEffect(() => {
     if (products && id) {
@@ -89,10 +79,13 @@ export default function ProductDetailPage() {
 
   if (productsError)
     return <ErrorState error={productsError} onRetry={refetchProducts} />;
-  if (variantsError)
-    return <ErrorState error={variantsError} onRetry={refetchVariants} />;
-  if (itemsError)
-    return <ErrorState error={itemsError} onRetry={refetchItems} />;
+  if (variantsError && variantsError.message)
+    return (
+      <ErrorState
+        error={variantsError}
+        onRetry={() => window.location.reload()}
+      />
+    );
   if (isLoading) return <LoadingIndicator />;
 
   if (!product) {
@@ -239,7 +232,12 @@ export default function ProductDetailPage() {
         <TabsContent value="variants" className="mt-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>{t('variantPlural')}</CardTitle>
+              <div className="flex items-center gap-4">
+                <CardTitle>{t('variantPlural')}</CardTitle>
+                <div className="text-sm text-muted-foreground">
+                  {state.totalItems} {t('variantPlural')}
+                </div>
+              </div>
               {canManage && (
                 <Button
                   size="sm"
@@ -253,170 +251,170 @@ export default function ProductDetailPage() {
               )}
             </CardHeader>
             <CardContent>
-              {variantsLoading ? (
-                <LoadingIndicator />
-              ) : variants.length === 0 ? (
-                <div className="flex h-24 items-center justify-center text-muted-foreground">
-                  {t('variantPlural')} {t('empty')}
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {variants.map((v) => {
-                    const isOpen = !!expandedVariants[v.id];
-                    const variantItems = items.filter(
-                      (it) => it.variantId === v.id,
-                    );
-                    const effectiveExternalIdentifier =
-                      v.externalIdentifier ?? product.externalIdentifier;
-                    const isInherited =
-                      !v.externalIdentifier && !!product.externalIdentifier;
-                    return (
-                      <div key={v.id} className="rounded border">
-                        <div className="flex items-start justify-between p-3">
-                          <div className="flex items-start gap-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              aria-label={isOpen ? t('hide') : t('show')}
-                              onClick={() =>
-                                setExpandedVariants((prev) => ({
-                                  ...prev,
-                                  [v.id]: !prev[v.id],
-                                }))
-                              }
-                            >
-                              {isOpen ? (
-                                <IconChevronDown className="size-4" />
-                              ) : (
-                                <IconChevronRight className="size-4" />
+              {/* Search */}
+              <div className="mb-4">
+                <Input
+                  placeholder={t('search')}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="max-w-sm"
+                />
+              </div>
+
+              {/* Table */}
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{t('name')}</TableHead>
+                      <TableHead>{t('additionalSpecs')}</TableHead>
+                      <TableHead>{t('externalIdentifier')}</TableHead>
+                      {canManage && (
+                        <TableHead className="text-right">
+                          {t('actions')}
+                        </TableHead>
+                      )}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {variantsLoading ? (
+                      <TableRow>
+                        <TableCell
+                          colSpan={canManage ? 4 : 3}
+                          className="h-24 text-center"
+                        >
+                          <LoadingIndicator />
+                        </TableCell>
+                      </TableRow>
+                    ) : variants.length === 0 ? (
+                      <TableRow>
+                        <TableCell
+                          colSpan={canManage ? 4 : 3}
+                          className="h-24 text-center"
+                        >
+                          <div className="flex flex-col items-center justify-center text-muted-foreground">
+                            <p>{t('noResults')}</p>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      variants.map((v) => {
+                        const effectiveExternalIdentifier =
+                          v.externalIdentifier ?? product.externalIdentifier;
+                        const isInherited =
+                          !v.externalIdentifier && !!product.externalIdentifier;
+
+                        return (
+                          <TableRow
+                            key={v.id}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => navigate(`/app/variants/${v.id}`)}
+                          >
+                            <TableCell className="font-medium">
+                              {v.name}
+                            </TableCell>
+                            <TableCell>
+                              {v.additionalSpecs || (
+                                <span className="text-muted-foreground italic">
+                                  -
+                                </span>
                               )}
-                            </Button>
-                            <div className="space-y-1">
-                              <p className="font-medium">{v.name}</p>
+                            </TableCell>
+                            <TableCell>
                               {effectiveExternalIdentifier ? (
-                                <p className="text-xs text-muted-foreground">
-                                  {t('externalIdentifier')}:{' '}
+                                <>
                                   {effectiveExternalIdentifier}
-                                  {isInherited
-                                    ? ` (${t('inheritedFromProduct')})`
-                                    : ''}
-                                </p>
-                              ) : null}
-                              <p className="text-xs text-muted-foreground">
-                                {(v.additionalSpecs || '–') +
-                                  ' · ' +
-                                  t('itemsCount', {
-                                    count: variantItems.length,
-                                  })}
-                              </p>
-                            </div>
-                          </div>
-                          {canManage && (
-                            <div className="flex gap-2">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => {
-                                  setEditingVariantId(v.id);
-                                  setVariantFormOpen(true);
-                                }}
-                              >
-                                {t('edit')}
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => {
-                                  setDeleteVariantId(v.id);
-                                  setConfirmVariantOpen(true);
-                                }}
-                              >
-                                {t('delete')}
-                              </Button>
-                            </div>
-                          )}
-                        </div>
-                        {isOpen && (
-                          <div className="border-t p-3">
-                            <div className="mb-2 flex items-center justify-between">
-                              <p className="text-sm font-medium">
-                                {t('items.label')}
-                              </p>
-                              {canManage && (
-                                <Button
-                                  size="sm"
-                                  onClick={() => {
-                                    setEditingItemId(null);
-                                    setCreateForVariantId(v.id);
-                                    setItemFormOpen(true);
-                                  }}
-                                >
-                                  {t('add')}
-                                </Button>
+                                  {isInherited && (
+                                    <span className="ml-1 text-xs text-muted-foreground">
+                                      ({t('inheritedFromProduct')})
+                                    </span>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="text-muted-foreground italic">
+                                  -
+                                </span>
                               )}
-                            </div>
-                            {itemsLoading ? (
-                              <LoadingIndicator />
-                            ) : variantItems.length === 0 ? (
-                              <div className="flex h-16 items-center justify-center text-muted-foreground">
-                                {t('itemsEmpty')}
-                              </div>
-                            ) : (
-                              <div className="space-y-2">
-                                {variantItems.map((it) => (
-                                  <div
-                                    key={it.id}
-                                    className="flex items-start justify-between rounded border p-2 cursor-pointer hover:bg-muted/50 transition-colors"
-                                    onClick={() =>
-                                      navigate(`/app/items/${it.id}`)
-                                    }
+                            </TableCell>
+                            {canManage && (
+                              <TableCell className="text-right">
+                                <div className="flex justify-end gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingVariantId(v.id);
+                                      setVariantFormOpen(true);
+                                    }}
                                   >
-                                    <div>
-                                      <p className="text-sm font-medium">
-                                        {it.identifier ?? it.id}
-                                      </p>
-                                      <p className="text-xs text-muted-foreground">
-                                        {it.condition}
-                                      </p>
-                                    </div>
-                                    <div className="flex gap-2">
-                                      {canManage && (
-                                        <>
-                                          <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              setEditingItemId(it.id);
-                                              setCreateForVariantId(null);
-                                              setItemFormOpen(true);
-                                            }}
-                                          >
-                                            {t('edit')}
-                                          </Button>
-                                          <Button
-                                            size="sm"
-                                            variant="destructive"
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              setDeleteItemId(it.id);
-                                              setConfirmItemOpen(true);
-                                            }}
-                                          >
-                                            {t('delete')}
-                                          </Button>
-                                        </>
-                                      )}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
+                                    {t('edit')}
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setDeleteVariantId(v.id);
+                                      setConfirmVariantOpen(true);
+                                    }}
+                                  >
+                                    {t('delete')}
+                                  </Button>
+                                </div>
+                              </TableCell>
                             )}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                          </TableRow>
+                        );
+                      })
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Pagination */}
+              {!variantsLoading && variants.length > 0 && (
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {t('rowsPerPage')}:
+                    </span>
+                    <Select
+                      value={state.pageSize.toString()}
+                      onValueChange={(value) => setPageSize(Number(value))}
+                    >
+                      <SelectTrigger className="h-8 w-17.5">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[10, 20, 30, 50].map((size) => (
+                          <SelectItem key={size} value={size.toString()}>
+                            {size}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {t('page')} {state.page} {t('of')} {state.totalPages}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={previousPage}
+                      disabled={state.page <= 1}
+                    >
+                      {t('previous')}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={nextPage}
+                      disabled={state.page >= state.totalPages}
+                    >
+                      {t('next')}
+                    </Button>
+                  </div>
                 </div>
               )}
             </CardContent>
@@ -510,95 +508,6 @@ export default function ProductDetailPage() {
               await deleteVariant(deleteVariantId);
               setConfirmVariantOpen(false);
               setDeleteVariantId(null);
-            }}
-          />
-
-          {/* Item Form Dialog */}
-          <ItemFormDialog
-            open={itemFormOpen}
-            onOpenChange={(o) => {
-              setItemFormOpen(o);
-              if (!o) setEditingItemId(null);
-            }}
-            mode={editingItemId ? 'edit' : 'create'}
-            variantId={createForVariantId ?? undefined}
-            initialValues={
-              editingItemId
-                ? (() => {
-                    const current = items.find((it) => it.id === editingItemId);
-                    if (!current) return undefined;
-                    return {
-                      variantId: current.variantId,
-                      identifier: current.identifier ?? '',
-                      condition: current.condition,
-                      purchaseDate: current.purchaseDate
-                        ? new Date(current.purchaseDate)
-                            .toISOString()
-                            .substring(0, 10)
-                        : new Date().toISOString().substring(0, 10),
-                      isDemoItem: current.isDemoItem ?? false,
-                      retirementDate: current.retirementDate
-                        ? new Date(current.retirementDate)
-                            .toISOString()
-                            .substring(0, 10)
-                        : undefined,
-                    };
-                  })()
-                : createForVariantId
-                  ? {
-                      variantId: createForVariantId,
-                      identifier: '',
-                      condition: 'New' as const,
-                      purchaseDate: new Date().toISOString().substring(0, 10),
-                      isDemoItem: false,
-                      retirementDate: undefined,
-                    }
-                  : undefined
-            }
-            loading={editingItemId ? updatingItem : creatingItem}
-            onSubmit={async (values) => {
-              const payload = {
-                variantId: values.variantId,
-                identifier: values.identifier || undefined,
-                condition: values.condition,
-                purchaseDate:
-                  values.purchaseDate ||
-                  new Date().toISOString().substring(0, 10),
-                isDemoItem: values.isDemoItem,
-                retirementDate: values.retirementDate || undefined,
-              };
-              if (editingItemId) {
-                await updateItem(editingItemId, payload);
-              } else {
-                await createItem(payload);
-              }
-              setItemFormOpen(false);
-              setEditingItemId(null);
-              setCreateForVariantId(null);
-            }}
-          />
-
-          {/* Item Delete Confirm */}
-          <ConfirmDialog
-            open={confirmItemOpen}
-            onOpenChange={(o) => {
-              setConfirmItemOpen(o);
-              if (!o) setDeleteItemId(null);
-            }}
-            title={t('confirmDeleteTitle')}
-            description={t('confirmDeleteDescription', {
-              name:
-                items.find((it) => it.id === deleteItemId)?.identifier ?? '',
-            })}
-            confirmLabel={t('delete')}
-            cancelLabel={t('cancel')}
-            confirmVariant="destructive"
-            confirmDisabled={deletingItem}
-            onConfirm={async () => {
-              if (!deleteItemId) return;
-              await deleteItem(deleteItemId);
-              setConfirmItemOpen(false);
-              setDeleteItemId(null);
             }}
           />
         </>

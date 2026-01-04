@@ -9,6 +9,13 @@ import {
 } from '@/api';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
 
+/**
+ * Hook for managing items within a product/variant context
+ *
+ * Note: This hook uses the nested variant endpoint (getVariantsByIdItems)
+ * to fetch items for specific variants, rather than the paginated list endpoint.
+ * This is maintained for backward compatibility with the product detail view.
+ */
 export function useItems(
   productId: string | undefined,
   variants: Array<{ id: string }> | undefined,
@@ -37,8 +44,13 @@ export function useItems(
     let hasError = false;
     await Promise.all(
       variants.map(async (v) => {
-        const res = await listApiRef.current({ path: { id: v.id } });
-        if (res && Array.isArray(res)) {
+        const res = await listApiRef.current({
+          path: { id: v.id },
+          query: { Page: 1, PageSize: 1000, SearchTerm: undefined },
+        });
+        if (res && res.items && Array.isArray(res.items)) {
+          results.push(...res.items);
+        } else if (res && Array.isArray(res)) {
           results.push(...res);
         } else {
           hasError = true;
@@ -47,7 +59,8 @@ export function useItems(
     );
     if (hasError) {
       setError({
-        message: 'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+        message:
+          'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
       });
     } else {
       setItems(results);
