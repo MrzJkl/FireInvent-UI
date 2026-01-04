@@ -280,6 +280,8 @@ export const CreateOrUpdateOrderItemModelSchema = {
       format: "uuid",
     },
     quantity: {
+      maximum: 2147483647,
+      minimum: 1,
       pattern: "^-?(?:0|[1-9]\\d*)$",
       type: ["integer", "string"],
       format: "int32",
@@ -894,6 +896,8 @@ export const OrderItemModelSchema = {
       format: "uuid",
     },
     quantity: {
+      maximum: 2147483647,
+      minimum: 1,
       pattern: "^-?(?:0|[1-9]\\d*)$",
       type: ["integer", "string"],
       format: "int32",

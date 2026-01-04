@@ -28,8 +28,8 @@ import {
   getVariants,
   getVariantsByIdItems,
   getVisits,
-} from './sdk.gen';
-import type { ListParams } from './paginatedList';
+} from '@/api/sdk.gen';
+import type { ListParams } from './types';
 
 /**
  * Fetch paginated list of appointments with search

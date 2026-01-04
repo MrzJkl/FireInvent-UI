@@ -7,7 +7,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useApiRequest, type ApiError } from '@/hooks/useApiRequest';
-import type { ListParams } from '@/api/paginatedList';
+import type { ListParams } from '@/lib/pagination';
 
 export type UseListItemsState = {
   page: number;
