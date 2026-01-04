@@ -232,32 +232,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AppointmentModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfAppointmentModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AppointmentModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfAppointmentModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AppointmentModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfAppointmentModel"
                 }
               }
             }
@@ -552,32 +563,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitModel"
                 }
               }
             }
@@ -624,32 +646,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DepartmentModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfDepartmentModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DepartmentModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfDepartmentModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DepartmentModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfDepartmentModel"
                 }
               }
             }
@@ -944,32 +977,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PersonModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfPersonModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PersonModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfPersonModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PersonModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfPersonModel"
                 }
               }
             }
@@ -1007,7 +1051,7 @@
         "tags": [
           "ItemAssignmentHistories"
         ],
-        "summary": "List all item assignments",
+        "summary": "List all item assignment histories",
         "description": "Returns a list of all item assignment histories.",
         "parameters": [
           {
@@ -1016,32 +1060,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               }
             }
@@ -1407,32 +1462,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemModel"
                 }
               }
             }
@@ -1807,32 +1873,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               }
             }
@@ -1888,32 +1965,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceModel"
                 }
               }
             }
@@ -1960,32 +2048,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceModel"
                 }
               }
             }
@@ -2311,32 +2410,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceTypeModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceTypeModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceTypeModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceTypeModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MaintenanceTypeModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfMaintenanceTypeModel"
                 }
               }
             }
@@ -2622,32 +2732,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ManufacturerModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfManufacturerModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ManufacturerModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfManufacturerModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ManufacturerModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfManufacturerModel"
                 }
               }
             }
@@ -2942,32 +3063,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductModel"
                 }
               }
             }
@@ -3014,32 +3146,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderModel"
                 }
               }
             }
@@ -3345,32 +3488,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderItemModel"
                 }
               }
             }
@@ -3467,32 +3621,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfOrderItemModel"
                 }
               }
             }
@@ -3717,32 +3882,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PersonModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfPersonModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PersonModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfPersonModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PersonModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfPersonModel"
                 }
               }
             }
@@ -4057,32 +4233,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               }
             }
@@ -4129,32 +4316,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductModel"
                 }
               }
             }
@@ -4489,32 +4687,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VariantModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVariantModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VariantModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVariantModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VariantModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVariantModel"
                 }
               }
             }
@@ -4561,32 +4770,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductTypeModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductTypeModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductTypeModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductTypeModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductTypeModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfProductTypeModel"
                 }
               }
             }
@@ -4872,32 +5092,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StorageLocationModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfStorageLocationModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StorageLocationModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfStorageLocationModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StorageLocationModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfStorageLocationModel"
                 }
               }
             }
@@ -5232,32 +5463,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemAssignmentHistoryModel"
                 }
               }
             }
@@ -5799,32 +6041,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VariantModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVariantModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VariantModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVariantModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VariantModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVariantModel"
                 }
               }
             }
@@ -6199,32 +6452,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfItemModel"
                 }
               }
             }
@@ -6271,32 +6535,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               }
             }
@@ -6370,7 +6645,7 @@
         ]
       }
     },
-    "/visit-items/by-visit/{visitId}": {
+    "/visit-items/visit/{visitId}": {
       "get": {
         "tags": [
           "VisitItems"
@@ -6393,32 +6668,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               }
             }
@@ -6643,32 +6929,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitModel"
                 }
               }
             }
@@ -7043,32 +7340,43 @@
             "description": "Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagedQuery"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VisitItemModel"
-                  }
+                  "$ref": "#/components/schemas/PagedResultOfVisitItemModel"
                 }
               }
             }
@@ -8330,6 +8638,822 @@
           "Completed"
         ]
       },
+      "PagedQuery": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Page number (starting from 1)",
+            "format": "int32",
+            "default": 1
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Page size (number of items per page)",
+            "format": "int32",
+            "default": 20
+          },
+          "searchTerm": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Search term for filtering results. Case insensitive."
+          }
+        }
+      },
+      "PagedResultOfAppointmentModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppointmentModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfDepartmentModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DepartmentModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfItemAssignmentHistoryModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemAssignmentHistoryModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfItemModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfMaintenanceModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MaintenanceModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfMaintenanceTypeModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MaintenanceTypeModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfManufacturerModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ManufacturerModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfOrderItemModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfOrderModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfPersonModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfProductModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfProductTypeModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductTypeModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfStorageLocationModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StorageLocationModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfVariantModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VariantModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfVisitItemModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitItemModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "PagedResultOfVisitModel": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitModel"
+            },
+            "description": "Items of the current page."
+          },
+          "totalItems": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of items existing.",
+            "format": "int32"
+          },
+          "page": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Current page number (starting from 1).",
+            "format": "int32"
+          },
+          "pageSize": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Number of items per page.",
+            "format": "int32",
+            "default": 20
+          },
+          "totalPages": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Total number of pages available with the given page size.",
+            "format": "int32"
+          }
+        }
+      },
       "PersonModel": {
         "required": [
           "id",
@@ -8668,8 +9792,7 @@
       },
       "UserModel": {
         "required": [
-          "id",
-          "eMail"
+          "id"
         ],
         "type": "object",
         "properties": {
@@ -8678,7 +9801,10 @@
             "format": "uuid"
           },
           "eMail": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "firstName": {
             "type": [

@@ -171,10 +171,10 @@ import type {
   GetVisitItemsByIdData,
   GetVisitItemsByIdErrors,
   GetVisitItemsByIdResponses,
-  GetVisitItemsByVisitByVisitIdData,
-  GetVisitItemsByVisitByVisitIdResponses,
   GetVisitItemsData,
   GetVisitItemsResponses,
+  GetVisitItemsVisitByVisitIdData,
+  GetVisitItemsVisitByVisitIdResponses,
   GetVisitsByIdData,
   GetVisitsByIdErrors,
   GetVisitsByIdItemsData,
@@ -383,9 +383,9 @@ export const deleteApiIntegrationsById = <ThrowOnError extends boolean = false>(
  * Returns a list of all appointments.
  */
 export const getAppointments = <ThrowOnError extends boolean = false>(
-  options?: Options<GetAppointmentsData, ThrowOnError>,
+  options: Options<GetAppointmentsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetAppointmentsResponses,
     unknown,
     ThrowOnError
@@ -399,6 +399,10 @@ export const getAppointments = <ThrowOnError extends boolean = false>(
     ],
     url: "/appointments",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -530,6 +534,10 @@ export const getAppointmentsByIdVisits = <ThrowOnError extends boolean = false>(
     ],
     url: "/appointments/{id}/visits",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -539,9 +547,9 @@ export const getAppointmentsByIdVisits = <ThrowOnError extends boolean = false>(
  * Returns a list of all departments.
  */
 export const getDepartments = <ThrowOnError extends boolean = false>(
-  options?: Options<GetDepartmentsData, ThrowOnError>,
+  options: Options<GetDepartmentsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetDepartmentsResponses,
     unknown,
     ThrowOnError
@@ -555,6 +563,10 @@ export const getDepartments = <ThrowOnError extends boolean = false>(
     ],
     url: "/departments",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -686,18 +698,22 @@ export const getDepartmentsByIdPersons = <ThrowOnError extends boolean = false>(
     ],
     url: "/departments/{id}/persons",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
 /**
- * List all item assignments
+ * List all item assignment histories
  *
  * Returns a list of all item assignment histories.
  */
 export const getAssignments = <ThrowOnError extends boolean = false>(
-  options?: Options<GetAssignmentsData, ThrowOnError>,
+  options: Options<GetAssignmentsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetAssignmentsResponses,
     unknown,
     ThrowOnError
@@ -711,6 +727,10 @@ export const getAssignments = <ThrowOnError extends boolean = false>(
     ],
     url: "/assignments",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -826,9 +846,9 @@ export const putAssignmentsById = <ThrowOnError extends boolean = false>(
  * Returns a list of all items.
  */
 export const getItems = <ThrowOnError extends boolean = false>(
-  options?: Options<GetItemsData, ThrowOnError>,
+  options: Options<GetItemsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetItemsResponses,
     unknown,
     ThrowOnError
@@ -842,6 +862,10 @@ export const getItems = <ThrowOnError extends boolean = false>(
     ],
     url: "/items",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -973,6 +997,10 @@ export const getItemsByIdAssignments = <ThrowOnError extends boolean = false>(
     ],
     url: "/items/{id}/assignments",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -998,6 +1026,10 @@ export const getItemsByIdMaintenance = <ThrowOnError extends boolean = false>(
     ],
     url: "/items/{id}/maintenance",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1007,9 +1039,9 @@ export const getItemsByIdMaintenance = <ThrowOnError extends boolean = false>(
  * Returns a list of all maintenance records.
  */
 export const getMaintenances = <ThrowOnError extends boolean = false>(
-  options?: Options<GetMaintenancesData, ThrowOnError>,
+  options: Options<GetMaintenancesData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetMaintenancesResponses,
     unknown,
     ThrowOnError
@@ -1023,6 +1055,10 @@ export const getMaintenances = <ThrowOnError extends boolean = false>(
     ],
     url: "/maintenances",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1138,9 +1174,9 @@ export const putMaintenancesById = <ThrowOnError extends boolean = false>(
  * Returns a list of all maintenanceTypes.
  */
 export const getMaintenanceTypes = <ThrowOnError extends boolean = false>(
-  options?: Options<GetMaintenanceTypesData, ThrowOnError>,
+  options: Options<GetMaintenanceTypesData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetMaintenanceTypesResponses,
     unknown,
     ThrowOnError
@@ -1154,6 +1190,10 @@ export const getMaintenanceTypes = <ThrowOnError extends boolean = false>(
     ],
     url: "/maintenance-types",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1271,9 +1311,9 @@ export const putMaintenanceTypesById = <ThrowOnError extends boolean = false>(
  * Returns a list of all manufacturers.
  */
 export const getManufacturers = <ThrowOnError extends boolean = false>(
-  options?: Options<GetManufacturersData, ThrowOnError>,
+  options: Options<GetManufacturersData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetManufacturersResponses,
     unknown,
     ThrowOnError
@@ -1287,6 +1327,10 @@ export const getManufacturers = <ThrowOnError extends boolean = false>(
     ],
     url: "/manufacturers",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1420,6 +1464,10 @@ export const getManufacturersByIdProducts = <
     ],
     url: "/manufacturers/{id}/products",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1429,9 +1477,9 @@ export const getManufacturersByIdProducts = <
  * Returns a list of all orders.
  */
 export const getOrders = <ThrowOnError extends boolean = false>(
-  options?: Options<GetOrdersData, ThrowOnError>,
+  options: Options<GetOrdersData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetOrdersResponses,
     unknown,
     ThrowOnError
@@ -1445,6 +1493,10 @@ export const getOrders = <ThrowOnError extends boolean = false>(
     ],
     url: "/orders",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1560,9 +1612,9 @@ export const putOrdersById = <ThrowOnError extends boolean = false>(
  * Returns a list of all order items.
  */
 export const getOrderItems = <ThrowOnError extends boolean = false>(
-  options?: Options<GetOrderItemsData, ThrowOnError>,
+  options: Options<GetOrderItemsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetOrderItemsResponses,
     unknown,
     ThrowOnError
@@ -1576,6 +1628,10 @@ export const getOrderItems = <ThrowOnError extends boolean = false>(
     ],
     url: "/order-items",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1632,6 +1688,10 @@ export const getOrderItemsByOrderByOrderId = <
     ],
     url: "/order-items/by-order/{orderId}",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1718,9 +1778,9 @@ export const putOrderItemsById = <ThrowOnError extends boolean = false>(
  * Returns a list of all persons.
  */
 export const getPersons = <ThrowOnError extends boolean = false>(
-  options?: Options<GetPersonsData, ThrowOnError>,
+  options: Options<GetPersonsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetPersonsResponses,
     unknown,
     ThrowOnError
@@ -1734,6 +1794,10 @@ export const getPersons = <ThrowOnError extends boolean = false>(
     ],
     url: "/persons",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1865,6 +1929,10 @@ export const getPersonsByIdAssignments = <ThrowOnError extends boolean = false>(
     ],
     url: "/persons/{id}/assignments",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -1874,9 +1942,9 @@ export const getPersonsByIdAssignments = <ThrowOnError extends boolean = false>(
  * Returns a list of all products.
  */
 export const getProducts = <ThrowOnError extends boolean = false>(
-  options?: Options<GetProductsData, ThrowOnError>,
+  options: Options<GetProductsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetProductsResponses,
     unknown,
     ThrowOnError
@@ -1890,6 +1958,10 @@ export const getProducts = <ThrowOnError extends boolean = false>(
     ],
     url: "/products",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2021,6 +2093,10 @@ export const getProductsByIdVariants = <ThrowOnError extends boolean = false>(
     ],
     url: "/products/{id}/variants",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2030,9 +2106,9 @@ export const getProductsByIdVariants = <ThrowOnError extends boolean = false>(
  * Returns a list of all productTypes.
  */
 export const getProductTypes = <ThrowOnError extends boolean = false>(
-  options?: Options<GetProductTypesData, ThrowOnError>,
+  options: Options<GetProductTypesData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetProductTypesResponses,
     unknown,
     ThrowOnError
@@ -2046,6 +2122,10 @@ export const getProductTypes = <ThrowOnError extends boolean = false>(
     ],
     url: "/product-types",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2161,9 +2241,9 @@ export const putProductTypesById = <ThrowOnError extends boolean = false>(
  * Returns a list of all storage locations.
  */
 export const getStorageLocations = <ThrowOnError extends boolean = false>(
-  options?: Options<GetStorageLocationsData, ThrowOnError>,
+  options: Options<GetStorageLocationsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetStorageLocationsResponses,
     unknown,
     ThrowOnError
@@ -2177,6 +2257,10 @@ export const getStorageLocations = <ThrowOnError extends boolean = false>(
     ],
     url: "/storage-locations",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2312,6 +2396,10 @@ export const getStorageLocationsByIdAssignments = <
     ],
     url: "/storage-locations/{id}/assignments",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2502,9 +2590,9 @@ export const getUsersById = <ThrowOnError extends boolean = false>(
  * Returns a list of all variants.
  */
 export const getVariants = <ThrowOnError extends boolean = false>(
-  options?: Options<GetVariantsData, ThrowOnError>,
+  options: Options<GetVariantsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetVariantsResponses,
     unknown,
     ThrowOnError
@@ -2518,6 +2606,10 @@ export const getVariants = <ThrowOnError extends boolean = false>(
     ],
     url: "/variants",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2649,6 +2741,10 @@ export const getVariantsByIdItems = <ThrowOnError extends boolean = false>(
     ],
     url: "/variants/{id}/items",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2658,9 +2754,9 @@ export const getVariantsByIdItems = <ThrowOnError extends boolean = false>(
  * Returns a list of all visit items.
  */
 export const getVisitItems = <ThrowOnError extends boolean = false>(
-  options?: Options<GetVisitItemsData, ThrowOnError>,
+  options: Options<GetVisitItemsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetVisitItemsResponses,
     unknown,
     ThrowOnError
@@ -2674,6 +2770,10 @@ export const getVisitItems = <ThrowOnError extends boolean = false>(
     ],
     url: "/visit-items",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2711,13 +2811,13 @@ export const postVisitItems = <ThrowOnError extends boolean = false>(
  *
  * Returns a list of visit items for a specific visit.
  */
-export const getVisitItemsByVisitByVisitId = <
+export const getVisitItemsVisitByVisitId = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<GetVisitItemsByVisitByVisitIdData, ThrowOnError>,
+  options: Options<GetVisitItemsVisitByVisitIdData, ThrowOnError>,
 ) => {
   return (options.client ?? client).get<
-    GetVisitItemsByVisitByVisitIdResponses,
+    GetVisitItemsVisitByVisitIdResponses,
     unknown,
     ThrowOnError
   >({
@@ -2728,8 +2828,12 @@ export const getVisitItemsByVisitByVisitId = <
         type: "http",
       },
     ],
-    url: "/visit-items/by-visit/{visitId}",
+    url: "/visit-items/visit/{visitId}",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2816,9 +2920,9 @@ export const putVisitItemsById = <ThrowOnError extends boolean = false>(
  * Returns a list of all visits.
  */
 export const getVisits = <ThrowOnError extends boolean = false>(
-  options?: Options<GetVisitsData, ThrowOnError>,
+  options: Options<GetVisitsData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
+  return (options.client ?? client).get<
     GetVisitsResponses,
     unknown,
     ThrowOnError
@@ -2832,6 +2936,10 @@ export const getVisits = <ThrowOnError extends boolean = false>(
     ],
     url: "/visits",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };
 
@@ -2963,5 +3071,9 @@ export const getVisitsByIdItems = <ThrowOnError extends boolean = false>(
     ],
     url: "/visits/{id}/items",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
 };

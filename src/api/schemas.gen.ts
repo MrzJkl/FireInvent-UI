@@ -947,6 +947,638 @@ export const OrderStatusSchema = {
   enum: ["Draft", "Submitted", "Delivered", "Completed"],
 } as const;
 
+export const PagedQuerySchema = {
+  type: "object",
+  properties: {
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Page number (starting from 1)",
+      format: "int32",
+      default: 1,
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Page size (number of items per page)",
+      format: "int32",
+      default: 20,
+    },
+    searchTerm: {
+      type: ["null", "string"],
+      description: "Search term for filtering results. Case insensitive.",
+    },
+  },
+} as const;
+
+export const PagedResultOfAppointmentModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/AppointmentModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfDepartmentModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/DepartmentModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfItemAssignmentHistoryModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ItemAssignmentHistoryModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfItemModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ItemModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfMaintenanceModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/MaintenanceModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfMaintenanceTypeModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/MaintenanceTypeModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfManufacturerModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ManufacturerModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfOrderItemModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/OrderItemModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfOrderModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/OrderModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfPersonModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/PersonModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfProductModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ProductModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfProductTypeModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ProductTypeModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfStorageLocationModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/StorageLocationModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfVariantModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/VariantModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfVisitItemModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/VisitItemModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
+export const PagedResultOfVisitModelSchema = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/VisitModel",
+      },
+      description: "Items of the current page.",
+    },
+    totalItems: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of items existing.",
+      format: "int32",
+    },
+    page: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Current page number (starting from 1).",
+      format: "int32",
+    },
+    pageSize: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Number of items per page.",
+      format: "int32",
+      default: 20,
+    },
+    totalPages: {
+      pattern: "^-?(?:0|[1-9]\\d*)$",
+      type: ["integer", "string"],
+      description: "Total number of pages available with the given page size.",
+      format: "int32",
+    },
+  },
+} as const;
+
 export const PersonModelSchema = {
   required: [
     "id",
@@ -1205,7 +1837,7 @@ export const TenantModelSchema = {
 } as const;
 
 export const UserModelSchema = {
-  required: ["id", "eMail"],
+  required: ["id"],
   type: "object",
   properties: {
     id: {
@@ -1213,7 +1845,7 @@ export const UserModelSchema = {
       format: "uuid",
     },
     eMail: {
-      type: "string",
+      type: ["null", "string"],
     },
     firstName: {
       type: ["null", "string"],

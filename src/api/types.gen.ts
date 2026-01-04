@@ -290,6 +290,389 @@ export const OrderStatus = {
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
+export type PagedQuery = {
+  /**
+   * Page number (starting from 1)
+   */
+  page?: number | string;
+  /**
+   * Page size (number of items per page)
+   */
+  pageSize?: number | string;
+  /**
+   * Search term for filtering results. Case insensitive.
+   */
+  searchTerm?: null | string;
+};
+
+export type PagedResultOfAppointmentModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<AppointmentModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfDepartmentModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<DepartmentModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfItemAssignmentHistoryModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ItemAssignmentHistoryModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfItemModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ItemModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfMaintenanceModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<MaintenanceModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfMaintenanceTypeModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<MaintenanceTypeModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfManufacturerModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ManufacturerModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfOrderItemModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<OrderItemModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfOrderModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<OrderModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfPersonModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<PersonModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfProductModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ProductModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfProductTypeModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<ProductTypeModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfStorageLocationModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<StorageLocationModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfVariantModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<VariantModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfVisitItemModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<VisitItemModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
+export type PagedResultOfVisitModel = {
+  /**
+   * Items of the current page.
+   */
+  items?: Array<VisitModel>;
+  /**
+   * Total number of items existing.
+   */
+  totalItems?: number | string;
+  /**
+   * Current page number (starting from 1).
+   */
+  page?: number | string;
+  /**
+   * Number of items per page.
+   */
+  pageSize?: number | string;
+  /**
+   * Total number of pages available with the given page size.
+   */
+  totalPages?: number | string;
+};
+
 export type PersonModel = {
   id: string;
   departments: Array<DepartmentModel>;
@@ -360,7 +743,7 @@ export type TenantModel = {
 
 export type UserModel = {
   id: string;
-  eMail: string;
+  eMail?: null | string;
   firstName?: null | string;
   lastName?: null | string;
 };
@@ -498,7 +881,7 @@ export type DeleteApiIntegrationsByIdResponse =
   DeleteApiIntegrationsByIdResponses[keyof DeleteApiIntegrationsByIdResponses];
 
 export type GetAppointmentsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -514,7 +897,7 @@ export type GetAppointmentsResponses = {
   /**
    * OK
    */
-  200: Array<AppointmentModel>;
+  200: PagedResultOfAppointmentModel;
 };
 
 export type GetAppointmentsResponse =
@@ -649,7 +1032,7 @@ export type PutAppointmentsByIdResponse =
   PutAppointmentsByIdResponses[keyof PutAppointmentsByIdResponses];
 
 export type GetAppointmentsByIdVisitsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -677,14 +1060,14 @@ export type GetAppointmentsByIdVisitsResponses = {
   /**
    * OK
    */
-  200: Array<VisitModel>;
+  200: PagedResultOfVisitModel;
 };
 
 export type GetAppointmentsByIdVisitsResponse =
   GetAppointmentsByIdVisitsResponses[keyof GetAppointmentsByIdVisitsResponses];
 
 export type GetDepartmentsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -700,7 +1083,7 @@ export type GetDepartmentsResponses = {
   /**
    * OK
    */
-  200: Array<DepartmentModel>;
+  200: PagedResultOfDepartmentModel;
 };
 
 export type GetDepartmentsResponse =
@@ -835,7 +1218,7 @@ export type PutDepartmentsByIdResponse =
   PutDepartmentsByIdResponses[keyof PutDepartmentsByIdResponses];
 
 export type GetDepartmentsByIdPersonsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -863,14 +1246,14 @@ export type GetDepartmentsByIdPersonsResponses = {
   /**
    * OK
    */
-  200: Array<PersonModel>;
+  200: PagedResultOfPersonModel;
 };
 
 export type GetDepartmentsByIdPersonsResponse =
   GetDepartmentsByIdPersonsResponses[keyof GetDepartmentsByIdPersonsResponses];
 
 export type GetAssignmentsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -886,7 +1269,7 @@ export type GetAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetAssignmentsResponse =
@@ -1043,7 +1426,7 @@ export type PutAssignmentsByIdResponse =
   PutAssignmentsByIdResponses[keyof PutAssignmentsByIdResponses];
 
 export type GetItemsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1059,7 +1442,7 @@ export type GetItemsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: PagedResultOfItemModel;
 };
 
 export type GetItemsResponse = GetItemsResponses[keyof GetItemsResponses];
@@ -1211,7 +1594,7 @@ export type PutItemsByIdResponse =
   PutItemsByIdResponses[keyof PutItemsByIdResponses];
 
 export type GetItemsByIdAssignmentsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1239,14 +1622,14 @@ export type GetItemsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetItemsByIdAssignmentsResponse =
   GetItemsByIdAssignmentsResponses[keyof GetItemsByIdAssignmentsResponses];
 
 export type GetItemsByIdMaintenanceData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1274,14 +1657,14 @@ export type GetItemsByIdMaintenanceResponses = {
   /**
    * OK
    */
-  200: Array<MaintenanceModel>;
+  200: PagedResultOfMaintenanceModel;
 };
 
 export type GetItemsByIdMaintenanceResponse =
   GetItemsByIdMaintenanceResponses[keyof GetItemsByIdMaintenanceResponses];
 
 export type GetMaintenancesData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1297,7 +1680,7 @@ export type GetMaintenancesResponses = {
   /**
    * OK
    */
-  200: Array<MaintenanceModel>;
+  200: PagedResultOfMaintenanceModel;
 };
 
 export type GetMaintenancesResponse =
@@ -1446,7 +1829,7 @@ export type PutMaintenancesByIdResponse =
   PutMaintenancesByIdResponses[keyof PutMaintenancesByIdResponses];
 
 export type GetMaintenanceTypesData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1462,7 +1845,7 @@ export type GetMaintenanceTypesResponses = {
   /**
    * OK
    */
-  200: Array<MaintenanceTypeModel>;
+  200: PagedResultOfMaintenanceTypeModel;
 };
 
 export type GetMaintenanceTypesResponse =
@@ -1597,7 +1980,7 @@ export type PutMaintenanceTypesByIdResponse =
   PutMaintenanceTypesByIdResponses[keyof PutMaintenanceTypesByIdResponses];
 
 export type GetManufacturersData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1613,7 +1996,7 @@ export type GetManufacturersResponses = {
   /**
    * OK
    */
-  200: Array<ManufacturerModel>;
+  200: PagedResultOfManufacturerModel;
 };
 
 export type GetManufacturersResponse =
@@ -1748,7 +2131,7 @@ export type PutManufacturersByIdResponse =
   PutManufacturersByIdResponses[keyof PutManufacturersByIdResponses];
 
 export type GetManufacturersByIdProductsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1776,14 +2159,14 @@ export type GetManufacturersByIdProductsResponses = {
   /**
    * OK
    */
-  200: Array<ProductModel>;
+  200: PagedResultOfProductModel;
 };
 
 export type GetManufacturersByIdProductsResponse =
   GetManufacturersByIdProductsResponses[keyof GetManufacturersByIdProductsResponses];
 
 export type GetOrdersData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1799,7 +2182,7 @@ export type GetOrdersResponses = {
   /**
    * OK
    */
-  200: Array<OrderModel>;
+  200: PagedResultOfOrderModel;
 };
 
 export type GetOrdersResponse = GetOrdersResponses[keyof GetOrdersResponses];
@@ -1934,7 +2317,7 @@ export type PutOrdersByIdResponse =
   PutOrdersByIdResponses[keyof PutOrdersByIdResponses];
 
 export type GetOrderItemsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1950,7 +2333,7 @@ export type GetOrderItemsResponses = {
   /**
    * OK
    */
-  200: Array<OrderItemModel>;
+  200: PagedResultOfOrderItemModel;
 };
 
 export type GetOrderItemsResponse =
@@ -1980,7 +2363,7 @@ export type PostOrderItemsResponse =
   PostOrderItemsResponses[keyof PostOrderItemsResponses];
 
 export type GetOrderItemsByOrderByOrderIdData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -1998,7 +2381,7 @@ export type GetOrderItemsByOrderByOrderIdResponses = {
   /**
    * OK
    */
-  200: Array<OrderItemModel>;
+  200: PagedResultOfOrderItemModel;
 };
 
 export type GetOrderItemsByOrderByOrderIdResponse =
@@ -2110,7 +2493,7 @@ export type PutOrderItemsByIdResponse =
   PutOrderItemsByIdResponses[keyof PutOrderItemsByIdResponses];
 
 export type GetPersonsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2126,7 +2509,7 @@ export type GetPersonsResponses = {
   /**
    * OK
    */
-  200: Array<PersonModel>;
+  200: PagedResultOfPersonModel;
 };
 
 export type GetPersonsResponse = GetPersonsResponses[keyof GetPersonsResponses];
@@ -2269,7 +2652,7 @@ export type PutPersonsByIdResponse =
   PutPersonsByIdResponses[keyof PutPersonsByIdResponses];
 
 export type GetPersonsByIdAssignmentsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2297,14 +2680,14 @@ export type GetPersonsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetPersonsByIdAssignmentsResponse =
   GetPersonsByIdAssignmentsResponses[keyof GetPersonsByIdAssignmentsResponses];
 
 export type GetProductsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2320,7 +2703,7 @@ export type GetProductsResponses = {
   /**
    * OK
    */
-  200: Array<ProductModel>;
+  200: PagedResultOfProductModel;
 };
 
 export type GetProductsResponse =
@@ -2468,7 +2851,7 @@ export type PutProductsByIdResponse =
   PutProductsByIdResponses[keyof PutProductsByIdResponses];
 
 export type GetProductsByIdVariantsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2496,14 +2879,14 @@ export type GetProductsByIdVariantsResponses = {
   /**
    * OK
    */
-  200: Array<VariantModel>;
+  200: PagedResultOfVariantModel;
 };
 
 export type GetProductsByIdVariantsResponse =
   GetProductsByIdVariantsResponses[keyof GetProductsByIdVariantsResponses];
 
 export type GetProductTypesData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2519,7 +2902,7 @@ export type GetProductTypesResponses = {
   /**
    * OK
    */
-  200: Array<ProductTypeModel>;
+  200: PagedResultOfProductTypeModel;
 };
 
 export type GetProductTypesResponse =
@@ -2654,7 +3037,7 @@ export type PutProductTypesByIdResponse =
   PutProductTypesByIdResponses[keyof PutProductTypesByIdResponses];
 
 export type GetStorageLocationsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2670,7 +3053,7 @@ export type GetStorageLocationsResponses = {
   /**
    * OK
    */
-  200: Array<StorageLocationModel>;
+  200: PagedResultOfStorageLocationModel;
 };
 
 export type GetStorageLocationsResponse =
@@ -2819,7 +3202,7 @@ export type PutStorageLocationsByIdResponse =
   PutStorageLocationsByIdResponses[keyof PutStorageLocationsByIdResponses];
 
 export type GetStorageLocationsByIdAssignmentsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -2847,7 +3230,7 @@ export type GetStorageLocationsByIdAssignmentsResponses = {
   /**
    * OK
    */
-  200: Array<ItemAssignmentHistoryModel>;
+  200: PagedResultOfItemAssignmentHistoryModel;
 };
 
 export type GetStorageLocationsByIdAssignmentsResponse =
@@ -3077,7 +3460,7 @@ export type GetUsersByIdResponse =
   GetUsersByIdResponses[keyof GetUsersByIdResponses];
 
 export type GetVariantsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3093,7 +3476,7 @@ export type GetVariantsResponses = {
   /**
    * OK
    */
-  200: Array<VariantModel>;
+  200: PagedResultOfVariantModel;
 };
 
 export type GetVariantsResponse =
@@ -3249,7 +3632,7 @@ export type PutVariantsByIdResponse =
   PutVariantsByIdResponses[keyof PutVariantsByIdResponses];
 
 export type GetVariantsByIdItemsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3277,14 +3660,14 @@ export type GetVariantsByIdItemsResponses = {
   /**
    * OK
    */
-  200: Array<ItemModel>;
+  200: PagedResultOfItemModel;
 };
 
 export type GetVariantsByIdItemsResponse =
   GetVariantsByIdItemsResponses[keyof GetVariantsByIdItemsResponses];
 
 export type GetVisitItemsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3300,7 +3683,7 @@ export type GetVisitItemsResponses = {
   /**
    * OK
    */
-  200: Array<VisitItemModel>;
+  200: PagedResultOfVisitItemModel;
 };
 
 export type GetVisitItemsResponse =
@@ -3329,8 +3712,8 @@ export type PostVisitItemsResponses = {
 export type PostVisitItemsResponse =
   PostVisitItemsResponses[keyof PostVisitItemsResponses];
 
-export type GetVisitItemsByVisitByVisitIdData = {
-  body?: never;
+export type GetVisitItemsVisitByVisitIdData = {
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3341,18 +3724,18 @@ export type GetVisitItemsByVisitByVisitIdData = {
     visitId: string;
   };
   query?: never;
-  url: "/visit-items/by-visit/{visitId}";
+  url: "/visit-items/visit/{visitId}";
 };
 
-export type GetVisitItemsByVisitByVisitIdResponses = {
+export type GetVisitItemsVisitByVisitIdResponses = {
   /**
    * OK
    */
-  200: Array<VisitItemModel>;
+  200: PagedResultOfVisitItemModel;
 };
 
-export type GetVisitItemsByVisitByVisitIdResponse =
-  GetVisitItemsByVisitByVisitIdResponses[keyof GetVisitItemsByVisitByVisitIdResponses];
+export type GetVisitItemsVisitByVisitIdResponse =
+  GetVisitItemsVisitByVisitIdResponses[keyof GetVisitItemsVisitByVisitIdResponses];
 
 export type DeleteVisitItemsByIdData = {
   body?: never;
@@ -3460,7 +3843,7 @@ export type PutVisitItemsByIdResponse =
   PutVisitItemsByIdResponses[keyof PutVisitItemsByIdResponses];
 
 export type GetVisitsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3476,7 +3859,7 @@ export type GetVisitsResponses = {
   /**
    * OK
    */
-  200: Array<VisitModel>;
+  200: PagedResultOfVisitModel;
 };
 
 export type GetVisitsResponse = GetVisitsResponses[keyof GetVisitsResponses];
@@ -3628,7 +4011,7 @@ export type PutVisitsByIdResponse =
   PutVisitsByIdResponses[keyof PutVisitsByIdResponses];
 
 export type GetVisitsByIdItemsData = {
-  body?: never;
+  body: PagedQuery;
   headers?: {
     /**
      * Tenant-ID (Required if multiple organizations included in JWT). To be able to use Tenant-Admin-API set Guid.Empty as Tenant-ID.
@@ -3656,7 +4039,7 @@ export type GetVisitsByIdItemsResponses = {
   /**
    * OK
    */
-  200: Array<VisitItemModel>;
+  200: PagedResultOfVisitItemModel;
 };
 
 export type GetVisitsByIdItemsResponse =
