@@ -77,29 +77,29 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
 
     const visitsRes = await fetchVisitsApiRef.current({
       path: { id: appointmentId },
+      query: { Page: 1, PageSize: 1000, SearchTerm: undefined },
     });
-    if (visitsRes) {
-      setVisits(visitsRes);
+    
+    // Handle both array (old) and PagedResult (new) formats
+    const visitsArray = Array.isArray(visitsRes) ? visitsRes : (visitsRes?.items || []);
+    
+    if (visitsArray.length > 0) {
+      setVisits(visitsArray);
 
       // Load visit items for all visits
-      if (visitsRes.length > 0) {
-        const allVisitItems = await Promise.all(
-          visitsRes.map(async (visit: any) => {
-            const itemsRes = await fetchVisitItemsApiRef.current({
-              path: { id: visit.id },
-            });
-            return itemsRes || [];
-          }),
-        );
-        setVisitItems(allVisitItems.flat());
-      } else {
-        setVisitItems([]);
-      }
+      const allVisitItems = await Promise.all(
+        visitsArray.map(async (visit: any) => {
+          const itemsRes = await fetchVisitItemsApiRef.current({
+            path: { id: visit.id },
+          });
+          // Handle both array (old) and PagedResult (new) formats
+          return Array.isArray(itemsRes) ? itemsRes : (itemsRes?.items || []);
+        }),
+      );
+      setVisitItems(allVisitItems.flat());
     } else {
-      setError({
-        message:
-          'Die Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
-      });
+      setVisits([]);
+      setVisitItems([]);
     }
   }, [appointmentId]);
 
@@ -108,7 +108,9 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
       path: { id: visitId },
     });
     if (res) {
-      setVisitItems(res);
+      // Handle both array (old) and PagedResult (new) formats
+      const itemsArray = Array.isArray(res) ? res : (res?.items || []);
+      setVisitItems(itemsArray);
     }
   }, []);
 

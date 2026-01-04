@@ -9,6 +9,7 @@
 
 import {
   getAppointments,
+  getAppointmentsByIdVisits,
   getAssignments,
   getDepartments,
   getItems,
@@ -16,12 +17,16 @@ import {
   getMaintenanceTypes,
   getManufacturers,
   getOrderItems,
+  getOrderItemsByOrderByOrderId,
   getOrders,
   getPersons,
+  getPersonsByIdAssignments,
   getProducts,
   getProductTypes,
+  getProductsByIdVariants,
   getStorageLocations,
   getVariants,
+  getVariantsByIdItems,
   getVisits,
 } from './sdk.gen';
 import type { ListParams } from './paginatedList';
@@ -251,6 +256,106 @@ export const getVariantsPaginated = (
   options?: any,
 ) => {
   return getVariants({
+    query: {
+      Page: params.page ?? 1,
+      PageSize: params.pageSize ?? 10,
+      SearchTerm: params.searchTerm ?? undefined,
+    },
+    ...options,
+  });
+};
+
+/**
+ * Fetch paginated list of variants for a specific product with search
+ */
+export const getProductsByIdVariantsPaginated = (
+  productId: string,
+  params: Partial<ListParams> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any,
+) => {
+  return getProductsByIdVariants({
+    path: { id: productId },
+    query: {
+      Page: params.page ?? 1,
+      PageSize: params.pageSize ?? 10,
+      SearchTerm: params.searchTerm ?? undefined,
+    },
+    ...options,
+  });
+};
+
+/**
+ * Fetch paginated list of items for a specific variant with search
+ */
+export const getVariantsByIdItemsPaginated = (
+  variantId: string,
+  params: Partial<ListParams> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any,
+) => {
+  return getVariantsByIdItems({
+    path: { id: variantId },
+    query: {
+      Page: params.page ?? 1,
+      PageSize: params.pageSize ?? 10,
+      SearchTerm: params.searchTerm ?? undefined,
+    },
+    ...options,
+  });
+};
+
+/**
+ * Fetch paginated list of assignments for a specific person with search
+ */
+export const getPersonsByIdAssignmentsPaginated = (
+  personId: string,
+  params: Partial<ListParams> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any,
+) => {
+  return getPersonsByIdAssignments({
+    path: { id: personId },
+    query: {
+      Page: params.page ?? 1,
+      PageSize: params.pageSize ?? 10,
+      SearchTerm: params.searchTerm ?? undefined,
+    },
+    ...options,
+  });
+};
+
+/**
+ * Fetch paginated list of order items for a specific order with search
+ */
+export const getOrderItemsByOrderByOrderIdPaginated = (
+  orderId: string,
+  params: Partial<ListParams> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any,
+) => {
+  return getOrderItemsByOrderByOrderId({
+    path: { orderId },
+    query: {
+      Page: params.page ?? 1,
+      PageSize: params.pageSize ?? 10,
+      SearchTerm: params.searchTerm ?? undefined,
+    },
+    ...options,
+  });
+};
+
+/**
+ * Fetch paginated list of visits for a specific appointment with search
+ */
+export const getAppointmentsByIdVisitsPaginated = (
+  appointmentId: string,
+  params: Partial<ListParams> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any,
+) => {
+  return getAppointmentsByIdVisits({
+    path: { id: appointmentId },
     query: {
       Page: params.page ?? 1,
       PageSize: params.pageSize ?? 10,
