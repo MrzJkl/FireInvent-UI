@@ -63,7 +63,7 @@ export function ProductFormDialog({
   onOpenChange,
   labels,
 }: ProductFormDialogProps) {
-  const { items: productTypes, initialLoading: loadingTypes } =
+  const { items: productTypes, isInitialLoading: loadingTypes } =
     useProductTypes();
   const { manufacturers, isLoading: loadingManufacturers } = useManufacturers();
 

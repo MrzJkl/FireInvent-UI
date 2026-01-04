@@ -68,6 +68,7 @@ export function useVariants(productId: string | undefined) {
     variants: result.items,
     createVariant,
     updateVariant,
+    deleteVariant: result.delete,
     isLoading: result.isInitialLoading,
     initialLoading: result.isInitialLoading,
   };

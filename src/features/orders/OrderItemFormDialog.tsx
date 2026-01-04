@@ -61,8 +61,8 @@ export function OrderItemFormDialog({
   labels,
 }: OrderItemFormDialogProps) {
   const { t } = useTranslation();
-  const { variants, initialLoading: variantsLoading } = useAllVariants();
-  const { persons, initialLoading: personsLoading } = usePersons();
+  const { variants, isInitialLoading: variantsLoading } = useAllVariants();
+  const { persons, isInitialLoading: personsLoading } = usePersons();
 
   const {
     register,

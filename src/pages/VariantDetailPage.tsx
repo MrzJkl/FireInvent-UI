@@ -331,7 +331,7 @@ export default function VariantDetailPage() {
                       <TableHead>{t('identifier')}</TableHead>
                       <TableHead>{t('condition')}</TableHead>
                       <TableHead>{t('purchaseDate')}</TableHead>
-                      <TableHead>{t('isDemoItem')}</TableHead>
+                      <TableHead>{t('items.isDemoItem')}</TableHead>
                       {canManage && (
                         <TableHead className="text-right">
                           {t('actions')}

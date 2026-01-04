@@ -58,7 +58,7 @@ export function PersonFormDialog({
   labels,
 }: PersonFormDialogProps) {
   const { t } = useTranslation();
-  const { items: departments, initialLoading: departmentsLoading } =
+  const { items: departments, isInitialLoading: departmentsLoading } =
     useDepartments();
   const {
     register,
