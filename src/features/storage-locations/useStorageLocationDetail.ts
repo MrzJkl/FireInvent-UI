@@ -47,10 +47,12 @@ export function useStorageLocationDetail(
       });
 
       if (locationRes) setStorageLocation(locationRes);
-      
+
       if (assignmentsRes) {
         // Handle both array (old) and PagedResult (new) formats
-        const assignmentsArray = Array.isArray(assignmentsRes) ? assignmentsRes : (assignmentsRes?.items || []);
+        const assignmentsArray = Array.isArray(assignmentsRes)
+          ? assignmentsRes
+          : assignmentsRes?.items || [];
         setAssignments(assignmentsArray);
       }
 
