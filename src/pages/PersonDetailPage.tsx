@@ -59,14 +59,27 @@ export default function PersonDetailPage() {
 
   // Assignments list with pagination
   const listFn = useMemo(
-    () => (params: Partial<{ page?: number; pageSize?: number; searchTerm?: string | null }>) => {
-      if (!id) {
-        return Promise.resolve({
-          data: { items: [], page: 1, pageSize: 20, totalItems: 0, totalPages: 0 },
-        });
-      }
-      return getPersonsByIdAssignmentsPaginated(id, params);
-    },
+    () =>
+      (
+        params: Partial<{
+          page?: number;
+          pageSize?: number;
+          searchTerm?: string | null;
+        }>,
+      ) => {
+        if (!id) {
+          return Promise.resolve({
+            data: {
+              items: [],
+              page: 1,
+              pageSize: 20,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          });
+        }
+        return getPersonsByIdAssignmentsPaginated(id, params);
+      },
     [id],
   );
 
@@ -287,7 +300,8 @@ export default function PersonDetailPage() {
               <div className="flex items-center gap-4">
                 <CardTitle>Zuweisungen</CardTitle>
                 <div className="text-sm text-muted-foreground">
-                  {state.totalItems} {state.totalItems === 1 ? 'Zuweisung' : 'Zuweisungen'}
+                  {state.totalItems}{' '}
+                  {state.totalItems === 1 ? 'Zuweisung' : 'Zuweisungen'}
                 </div>
               </div>
             </CardHeader>
@@ -336,7 +350,9 @@ export default function PersonDetailPage() {
                           <TableRow
                             key={assignment.id}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => navigate(`/app/items/${assignment.itemId}`)}
+                            onClick={() =>
+                              navigate(`/app/items/${assignment.itemId}`)
+                            }
                           >
                             <TableCell className="font-medium">
                               {assignment.item.identifier || (
@@ -348,7 +364,9 @@ export default function PersonDetailPage() {
                             <TableCell>
                               {assignment.item.variant?.product ? (
                                 <div className="space-y-0.5">
-                                  <div>{assignment.item.variant.product.name}</div>
+                                  <div>
+                                    {assignment.item.variant.product.name}
+                                  </div>
                                   {assignment.item.variant && (
                                     <div className="text-xs text-muted-foreground">
                                       {assignment.item.variant.name}
@@ -360,11 +378,15 @@ export default function PersonDetailPage() {
                               )}
                             </TableCell>
                             <TableCell>
-                              {new Date(assignment.assignedFrom).toLocaleDateString('de-DE')}
+                              {new Date(
+                                assignment.assignedFrom,
+                              ).toLocaleDateString('de-DE')}
                             </TableCell>
                             <TableCell>
                               {assignment.assignedUntil
-                                ? new Date(assignment.assignedUntil).toLocaleDateString('de-DE')
+                                ? new Date(
+                                    assignment.assignedUntil,
+                                  ).toLocaleDateString('de-DE')
                                 : '-'}
                             </TableCell>
                             <TableCell>

@@ -79,10 +79,12 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
       path: { id: appointmentId },
       query: { Page: 1, PageSize: 1000, SearchTerm: undefined },
     });
-    
+
     // Handle both array (old) and PagedResult (new) formats
-    const visitsArray = Array.isArray(visitsRes) ? visitsRes : (visitsRes?.items || []);
-    
+    const visitsArray = Array.isArray(visitsRes)
+      ? visitsRes
+      : visitsRes?.items || [];
+
     if (visitsArray.length > 0) {
       setVisits(visitsArray);
 
@@ -93,7 +95,7 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
             path: { id: visit.id },
           });
           // Handle both array (old) and PagedResult (new) formats
-          return Array.isArray(itemsRes) ? itemsRes : (itemsRes?.items || []);
+          return Array.isArray(itemsRes) ? itemsRes : itemsRes?.items || [];
         }),
       );
       setVisitItems(allVisitItems.flat());
@@ -109,7 +111,7 @@ export function useAppointmentDetail(appointmentId: string | undefined) {
     });
     if (res) {
       // Handle both array (old) and PagedResult (new) formats
-      const itemsArray = Array.isArray(res) ? res : (res?.items || []);
+      const itemsArray = Array.isArray(res) ? res : res?.items || [];
       setVisitItems(itemsArray);
     }
   }, []);

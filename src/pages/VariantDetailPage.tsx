@@ -70,14 +70,27 @@ export default function VariantDetailPage() {
 
   // Items list with pagination
   const listFn = useMemo(
-    () => (params: Partial<{ page?: number; pageSize?: number; searchTerm?: string | null }>) => {
-      if (!id) {
-        return Promise.resolve({
-          data: { items: [], page: 1, pageSize: 20, totalItems: 0, totalPages: 0 },
-        });
-      }
-      return getVariantsByIdItemsPaginated(id, params);
-    },
+    () =>
+      (
+        params: Partial<{
+          page?: number;
+          pageSize?: number;
+          searchTerm?: string | null;
+        }>,
+      ) => {
+        if (!id) {
+          return Promise.resolve({
+            data: {
+              items: [],
+              page: 1,
+              pageSize: 20,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          });
+        }
+        return getVariantsByIdItemsPaginated(id, params);
+      },
     [id],
   );
 
@@ -119,7 +132,9 @@ export default function VariantDetailPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const handleUpdateVariant = async (data: Omit<CreateOrUpdateVariantModel, 'productId'>) => {
+  const handleUpdateVariant = async (
+    data: Omit<CreateOrUpdateVariantModel, 'productId'>,
+  ) => {
     if (!variant || !id) return;
     const payload = {
       ...data,
@@ -240,7 +255,9 @@ export default function VariantDetailPage() {
                   <Button
                     variant="link"
                     className="h-auto p-0"
-                    onClick={() => navigate(`/app/products/${variant.productId}`)}
+                    onClick={() =>
+                      navigate(`/app/products/${variant.productId}`)
+                    }
                   >
                     {variant.product.name}
                   </Button>
@@ -315,19 +332,29 @@ export default function VariantDetailPage() {
                       <TableHead>{t('condition')}</TableHead>
                       <TableHead>{t('purchaseDate')}</TableHead>
                       <TableHead>{t('isDemoItem')}</TableHead>
-                      {canManage && <TableHead className="text-right">{t('actions')}</TableHead>}
+                      {canManage && (
+                        <TableHead className="text-right">
+                          {t('actions')}
+                        </TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {itemsLoading ? (
                       <TableRow>
-                        <TableCell colSpan={canManage ? 5 : 4} className="h-24 text-center">
+                        <TableCell
+                          colSpan={canManage ? 5 : 4}
+                          className="h-24 text-center"
+                        >
                           <LoadingIndicator />
                         </TableCell>
                       </TableRow>
                     ) : items.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={canManage ? 5 : 4} className="h-24 text-center">
+                        <TableCell
+                          colSpan={canManage ? 5 : 4}
+                          className="h-24 text-center"
+                        >
                           <div className="flex flex-col items-center justify-center text-muted-foreground">
                             <p>{t('noResults')}</p>
                           </div>

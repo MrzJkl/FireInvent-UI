@@ -28,10 +28,7 @@ import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { useProducts } from '@/features/products/useProducts';
 import { type ProductModel } from '@/api/types.gen';
 import { useTranslation } from 'react-i18next';
-import {
-  IconArrowLeft,
-  IconEdit,
-} from '@tabler/icons-react';
+import { IconArrowLeft, IconEdit } from '@tabler/icons-react';
 import { useAuthorization } from '@/auth/permissions';
 
 export default function ProductDetailPage() {
@@ -55,7 +52,7 @@ export default function ProductDetailPage() {
     error: productsError,
     refetch: refetchProducts,
   } = useProducts();
-  
+
   const {
     variants,
     state,
@@ -83,7 +80,12 @@ export default function ProductDetailPage() {
   if (productsError)
     return <ErrorState error={productsError} onRetry={refetchProducts} />;
   if (variantsError && variantsError.message)
-    return <ErrorState error={variantsError} onRetry={() => window.location.reload()} />;
+    return (
+      <ErrorState
+        error={variantsError}
+        onRetry={() => window.location.reload()}
+      />
+    );
   if (isLoading) return <LoadingIndicator />;
 
   if (!product) {
@@ -266,19 +268,29 @@ export default function ProductDetailPage() {
                       <TableHead>{t('name')}</TableHead>
                       <TableHead>{t('additionalSpecs')}</TableHead>
                       <TableHead>{t('externalIdentifier')}</TableHead>
-                      {canManage && <TableHead className="text-right">{t('actions')}</TableHead>}
+                      {canManage && (
+                        <TableHead className="text-right">
+                          {t('actions')}
+                        </TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {variantsLoading ? (
                       <TableRow>
-                        <TableCell colSpan={canManage ? 4 : 3} className="h-24 text-center">
+                        <TableCell
+                          colSpan={canManage ? 4 : 3}
+                          className="h-24 text-center"
+                        >
                           <LoadingIndicator />
                         </TableCell>
                       </TableRow>
                     ) : variants.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={canManage ? 4 : 3} className="h-24 text-center">
+                        <TableCell
+                          colSpan={canManage ? 4 : 3}
+                          className="h-24 text-center"
+                        >
                           <div className="flex flex-col items-center justify-center text-muted-foreground">
                             <p>{t('noResults')}</p>
                           </div>
@@ -290,17 +302,21 @@ export default function ProductDetailPage() {
                           v.externalIdentifier ?? product.externalIdentifier;
                         const isInherited =
                           !v.externalIdentifier && !!product.externalIdentifier;
-                        
+
                         return (
                           <TableRow
                             key={v.id}
                             className="cursor-pointer hover:bg-muted/50"
                             onClick={() => navigate(`/app/variants/${v.id}`)}
                           >
-                            <TableCell className="font-medium">{v.name}</TableCell>
+                            <TableCell className="font-medium">
+                              {v.name}
+                            </TableCell>
                             <TableCell>
                               {v.additionalSpecs || (
-                                <span className="text-muted-foreground italic">-</span>
+                                <span className="text-muted-foreground italic">
+                                  -
+                                </span>
                               )}
                             </TableCell>
                             <TableCell>
@@ -314,7 +330,9 @@ export default function ProductDetailPage() {
                                   )}
                                 </>
                               ) : (
-                                <span className="text-muted-foreground italic">-</span>
+                                <span className="text-muted-foreground italic">
+                                  -
+                                </span>
                               )}
                             </TableCell>
                             {canManage && (

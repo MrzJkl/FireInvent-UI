@@ -65,14 +65,27 @@ export default function OrderDetailPage() {
 
   // Order items list with pagination
   const listFn = useMemo(
-    () => (params: Partial<{ page?: number; pageSize?: number; searchTerm?: string | null }>) => {
-      if (!id) {
-        return Promise.resolve({
-          data: { items: [], page: 1, pageSize: 20, totalItems: 0, totalPages: 0 },
-        });
-      }
-      return getOrderItemsByOrderByOrderIdPaginated(id, params);
-    },
+    () =>
+      (
+        params: Partial<{
+          page?: number;
+          pageSize?: number;
+          searchTerm?: string | null;
+        }>,
+      ) => {
+        if (!id) {
+          return Promise.resolve({
+            data: {
+              items: [],
+              page: 1,
+              pageSize: 20,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          });
+        }
+        return getOrderItemsByOrderByOrderIdPaginated(id, params);
+      },
     [id],
   );
 
@@ -92,15 +105,13 @@ export default function OrderDetailPage() {
     setPageSize,
     setSearchTerm,
     refetch: refetchItems,
-  } = useCrudList<OrderItemModel, CreateOrUpdateOrderItemModel, CreateOrUpdateOrderItemModel>(
-    listFn,
-    postOrderItems,
-    putOrderItemsById,
-    deleteOrderItemsById,
-    {
-      initialPageSize: 20,
-    },
-  );
+  } = useCrudList<
+    OrderItemModel,
+    CreateOrUpdateOrderItemModel,
+    CreateOrUpdateOrderItemModel
+  >(listFn, postOrderItems, putOrderItemsById, deleteOrderItemsById, {
+    initialPageSize: 20,
+  });
 
   useEffect(() => {
     if (!id) return;
@@ -244,7 +255,8 @@ export default function OrderDetailPage() {
                 <div className="flex items-center gap-4">
                   <CardTitle>{t('orderItems.label')}</CardTitle>
                   <div className="text-sm text-muted-foreground">
-                    {state.totalItems} {state.totalItems === 1 ? 'Position' : 'Positionen'}
+                    {state.totalItems}{' '}
+                    {state.totalItems === 1 ? 'Position' : 'Positionen'}
                   </div>
                 </div>
                 {canManage && (
@@ -278,19 +290,27 @@ export default function OrderDetailPage() {
                       <TableHead>Produkt / Variante</TableHead>
                       <TableHead>Menge</TableHead>
                       <TableHead>Person</TableHead>
-                      {canManage && <TableHead className="text-right">Aktionen</TableHead>}
+                      {canManage && (
+                        <TableHead className="text-right">Aktionen</TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {itemsLoading ? (
                       <TableRow>
-                        <TableCell colSpan={canManage ? 4 : 3} className="h-24 text-center">
+                        <TableCell
+                          colSpan={canManage ? 4 : 3}
+                          className="h-24 text-center"
+                        >
                           <LoadingIndicator />
                         </TableCell>
                       </TableRow>
                     ) : items.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={canManage ? 4 : 3} className="h-24 text-center">
+                        <TableCell
+                          colSpan={canManage ? 4 : 3}
+                          className="h-24 text-center"
+                        >
                           <div className="flex flex-col items-center justify-center text-muted-foreground">
                             <p>{t('noResults')}</p>
                           </div>
@@ -317,7 +337,9 @@ export default function OrderDetailPage() {
                               <Button
                                 variant="link"
                                 className="h-auto p-0 text-sm"
-                                onClick={() => navigate(`/app/persons/${item.personId}`)}
+                                onClick={() =>
+                                  navigate(`/app/persons/${item.personId}`)
+                                }
                               >
                                 {item.person.firstName} {item.person.lastName}
                               </Button>
